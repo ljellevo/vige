@@ -1,6 +1,7 @@
-import button.Button;
 import js.Browser;
-import container.Container;
+
+import widgets.Container;
+import widgets.Button;
 
 class Main {
     static function main() {
@@ -13,10 +14,11 @@ class Main {
                 function(event) {
                     Browser.alert("Haxe is great yo");
                 }
-            )
+            ),
+            {test: "hei"} // Dette som er løsningen
         );
 
-    
         Browser.document.body.appendChild(container.render());
+        
     }
 }

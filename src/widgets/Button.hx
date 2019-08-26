@@ -1,7 +1,6 @@
-package button;
+package widgets;
 
-import util.Widget;
-
+import widgets.Widget;
 import js.Browser;
 
 class Button implements Widget {
