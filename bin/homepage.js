@@ -9,9 +9,10 @@ function $extend(from, fields) {
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
-	var container = new widgets_Container(100,100,new widgets_Button("test",function(event) {
-		window.alert("Haxe is great yo");
-	}),{ test : "hei"});
+	var container = new components_Container({ child : new components_Button({ text : "Click me", onClick : function(event) {
+		console.log("src/Main.hx:15:",event);
+		window.alert("You clicked me!");
+	}})});
 	window.document.body.appendChild(container.render());
 };
 Math.__name__ = true;
@@ -19,6 +20,41 @@ var Std = function() { };
 Std.__name__ = true;
 Std.string = function(s) {
 	return js_Boot.__string_rec(s,"");
+};
+var components_Button = function(arg) {
+	this.onClick = null;
+	this.text = "";
+	this.text = arg.text;
+	this.onClick = arg.onClick;
+};
+components_Button.__name__ = true;
+components_Button.prototype = {
+	render: function() {
+		var button = window.document.createElement("button");
+		button.textContent = this.text;
+		button.onclick = this.onClick;
+		return button;
+	}
+};
+var components_Container = function(arg) {
+	this.child = null;
+	this.width = -1.0;
+	this.height = -1.0;
+	this.height = arg.height;
+	this.width = arg.width;
+	this.child = arg.child;
+};
+components_Container.__name__ = true;
+components_Container.prototype = {
+	render: function() {
+		var container = window.document.createElement("div");
+		container.appendChild(this.child.render());
+		var style = container.style;
+		style.width = this.width == Infinity ? "100" + "%" : Std.string(this.width);
+		style.height = this.height == Infinity ? "100" + "%" : Std.string(this.height);
+		style.backgroundColor = "#457E9A";
+		return container;
+	}
 };
 var js__$Boot_HaxeError = function(val) {
 	Error.call(this);
@@ -116,44 +152,6 @@ js_Boot.__string_rec = function(o,s) {
 		return o;
 	default:
 		return String(o);
-	}
-};
-var widgets_Button = function(text,onClick) {
-	this.onClick = null;
-	this.text = "";
-	this.text = text;
-	this.onClick = onClick;
-};
-widgets_Button.__name__ = true;
-widgets_Button.prototype = {
-	render: function() {
-		var button = window.document.createElement("button");
-		button.textContent = this.text;
-		button.onclick = this.onClick;
-		return button;
-	}
-};
-var widgets_Container = function(height,width,child,arg) {
-	this.child = null;
-	this.width = -1;
-	this.height = -1;
-	this.height = height != null ? height : 50;
-	this.width = width != null ? width : 50;
-	this.child = child;
-	console.log("src/widgets/Container.hx:15:",arg.test);
-};
-widgets_Container.__name__ = true;
-widgets_Container.prototype = {
-	test: function(arg) {
-	}
-	,render: function() {
-		var container = window.document.createElement("div");
-		container.appendChild(this.child.render());
-		var style = container.style;
-		style.width = Std.string(this.width);
-		style.height = Std.string(this.height);
-		style.backgroundColor = "#457E9A";
-		return container;
 	}
 };
 String.__name__ = true;

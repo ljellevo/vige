@@ -1,17 +1,16 @@
-package widgets;
+package components;
 
-import widgets.Widget;
 import js.Browser;
+import interfaces.Widget;
 
 class Button implements Widget {
     var text: String = "";
     var onClick: haxe.Constraints.Function = null;
 
-    public function new(text, onClick) {
-        this.text = text;
-        this.onClick = onClick;
+    public function new(arg: {text: String, onClick: haxe.Constraints.Function}) {
+        this.text = arg.text;
+        this.onClick = arg.onClick;
     }
-
 
     public function render():js.html.Node {
         var button = Browser.document.createButtonElement();

@@ -1,5 +1,2 @@
 package utils;
 
-class Style {
-    
-}
