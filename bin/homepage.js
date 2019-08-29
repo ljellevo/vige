@@ -10,8 +10,8 @@ function $extend(from, fields) {
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
-	var container = new components_Container({ height : Infinity, width : Infinity, style : new utils_Style({ color : new utils_Color(utils_Colors.red)}), child : new components_Button({ text : "Click me", onClick : function(event) {
-		console.log("src/Main.hx:18:",event);
+	var container = new components_Container({ height : 100, width : 100, style : new utils_Style({ color : new utils_Color(utils_Colors.red)}), child : new components_Button({ text : "Click me", onClick : function(event) {
+		console.log("src/Main.hx:17:",event);
 		window.alert("You clicked me!");
 	}})});
 	window.document.body.appendChild(container.render());
@@ -172,6 +172,11 @@ var utils_Color = function(color) {
 	this.color = color;
 };
 utils_Color.__name__ = true;
+utils_Color.prototype = {
+	getColor: function() {
+		return "#70C5B0";
+	}
+};
 var utils_Style = function(arg) {
 	this.color = null;
 	this.color = arg.color != null ? arg.color : new utils_Color(utils_Colors.transparent);
@@ -179,7 +184,7 @@ var utils_Style = function(arg) {
 utils_Style.__name__ = true;
 utils_Style.prototype = {
 	getColor: function() {
-		return "#70C5B0";
+		return this.color.getColor();
 	}
 };
 String.__name__ = true;

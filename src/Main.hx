@@ -1,5 +1,4 @@
 import utils.Color;
-import js.html.CacheStorageNamespace;
 import utils.Style;
 import js.Browser;
 
@@ -9,8 +8,8 @@ import components.Button;
 class Main {
     static function main() {
         var container = new Container({
-            height: Math.POSITIVE_INFINITY,
-            width: Math.POSITIVE_INFINITY,
+            height: 100,
+            width: 100,
             style: new Style({color: new Color(Colors.red)}),
             child: new Button({
                 text: "Click me",
