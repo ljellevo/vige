@@ -33,4 +33,8 @@ class Color {
         //return color;
     }
     */
+
+    public function getColor() {
+        return "#70C5B0";
+    }
 }

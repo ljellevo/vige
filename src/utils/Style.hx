@@ -15,6 +15,6 @@ class Style {
     }
 
     public function getColor(): String {
-        return "#70C5B0";
+        return color.getColor();
     }
 }
