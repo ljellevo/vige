@@ -3,18 +3,20 @@ package utils;
 import utils.Color;
 
 class Style {
-    var color: Color = null;
+    var color: Color;
 
 
-    public function new(
-        arg: {
-            ?color: Color
-        }
-        ){
-        this.color = arg.color != null ? arg.color : new Color(Colors.transparent);
+    public function new(arg: {
+        ?color: Color
+    }) {
+        this.color = arg.color;
+        trace("Color from Style constructor: " + color);
     }
 
     public function getColor(): String {
-        return color.getColor();
+        if (color == null) {
+            return "";
+        }
+        return "rgba(" + color.ri + ", " +  color.gi + ", " + color.bi + ", " + color.af + ")";
     }
 }

@@ -1,25 +1,44 @@
+import js.lib.intl.Collator.Collation;
+import js.html.PageTransitionEvent;
 import utils.Color;
 import utils.Style;
 import js.Browser;
 
 import components.Container;
 import components.Button;
+import components.Page;
+import components.Text;
+import components.Column;
 
 class Main {
     static function main() {
-        var container = new Container({
-            height: 100,
-            width: 100,
-            style: new Style({color: new Color(Colors.red)}),
-            child: new Button({
-                text: "Click me",
-                onClick: function(event) {
-                    trace(event);
-                    Browser.alert("You clicked me!");
-                }
-            }),
+
+        var page = new Page({
+            route: "/",
+            child: new Column({
+                children: [
+                    new Text("Hello"),
+                    new Text("Hello"),
+                    new Text("Hello"),
+                    new Button({
+                        text: "Click me",
+                        onClick: function (e) {
+                            trace("Clicked");
+                        }
+                    })
+                ]
+            })
         });
 
-        Browser.document.body.appendChild(container.render());
+        /*
+        new Button({
+            text: "Click me",
+            onClick: function (e) {
+                trace("Clicked");
+            }
+        });
+        */
+
+        Browser.document.body.appendChild(page.render());
     }
 }

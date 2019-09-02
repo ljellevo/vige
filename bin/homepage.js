@@ -10,13 +10,22 @@ function $extend(from, fields) {
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
-	var container = new components_Container({ height : 100, width : 100, style : new utils_Style({ color : new utils_Color(utils_Colors.red)}), child : new components_Button({ text : "Click me", onClick : function(event) {
-		console.log("src/Main.hx:17:",event);
-		window.alert("You clicked me!");
-	}})});
-	window.document.body.appendChild(container.render());
+	var page = new components_Page({ route : "/", child : new components_Text("Hello")});
+	window.document.body.appendChild(page.render());
 };
 Math.__name__ = true;
+var Std = function() { };
+Std.__name__ = true;
+Std.string = function(s) {
+	return js_Boot.__string_rec(s,"");
+};
+Std.parseInt = function(x) {
+	var v = parseInt(x, x && x[0]=="0" && (x[1]=="x" || x[1]=="X") ? 16 : 10);
+	if(isNaN(v)) {
+		return null;
+	}
+	return v;
+};
 var components_Button = function(arg) {
 	this.onClick = null;
 	this.text = "";
@@ -33,12 +42,7 @@ components_Button.prototype = {
 	}
 };
 var components_Container = function(arg) {
-	this.child = null;
-	this.style = null;
-	this.width = -1.0;
-	this.height = -1.0;
-	this.height = arg.height;
-	this.width = arg.width;
+	this.size = arg.size != null ? arg.size : new utils_Size({ });
 	this.style = arg.style;
 	this.child = arg.child;
 };
@@ -47,8 +51,58 @@ components_Container.prototype = {
 	render: function() {
 		var container = window.document.createElement("div");
 		container.appendChild(this.child.render());
-		new support_StyleManager().addStyleToDiv(this.height,this.width,container,this.style);
+		new support_StyleManager().addStyleToDiv(this.size.getHeight(),this.size.getWidth(),container,this.style);
 		return container;
+	}
+};
+var components_Page = function(arg) {
+	this.size = null;
+	this.style = null;
+	this.navbar = null;
+	this.title = "NOT IMPLEMENTED";
+	this.route = arg.route;
+	this.title = arg.title;
+	this.navbar = arg.navbar;
+	this.child = arg.child;
+	this.style = arg.style != null ? arg.style : new utils_Style({ });
+	this.size = arg.size != null ? arg.size : new utils_Size({ });
+};
+components_Page.__name__ = true;
+components_Page.prototype = {
+	render: function() {
+		var element = window.document.createElement("div");
+		if(this.navbar != null) {
+			element.appendChild(this.navbar.render());
+		}
+		element.appendChild(this.child.render());
+		new support_StyleManager().addStyleToDiv(this.size.getHeight(),this.size.getWidth(),element,this.style);
+		return element;
+	}
+};
+var components_TextFormat = $hxEnums["components.TextFormat"] = { __ename__ : true, __constructs__ : ["h1","h2","h3","h4","h5","h6","p","a","pre"]
+	,h1: {_hx_index:0,__enum__:"components.TextFormat",toString:$estr}
+	,h2: {_hx_index:1,__enum__:"components.TextFormat",toString:$estr}
+	,h3: {_hx_index:2,__enum__:"components.TextFormat",toString:$estr}
+	,h4: {_hx_index:3,__enum__:"components.TextFormat",toString:$estr}
+	,h5: {_hx_index:4,__enum__:"components.TextFormat",toString:$estr}
+	,h6: {_hx_index:5,__enum__:"components.TextFormat",toString:$estr}
+	,p: {_hx_index:6,__enum__:"components.TextFormat",toString:$estr}
+	,a: {_hx_index:7,__enum__:"components.TextFormat",toString:$estr}
+	,pre: {_hx_index:8,__enum__:"components.TextFormat",toString:$estr}
+};
+var components_Text = function(text) {
+	this.text = "";
+	this.text = text;
+};
+components_Text.__name__ = true;
+components_Text.prototype = {
+	getText: function() {
+		return this.text;
+	}
+	,render: function() {
+		var element = window.document.createElement("p");
+		element.innerText = this.text;
+		return element;
 	}
 };
 var js__$Boot_HaxeError = function(val) {
@@ -154,37 +208,126 @@ var support_StyleManager = function() {
 support_StyleManager.__name__ = true;
 support_StyleManager.prototype = {
 	addStyleToDiv: function(height,width,widget,style) {
-		widget.style.width = width == Infinity ? "100" + "%" : width == null ? "null" : "" + width;
-		widget.style.height = height == Infinity ? "100" + "%" : height == null ? "null" : "" + height;
+		widget.style.height = height;
+		widget.style.width = width;
 		widget.style.backgroundColor = style.getColor();
 		return widget;
 	}
 };
-var utils_Colors = $hxEnums["utils.Colors"] = { __ename__ : true, __constructs__ : ["red","blue","white","transparent","rgb"]
-	,red: {_hx_index:0,__enum__:"utils.Colors",toString:$estr}
-	,blue: {_hx_index:1,__enum__:"utils.Colors",toString:$estr}
-	,white: {_hx_index:2,__enum__:"utils.Colors",toString:$estr}
-	,transparent: {_hx_index:3,__enum__:"utils.Colors",toString:$estr}
-	,rgb: ($_=function(r,g,b) { return {_hx_index:4,r:r,g:g,b:b,__enum__:"utils.Colors",toString:$estr}; },$_.__params__ = ["r","g","b"],$_)
+var utils__$Color_Color_$Impl_$ = {};
+utils__$Color_Color_$Impl_$.__name__ = true;
+utils__$Color_Color_$Impl_$.fromString = function(rgba) {
+	var this1 = Std.parseInt(rgba);
+	return this1;
 };
-var utils_Color = function(color) {
-	this.color = null;
-	this.color = color;
+utils__$Color_Color_$Impl_$.fromRGBAi = function(r,g,b,a) {
+	var this1 = r << 16 | g << 8 | b | a << 24;
+	return this1;
 };
-utils_Color.__name__ = true;
-utils_Color.prototype = {
-	getColor: function() {
-		return "#70C5B0";
+utils__$Color_Color_$Impl_$.fromRGBAf = function(r,g,b,a) {
+	var this1 = (r * 255 | 0) << 16 | (g * 255 | 0) << 8 | (b * 255 | 0) | (a * 255 | 0) << 24;
+	return this1;
+};
+utils__$Color_Color_$Impl_$._new = function(rgba) {
+	var this1 = rgba;
+	return this1;
+};
+utils__$Color_Color_$Impl_$.get_ai = function(this1) {
+	return this1 >> 24 & 255;
+};
+utils__$Color_Color_$Impl_$.set_ai = function(this1,ai) {
+	var this2 = (this1 >> 16 & 255) << 16 | (this1 >> 8 & 255) << 8 | this1 & 255 | ai << 24;
+	this1 = this2;
+	return ai;
+};
+utils__$Color_Color_$Impl_$.get_ri = function(this1) {
+	return this1 >> 16 & 255;
+};
+utils__$Color_Color_$Impl_$.set_ri = function(this1,ri) {
+	var this2 = ri << 16 | (this1 >> 8 & 255) << 8 | this1 & 255 | (this1 >> 24 & 255) << 24;
+	this1 = this2;
+	return ri;
+};
+utils__$Color_Color_$Impl_$.get_gi = function(this1) {
+	return this1 >> 8 & 255;
+};
+utils__$Color_Color_$Impl_$.set_gi = function(this1,gi) {
+	var this2 = (this1 >> 16 & 255) << 16 | gi << 8 | this1 & 255 | (this1 >> 24 & 255) << 24;
+	this1 = this2;
+	return gi;
+};
+utils__$Color_Color_$Impl_$.get_bi = function(this1) {
+	return this1 & 255;
+};
+utils__$Color_Color_$Impl_$.set_bi = function(this1,bi) {
+	var this2 = (this1 >> 16 & 255) << 16 | (this1 >> 8 & 255) << 8 | bi | (this1 >> 24 & 255) << 24;
+	this1 = this2;
+	return bi;
+};
+utils__$Color_Color_$Impl_$.get_af = function(this1) {
+	return (this1 >> 24 & 255) / 255;
+};
+utils__$Color_Color_$Impl_$.set_af = function(this1,af) {
+	var this2 = ((this1 >> 16 & 255) / 255 * 255 | 0) << 16 | ((this1 >> 8 & 255) / 255 * 255 | 0) << 8 | ((this1 & 255) / 255 * 255 | 0) | (af * 255 | 0) << 24;
+	this1 = this2;
+	return af;
+};
+utils__$Color_Color_$Impl_$.get_rf = function(this1) {
+	return (this1 >> 16 & 255) / 255;
+};
+utils__$Color_Color_$Impl_$.set_rf = function(this1,rf) {
+	var this2 = (rf * 255 | 0) << 16 | ((this1 >> 8 & 255) / 255 * 255 | 0) << 8 | ((this1 & 255) / 255 * 255 | 0) | ((this1 >> 24 & 255) / 255 * 255 | 0) << 24;
+	this1 = this2;
+	return rf;
+};
+utils__$Color_Color_$Impl_$.get_gf = function(this1) {
+	return (this1 >> 8 & 255) / 255;
+};
+utils__$Color_Color_$Impl_$.set_gf = function(this1,gf) {
+	var this2 = ((this1 >> 16 & 255) / 255 * 255 | 0) << 16 | (gf * 255 | 0) << 8 | ((this1 & 255) / 255 * 255 | 0) | ((this1 >> 24 & 255) / 255 * 255 | 0) << 24;
+	this1 = this2;
+	return gf;
+};
+utils__$Color_Color_$Impl_$.get_bf = function(this1) {
+	return (this1 & 255) / 255;
+};
+utils__$Color_Color_$Impl_$.set_bf = function(this1,bf) {
+	var this2 = ((this1 >> 16 & 255) / 255 * 255 | 0) << 16 | ((this1 >> 8 & 255) / 255 * 255 | 0) << 8 | (bf * 255 | 0) | ((this1 >> 24 & 255) / 255 * 255 | 0) << 24;
+	this1 = this2;
+	return bf;
+};
+var utils_Size = function(arg) {
+	this.height = arg.height != null ? arg.height : -Infinity;
+	this.heigthType = arg.heigthType != "" ? arg.heigthType : "px";
+	this.width = arg.width != null ? arg.width : -Infinity;
+	this.widthType = arg.widthType != "" ? arg.widthType : "px";
+};
+utils_Size.__name__ = true;
+utils_Size.prototype = {
+	getHeight: function() {
+		if(this.height == -Infinity) {
+			return null;
+		}
+		return Std.string(this.height) + this.heigthType;
+	}
+	,getWidth: function() {
+		if(this.width == -Infinity) {
+			return null;
+		}
+		return Std.string(this.width) + this.widthType;
 	}
 };
 var utils_Style = function(arg) {
-	this.color = null;
-	this.color = arg.color != null ? arg.color : new utils_Color(utils_Colors.transparent);
+	this.color = arg.color;
+	console.log("src/utils/Style.hx:13:","Color from Style constructor: " + this.color);
 };
 utils_Style.__name__ = true;
 utils_Style.prototype = {
 	getColor: function() {
-		return this.color.getColor();
+		if(this.color == null) {
+			return "";
+		}
+		return "rgba(" + (this.color >> 16 & 255) + ", " + (this.color >> 8 & 255) + ", " + (this.color & 255) + ", " + (this.color >> 24 & 255) / 255 + ")";
 	}
 };
 String.__name__ = true;
@@ -193,5 +336,14 @@ Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function()
 	return String(this.val);
 }});
 js_Boot.__toStr = ({ }).toString;
+utils__$Color_Color_$Impl_$.TRANSPARENT = 0;
+utils__$Color_Color_$Impl_$.BLACK = -16777216;
+utils__$Color_Color_$Impl_$.WHITE = -1;
+utils__$Color_Color_$Impl_$.RED = -65536;
+utils__$Color_Color_$Impl_$.GREEN = -16711936;
+utils__$Color_Color_$Impl_$.BLUE = -16776961;
+utils__$Color_Color_$Impl_$.CYAN = -16711681;
+utils__$Color_Color_$Impl_$.MAGENTA = -65281;
+utils__$Color_Color_$Impl_$.YELLOW = -256;
 Main.main();
 })({});
