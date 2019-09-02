@@ -1,11 +1,13 @@
 package components;
 
+import js.Browser;
 import utils.Style;
 import utils.Position;
 import js.html.Node;
 import support.Widget;
 
 class Page implements Widget{
+    var route: String = "";
     var navbar: Widget = null;
     var child: Widget = null;
     var style: Style = null;
@@ -13,12 +15,14 @@ class Page implements Widget{
 
 
     public function new(arg: {
+        route: String,
         ?navbar: Widget,
         child: Widget,
         ?style: Style,
         ?position: Position
 
     }) {
+        this.route = arg.route;
         this.navbar = arg.navbar;
         this.child = arg.child;
         this.style = arg.style;
@@ -28,6 +32,12 @@ class Page implements Widget{
     
 
     public function render() : Node {
+        var container = Browser.document.createDivElement();
+        navbar != null ? container.appendChild(navbar.render()) : null;
+        container.appendChild(child.render());
+
+        //Need to style container
+        
         
 
 
