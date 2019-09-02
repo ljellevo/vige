@@ -11,13 +11,12 @@ class Container implements Widget {
     var style: Style = null;
     var child: Widget = null;
 
-    public function new(
-        arg: {
-            ?height: Float, 
-            ?width: Float, 
-            ?style: Style,
-            child: Widget
-        }){
+    public function new(arg: {
+        ?height: Float, 
+        ?width: Float, 
+        ?style: Style,
+        child: Widget
+    }) {
         this.height = arg.height;
         this.width = arg.width;
         this.style = arg.style;
