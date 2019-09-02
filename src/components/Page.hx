@@ -12,7 +12,6 @@ class Page implements Widget{
     var navbar: Widget = null;
     var child: Widget = null;
     var style: Style = null;
-    var position: Position = null;
 
 
     public function new(arg: {
@@ -21,16 +20,12 @@ class Page implements Widget{
         ?navbar: Widget,
         child: Widget,
         ?style: Style,
-        ?position: Position
-
     }) {
         this.route = arg.route;
         this.title = arg.title;
         this.navbar = arg.navbar;
         this.child = arg.child;
         this.style = arg.style;
-        this.position = arg.position != null ? arg.position : new Position({x: 0.0, y: 0.0});
-        
     }
     
 
