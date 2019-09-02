@@ -8,6 +8,7 @@ import support.Widget;
 
 class Page implements Widget{
     var route: String = "";
+    var title: String = "NOT IMPLEMENTED";
     var navbar: Widget = null;
     var child: Widget = null;
     var style: Style = null;
@@ -16,6 +17,7 @@ class Page implements Widget{
 
     public function new(arg: {
         route: String,
+        ?title: String,
         ?navbar: Widget,
         child: Widget,
         ?style: Style,
@@ -23,6 +25,7 @@ class Page implements Widget{
 
     }) {
         this.route = arg.route;
+        this.title = arg.title;
         this.navbar = arg.navbar;
         this.child = arg.child;
         this.style = arg.style;
