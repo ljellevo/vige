@@ -1,5 +1,6 @@
 package components;
 
+import utils.Padding;
 import utils.Color;
 import support.StyleManager;
 import js.Browser;
@@ -37,8 +38,10 @@ class Page implements Widget{
     public function render() : Node {
         var element = Browser.document.createDivElement();
         navbar != null ? element.appendChild(navbar.render()) : null;
+
         element.appendChild(child.render());
-        new StyleManager().addStyleToDiv(size.getHeight(), size.getWidth(), element, style);
+        
+        new StyleManager().addStyleToDiv({size: size, widget: element, style: style, padding: Padding.all(0.0)});
 
         //Need to style container
 

@@ -1,5 +1,6 @@
 package components;
 
+import utils.Style;
 import support.Widget;
 import js.Browser;
 import js.html.Node;
@@ -19,9 +20,22 @@ enum TextFormat {
 
 class Text implements Widget {
     var text: String = "";
+    var style: Style;
 
-    public function new(text: String) {
+    public function new(
+        text: String, 
+        ?arg: {
+            style: Style
+        }
+    ) {
         this.text = text;
+
+        if (arg == null) {
+            arg = {style: new Style({})}
+        }
+
+        this.style = arg.style;
+        
     }
 
     public function getText(): String {
@@ -30,6 +44,7 @@ class Text implements Widget {
 
     public function render() : Node {
         var element = Browser.document.createParagraphElement();
+        element.style.color = style.getColor();
         element.innerText = text;
         return element;
 

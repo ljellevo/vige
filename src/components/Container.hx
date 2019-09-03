@@ -1,10 +1,16 @@
 package components;
 
+import utils.Padding;
 import utils.Size;
 import js.Browser;
 import support.Widget;
 import support.StyleManager;
 import utils.Style;
+
+
+/**
+Not done
+**/
 
 class Container implements Widget {
     var size: Size;
@@ -24,7 +30,7 @@ class Container implements Widget {
     public function render():js.html.Node {
         var container = Browser.document.createDivElement();
         container.appendChild(child.render());
-        new StyleManager().addStyleToDiv(size.getHeight(), size.getWidth(), container, style);
+        new StyleManager().addStyleToDiv({size: size, widget: container, style: style, padding: Padding.all(0.0)});
         return container;
     }
 }
