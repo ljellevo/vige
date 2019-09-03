@@ -1,3 +1,4 @@
+import utils.Size;
 import js.lib.intl.Collator.Collation;
 import js.html.PageTransitionEvent;
 import utils.Color;
@@ -16,6 +17,15 @@ class Main {
         var page = new Page({
             route: "/",
             child: new Column({
+                style: new Style({
+                    color: Color.WHITE
+                }),
+                cellSize: new Size({
+                    height: 100.0, 
+                    heigthType: "px", 
+                    width: 100.0, 
+                    widthType: "px"
+                }),
                 children: [
                     new Text("Hello"),
                     new Text("Hello"),

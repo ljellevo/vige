@@ -10,7 +10,9 @@ function $extend(from, fields) {
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
-	var page = new components_Page({ route : "/", child : new components_Text("Hello")});
+	var page = new components_Page({ route : "/", child : new components_Column({ style : new utils_Style({ color : -1}), cellSize : new utils_Size({ height : 100.0, heigthType : "px", width : 100.0, widthType : "px"}), children : [new components_Text("Hello"),new components_Text("Hello"),new components_Text("Hello"),new components_Button({ text : "Click me", onClick : function(e) {
+		console.log("src/Main.hx:36:","Clicked");
+	}})]})});
 	window.document.body.appendChild(page.render());
 };
 Math.__name__ = true;
@@ -39,6 +41,36 @@ components_Button.prototype = {
 		button.textContent = this.text;
 		button.onclick = this.onClick;
 		return button;
+	}
+};
+var components_Column = function(arg) {
+	this.children = null;
+	this.children = arg.children;
+	this.style = arg.style != null ? arg.style : new utils_Style({ });
+	this.cellStyle = arg.cellStyle != null ? arg.cellStyle : new utils_Style({ });
+	this.size = arg.size != null ? arg.size : new utils_Size({ });
+	this.cellSize = arg.cellSize != null ? arg.cellSize : new utils_Size({ });
+};
+components_Column.__name__ = true;
+components_Column.prototype = {
+	render: function() {
+		var column = window.document.createElement("div");
+		column.style.display = "grid";
+		column.style.gridTemplateColumns = "auto/auto";
+		column.style.padding = "10px";
+		new support_StyleManager().addStyleToDiv(this.size.getHeight(),this.size.getWidth(),column,this.style);
+		var _g = 0;
+		var _g1 = this.children;
+		while(_g < _g1.length) {
+			var child = _g1[_g];
+			++_g;
+			var columnCell = window.document.createElement("div");
+			columnCell.style.padding = "10px";
+			columnCell.appendChild(child.render());
+			new support_StyleManager().addStyleToDiv(this.cellSize.getHeight(),this.cellSize.getWidth(),columnCell,this.cellStyle);
+			column.appendChild(columnCell);
+		}
+		return column;
 	}
 };
 var components_Container = function(arg) {
