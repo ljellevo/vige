@@ -1,15 +1,13 @@
 import utils.Size;
-import js.lib.intl.Collator.Collation;
-import js.html.PageTransitionEvent;
 import utils.Color;
 import utils.Style;
 import js.Browser;
 
-import components.Container;
 import components.Button;
 import components.Page;
 import components.Text;
 import components.Column;
+import core.Body;
 
 class Main {
     static function main() {
@@ -49,6 +47,8 @@ class Main {
         });
         */
 
-        Browser.document.body.appendChild(page.render());
+        Browser.document.body.style.margin = "0px";
+        //Browser.document.body.appendChild(page.render());
+        new Body().init(page.render());
     }
 }

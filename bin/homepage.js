@@ -11,9 +11,10 @@ var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
 	var page = new components_Page({ route : "/", child : new components_Column({ style : new utils_Style({ color : -1}), cellSize : new utils_Size({ height : 100.0, heigthType : "px", width : 100.0, widthType : "px"}), children : [new components_Text("Hello"),new components_Text("Hello"),new components_Text("Hello"),new components_Button({ text : "Click me", onClick : function(e) {
-		console.log("src/Main.hx:36:","Clicked");
+		console.log("src/Main.hx:38:","Clicked");
 	}})]})});
-	window.document.body.appendChild(page.render());
+	window.document.body.style.margin = "0px";
+	new core_Body().init(page.render());
 };
 Math.__name__ = true;
 var Std = function() { };
@@ -135,6 +136,14 @@ components_Text.prototype = {
 		var element = window.document.createElement("p");
 		element.innerText = this.text;
 		return element;
+	}
+};
+var core_Body = function() {
+};
+core_Body.__name__ = true;
+core_Body.prototype = {
+	init: function(widget) {
+		window.document.body.appendChild(widget);
 	}
 };
 var js__$Boot_HaxeError = function(val) {
