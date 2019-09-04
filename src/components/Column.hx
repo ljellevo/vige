@@ -38,6 +38,7 @@ class Column implements Widget {
         var column = Browser.document.createDivElement();
         column.style.display = "grid";
         column.style.gridTemplateColumns = "auto/auto";
+        column.style.boxSizing = "border-box";
         new StyleManager().addStyleToDiv({size: size, widget: column, style: style, padding: padding});
 
         for(child in children) {

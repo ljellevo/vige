@@ -23,6 +23,10 @@ class Main {
                 style: new Style({
                     color: Color.WHITE
                 }),
+                size: new Size({
+                    height: 100,
+                    heigthType: "%",
+                }),
                 padding: Padding.all(10),
                 children: [
                     new Row({
