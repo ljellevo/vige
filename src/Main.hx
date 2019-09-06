@@ -10,7 +10,6 @@ import lib.components.Page;
 import lib.components.Text;
 import lib.components.Column;
 import lib.components.Row;
-import lib.components.Container;
 
 import lib.core.Body;
 
@@ -39,7 +38,7 @@ class Main {
                     new Text("Hello"),
                     new Text("Hello", {
                         style: new Style({
-                            color: Color.YELLOW
+                            color: Color.MAGENTA
                         })
                     }),
                     new Button({
