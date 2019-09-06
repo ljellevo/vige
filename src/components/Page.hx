@@ -33,10 +33,15 @@ class Page implements Widget{
         this.style = arg.style != null ? arg.style : new Style({});
         this.size = arg.size != null ? arg.size : new Size({});
     }
+
+    public function getRoute(): String {
+        return route;
+    }
     
 
     public function render() : Node {
         var element = Browser.document.createDivElement();
+        element.id = "page";
         navbar != null ? element.appendChild(navbar.render()) : null;
 
         element.appendChild(child.render());

@@ -13,8 +13,17 @@ import components.Row;
 import components.Container;
 
 import core.Body;
+import core.Navigator;
 
 class Main {
+     static function secondPage(): Page {
+        return new Page({
+            route: "/hello",
+            child: new Text("Hello")
+        });
+    }
+
+
     static function main() {
 
         var page = new Page({
@@ -46,15 +55,20 @@ class Main {
                         text: "Click me",
                         onClick: function (e) {
                             trace("Clicked");
+                            Navigator.navigateTo({widget: secondPage()});
                         }
                     })
                 ]
             })
         });
 
+        
+
 
         Browser.document.body.style.margin = "0px";
         //Browser.document.body.appendChild(page.render());
         new Body().init(page.render());
     }
+
+   
 }
