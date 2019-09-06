@@ -10,7 +10,6 @@ class Style {
         ?color: Color
     }) {
         this.color = arg.color;
-        trace("Color from Style constructor: " + color);
     }
 
     public function getColor(): String {

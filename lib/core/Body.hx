@@ -18,6 +18,10 @@ class Body {
         }
     }
 
+    public function init() {
+        Browser.document.body.style.margin = "0px";
+    }
+
 
     public function render(widget: js.html.Node) {
         Browser.document.body.appendChild(widget);

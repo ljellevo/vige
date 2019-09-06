@@ -17,7 +17,6 @@ class Main {
     static function main() {
         var body = new Body();
         
-
         var page = new Page({
             route: "/",
             child: new Column({
@@ -57,6 +56,8 @@ class Main {
         body.routing([
             {route: "/", component: page}
         ]);
+
+        body.init();
 
 
         

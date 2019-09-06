@@ -15,6 +15,7 @@ Main.main = function() {
 		console.log("src/Main.hx:49:","Clicked");
 	}})]})});
 	body.routing([{ route : "/", component : page}]);
+	body.init();
 };
 Math.__name__ = true;
 var Std = function() { };
@@ -274,6 +275,9 @@ lib_core_Body.prototype = {
 			}
 		}
 	}
+	,init: function() {
+		window.document.body.style.margin = "0px";
+	}
 	,render: function(widget) {
 		window.document.body.appendChild(widget);
 	}
@@ -413,7 +417,6 @@ lib_utils_Size.prototype = {
 };
 var lib_utils_Style = function(arg) {
 	this.color = arg.color;
-	console.log("lib/utils/Style.hx:13:","Color from Style constructor: " + this.color);
 };
 lib_utils_Style.__name__ = true;
 lib_utils_Style.prototype = {
