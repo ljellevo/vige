@@ -1,7 +1,7 @@
-package components;
+package lib.components;
 
 import js.Browser;
-import support.Widget;
+import lib.support.Widget;
 
 class Button implements Widget {
     var text: String = "";

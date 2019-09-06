@@ -1,8 +1,8 @@
-package support;
+package lib.support;
 
-import utils.Padding;
-import utils.Size;
-import utils.Style;
+import lib.utils.Padding;
+import lib.utils.Size;
+import lib.utils.Style;
 
 class StyleManager {
 

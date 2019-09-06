@@ -1,13 +1,13 @@
-package components;
+package lib.components;
 
-import utils.Padding;
-import utils.Color;
-import support.StyleManager;
+import lib.utils.Padding;
+import lib.utils.Color;
+import lib.support.StyleManager;
 import js.Browser;
-import utils.Style;
-import utils.Size;
+import lib.utils.Style;
+import lib.utils.Size;
 import js.html.Node;
-import support.Widget;
+import lib.support.Widget;
 
 class Page implements Widget{
     var route: String;

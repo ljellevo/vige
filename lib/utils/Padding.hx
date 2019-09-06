@@ -1,4 +1,4 @@
-package utils;
+package lib.utils;
 
 class Padding {
     var top: Float;
