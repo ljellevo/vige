@@ -10,11 +10,11 @@ function $extend(from, fields) {
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
+	var body = new lib_core_Body();
 	var page = new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heigthType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
-		console.log("src/Main.hx:48:","Clicked");
+		console.log("src/Main.hx:49:","Clicked");
 	}})]})});
-	window.document.body.style.margin = "0px";
-	new lib_core_Body().init(page.render());
+	body.routing([{ route : "/", component : page}]);
 };
 Math.__name__ = true;
 var Std = function() { };
@@ -172,20 +172,6 @@ lib_components_Column.prototype = {
 		return column;
 	}
 };
-var lib_components_Container = function(arg) {
-	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
-	this.style = arg.style;
-	this.child = arg.child;
-};
-lib_components_Container.__name__ = true;
-lib_components_Container.prototype = {
-	render: function() {
-		var container = window.document.createElement("div");
-		container.appendChild(this.child.render());
-		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : container, style : this.style, padding : lib_utils_Padding.all(0.0)});
-		return container;
-	}
-};
 var lib_components_Page = function(arg) {
 	this.size = null;
 	this.style = null;
@@ -276,7 +262,19 @@ var lib_core_Body = function() {
 };
 lib_core_Body.__name__ = true;
 lib_core_Body.prototype = {
-	init: function(widget) {
+	routing: function(routes) {
+		var currentURL = window.location.pathname;
+		console.log("lib/core/Body.hx:13:",currentURL);
+		var _g = 0;
+		while(_g < routes.length) {
+			var route = routes[_g];
+			++_g;
+			if(route.route == currentURL) {
+				window.document.body.appendChild(route.component.render());
+			}
+		}
+	}
+	,render: function(widget) {
 		window.document.body.appendChild(widget);
 	}
 };

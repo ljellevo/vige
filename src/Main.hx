@@ -15,6 +15,8 @@ import lib.core.Body;
 
 class Main {
     static function main() {
+        var body = new Body();
+        
 
         var page = new Page({
             route: "/",
@@ -52,8 +54,15 @@ class Main {
         });
 
 
-        Browser.document.body.style.margin = "0px";
+        body.routing([
+            {route: "/", component: page}
+        ]);
+
+
+        
         //Browser.document.body.appendChild(page.render());
-        new Body().init(page.render());
+
+        //Browser.document.body.style.margin = "0px";
+        //body.render(page.render());
     }
 }
