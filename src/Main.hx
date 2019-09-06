@@ -33,7 +33,11 @@ class HelloPage {
                             new Button({
                                 text: "Click me",
                                 onClick: function (e) {
-                                    Navigate.to({route: "/"});
+                                    Navigate.to({route: "/", param: [
+                                        {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
+                                        {param: "name", data: "Ludvig"},
+                                        {param: "age", data: "23"}
+                                    ]});
                                 }
                             })
                         ]
@@ -74,7 +78,11 @@ class HomePage {
                     new Button({
                         text: "Click me",
                         onClick: function (e) {
-                            Navigate.to({route: "/hello"});
+                            Navigate.to({route: "/hello", param: [
+                                        {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
+                                        {param: "name", data: "Ludvig"},
+                                        {param: "age", data: "23"}
+                                    ]});
                         }
                     })
                 ]

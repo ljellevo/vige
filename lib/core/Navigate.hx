@@ -1,5 +1,6 @@
 package lib.core;
 
+import js.html.URLSearchParams;
 import js.Browser;
 import lib.support.Widget;
 
@@ -20,7 +21,16 @@ class Navigate {
         }
     }
 
-    public static function to(arg: {route: String}) {
-        Browser.location.pathname = arg.route;
+    public static function to(arg: {route: String, ?param: Array<{param: String, data: String}>}) {
+        var url = arg.route;
+        if (arg.param != null && arg.param.length > 0) {
+            url += "?";
+
+            for(i in 0...arg.param.length){
+                if(i != 0) url += "&";
+                url += arg.param[i].param + "=" + arg.param[i].data;
+            }
+        }
+        Browser.location.href = url;   
     }
 }
