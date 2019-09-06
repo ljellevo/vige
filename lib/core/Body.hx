@@ -1,4 +1,4 @@
-package core;
+package lib.core;
 
 import js.Browser;
 

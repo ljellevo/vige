@@ -1,11 +1,11 @@
-package components;
+package lib.components;
 
-import utils.Padding;
-import utils.Size;
+import lib.utils.Padding;
+import lib.utils.Size;
 import js.Browser;
-import support.Widget;
-import support.StyleManager;
-import utils.Style;
+import lib.support.Widget;
+import lib.support.StyleManager;
+import lib.utils.Style;
 
 
 /**

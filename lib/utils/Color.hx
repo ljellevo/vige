@@ -1,5 +1,5 @@
 
-package utils;
+package lib.utils;
 
  /* ARGB color type based on a 32-bit integer.
  */

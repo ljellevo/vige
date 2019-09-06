@@ -1,12 +1,12 @@
-package components;
+package lib.components;
 
-import utils.Style;
-import support.StyleManager;
+import lib.utils.Style;
+import lib.support.StyleManager;
 import js.Browser;
 import js.html.Node;
-import support.Widget;
-import utils.Size;
-import utils.Padding;
+import lib.support.Widget;
+import lib.utils.Size;
+import lib.utils.Padding;
 
 class Column implements Widget {
     var children: Array<Widget> = null;

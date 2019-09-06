@@ -1,7 +1,7 @@
-package components;
+package lib.components;
 
-import utils.Style;
-import support.Widget;
+import lib.utils.Style;
+import lib.support.Widget;
 import js.Browser;
 import js.html.Node;
 

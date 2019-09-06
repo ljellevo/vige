@@ -1,0 +1,30 @@
+{
+  "name": "mist.io",
+  "version": "1.0.0",
+  "description": "Yet another web framework",
+  "main": "server/server.js",
+  "bin": {
+    "mist.io": "homepage.js"
+  },
+  "scripts": {
+    "start": "nodemon ./server/server.js & live-server ./bin/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ljellevo/mist.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ljellevo/mist.io/issues"
+  },
+  "homepage": "https://github.com/ljellevo/mist.io#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "json-server": "^0.15.0",
+    "live-server": "^1.2.1",
+    "nodemon": "^1.19.1"
+  }
+}

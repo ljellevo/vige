@@ -1,6 +1,6 @@
-package utils;
+package lib.utils;
 
-import utils.Color;
+import lib.utils.Color;
 
 class Style {
     var color: Color;

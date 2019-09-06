@@ -1,18 +1,18 @@
 
-import utils.Padding;
-import utils.Size;
-import utils.Color;
-import utils.Style;
+import lib.utils.Padding;
+import lib.utils.Size;
+import lib.utils.Color;
+import lib.utils.Style;
 import js.Browser;
 
-import components.Button;
-import components.Page;
-import components.Text;
-import components.Column;
-import components.Row;
-import components.Container;
+import lib.components.Button;
+import lib.components.Page;
+import lib.components.Text;
+import lib.components.Column;
+import lib.components.Row;
+import lib.components.Container;
 
-import core.Body;
+import lib.core.Body;
 
 class Main {
     static function main() {
@@ -39,7 +39,7 @@ class Main {
                     new Text("Hello"),
                     new Text("Hello", {
                         style: new Style({
-                            color: Color.MAGENTA
+                            color: Color.YELLOW
                         })
                     }),
                     new Button({
