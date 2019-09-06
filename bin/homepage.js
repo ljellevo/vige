@@ -10,9 +10,9 @@ function $extend(from, fields) {
 var HelloPage = function() { };
 HelloPage.__name__ = true;
 HelloPage.component = function() {
-	return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ children : [new lib_components_Text("Hello"),new lib_components_Button({ text : "Click me", onClick : function(e) {
+	return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ children : [new lib_components_Text("Hello"),new lib_components_Button({ text : "Click me", onClick : function(e) {
 		lib_core_Navigate.to({ route : "/"});
-	}})]})});
+	}})]})]})});
 };
 var HomePage = function() { };
 HomePage.__name__ = true;

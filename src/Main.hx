@@ -20,13 +20,23 @@ class HelloPage {
         return new Page({
             route: "/hello",
             child: new Column({
+                size: new Size({
+                    height: 100,
+                    heigthType: "%",
+                    width: 100,
+                    widthType: "%"
+                }),
                 children: [
-                    new Text("Hello"),
-                    new Button({
-                        text: "Click me",
-                        onClick: function (e) {
-                            Navigate.to({route: "/"});
-                        }
+                    new Row({
+                        children: [
+                            new Text("Hello"),
+                            new Button({
+                                text: "Click me",
+                                onClick: function (e) {
+                                    Navigate.to({route: "/"});
+                                }
+                            })
+                        ]
                     })
                 ]
             })
