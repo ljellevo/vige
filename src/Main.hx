@@ -16,7 +16,6 @@ import lib.core.Body;
 import lib.core.Navigate;
 
 class HelloPage {
-    //public function new() {};
     public static function component() : Widget {
         return new Page({
             route: "/hello",
@@ -37,7 +36,6 @@ class HelloPage {
 }
 
 class HomePage {
-    //public function new() {};
     public static function component() : Widget {
         return new Page({
             route: "/",
@@ -79,8 +77,6 @@ class HomePage {
 
 
 class Main {
-
-
     static function main() {
         var body = new Body();
 
@@ -90,11 +86,5 @@ class Main {
         ]);
 
         body.init();
-
-
-        //Browser.document.body.appendChild(page.render());
-
-        //Browser.document.body.style.margin = "0px";
-        //body.render(page.render());
     }
 }
