@@ -27,7 +27,7 @@ class HelloPage {
                         text: "Click me",
                         onClick: function (e) {
                             trace("Clicked");
-                            new Navigate().to({route: "/"});
+                            Navigate.to({route: "/"});
                         }
                     })
                 ]
@@ -68,7 +68,7 @@ class HomePage {
                         text: "Click me",
                         onClick: function (e) {
                             trace("Clicked");
-                            new Navigate().to({route: "/hello"});
+                            Navigate.to({route: "/hello"});
                         }
                     })
                 ]
@@ -84,9 +84,7 @@ class Main {
     static function main() {
         var body = new Body();
 
-
-
-        body.routing([
+        Navigate.routing([
             {route: "/", component: HomePage.component()},
             {route: "/hello", component: HelloPage.component()}
         ]);
@@ -94,7 +92,6 @@ class Main {
         body.init();
 
 
-        
         //Browser.document.body.appendChild(page.render());
 
         //Browser.document.body.style.margin = "0px";

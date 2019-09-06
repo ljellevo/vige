@@ -12,7 +12,7 @@ HelloPage.__name__ = true;
 HelloPage.component = function() {
 	return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ children : [new lib_components_Text("Hello"),new lib_components_Button({ text : "Click me", onClick : function(e) {
 		console.log("src/Main.hx:29:","Clicked");
-		new lib_core_Navigate().to({ route : "/"});
+		lib_core_Navigate.to({ route : "/"});
 	}})]})});
 };
 var HomePage = function() { };
@@ -20,14 +20,14 @@ HomePage.__name__ = true;
 HomePage.component = function() {
 	return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heigthType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
 		console.log("src/Main.hx:70:","Clicked");
-		new lib_core_Navigate().to({ route : "/hello"});
+		lib_core_Navigate.to({ route : "/hello"});
 	}})]})});
 };
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
 	var body = new lib_core_Body();
-	body.routing([{ route : "/", component : HomePage.component()},{ route : "/hello", component : HelloPage.component()}]);
+	lib_core_Navigate.routing([{ route : "/", component : HomePage.component()},{ route : "/hello", component : HelloPage.component()}]);
 	body.init();
 };
 Math.__name__ = true;
@@ -277,28 +277,7 @@ var lib_core_Body = function() {
 };
 lib_core_Body.__name__ = true;
 lib_core_Body.prototype = {
-	routing: function(routes) {
-		var currentURL = window.location.pathname;
-		console.log("lib/core/Body.hx:13:",currentURL);
-		if(window.document.querySelector("#page") != null) {
-			window.document.querySelector("#page").remove();
-		}
-		var _g = 0;
-		while(_g < routes.length) {
-			var route = routes[_g];
-			++_g;
-			if(route.route == currentURL) {
-				window.document.body.appendChild(route.component.render());
-			}
-		}
-	}
-	,to: function(arg) {
-		var currentURL = window.location.pathname;
-		if(window.document.querySelector("#page") != null) {
-			window.document.querySelector("#page").remove();
-		}
-		window.location.pathname = arg.route;
-		console.log("lib/core/Body.hx:34:","Added to path");
+	to: function(arg) {
 	}
 	,init: function() {
 		window.document.body.style.margin = "0px";
@@ -310,10 +289,23 @@ lib_core_Body.prototype = {
 var lib_core_Navigate = function() {
 };
 lib_core_Navigate.__name__ = true;
-lib_core_Navigate.prototype = {
-	to: function(arg) {
-		new lib_core_Body().to({ route : arg.route});
+lib_core_Navigate.routing = function(routes) {
+	var currentURL = window.location.pathname;
+	console.log("lib/core/Navigate.hx:12:",currentURL);
+	if(window.document.querySelector("#page") != null) {
+		window.document.querySelector("#page").remove();
 	}
+	var _g = 0;
+	while(_g < routes.length) {
+		var route = routes[_g];
+		++_g;
+		if(route.route == currentURL) {
+			window.document.body.appendChild(route.component.render());
+		}
+	}
+};
+lib_core_Navigate.to = function(arg) {
+	window.location.pathname = arg.route;
 };
 var lib_support_StyleManager = function() {
 };
