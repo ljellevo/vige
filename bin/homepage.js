@@ -11,7 +11,6 @@ var HelloPage = function() { };
 HelloPage.__name__ = true;
 HelloPage.component = function() {
 	return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ children : [new lib_components_Text("Hello"),new lib_components_Button({ text : "Click me", onClick : function(e) {
-		console.log("src/Main.hx:29:","Clicked");
 		lib_core_Navigate.to({ route : "/"});
 	}})]})});
 };
@@ -19,7 +18,6 @@ var HomePage = function() { };
 HomePage.__name__ = true;
 HomePage.component = function() {
 	return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heigthType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
-		console.log("src/Main.hx:70:","Clicked");
 		lib_core_Navigate.to({ route : "/hello"});
 	}})]})});
 };
@@ -291,7 +289,6 @@ var lib_core_Navigate = function() {
 lib_core_Navigate.__name__ = true;
 lib_core_Navigate.routing = function(routes) {
 	var currentURL = window.location.pathname;
-	console.log("lib/core/Navigate.hx:12:",currentURL);
 	if(window.document.querySelector("#page") != null) {
 		window.document.querySelector("#page").remove();
 	}

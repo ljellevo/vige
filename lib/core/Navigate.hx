@@ -9,8 +9,6 @@ class Navigate {
 
     public static function routing(routes: Array<{route: String, component: Widget}>) {
         var currentURL = Browser.location.pathname;
-        trace(currentURL);
-
         if (Browser.document.querySelector("#page") != null) {
             Browser.document.querySelector("#page").remove();
         }

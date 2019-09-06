@@ -25,7 +25,6 @@ class HelloPage {
                     new Button({
                         text: "Click me",
                         onClick: function (e) {
-                            trace("Clicked");
                             Navigate.to({route: "/"});
                         }
                     })
@@ -65,7 +64,6 @@ class HomePage {
                     new Button({
                         text: "Click me",
                         onClick: function (e) {
-                            trace("Clicked");
                             Navigate.to({route: "/hello"});
                         }
                     })
