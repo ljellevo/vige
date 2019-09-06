@@ -37,6 +37,7 @@ class Page implements Widget{
 
     public function render() : Node {
         var element = Browser.document.createDivElement();
+        element.id = "page";
         navbar != null ? element.appendChild(navbar.render()) : null;
 
         element.appendChild(child.render());

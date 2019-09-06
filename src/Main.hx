@@ -1,4 +1,5 @@
 
+import lib.support.Widget;
 import lib.utils.Padding;
 import lib.utils.Size;
 import lib.utils.Color;
@@ -12,8 +13,45 @@ import lib.components.Column;
 import lib.components.Row;
 
 import lib.core.Body;
+import lib.core.Navigate;
+
+class HelloWidget {
+    public function new() {};
+    public function helloWidget() : Widget {
+        return new Page({
+            route: "/hello",
+            child: new Column({
+                children: [
+                    new Text("Hello"),
+                    new Button({
+                        text: "Click me",
+                        onClick: function (e) {
+                            trace("Clicked");
+                            new Navigate().to({route: "/"});
+                        }
+                    })
+                ]
+            })
+        });
+    }
+}
+
+/*
+
+ new Button({
+                        text: "Click me",
+                        onClick: function (e) {
+                            trace("Clicked");
+                            new Navigate().to({route: "/hello"});
+                        }
+                    })
+*/
+
 
 class Main {
+    
+
+
     static function main() {
         var body = new Body();
         
@@ -46,6 +84,7 @@ class Main {
                         text: "Click me",
                         onClick: function (e) {
                             trace("Clicked");
+                            new Navigate().to({route: "/hello"});
                         }
                     })
                 ]
@@ -54,7 +93,8 @@ class Main {
 
 
         body.routing([
-            {route: "/", component: page}
+            {route: "/", component: page},
+            {route: "/hello", component: new HelloWidget().helloWidget()}
         ]);
 
         body.init();

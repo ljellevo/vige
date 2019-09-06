@@ -7,14 +7,27 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var HelloWidget = function() {
+};
+HelloWidget.__name__ = true;
+HelloWidget.prototype = {
+	helloWidget: function() {
+		return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ children : [new lib_components_Text("Hello"),new lib_components_Button({ text : "Click me", onClick : function(e) {
+			console.log("src/Main.hx:29:","Clicked");
+			new lib_core_Navigate().to({ route : "/"});
+		}})]})});
+	}
+};
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
 	var body = new lib_core_Body();
 	var page = new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heigthType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
-		console.log("src/Main.hx:49:","Clicked");
+		console.log("src/Main.hx:86:","Clicked");
+		new lib_core_Navigate().to({ route : "/hello"});
 	}})]})});
-	body.routing([{ route : "/", component : page}]);
+	var tmp = new HelloWidget().helloWidget();
+	body.routing([{ route : "/", component : page},{ route : "/hello", component : tmp}]);
 	body.init();
 };
 Math.__name__ = true;
@@ -189,6 +202,7 @@ lib_components_Page.__name__ = true;
 lib_components_Page.prototype = {
 	render: function() {
 		var element = window.document.createElement("div");
+		element.id = "page";
 		if(this.navbar != null) {
 			element.appendChild(this.navbar.render());
 		}
@@ -266,6 +280,9 @@ lib_core_Body.prototype = {
 	routing: function(routes) {
 		var currentURL = window.location.pathname;
 		console.log("lib/core/Body.hx:13:",currentURL);
+		if(window.document.querySelector("#page") != null) {
+			window.document.querySelector("#page").remove();
+		}
 		var _g = 0;
 		while(_g < routes.length) {
 			var route = routes[_g];
@@ -275,11 +292,27 @@ lib_core_Body.prototype = {
 			}
 		}
 	}
+	,to: function(arg) {
+		var currentURL = window.location.pathname;
+		if(window.document.querySelector("#page") != null) {
+			window.document.querySelector("#page").remove();
+		}
+		window.location.pathname = arg.route;
+		console.log("lib/core/Body.hx:34:","Added to path");
+	}
 	,init: function() {
 		window.document.body.style.margin = "0px";
 	}
 	,render: function(widget) {
 		window.document.body.appendChild(widget);
+	}
+};
+var lib_core_Navigate = function() {
+};
+lib_core_Navigate.__name__ = true;
+lib_core_Navigate.prototype = {
+	to: function(arg) {
+		new lib_core_Body().to({ route : arg.route});
 	}
 };
 var lib_support_StyleManager = function() {
