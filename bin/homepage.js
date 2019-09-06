@@ -7,27 +7,27 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
-var HelloWidget = function() {
+var HelloPage = function() { };
+HelloPage.__name__ = true;
+HelloPage.component = function() {
+	return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ children : [new lib_components_Text("Hello"),new lib_components_Button({ text : "Click me", onClick : function(e) {
+		console.log("src/Main.hx:29:","Clicked");
+		new lib_core_Navigate().to({ route : "/"});
+	}})]})});
 };
-HelloWidget.__name__ = true;
-HelloWidget.prototype = {
-	helloWidget: function() {
-		return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ children : [new lib_components_Text("Hello"),new lib_components_Button({ text : "Click me", onClick : function(e) {
-			console.log("src/Main.hx:29:","Clicked");
-			new lib_core_Navigate().to({ route : "/"});
-		}})]})});
-	}
+var HomePage = function() { };
+HomePage.__name__ = true;
+HomePage.component = function() {
+	return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heigthType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
+		console.log("src/Main.hx:70:","Clicked");
+		new lib_core_Navigate().to({ route : "/hello"});
+	}})]})});
 };
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
 	var body = new lib_core_Body();
-	var page = new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heigthType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
-		console.log("src/Main.hx:86:","Clicked");
-		new lib_core_Navigate().to({ route : "/hello"});
-	}})]})});
-	var tmp = new HelloWidget().helloWidget();
-	body.routing([{ route : "/", component : page},{ route : "/hello", component : tmp}]);
+	body.routing([{ route : "/", component : HomePage.component()},{ route : "/hello", component : HelloPage.component()}]);
 	body.init();
 };
 Math.__name__ = true;

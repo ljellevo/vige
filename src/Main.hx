@@ -15,9 +15,9 @@ import lib.components.Row;
 import lib.core.Body;
 import lib.core.Navigate;
 
-class HelloWidget {
-    public function new() {};
-    public function helloWidget() : Widget {
+class HelloPage {
+    //public function new() {};
+    public static function component() : Widget {
         return new Page({
             route: "/hello",
             child: new Column({
@@ -36,26 +36,10 @@ class HelloWidget {
     }
 }
 
-/*
-
- new Button({
-                        text: "Click me",
-                        onClick: function (e) {
-                            trace("Clicked");
-                            new Navigate().to({route: "/hello"});
-                        }
-                    })
-*/
-
-
-class Main {
-    
-
-
-    static function main() {
-        var body = new Body();
-        
-        var page = new Page({
+class HomePage {
+    //public function new() {};
+    public static function component() : Widget {
+        return new Page({
             route: "/",
             child: new Column({
                 style: new Style({
@@ -90,11 +74,21 @@ class Main {
                 ]
             })
         });
+    }
+}
+
+
+class Main {
+
+
+    static function main() {
+        var body = new Body();
+
 
 
         body.routing([
-            {route: "/", component: page},
-            {route: "/hello", component: new HelloWidget().helloWidget()}
+            {route: "/", component: HomePage.component()},
+            {route: "/hello", component: HelloPage.component()}
         ]);
 
         body.init();
