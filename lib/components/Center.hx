@@ -36,25 +36,44 @@ class Center implements Widget {
 
     public function render() : js.html.Node {
         var parent = Browser.document.createDivElement();
-        new StyleManager().addStyleToDiv({size: new Size({height: 100, heigthType: "%"}), widget: parent, style: style, padding: padding});
+        parent.id = "center";
         var element = Browser.document.createDivElement();
 
         switch alignment {
             case Horizontal:
-            
+                element.id = "element";
+                element.style.display = "flex";
+                element.style.justifyContent = "center";
+                
+                new StyleManager().addStyleToDiv({size: new Size({width: 100, widthType: "%"}), widget: parent, style: style, padding: padding});
+                element.appendChild(child.render());
+                parent = element;
+                
 
             case Vertical:
                 element.style.position = "relative";
                 element.style.top = "50%";
                 element.style.transform = "translateY(-50%)";
-
+                new StyleManager().addStyleToDiv({size: new Size({height: 100, heigthType: "%"}), widget: parent, style: style, padding: padding});
+                element.appendChild(child.render());
+                parent.appendChild(element);
             case Both:
+                element.id = "element";
+                element.style.display = "flex";
+                element.style.justifyContent = "center";
+                element.style.position = "relative";
+                element.style.top = "50%";
+                element.style.transform = "translateY(-50%)";
+                new StyleManager().addStyleToDiv({size: new Size({height: 100, heigthType: "%"}), widget: parent, style: style, padding: padding});
+                element.appendChild(child.render());
+                parent.appendChild(element);
+
 
         }
         
 
-
-        return new Node();
+        
+        return parent;
     }
 
 }

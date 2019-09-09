@@ -1,4 +1,5 @@
 
+import js.html.audio.ChannelSplitterNode;
 import lib.support.Widget;
 import lib.utils.Padding;
 import lib.utils.Size;
@@ -11,6 +12,8 @@ import lib.components.Page;
 import lib.components.Text;
 import lib.components.Column;
 import lib.components.Row;
+import lib.components.Center;
+import lib.components.Container;
 
 import lib.core.Body;
 import lib.core.Navigate;
@@ -33,7 +36,14 @@ class HelloPage {
                             heigthType: "%"
                         }),
                         children: [
-                            new Text("Hello"),
+                            new Center({
+                                child: new Container({
+                                    style: new Style({color: Color.MAGENTA}),
+                                    size: new Size({width: 20, widthType: "px", height: 20, heigthType: "px"})
+
+                                }),
+                                alignment: CenterAlignment.Both
+                            }),
                             new Button({
                                 text: "Click me",
                                 onClick: function (e) {

@@ -10,7 +10,7 @@ function $extend(from, fields) {
 var HelloPage = function() { };
 HelloPage.__name__ = true;
 HelloPage.component = function() {
-	return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), children : [new lib_components_Text("Hello"),new lib_components_Button({ text : "Click me", onClick : function(e) {
+	return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), children : [new lib_components_Center({ child : new lib_components_Container({ style : new lib_utils_Style({ color : -65281}), size : new lib_utils_Size({ width : 20, widthType : "px", height : 20, heigthType : "px"})}), alignment : lib_components_CenterAlignment.Both}),new lib_components_Button({ text : "Click me", onClick : function(e) {
 		lib_core_Navigate.to({ route : "/", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
 	}})]})]})});
 };
@@ -154,6 +154,55 @@ lib_components_Button.prototype = {
 		return button;
 	}
 };
+var lib_components_CenterAlignment = $hxEnums["lib.components.CenterAlignment"] = { __ename__ : true, __constructs__ : ["Horizontal","Vertical","Both"]
+	,Horizontal: {_hx_index:0,__enum__:"lib.components.CenterAlignment",toString:$estr}
+	,Vertical: {_hx_index:1,__enum__:"lib.components.CenterAlignment",toString:$estr}
+	,Both: {_hx_index:2,__enum__:"lib.components.CenterAlignment",toString:$estr}
+};
+var lib_components_Center = function(arg) {
+	this.child = arg.child;
+	this.alignment = arg.alignment;
+	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
+	this.padding = arg.padding != null ? arg.padding : lib_utils_Padding.all(0.0);
+};
+lib_components_Center.__name__ = true;
+lib_components_Center.prototype = {
+	render: function() {
+		var parent = window.document.createElement("div");
+		parent.id = "center";
+		var element = window.document.createElement("div");
+		switch(this.alignment._hx_index) {
+		case 0:
+			element.id = "element";
+			element.style.display = "flex";
+			element.style.justifyContent = "center";
+			new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ width : 100, widthType : "%"}), widget : parent, style : this.style, padding : this.padding});
+			element.appendChild(this.child.render());
+			parent = element;
+			break;
+		case 1:
+			element.style.position = "relative";
+			element.style.top = "50%";
+			element.style.transform = "translateY(-50%)";
+			new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), widget : parent, style : this.style, padding : this.padding});
+			element.appendChild(this.child.render());
+			parent.appendChild(element);
+			break;
+		case 2:
+			element.id = "element";
+			element.style.display = "flex";
+			element.style.justifyContent = "center";
+			element.style.position = "relative";
+			element.style.top = "50%";
+			element.style.transform = "translateY(-50%)";
+			new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), widget : parent, style : this.style, padding : this.padding});
+			element.appendChild(this.child.render());
+			parent.appendChild(element);
+			break;
+		}
+		return parent;
+	}
+};
 var lib_components_Column = function(arg) {
 	this.children = null;
 	this.children = arg.children;
@@ -182,6 +231,22 @@ lib_components_Column.prototype = {
 			column.appendChild(columnCell);
 		}
 		return column;
+	}
+};
+var lib_components_Container = function(arg) {
+	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
+	this.style = arg.style;
+	this.child = arg.child;
+};
+lib_components_Container.__name__ = true;
+lib_components_Container.prototype = {
+	render: function() {
+		var container = window.document.createElement("div");
+		if(this.child != null) {
+			container.appendChild(this.child.render());
+		}
+		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : container, style : this.style, padding : lib_utils_Padding.all(0.0)});
+		return container;
 	}
 };
 var lib_components_Page = function(arg) {

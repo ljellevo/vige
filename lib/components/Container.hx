@@ -20,7 +20,7 @@ class Container implements Widget {
     public function new(arg: {
         ?size: Size,
         ?style: Style,
-        child: Widget
+        ?child: Widget
     }) {
         this.size = arg.size != null ? arg.size : new Size({});
         this.style = arg.style;
@@ -29,8 +29,13 @@ class Container implements Widget {
     
     public function render():js.html.Node {
         var container = Browser.document.createDivElement();
-        container.appendChild(child.render());
+        if(child != null) {
+             container.appendChild(child.render());
+        }
+       
         new StyleManager().addStyleToDiv({size: size, widget: container, style: style, padding: Padding.all(0.0)});
+        //container.style.margin = "auto";
+        
         return container;
     }
 }
