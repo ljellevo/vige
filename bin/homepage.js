@@ -7,11 +7,25 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var HxOverrides = function() { };
+HxOverrides.__name__ = true;
+HxOverrides.substr = function(s,pos,len) {
+	if(len == null) {
+		len = s.length;
+	} else if(len < 0) {
+		if(pos == 0) {
+			len = s.length + len;
+		} else {
+			return "";
+		}
+	}
+	return s.substr(pos,len);
+};
 var HelloPage = function() { };
 HelloPage.__name__ = true;
 HelloPage.component = function() {
 	return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), children : [new lib_components_Center({ child : new lib_components_Container({ style : new lib_utils_Style({ color : -65281}), size : new lib_utils_Size({ width : 20, widthType : "px", height : 20, heigthType : "px"})}), alignment : lib_components_CenterAlignment.Both}),new lib_components_Button({ text : "Click me", onClick : function(e) {
-		lib_core_Navigate.to({ route : "/", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
+		lib_core_Navigate.getParams();
 	}})]})]})});
 };
 var HomePage = function() { };
@@ -384,6 +398,18 @@ lib_core_Navigate.to = function(arg) {
 		}
 	}
 	window.location.href = url;
+};
+lib_core_Navigate.getParams = function() {
+	var params = HxOverrides.substr(window.location.search,1,null).split("&");
+	var currentParams = [];
+	var _g = 0;
+	while(_g < params.length) {
+		var param = params[_g];
+		++_g;
+		currentParams.push({ param : param.split("=")[0], data : param.split("=")[1]});
+	}
+	console.log("lib/core/Navigate.hx:43:",currentParams);
+	return currentParams;
 };
 var lib_support_StyleManager = function() {
 };

@@ -33,4 +33,14 @@ class Navigate {
         }
         Browser.location.href = url;   
     }
+
+    public static function getParams(){
+        var params = Browser.location.search.substr(1).split("&");
+        var currentParams: Array<{}> = [];
+        for(param in params) {
+            currentParams.push({param: param.split("=")[0] , data: param.split("=")[1]});
+        }
+        return currentParams;
+
+    }
 }
