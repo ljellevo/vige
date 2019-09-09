@@ -17,9 +17,15 @@ import lib.components.Container;
 
 import lib.core.Body;
 import lib.core.Navigate;
+import lib.core.State;
+import lib.core.DynamicComponent;
+import lib.core.StaticComponent;
 
-class HelloPage {
-    public static function component() : Widget {
+class HelloPage extends DynamicComponent {
+    public function new() {}
+
+    public function component() : Widget {
+        var text = 0;
         return new Page({
             route: "/hello",
             child: new Column({
@@ -38,22 +44,28 @@ class HelloPage {
                         children: [
                             new Center({
                                 child: new Container({
+                                    child: new Text(Std.string(text)),
                                     style: new Style({color: Color.MAGENTA}),
                                     size: new Size({width: 20, widthType: "px", height: 20, heigthType: "px"})
-
                                 }),
                                 alignment: CenterAlignment.Both
                             }),
                             new Button({
                                 text: "Click me",
                                 onClick: function (e) {
-                                    
+                                    /*
                                     Navigate.to({route: "/", param: [
                                         {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
                                         {param: "name", data: "Ludvig"},
                                         {param: "age", data: "23"}
                                     ]});
-                                    
+                                    */
+                                    setState(function(e){
+                                        text++;
+                                        trace("Hello");
+                                    });
+                                    text++;
+                                    trace(text);
                                 }
                             })
                         ]
@@ -64,8 +76,10 @@ class HelloPage {
     }
 }
 
-class HomePage {
-    public static function component() : Widget {
+class HomePage extends StaticComponent{
+    public function new() {}
+
+    public function component() : Widget {
         return new Page({
             route: "/",
             child: new Column({
@@ -95,10 +109,10 @@ class HomePage {
                         text: "Click me",
                         onClick: function (e) {
                             Navigate.to({route: "/hello", param: [
-                                        {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
-                                        {param: "name", data: "Ludvig"},
-                                        {param: "age", data: "23"}
-                                    ]});
+                                {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
+                                {param: "name", data: "Ludvig"},
+                                {param: "age", data: "23"}
+                            ]});
                         }
                     })
                 ]
@@ -113,8 +127,8 @@ class Main {
         var body = new Body();
 
         Navigate.routing([
-            {route: "/", component: HomePage.component()},
-            {route: "/hello", component: HelloPage.component()}
+            {route: "/", component: new HomePage().component()},
+            {route: "/hello", component: new HelloPage().component()}
         ]);
 
         body.init();

@@ -21,25 +21,48 @@ HxOverrides.substr = function(s,pos,len) {
 	}
 	return s.substr(pos,len);
 };
-var HelloPage = function() { };
+var lib_core_DynamicComponent = function() { };
+lib_core_DynamicComponent.__name__ = true;
+lib_core_DynamicComponent.prototype = {
+	setState: function(callback) {
+		console.log("lib/core/DynamicComponent.hx:6:","SetState Called");
+		callback();
+	}
+};
+var HelloPage = function() {
+};
 HelloPage.__name__ = true;
-HelloPage.component = function() {
-	return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), children : [new lib_components_Center({ child : new lib_components_Container({ style : new lib_utils_Style({ color : -65281}), size : new lib_utils_Size({ width : 20, widthType : "px", height : 20, heigthType : "px"})}), alignment : lib_components_CenterAlignment.Both}),new lib_components_Button({ text : "Click me", onClick : function(e) {
-		lib_core_Navigate.to({ route : "/", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
-	}})]})]})});
+HelloPage.__super__ = lib_core_DynamicComponent;
+HelloPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	component: function() {
+		var _gthis = this;
+		var text = 0;
+		return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), children : [new lib_components_Center({ child : new lib_components_Container({ child : new lib_components_Text(text == null ? "null" : "" + text), style : new lib_utils_Style({ color : -65281}), size : new lib_utils_Size({ width : 20, widthType : "px", height : 20, heigthType : "px"})}), alignment : lib_components_CenterAlignment.Both}),new lib_components_Button({ text : "Click me", onClick : function(e) {
+			_gthis.setState(function(e1) {
+				text += 1;
+				console.log("src/Main.hx:64:","Hello");
+			});
+			text += 1;
+			console.log("src/Main.hx:67:",text);
+		}})]})]})});
+	}
+});
+var HomePage = function() {
 };
-var HomePage = function() { };
 HomePage.__name__ = true;
-HomePage.component = function() {
-	return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heigthType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
-		lib_core_Navigate.to({ route : "/hello", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
-	}})]})});
-};
+HomePage.__super__ = lib_core_DynamicComponent;
+HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	component: function() {
+		return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heigthType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
+			lib_core_Navigate.to({ route : "/hello", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
+		}})]})});
+	}
+});
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
 	var body = new lib_core_Body();
-	lib_core_Navigate.routing([{ route : "/", component : HomePage.component()},{ route : "/hello", component : HelloPage.component()}]);
+	lib_core_Navigate.routing([{ route : "/", component : new HomePage().component()},{ route : "/hello", component : new HelloPage().component()}]);
 	body.init();
 };
 Math.__name__ = true;
@@ -410,6 +433,8 @@ lib_core_Navigate.getParams = function() {
 	}
 	return currentParams;
 };
+var lib_core_State = function() { };
+lib_core_State.__name__ = true;
 var lib_support_StyleManager = function() {
 };
 lib_support_StyleManager.__name__ = true;
