@@ -1,6 +1,5 @@
 package lib.core;
 
-import js.html.URLSearchParams;
 import js.Browser;
 import lib.support.Widget;
 

@@ -25,7 +25,7 @@ var HelloPage = function() { };
 HelloPage.__name__ = true;
 HelloPage.component = function() {
 	return new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), children : [new lib_components_Center({ child : new lib_components_Container({ style : new lib_utils_Style({ color : -65281}), size : new lib_utils_Size({ width : 20, widthType : "px", height : 20, heigthType : "px"})}), alignment : lib_components_CenterAlignment.Both}),new lib_components_Button({ text : "Click me", onClick : function(e) {
-		lib_core_Navigate.getParams();
+		lib_core_Navigate.to({ route : "/", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
 	}})]})]})});
 };
 var HomePage = function() { };
@@ -408,7 +408,6 @@ lib_core_Navigate.getParams = function() {
 		++_g;
 		currentParams.push({ param : param.split("=")[0], data : param.split("=")[1]});
 	}
-	console.log("lib/core/Navigate.hx:43:",currentParams);
 	return currentParams;
 };
 var lib_support_StyleManager = function() {

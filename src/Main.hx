@@ -47,14 +47,13 @@ class HelloPage {
                             new Button({
                                 text: "Click me",
                                 onClick: function (e) {
-                                    Navigate.getParams();
-                                    /*
+                                    
                                     Navigate.to({route: "/", param: [
                                         {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
                                         {param: "name", data: "Ludvig"},
                                         {param: "age", data: "23"}
                                     ]});
-                                    */
+                                    
                                 }
                             })
                         ]
