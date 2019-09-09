@@ -22,11 +22,11 @@ import lib.core.DynamicComponent;
 import lib.core.StaticComponent;
 
 class HelloPage extends DynamicComponent {
+    var text = 0;
     public function new() {}
 
     public function component() : Widget {
-        var text = 0;
-        return new Page({
+        page = new Page({
             route: "/hello",
             child: new Column({
                 size: new Size({
@@ -63,6 +63,7 @@ class HelloPage extends DynamicComponent {
                                     setState(function(e){
                                         text++;
                                         trace("Hello");
+                                        trace(component().render());
                                     });
                                     text++;
                                     trace(text);
@@ -73,6 +74,7 @@ class HelloPage extends DynamicComponent {
                 ]
             })
         });
+        return page;
     }
 }
 
