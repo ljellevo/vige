@@ -28,6 +28,10 @@ class HelloPage {
                 }),
                 children: [
                     new Row({
+                        size: new Size({
+                            height: 100,
+                            heigthType: "%"
+                        }),
                         children: [
                             new Text("Hello"),
                             new Button({
