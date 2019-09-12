@@ -55,10 +55,11 @@ HelloPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 			});
 		}}),new lib_components_Button({ text : "Click me: To", onClick : function(e2) {
 			_gthis.setState(_gthis,function(e3) {
+				_gthis.text++;
 				_gthis.textTo++;
-				console.log("src/Main.hx:80:","setState");
-				console.log("src/Main.hx:81:",_gthis.component().render());
-				console.log("src/Main.hx:82:",_gthis.text);
+				console.log("src/Main.hx:81:","setState");
+				console.log("src/Main.hx:82:",_gthis.component().render());
+				console.log("src/Main.hx:83:",_gthis.text);
 			});
 		}})]})]})});
 		return this.page;

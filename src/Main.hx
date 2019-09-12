@@ -76,6 +76,7 @@ class HelloPage extends DynamicComponent {
                                     */
                                     
                                     setState(this, function(e){
+                                        text++;
                                         textTo++;
                                         trace("setState");
                                         trace(component().render());
