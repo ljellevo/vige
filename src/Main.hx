@@ -17,12 +17,12 @@ import lib.components.Container;
 
 import lib.core.Body;
 import lib.core.Navigate;
-import lib.core.State;
 import lib.core.DynamicComponent;
 import lib.core.StaticComponent;
 
 class HelloPage extends DynamicComponent {
     var text = 0;
+    var textTo = 0;
     public function new() {}
 
     override public function component() : Widget {
@@ -42,16 +42,10 @@ class HelloPage extends DynamicComponent {
                             heigthType: "%"
                         }),
                         children: [
-                            new Center({
-                                child: new Container({
-                                    child: new Text(Std.string(text)),
-                                    style: new Style({color: Color.MAGENTA}),
-                                    size: new Size({width: 20, widthType: "px", height: 20, heigthType: "px"})
-                                }),
-                                alignment: CenterAlignment.Both
-                            }),
+                            new Text("Text en: " + text),
+                            new Text("Text to: " + textTo),
                             new Button({
-                                text: "Click me",
+                                text: "Click me: En",
                                 onClick: function (e) {
                                     /*
                                     Navigate.to({route: "/", param: [
@@ -63,6 +57,26 @@ class HelloPage extends DynamicComponent {
                                     
                                     setState(this, function(e){
                                         text++;
+                                        trace("setState");
+                                        trace(component().render());
+                                        trace(text);
+                                        
+                                    });
+                                }
+                            }),
+                            new Button({
+                                text: "Click me: To",
+                                onClick: function (e) {
+                                    /*
+                                    Navigate.to({route: "/", param: [
+                                        {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
+                                        {param: "name", data: "Ludvig"},
+                                        {param: "age", data: "23"}
+                                    ]});
+                                    */
+                                    
+                                    setState(this, function(e){
+                                        textTo++;
                                         trace("setState");
                                         trace(component().render());
                                         trace(text);

@@ -37,6 +37,7 @@ lib_core_DynamicComponent.prototype = {
 	}
 };
 var HelloPage = function() {
+	this.textTo = 0;
 	this.text = 0;
 	lib_core_DynamicComponent.call(this);
 };
@@ -45,12 +46,19 @@ HelloPage.__super__ = lib_core_DynamicComponent;
 HelloPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	component: function() {
 		var _gthis = this;
-		this.page = new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), children : [new lib_components_Center({ child : new lib_components_Container({ child : new lib_components_Text(Std.string(this.text)), style : new lib_utils_Style({ color : -65281}), size : new lib_utils_Size({ width : 20, widthType : "px", height : 20, heigthType : "px"})}), alignment : lib_components_CenterAlignment.Both}),new lib_components_Button({ text : "Click me", onClick : function(e) {
+		this.page = new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), children : [new lib_components_Text("Text en: " + this.text),new lib_components_Text("Text to: " + this.textTo),new lib_components_Button({ text : "Click me: En", onClick : function(e) {
 			_gthis.setState(_gthis,function(e1) {
 				_gthis.text++;
-				console.log("src/Main.hx:66:","setState");
-				console.log("src/Main.hx:67:",_gthis.component().render());
-				console.log("src/Main.hx:68:",_gthis.text);
+				console.log("src/Main.hx:60:","setState");
+				console.log("src/Main.hx:61:",_gthis.component().render());
+				console.log("src/Main.hx:62:",_gthis.text);
+			});
+		}}),new lib_components_Button({ text : "Click me: To", onClick : function(e2) {
+			_gthis.setState(_gthis,function(e3) {
+				_gthis.textTo++;
+				console.log("src/Main.hx:80:","setState");
+				console.log("src/Main.hx:81:",_gthis.component().render());
+				console.log("src/Main.hx:82:",_gthis.text);
 			});
 		}})]})]})});
 		return this.page;
@@ -450,8 +458,6 @@ lib_core_Navigate.getParams = function() {
 	}
 	return currentParams;
 };
-var lib_core_State = function() { };
-lib_core_State.__name__ = true;
 var lib_support_StyleManager = function() {
 };
 lib_support_StyleManager.__name__ = true;
