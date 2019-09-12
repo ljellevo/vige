@@ -139,7 +139,14 @@ class Main {
             {route: "/hello", component: new HelloPage().component()}
         ];
         Navigate.to({route: Browser.location.pathname});
-        trace("Main");
+
+
+        //Need to move to a different class
+        Browser.window.addEventListener('popstate', function(e) {
+
+            //Browser.window.history.pushState(null, null, Browser.window.location.pathname);
+            Navigate.back();
+        });
 
         body.init();
     }

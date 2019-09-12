@@ -66,7 +66,9 @@ Main.main = function() {
 	var body = new lib_core_Body();
 	lib_core_Navigate.routes = [{ route : "/", component : new HomePage().component()},{ route : "/hello", component : new HelloPage().component()}];
 	lib_core_Navigate.to({ route : window.location.pathname});
-	console.log("src/Main.hx:142:","Main");
+	window.addEventListener("popstate",function(e) {
+		lib_core_Navigate.back();
+	});
 	body.init();
 };
 Math.__name__ = true;
@@ -411,9 +413,9 @@ lib_core_Navigate.to = function(arg) {
 		}
 	}
 	window.history.pushState(null,"Index",arg.route);
-	lib_core_Navigate.setComponent();
+	lib_core_Navigate.setComponent(true);
 };
-lib_core_Navigate.setComponent = function() {
+lib_core_Navigate.setComponent = function(newHistoryElement) {
 	var currentURL = window.location.pathname;
 	if(window.document.querySelector("#page") != null) {
 		window.document.querySelector("#page").remove();
@@ -424,9 +426,23 @@ lib_core_Navigate.setComponent = function() {
 		var route = _g1[_g];
 		++_g;
 		if(route.route == currentURL) {
-			window.document.body.appendChild(route.component.render());
+			if(newHistoryElement == true) {
+				window.document.body.appendChild(route.component.render());
+				lib_core_Navigate.history.push(route.component.render());
+				lib_core_Navigate.historyIndex = lib_core_Navigate.history.length - 1;
+			} else {
+				if(lib_core_Navigate.historyIndex < 0) {
+					window.history.back();
+				}
+				window.document.body.appendChild(lib_core_Navigate.history[lib_core_Navigate.historyIndex]);
+			}
 		}
 	}
+	console.log("lib/core/Navigate.hx:54:",lib_core_Navigate.history);
+};
+lib_core_Navigate.back = function() {
+	lib_core_Navigate.historyIndex--;
+	lib_core_Navigate.setComponent(false);
 };
 lib_core_Navigate.updateComponent = function(component) {
 	if(window.document.querySelector("#page") != null) {
@@ -587,6 +603,8 @@ Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function()
 }});
 js_Boot.__toStr = ({ }).toString;
 lib_core_Navigate.routes = [];
+lib_core_Navigate.history = [];
+lib_core_Navigate.historyIndex = 0;
 lib_utils__$Color_Color_$Impl_$.TRANSPARENT = 0;
 lib_utils__$Color_Color_$Impl_$.BLACK = -16777216;
 lib_utils__$Color_Color_$Impl_$.WHITE = -1;

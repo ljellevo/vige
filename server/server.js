@@ -4,10 +4,11 @@ var path = require('path');
 app.use(express.json());
 app.use(express.static('bin'));
 
-
+/*
 app.get('*', function(req, res){
   res.sendFile(path.join(__dirname, '../bin/index.html'));
 });
+*/
 
  
 
