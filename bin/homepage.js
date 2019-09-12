@@ -26,11 +26,11 @@ var lib_core_DynamicComponent = function() {
 };
 lib_core_DynamicComponent.__name__ = true;
 lib_core_DynamicComponent.prototype = {
-	setState: function(comp,callback) {
+	setState: function(component,callback) {
 		var oldComponent = this.page.render();
 		callback();
-		var newComponent = comp.component().render();
-		lib_core_Navigate.replaceTo(comp.component().render());
+		var newComponent = component.component().render();
+		lib_core_Navigate.replaceTo(component.component().render());
 	}
 	,component: function() {
 		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
@@ -49,18 +49,14 @@ HelloPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		this.page = new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), children : [new lib_components_Text("Text en: " + this.text),new lib_components_Text("Text to: " + this.textTo),new lib_components_Button({ text : "Click me: En", onClick : function(e) {
 			_gthis.setState(_gthis,function(e1) {
 				_gthis.text++;
-				console.log("src/Main.hx:60:","setState");
-				console.log("src/Main.hx:61:",_gthis.component().render());
-				console.log("src/Main.hx:62:",_gthis.text);
 			});
 		}}),new lib_components_Button({ text : "Click me: To", onClick : function(e2) {
 			_gthis.setState(_gthis,function(e3) {
 				_gthis.text++;
 				_gthis.textTo++;
-				console.log("src/Main.hx:81:","setState");
-				console.log("src/Main.hx:82:",_gthis.component().render());
-				console.log("src/Main.hx:83:",_gthis.text);
 			});
+		}}),new lib_components_Button({ text : "Navigate", onClick : function(e4) {
+			lib_core_Navigate.to({ route : "/", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
 		}})]})]})});
 		return this.page;
 	}
@@ -430,6 +426,7 @@ lib_core_Navigate.replaceTo = function(widget) {
 	if(window.document.querySelector("#page") != null) {
 		window.document.querySelector("#page").remove();
 	}
+	var currentURL = window.location.pathname;
 	window.document.body.appendChild(widget);
 };
 lib_core_Navigate.to = function(arg) {

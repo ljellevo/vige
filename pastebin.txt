@@ -1,0 +1,13 @@
+history: [
+    {route: "/", component: Node},
+
+]
+
+history: {
+    "/": [
+        component: Node
+    ],
+    "/hello": [
+        component: Node
+    ]
+}

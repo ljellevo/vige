@@ -47,42 +47,32 @@ class HelloPage extends DynamicComponent {
                             new Button({
                                 text: "Click me: En",
                                 onClick: function (e) {
-                                    /*
-                                    Navigate.to({route: "/", param: [
-                                        {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
-                                        {param: "name", data: "Ludvig"},
-                                        {param: "age", data: "23"}
-                                    ]});
-                                    */
-                                    
+                        
                                     setState(this, function(e){
                                         text++;
-                                        trace("setState");
-                                        trace(component().render());
-                                        trace(text);
-                                        
                                     });
                                 }
                             }),
                             new Button({
                                 text: "Click me: To",
                                 onClick: function (e) {
-                                    /*
+                                    
+                                    setState(this, function(e){
+                                        text++;
+                                        textTo++;
+                                    });
+                                }
+                            }),
+                            new Button({
+                                text: "Navigate",
+                                onClick: function (e) {
+                                    
                                     Navigate.to({route: "/", param: [
                                         {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
                                         {param: "name", data: "Ludvig"},
                                         {param: "age", data: "23"}
                                     ]});
-                                    */
                                     
-                                    setState(this, function(e){
-                                        text++;
-                                        textTo++;
-                                        trace("setState");
-                                        trace(component().render());
-                                        trace(text);
-                                        
-                                    });
                                 }
                             })
                         ]

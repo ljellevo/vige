@@ -6,11 +6,11 @@ import lib.components.Text;
 class DynamicComponent {
     var page: Page = null;
 
-    public function setState(comp: DynamicComponent, callback: haxe.Constraints.Function) {
+    public function setState(component: DynamicComponent, callback: haxe.Constraints.Function) {
         var oldComponent = page.render();
         callback();
-        var newComponent = comp.component().render();
-        Navigate.replaceTo(comp.component().render());
+        var newComponent = component.component().render();
+        Navigate.replaceTo(component.component().render());
         
         // Need to compare both components and identify the changes
         

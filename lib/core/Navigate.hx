@@ -1,5 +1,6 @@
 package lib.core;
 
+import js.html.History;
 import js.Browser;
 import lib.support.Widget;
 
@@ -13,7 +14,10 @@ class Navigate {
             Browser.document.querySelector("#page").remove();
         }
 
+
+
         for(route in routes) {
+
             if (route.route == currentURL) {
                 Browser.document.body.appendChild(route.component.render());
             }
@@ -25,6 +29,8 @@ class Navigate {
             Browser.document.querySelector("#page").remove();
         }
 
+        var currentURL = Browser.location.pathname;
+        
         Browser.document.body.appendChild(widget);
     }
 
@@ -48,6 +54,5 @@ class Navigate {
             currentParams.push({param: param.split("=")[0] , data: param.split("=")[1]});
         }
         return currentParams;
-
     }
 }
