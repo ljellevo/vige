@@ -20,6 +20,14 @@ class Navigate {
         }
     }
 
+    public static function replaceTo(widget: js.html.Node) {
+        if (Browser.document.querySelector("#page") != null) {
+            Browser.document.querySelector("#page").remove();
+        }
+
+        Browser.document.body.appendChild(widget);
+    }
+
     public static function to(arg: {route: String, ?param: Array<{param: String, data: String}>}) {
         var url = arg.route;
         if (arg.param != null && arg.param.length > 0) {

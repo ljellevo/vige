@@ -25,7 +25,7 @@ class HelloPage extends DynamicComponent {
     var text = 0;
     public function new() {}
 
-    public function component() : Widget {
+    override public function component() : Widget {
         page = new Page({
             route: "/hello",
             child: new Column({
@@ -60,13 +60,14 @@ class HelloPage extends DynamicComponent {
                                         {param: "age", data: "23"}
                                     ]});
                                     */
-                                    setState(function(e){
+                                    
+                                    setState(this, function(e){
                                         text++;
-                                        trace("Hello");
+                                        trace("setState");
                                         trace(component().render());
+                                        trace(text);
+                                        
                                     });
-                                    text++;
-                                    trace(text);
                                 }
                             })
                         ]

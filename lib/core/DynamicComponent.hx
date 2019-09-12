@@ -1,14 +1,24 @@
 package lib.core;
 import lib.components.Page;
+import lib.support.Widget;
+import lib.components.Text;
 
 class DynamicComponent {
     var page: Page = null;
 
-    public function setState(callback: haxe.Constraints.Function) {
-        trace(page.render());
-        trace("SetState Called");
+    public function setState(comp: DynamicComponent, callback: haxe.Constraints.Function) {
+        var oldComponent = page.render();
         callback();
-        component.
+        var newComponent = comp.component().render();
+        Navigate.replaceTo(comp.component().render());
+        
+        // Need to compare both components and identify the changes
+        
+    }
+
+    public function component(): Widget{
+
+        return new Page({route: "/", child: new Text("Component function not overwritten")});
     }
     
 }
