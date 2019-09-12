@@ -5,16 +5,19 @@ import js.Browser;
 import lib.support.Widget;
 
 class Navigate {
+    
 
     public function new() { }
 
-    public static function routing(routes: Array<{route: String, component: Widget}>) {
+
+    /**
+    Replaces current body element with new element corresponding to url location
+    **/
+    public static function setRoutes(routes: Array<{route: String, component: Widget}>) {
         var currentURL = Browser.location.pathname;
         if (Browser.document.querySelector("#page") != null) {
             Browser.document.querySelector("#page").remove();
         }
-
-
 
         for(route in routes) {
 
@@ -30,7 +33,6 @@ class Navigate {
         }
 
         var currentURL = Browser.location.pathname;
-        
         Browser.document.body.appendChild(widget);
     }
 
@@ -44,7 +46,8 @@ class Navigate {
                 url += arg.param[i].param + "=" + arg.param[i].data;
             }
         }
-        Browser.location.href = url;   
+        //Browser.window.history.pushState(null, "Index", "/");
+        //Browser.location.href = url;   
     }
 
     public static function getParams(){

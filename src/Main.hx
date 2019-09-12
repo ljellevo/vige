@@ -134,13 +134,11 @@ class Main {
     static function main() {
         var body = new Body();
 
-        Navigate.routing([
+        Navigate.setRoutes([
             {route: "/", component: new HomePage().component()},
             {route: "/hello", component: new HelloPage().component()}
         ]);
 
         body.init();
     }
-
-   
 }

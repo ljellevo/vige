@@ -1,4 +1,5 @@
 package lib.core;
+import js.Browser;
 import lib.components.Page;
 import lib.support.Widget;
 import lib.components.Text;

@@ -94,6 +94,25 @@ Std.parseInt = function(x) {
 	}
 	return v;
 };
+var haxe_ds_StringMap = function() {
+	this.h = { };
+};
+haxe_ds_StringMap.__name__ = true;
+haxe_ds_StringMap.prototype = {
+	setReserved: function(key,value) {
+		if(this.rh == null) {
+			this.rh = { };
+		}
+		this.rh["$" + key] = value;
+	}
+	,getReserved: function(key) {
+		if(this.rh == null) {
+			return null;
+		} else {
+			return this.rh["$" + key];
+		}
+	}
+};
 var js__$Boot_HaxeError = function(val) {
 	Error.call(this);
 	this.val = val;
@@ -413,6 +432,9 @@ lib_core_Navigate.routing = function(routes) {
 	if(window.document.querySelector("#page") != null) {
 		window.document.querySelector("#page").remove();
 	}
+	if(lib_core_Navigate.init) {
+		lib_core_Navigate.setHistory(routes);
+	}
 	var _g = 0;
 	while(_g < routes.length) {
 		var route = routes[_g];
@@ -422,11 +444,30 @@ lib_core_Navigate.routing = function(routes) {
 		}
 	}
 };
+lib_core_Navigate.setHistory = function(routes) {
+	console.log("lib/core/Navigate.hx:33:","Init history");
+	var _g = 0;
+	while(_g < routes.length) {
+		var route = routes[_g];
+		++_g;
+		var key = route.route;
+		var _this = lib_core_Navigate.history;
+		var value = [];
+		if(__map_reserved[key] != null) {
+			_this.setReserved(key,value);
+		} else {
+			_this.h[key] = value;
+		}
+	}
+	lib_core_Navigate.init = false;
+};
 lib_core_Navigate.replaceTo = function(widget) {
 	if(window.document.querySelector("#page") != null) {
 		window.document.querySelector("#page").remove();
 	}
 	var currentURL = window.location.pathname;
+	var _this = lib_core_Navigate.history;
+	(__map_reserved[currentURL] != null ? _this.getReserved(currentURL) : _this.h[currentURL]).push(widget);
 	window.document.body.appendChild(widget);
 };
 lib_core_Navigate.to = function(arg) {
@@ -443,7 +484,7 @@ lib_core_Navigate.to = function(arg) {
 			url += arg.param[i].param + "=" + arg.param[i].data;
 		}
 	}
-	window.location.href = url;
+	window.history.pushState(null,"Index","/");
 };
 lib_core_Navigate.getParams = function() {
 	var params = HxOverrides.substr(window.location.search,1,null).split("&");
@@ -603,10 +644,13 @@ lib_utils_Style.prototype = {
 };
 String.__name__ = true;
 Array.__name__ = true;
+var __map_reserved = {};
 Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function() {
 	return String(this.val);
 }});
 js_Boot.__toStr = ({ }).toString;
+lib_core_Navigate.history = new haxe_ds_StringMap();
+lib_core_Navigate.init = true;
 lib_utils__$Color_Color_$Impl_$.TRANSPARENT = 0;
 lib_utils__$Color_Color_$Impl_$.BLACK = -16777216;
 lib_utils__$Color_Color_$Impl_$.WHITE = -1;
