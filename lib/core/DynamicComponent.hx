@@ -11,7 +11,7 @@ class DynamicComponent {
         var oldComponent = page.render();
         callback();
         var newComponent = component.component().render();
-        Navigate.replaceTo(component.component().render());
+        Navigate.updateComponent(component.component().render());
         
         // Need to compare both components and identify the changes
         

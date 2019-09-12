@@ -6,13 +6,53 @@ import lib.support.Widget;
 
 class Navigate {
     
+    public static var routes: Array<{route: String, component: Widget}> = [];
 
     public function new() { }
 
+    public static function to(arg: {route: String, ?param: Array<{param: String, data: String}>}) {
+        var url = arg.route;
+        if (arg.param != null && arg.param.length > 0) {
+            url += "?";
 
-    /**
-    Replaces current body element with new element corresponding to url location
-    **/
+            for(i in 0...arg.param.length){
+                if(i != 0) url += "&";
+                url += arg.param[i].param + "=" + arg.param[i].data;
+            }
+        }
+        Browser.window.history.pushState(null, "Index", arg.route);
+        //Browser.location.href = url; 
+
+        setComponent(); 
+
+    }
+
+    static function setComponent() {
+        var currentURL = Browser.location.pathname;
+        if (Browser.document.querySelector("#page") != null) {
+            Browser.document.querySelector("#page").remove();
+        }
+
+        for(route in routes) {
+            if (route.route == currentURL) {
+                Browser.document.body.appendChild(route.component.render());
+            }
+        }
+    }
+
+    public static function updateComponent(component: js.html.Node) {
+        if (Browser.document.querySelector("#page") != null) {
+            Browser.document.querySelector("#page").remove();
+        }
+
+        //Add to history when component changes
+
+        var currentURL = Browser.location.pathname;
+        Browser.document.body.appendChild(component);
+    }
+
+
+/*
     public static function setRoutes(routes: Array<{route: String, component: Widget}>) {
         var currentURL = Browser.location.pathname;
         if (Browser.document.querySelector("#page") != null) {
@@ -58,4 +98,5 @@ class Navigate {
         }
         return currentParams;
     }
+    */
 }

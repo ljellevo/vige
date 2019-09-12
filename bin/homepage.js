@@ -7,20 +7,6 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
-var HxOverrides = function() { };
-HxOverrides.__name__ = true;
-HxOverrides.substr = function(s,pos,len) {
-	if(len == null) {
-		len = s.length;
-	} else if(len < 0) {
-		if(pos == 0) {
-			len = s.length + len;
-		} else {
-			return "";
-		}
-	}
-	return s.substr(pos,len);
-};
 var lib_core_DynamicComponent = function() {
 	this.page = null;
 };
@@ -30,7 +16,7 @@ lib_core_DynamicComponent.prototype = {
 		var oldComponent = this.page.render();
 		callback();
 		var newComponent = component.component().render();
-		lib_core_Navigate.replaceTo(component.component().render());
+		lib_core_Navigate.updateComponent(component.component().render());
 	}
 	,component: function() {
 		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
@@ -78,7 +64,9 @@ var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
 	var body = new lib_core_Body();
-	lib_core_Navigate.routing([{ route : "/", component : new HomePage().component()},{ route : "/hello", component : new HelloPage().component()}]);
+	lib_core_Navigate.routes = [{ route : "/", component : new HomePage().component()},{ route : "/hello", component : new HelloPage().component()}];
+	lib_core_Navigate.to({ route : window.location.pathname});
+	console.log("src/Main.hx:142:","Main");
 	body.init();
 };
 Math.__name__ = true;
@@ -93,25 +81,6 @@ Std.parseInt = function(x) {
 		return null;
 	}
 	return v;
-};
-var haxe_ds_StringMap = function() {
-	this.h = { };
-};
-haxe_ds_StringMap.__name__ = true;
-haxe_ds_StringMap.prototype = {
-	setReserved: function(key,value) {
-		if(this.rh == null) {
-			this.rh = { };
-		}
-		this.rh["$" + key] = value;
-	}
-	,getReserved: function(key) {
-		if(this.rh == null) {
-			return null;
-		} else {
-			return this.rh["$" + key];
-		}
-	}
 };
 var js__$Boot_HaxeError = function(val) {
 	Error.call(this);
@@ -427,49 +396,6 @@ lib_core_Body.prototype = {
 var lib_core_Navigate = function() {
 };
 lib_core_Navigate.__name__ = true;
-lib_core_Navigate.routing = function(routes) {
-	var currentURL = window.location.pathname;
-	if(window.document.querySelector("#page") != null) {
-		window.document.querySelector("#page").remove();
-	}
-	if(lib_core_Navigate.init) {
-		lib_core_Navigate.setHistory(routes);
-	}
-	var _g = 0;
-	while(_g < routes.length) {
-		var route = routes[_g];
-		++_g;
-		if(route.route == currentURL) {
-			window.document.body.appendChild(route.component.render());
-		}
-	}
-};
-lib_core_Navigate.setHistory = function(routes) {
-	console.log("lib/core/Navigate.hx:33:","Init history");
-	var _g = 0;
-	while(_g < routes.length) {
-		var route = routes[_g];
-		++_g;
-		var key = route.route;
-		var _this = lib_core_Navigate.history;
-		var value = [];
-		if(__map_reserved[key] != null) {
-			_this.setReserved(key,value);
-		} else {
-			_this.h[key] = value;
-		}
-	}
-	lib_core_Navigate.init = false;
-};
-lib_core_Navigate.replaceTo = function(widget) {
-	if(window.document.querySelector("#page") != null) {
-		window.document.querySelector("#page").remove();
-	}
-	var currentURL = window.location.pathname;
-	var _this = lib_core_Navigate.history;
-	(__map_reserved[currentURL] != null ? _this.getReserved(currentURL) : _this.h[currentURL]).push(widget);
-	window.document.body.appendChild(widget);
-};
 lib_core_Navigate.to = function(arg) {
 	var url = arg.route;
 	if(arg.param != null && arg.param.length > 0) {
@@ -484,18 +410,30 @@ lib_core_Navigate.to = function(arg) {
 			url += arg.param[i].param + "=" + arg.param[i].data;
 		}
 	}
-	window.history.pushState(null,"Index","/");
+	window.history.pushState(null,"Index",arg.route);
+	lib_core_Navigate.setComponent();
 };
-lib_core_Navigate.getParams = function() {
-	var params = HxOverrides.substr(window.location.search,1,null).split("&");
-	var currentParams = [];
-	var _g = 0;
-	while(_g < params.length) {
-		var param = params[_g];
-		++_g;
-		currentParams.push({ param : param.split("=")[0], data : param.split("=")[1]});
+lib_core_Navigate.setComponent = function() {
+	var currentURL = window.location.pathname;
+	if(window.document.querySelector("#page") != null) {
+		window.document.querySelector("#page").remove();
 	}
-	return currentParams;
+	var _g = 0;
+	var _g1 = lib_core_Navigate.routes;
+	while(_g < _g1.length) {
+		var route = _g1[_g];
+		++_g;
+		if(route.route == currentURL) {
+			window.document.body.appendChild(route.component.render());
+		}
+	}
+};
+lib_core_Navigate.updateComponent = function(component) {
+	if(window.document.querySelector("#page") != null) {
+		window.document.querySelector("#page").remove();
+	}
+	var currentURL = window.location.pathname;
+	window.document.body.appendChild(component);
 };
 var lib_support_StyleManager = function() {
 };
@@ -644,13 +582,11 @@ lib_utils_Style.prototype = {
 };
 String.__name__ = true;
 Array.__name__ = true;
-var __map_reserved = {};
 Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function() {
 	return String(this.val);
 }});
 js_Boot.__toStr = ({ }).toString;
-lib_core_Navigate.history = new haxe_ds_StringMap();
-lib_core_Navigate.init = true;
+lib_core_Navigate.routes = [];
 lib_utils__$Color_Color_$Impl_$.TRANSPARENT = 0;
 lib_utils__$Color_Color_$Impl_$.BLACK = -16777216;
 lib_utils__$Color_Color_$Impl_$.WHITE = -1;
