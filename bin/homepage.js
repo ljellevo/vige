@@ -429,11 +429,11 @@ lib_core_Navigate.setComponent = function(newHistoryElement) {
 			if(newHistoryElement == true) {
 				window.document.body.appendChild(route.component.render());
 				lib_core_Navigate.history.push(route.component.render());
+				console.log("lib/core/Navigate.hx:42:","New page on history stack");
 				lib_core_Navigate.historyIndex = lib_core_Navigate.history.length - 1;
+			} else if(lib_core_Navigate.historyIndex < 0) {
+				window.history.back();
 			} else {
-				if(lib_core_Navigate.historyIndex < 0) {
-					window.history.back();
-				}
 				window.document.body.appendChild(lib_core_Navigate.history[lib_core_Navigate.historyIndex]);
 			}
 		}

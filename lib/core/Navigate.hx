@@ -24,9 +24,7 @@ class Navigate {
         }
         Browser.window.history.pushState(null, "Index", arg.route);
         //Browser.location.href = url; 
-
         setComponent(true); 
-
     }
 
     static function setComponent(newHistoryElement: Bool) {
@@ -41,13 +39,15 @@ class Navigate {
                 if (newHistoryElement == true) {
                     Browser.document.body.appendChild(route.component.render());
                     history.push(route.component.render());
+                    trace("New page on history stack");
                     historyIndex = history.length - 1;
                 } else {
                     if(historyIndex < 0) {
-                        
                         Browser.window.history.back();
+                    } else {
+                        Browser.document.body.appendChild(history[historyIndex]);
                     }
-                    Browser.document.body.appendChild(history[historyIndex]);
+                    
                 }
             }
         }
@@ -55,7 +55,6 @@ class Navigate {
     }
 
     public static function back() {
-        //history.pop();
         historyIndex--;
         setComponent(false);
     }
