@@ -23,8 +23,7 @@ class Navigate {
                 url += arg.param[i].param + "=" + arg.param[i].data;
             }
         }
-        if (arg.main) {
-        } else {
+        if (!arg.main) {
             Browser.window.history.pushState(null, "Index", arg.route);
         }
         
