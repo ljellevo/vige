@@ -65,7 +65,7 @@ Main.__name__ = true;
 Main.main = function() {
 	var body = new lib_core_Body();
 	lib_core_Navigate.routes = [{ route : "/", component : new HomePage().component()},{ route : "/hello", component : new HelloPage().component()}];
-	lib_core_Navigate.to({ route : window.location.pathname});
+	lib_core_Navigate.to({ route : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
 		lib_core_Navigate.back();
 	});
@@ -415,9 +415,7 @@ lib_core_Navigate.to = function(arg) {
 			url += arg.param[i].param + "=" + arg.param[i].data;
 		}
 	}
-	if(arg.main) {
-		window.history.go();
-	} else {
+	if(!arg.main) {
 		window.history.pushState(null,"Index",arg.route);
 	}
 	lib_core_Navigate.setComponent(true);
@@ -437,7 +435,7 @@ lib_core_Navigate.setComponent = function(newHistoryElement) {
 			return;
 		}
 	}
-	console.log("lib/core/Navigate.hx:65:",lib_core_Navigate.history);
+	console.log("lib/core/Navigate.hx:64:",lib_core_Navigate.history);
 };
 lib_core_Navigate.back = function() {
 	lib_core_Navigate.historyIndex--;

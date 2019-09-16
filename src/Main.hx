@@ -138,7 +138,7 @@ class Main {
             {route: "/", component: new HomePage().component()},
             {route: "/hello", component: new HelloPage().component()}
         ];
-        Navigate.to({route: Browser.location.pathname});
+        Navigate.to({route: Browser.location.pathname, main: true});
 
 
         //Need to move to a different class

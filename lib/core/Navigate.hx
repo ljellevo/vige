@@ -24,7 +24,6 @@ class Navigate {
             }
         }
         if (arg.main) {
-            Browser.window.history.go();
         } else {
             Browser.window.history.pushState(null, "Index", arg.route);
         }
