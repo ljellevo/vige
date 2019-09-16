@@ -400,6 +400,9 @@ var lib_core_Navigate = function() {
 lib_core_Navigate.__name__ = true;
 lib_core_Navigate.to = function(arg) {
 	var url = arg.route;
+	if(arg.main == null) {
+		arg.main = false;
+	}
 	if(arg.param != null && arg.param.length > 0) {
 		url += "?";
 		var _g = 0;
@@ -412,7 +415,11 @@ lib_core_Navigate.to = function(arg) {
 			url += arg.param[i].param + "=" + arg.param[i].data;
 		}
 	}
-	window.history.pushState(null,"Index",arg.route);
+	if(arg.main) {
+		window.history.go();
+	} else {
+		window.history.pushState(null,"Index",arg.route);
+	}
 	lib_core_Navigate.setComponent(true);
 };
 lib_core_Navigate.setComponent = function(newHistoryElement) {
@@ -426,19 +433,11 @@ lib_core_Navigate.setComponent = function(newHistoryElement) {
 		var route = _g1[_g];
 		++_g;
 		if(route.route == currentURL) {
-			if(newHistoryElement == true) {
-				window.document.body.appendChild(route.component.render());
-				lib_core_Navigate.history.push(route.component.render());
-				console.log("lib/core/Navigate.hx:42:","New page on history stack");
-				lib_core_Navigate.historyIndex = lib_core_Navigate.history.length - 1;
-			} else if(lib_core_Navigate.historyIndex < 0) {
-				window.history.back();
-			} else {
-				window.document.body.appendChild(lib_core_Navigate.history[lib_core_Navigate.historyIndex]);
-			}
+			window.document.body.appendChild(route.component.render());
+			return;
 		}
 	}
-	console.log("lib/core/Navigate.hx:54:",lib_core_Navigate.history);
+	console.log("lib/core/Navigate.hx:65:",lib_core_Navigate.history);
 };
 lib_core_Navigate.back = function() {
 	lib_core_Navigate.historyIndex--;

@@ -12,8 +12,9 @@ class Navigate {
 
     public function new() { }
 
-    public static function to(arg: {route: String, ?param: Array<{param: String, data: String}>}) {
+    public static function to(arg: {route: String, ?param: Array<{param: String, data: String}>, ?main: Bool}) {
         var url = arg.route;
+        if (arg.main == null) arg.main = false;
         if (arg.param != null && arg.param.length > 0) {
             url += "?";
 
@@ -22,7 +23,13 @@ class Navigate {
                 url += arg.param[i].param + "=" + arg.param[i].data;
             }
         }
-        Browser.window.history.pushState(null, "Index", arg.route);
+        if (arg.main) {
+            Browser.window.history.go();
+        } else {
+            Browser.window.history.pushState(null, "Index", arg.route);
+        }
+        
+
         //Browser.location.href = url; 
         setComponent(true); 
     }
@@ -35,7 +42,7 @@ class Navigate {
 
         for(route in routes) {
             if (route.route == currentURL) {
-                
+                /*
                 if (newHistoryElement == true) {
                     Browser.document.body.appendChild(route.component.render());
                     history.push(route.component.render());
@@ -43,12 +50,16 @@ class Navigate {
                     historyIndex = history.length - 1;
                 } else {
                     if(historyIndex < 0) {
-                        Browser.window.history.back();
+                        Browser.window.history.go(-1);
                     } else {
                         Browser.document.body.appendChild(history[historyIndex]);
                     }
                     
                 }
+                */
+                Browser.document.body.appendChild(route.component.render());
+                return;
+                
             }
         }
         trace(history);
