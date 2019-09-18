@@ -67,7 +67,7 @@ Main.main = function() {
 	lib_core_Navigate.routes = [{ route : "/", component : new HomePage().component()},{ route : "/hello", component : new HelloPage().component()}];
 	lib_core_Navigate.to({ route : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
-		lib_core_Navigate.back();
+		lib_core_Navigate.navigationEvent();
 	});
 	body.init();
 };
@@ -395,6 +395,19 @@ lib_core_Body.prototype = {
 		window.document.body.appendChild(widget);
 	}
 };
+var lib_core_HistoryComponent = function(component,index) {
+	this.component = component;
+	this.index = index;
+};
+lib_core_HistoryComponent.__name__ = true;
+lib_core_HistoryComponent.prototype = {
+	getComponent: function() {
+		return this.component;
+	}
+	,setComponent: function(newComponent) {
+		this.component = newComponent;
+	}
+};
 var lib_core_Navigate = function() {
 };
 lib_core_Navigate.__name__ = true;
@@ -431,11 +444,23 @@ lib_core_Navigate.setComponent = function(newHistoryElement) {
 		var route = _g1[_g];
 		++_g;
 		if(route.route == currentURL) {
-			window.document.body.appendChild(route.component.render());
+			if(newHistoryElement) {
+				lib_core_Navigate.history.push(new lib_core_HistoryComponent(route.component.render(),lib_core_Navigate.historyIndex));
+				lib_core_Navigate.historyIndex++;
+			} else {
+				console.log("lib/core/Navigate.hx:77:",lib_core_Navigate.history[lib_core_Navigate.historyIndex]);
+				window.document.body.appendChild(lib_core_Navigate.history[lib_core_Navigate.historyIndex].getComponent());
+			}
 			return;
 		}
 	}
-	console.log("lib/core/Navigate.hx:64:",lib_core_Navigate.history);
+};
+lib_core_Navigate.navigationEvent = function() {
+	lib_core_Navigate.back();
+};
+lib_core_Navigate.forward = function() {
+	lib_core_Navigate.historyIndex++;
+	lib_core_Navigate.setComponent(false);
 };
 lib_core_Navigate.back = function() {
 	lib_core_Navigate.historyIndex--;

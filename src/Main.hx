@@ -143,9 +143,8 @@ class Main {
 
         //Need to move to a different class
         Browser.window.addEventListener('popstate', function(e) {
-
             //Browser.window.history.pushState(null, null, Browser.window.location.pathname);
-            Navigate.back();
+            Navigate.navigationEvent();
         });
 
         body.init();
