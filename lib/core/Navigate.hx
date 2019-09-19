@@ -28,7 +28,7 @@ class Navigate {
     
     public static var routes: Array<{route: String, component: Widget}> = [];
     static var history: Array<HistoryComponent> = [];
-    static var historyIndex: Int = 0;
+    static var historyIndex: Int = -1;
 
     public function new() { }
 
@@ -66,21 +66,16 @@ class Navigate {
                 //Set component from history if that is applicable. If 
                 //user navigates forward from this component then update the component on the stack.
 
-                if(newHistoryElement) {
-                    //Add to end of stack and update history index
-                    
+                if(newHistoryElement) {                    
                     history.push(new HistoryComponent(route.component.render(), historyIndex));
+                    Browser.document.body.appendChild(route.component.render());
                     historyIndex++;
 
                 } else {
-                    //Return component from history stack based on history index
-                    trace(history[historyIndex]);
+                    trace(historyIndex);
+                    trace(history.length);
                     Browser.document.body.appendChild(history[historyIndex].getComponent());
                 }
-
-
-
-
 
                 return;
             }
@@ -91,10 +86,8 @@ class Navigate {
     TODO: Implement this feature:
         Figures out if user navigates forwards or backwards when using browser navigation buttons
     **/
-    public static function navigationEvent() {
-
+    public static function navigationEvent() {        
         back();
-
     }
 
     static function forward() {
@@ -114,5 +107,6 @@ class Navigate {
 
         var currentURL = Browser.location.pathname;
         Browser.document.body.appendChild(component);
+        history[historyIndex].setComponent(component);
     }
 }

@@ -446,9 +446,11 @@ lib_core_Navigate.setComponent = function(newHistoryElement) {
 		if(route.route == currentURL) {
 			if(newHistoryElement) {
 				lib_core_Navigate.history.push(new lib_core_HistoryComponent(route.component.render(),lib_core_Navigate.historyIndex));
+				window.document.body.appendChild(route.component.render());
 				lib_core_Navigate.historyIndex++;
 			} else {
-				console.log("lib/core/Navigate.hx:77:",lib_core_Navigate.history[lib_core_Navigate.historyIndex]);
+				console.log("lib/core/Navigate.hx:75:",lib_core_Navigate.historyIndex);
+				console.log("lib/core/Navigate.hx:76:",lib_core_Navigate.history.length);
 				window.document.body.appendChild(lib_core_Navigate.history[lib_core_Navigate.historyIndex].getComponent());
 			}
 			return;
@@ -463,6 +465,7 @@ lib_core_Navigate.forward = function() {
 	lib_core_Navigate.setComponent(false);
 };
 lib_core_Navigate.back = function() {
+	console.log("lib/core/Navigate.hx:101:",lib_core_Navigate.historyIndex);
 	lib_core_Navigate.historyIndex--;
 	lib_core_Navigate.setComponent(false);
 };
@@ -472,6 +475,7 @@ lib_core_Navigate.updateComponent = function(component) {
 	}
 	var currentURL = window.location.pathname;
 	window.document.body.appendChild(component);
+	lib_core_Navigate.history[lib_core_Navigate.historyIndex].setComponent(component);
 };
 var lib_support_StyleManager = function() {
 };
@@ -626,7 +630,7 @@ Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function()
 js_Boot.__toStr = ({ }).toString;
 lib_core_Navigate.routes = [];
 lib_core_Navigate.history = [];
-lib_core_Navigate.historyIndex = 0;
+lib_core_Navigate.historyIndex = -1;
 lib_utils__$Color_Color_$Impl_$.TRANSPARENT = 0;
 lib_utils__$Color_Color_$Impl_$.BLACK = -16777216;
 lib_utils__$Color_Color_$Impl_$.WHITE = -1;
