@@ -1,5 +1,6 @@
 package lib.core;
 
+import js.html.Storage;
 import js.html.History;
 import js.Browser;
 import lib.support.Widget;
@@ -29,8 +30,15 @@ class Navigate {
     public static var routes: Array<{route: String, component: Widget}> = [];
     static var history: Array<HistoryComponent> = [];
     static var historyIndex: Int = -1;
+    static var storage: Storage = null;
+    
 
     public function new() { }
+
+    public static function init() {
+        storage = Browser.getSessionStorage();
+        storage.setItem("positionLastShown", Std.string(0));
+    }
 
     public static function to(arg: {route: String, ?param: Array<{param: String, data: String}>, ?main: Bool}) {
         var url = arg.route;
@@ -72,8 +80,6 @@ class Navigate {
                     historyIndex++;
 
                 } else {
-                    trace(historyIndex);
-                    trace(history.length);
                     Browser.document.body.appendChild(history[historyIndex].getComponent());
                 }
 
@@ -86,8 +92,36 @@ class Navigate {
     TODO: Implement this feature:
         Figures out if user navigates forwards or backwards when using browser navigation buttons
     **/
-    public static function navigationEvent() {        
-        back();
+    public static function navigationEvent() {  
+        //Bruke hash
+        //Recorde url forran og bak
+        // Home - about - home - bio - contact - bio - home
+        // sessionStorage = 
+
+
+
+
+
+        /*  
+        var positionLastShown: Int = Std.parseInt(storage.getItem('positionLastShown'));
+        //var position = historyIndex;
+        var position = historyIndex;
+        storage.setItem("positionLastShown", Std.string(position));
+        var direction = position - positionLastShown;
+        trace("Direction: " + direction);
+        trace("Index: " + position);
+        if(direction <= -1) {
+            trace("back");
+            back();
+        } else if (direction == 0) {
+            back();
+            trace("Refresh");
+        } else {
+            trace("forward");
+            forward();
+        }
+        //back();
+        */
     }
 
     static function forward() {
