@@ -64,7 +64,6 @@ var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
 	var body = new lib_core_Body();
-	lib_core_Navigate.init();
 	lib_core_Navigate.routes = [{ route : "/", component : new HomePage().component()},{ route : "/hello", component : new HelloPage().component()}];
 	lib_core_Navigate.to({ route : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
@@ -181,23 +180,6 @@ js_Boot.__string_rec = function(o,s) {
 		return o;
 	default:
 		return String(o);
-	}
-};
-var js_Browser = function() { };
-js_Browser.__name__ = true;
-js_Browser.getSessionStorage = function() {
-	try {
-		var s = window.sessionStorage;
-		s.getItem("");
-		if(s.length == 0) {
-			var key = "_hx_" + Math.random();
-			s.setItem(key,key);
-			s.removeItem(key);
-		}
-		return s;
-	} catch( e ) {
-		var e1 = ((e) instanceof js__$Boot_HaxeError) ? e.val : e;
-		return null;
 	}
 };
 var lib_components_Button = function(arg) {
@@ -413,26 +395,9 @@ lib_core_Body.prototype = {
 		window.document.body.appendChild(widget);
 	}
 };
-var lib_core_HistoryComponent = function(component,index) {
-	this.component = component;
-	this.index = index;
-};
-lib_core_HistoryComponent.__name__ = true;
-lib_core_HistoryComponent.prototype = {
-	getComponent: function() {
-		return this.component;
-	}
-	,setComponent: function(newComponent) {
-		this.component = newComponent;
-	}
-};
 var lib_core_Navigate = function() {
 };
 lib_core_Navigate.__name__ = true;
-lib_core_Navigate.init = function() {
-	lib_core_Navigate.storage = js_Browser.getSessionStorage();
-	lib_core_Navigate.storage.setItem("positionLastShown","0");
-};
 lib_core_Navigate.to = function(arg) {
 	var url = arg.route;
 	if(arg.main == null) {
@@ -451,7 +416,7 @@ lib_core_Navigate.to = function(arg) {
 		}
 	}
 	if(!arg.main) {
-		window.history.pushState(null,"Index",arg.route);
+		window.history.pushState(null,"Index",url);
 	}
 	lib_core_Navigate.setComponent(true);
 };
@@ -466,8 +431,6 @@ lib_core_Navigate.setComponent = function(newHistoryElement) {
 		var route = _g1[_g];
 		++_g;
 		if(route.route == currentURL) {
-			console.log("lib/core/Navigate.hx:77:","Replace");
-			lib_core_Navigate.history.push(new lib_core_HistoryComponent(route.component.render(),lib_core_Navigate.historyIndex));
 			window.document.body.appendChild(route.component.render());
 			return;
 		}
@@ -476,19 +439,11 @@ lib_core_Navigate.setComponent = function(newHistoryElement) {
 lib_core_Navigate.navigationEvent = function() {
 	lib_core_Navigate.setComponent(false);
 };
-lib_core_Navigate.forward = function() {
-	lib_core_Navigate.setComponent(false);
-};
-lib_core_Navigate.back = function() {
-	lib_core_Navigate.setComponent(false);
-};
 lib_core_Navigate.updateComponent = function(component) {
 	if(window.document.querySelector("#page") != null) {
 		window.document.querySelector("#page").remove();
 	}
-	var currentURL = window.location.pathname;
 	window.document.body.appendChild(component);
-	lib_core_Navigate.history[lib_core_Navigate.historyIndex].setComponent(component);
 };
 var lib_support_StyleManager = function() {
 };
@@ -642,8 +597,6 @@ Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function()
 }});
 js_Boot.__toStr = ({ }).toString;
 lib_core_Navigate.routes = [];
-lib_core_Navigate.history = [];
-lib_core_Navigate.historyIndex = -1;
 lib_utils__$Color_Color_$Impl_$.TRANSPARENT = 0;
 lib_utils__$Color_Color_$Impl_$.BLACK = -16777216;
 lib_utils__$Color_Color_$Impl_$.WHITE = -1;

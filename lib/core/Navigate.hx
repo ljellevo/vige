@@ -1,44 +1,13 @@
 package lib.core;
 
-import js.html.Storage;
-import js.html.History;
 import js.Browser;
 import lib.support.Widget;
-
-class HistoryComponent {
-    var component: js.html.Node;
-    var index: Int;
-
-    public function new(component: js.html.Node, index: Int) {
-        this.component = component;
-        this.index = index;
-        //When history component is added then increment historyIndex
-    }
-
-    public function getComponent(): js.html.Node {
-        return component;
-    }
-
-    public function setComponent(newComponent: js.html.Node) {
-        component = newComponent;
-    }
-}
-
 
 class Navigate {
     
     public static var routes: Array<{route: String, component: Widget}> = [];
-    static var history: Array<HistoryComponent> = [];
-    static var historyIndex: Int = -1;
-    static var storage: Storage = null;
     
-
     public function new() { }
-
-    public static function init() {
-        storage = Browser.getSessionStorage();
-        storage.setItem("positionLastShown", Std.string(0));
-    }
 
     public static function to(arg: {route: String, ?param: Array<{param: String, data: String}>, ?main: Bool}) {
         var url = arg.route;
@@ -53,7 +22,7 @@ class Navigate {
         }
         
         if (!arg.main) {
-            Browser.window.history.pushState(null, "Index", arg.route);
+            Browser.window.history.pushState(null, "Index", url);
         }
         
         setComponent(true); 
@@ -72,26 +41,8 @@ class Navigate {
 
         for(route in routes) {
             if (route.route == currentURL) {
-                //Set component from history if that is applicable. If 
-                //user navigates forward from this component then update the component on the stack.
-                trace("Replace");
-                history.push(new HistoryComponent(route.component.render(), historyIndex));
                 Browser.document.body.appendChild(route.component.render());
-                
                 return;
-                /*
-
-                if(newHistoryElement) {                    
-                    history.push(new HistoryComponent(route.component.render(), historyIndex));
-                    Browser.document.body.appendChild(route.component.render());
-                    historyIndex++;
-
-                } else {
-                    Browser.document.body.appendChild(history[historyIndex].getComponent());
-                }
-
-                return;
-                */
             }
         }
     }
@@ -101,46 +52,6 @@ class Navigate {
         Figures out if user navigates forwards or backwards when using browser navigation buttons
     **/
     public static function navigationEvent() {  
-        //Bruke hash
-        //Recorde url forran og bak
-        // Home - about - home - bio - contact - bio - home
-        // sessionStorage = 
-
-        setComponent(false);
-
-
-
-
-
-        /*  
-        var positionLastShown: Int = Std.parseInt(storage.getItem('positionLastShown'));
-        //var position = historyIndex;
-        var position = historyIndex;
-        storage.setItem("positionLastShown", Std.string(position));
-        var direction = position - positionLastShown;
-        trace("Direction: " + direction);
-        trace("Index: " + position);
-        if(direction <= -1) {
-            trace("back");
-            back();
-        } else if (direction == 0) {
-            back();
-            trace("Refresh");
-        } else {
-            trace("forward");
-            forward();
-        }
-        //back();
-        */
-    }
-
-    static function forward() {
-        //historyIndex++;
-        setComponent(false);
-    }
-
-    static function back() {
-        //historyIndex--;
         setComponent(false);
     }
 
@@ -149,8 +60,6 @@ class Navigate {
             Browser.document.querySelector("#page").remove();
         }
 
-        var currentURL = Browser.location.pathname;
         Browser.document.body.appendChild(component);
-        history[historyIndex].setComponent(component);
     }
 }
