@@ -69,10 +69,17 @@ class Navigate {
             Browser.document.querySelector("#page").remove();
         }
 
+
         for(route in routes) {
             if (route.route == currentURL) {
                 //Set component from history if that is applicable. If 
                 //user navigates forward from this component then update the component on the stack.
+                trace("Replace");
+                history.push(new HistoryComponent(route.component.render(), historyIndex));
+                Browser.document.body.appendChild(route.component.render());
+                
+                return;
+                /*
 
                 if(newHistoryElement) {                    
                     history.push(new HistoryComponent(route.component.render(), historyIndex));
@@ -84,6 +91,7 @@ class Navigate {
                 }
 
                 return;
+                */
             }
         }
     }
@@ -97,6 +105,8 @@ class Navigate {
         //Recorde url forran og bak
         // Home - about - home - bio - contact - bio - home
         // sessionStorage = 
+
+        setComponent(false);
 
 
 
@@ -125,12 +135,12 @@ class Navigate {
     }
 
     static function forward() {
-        historyIndex++;
+        //historyIndex++;
         setComponent(false);
     }
 
     static function back() {
-        historyIndex--;
+        //historyIndex--;
         setComponent(false);
     }
 
