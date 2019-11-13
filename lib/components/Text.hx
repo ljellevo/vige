@@ -45,6 +45,7 @@ class Text implements Widget {
     public function render() : Node {
         var element = Browser.document.createParagraphElement();
         element.style.color = style.getColor();
+        element.style.backgroundColor = style.getBackgroundColor();
         element.innerText = text;
         return element;
 

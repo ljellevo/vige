@@ -55,7 +55,7 @@ HomePage.__name__ = true;
 HomePage.__super__ = lib_core_StaticComponent;
 HomePage.prototype = $extend(lib_core_StaticComponent.prototype,{
 	component: function() {
-		return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heigthType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
+		return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heigthType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281, backgroundColor : -256})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
 			lib_core_Navigate.to({ route : "/hello", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
 		}})]})});
 	}
@@ -378,6 +378,7 @@ lib_components_Text.prototype = {
 	,render: function() {
 		var element = window.document.createElement("p");
 		element.style.color = this.style.getColor();
+		element.style.backgroundColor = this.style.getBackgroundColor();
 		element.innerText = this.text;
 		return element;
 	}
@@ -580,6 +581,7 @@ lib_utils_Size.prototype = {
 };
 var lib_utils_Style = function(arg) {
 	this.color = arg.color;
+	this.backgroundColor = arg.backgroundColor;
 };
 lib_utils_Style.__name__ = true;
 lib_utils_Style.prototype = {
@@ -588,6 +590,12 @@ lib_utils_Style.prototype = {
 			return "";
 		}
 		return "rgba(" + (this.color >> 16 & 255) + ", " + (this.color >> 8 & 255) + ", " + (this.color & 255) + ", " + (this.color >> 24 & 255) / 255 + ")";
+	}
+	,getBackgroundColor: function() {
+		if(this.backgroundColor == null) {
+			return "";
+		}
+		return "rgba(" + (this.backgroundColor >> 16 & 255) + ", " + (this.backgroundColor >> 8 & 255) + ", " + (this.backgroundColor & 255) + ", " + (this.backgroundColor >> 24 & 255) / 255 + ")";
 	}
 };
 String.__name__ = true;
