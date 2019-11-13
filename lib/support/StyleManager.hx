@@ -16,7 +16,7 @@ class StyleManager {
     }): js.html.Node {
         arg.widget.style.height = arg.size.getHeight();
         arg.widget.style.width = arg.size.getWidth();
-        arg.widget.style.backgroundColor = arg.style.getColor();
+        arg.widget.style.backgroundColor = arg.style.getBackgroundColor();
         arg.widget.style.padding = arg.padding.getPadding();
         return arg.widget;
     }

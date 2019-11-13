@@ -21,21 +21,24 @@ enum TextFormat {
 class Text implements Widget {
     var text: String = "";
     var style: Style;
+    var textFormat: TextFormat;
 
     public function new(
         text: String, 
         ?arg: {
-            style: Style
+            ?textFormat: TextFormat,
+            ?style: Style
         }
     ) {
         this.text = text;
-
-        if (arg == null) {
-            arg = {style: new Style({})}
+        if(arg == null) {
+            arg = {
+                style: new Style({}),
+                textFormat: TextFormat.p
+            }
         }
-
-        this.style = arg.style;
-        
+        this.style = arg.style != null ? arg.style : new Style({});
+        this.textFormat = arg.textFormat != null ? arg.textFormat : TextFormat.p;
     }
 
     public function getText(): String {
@@ -43,11 +46,69 @@ class Text implements Widget {
     }
 
     public function render() : Node {
-        var element = Browser.document.createParagraphElement();
+        var element;
+
+        switch (textFormat){
+            case h1:
+                element = Browser.document.createParagraphElement();
+                element.style.display = "block";
+                element.style.fontSize = "2em";
+                element.style.margin = ".67em 0";
+                element.style.fontWeight = "bold";
+            case h2:
+                element = Browser.document.createParagraphElement();
+                element.style.display = "block";
+                element.style.fontSize = "1.5em";
+                element.style.margin = ".83em 0";
+                element.style.fontWeight = "bold";
+            case h3:
+                element = Browser.document.createParagraphElement();
+                element.style.display = "block";
+                element.style.fontSize = "1.17em";
+                element.style.margin = "1em 0";
+                element.style.fontWeight = "bold";
+            case h4:
+                element = Browser.document.createParagraphElement();
+                element.style.display = "block";
+                element.style.fontSize = "1em";
+                element.style.margin = "1.33em 0";
+                element.style.fontWeight = "bold";
+            case h5:
+                element = Browser.document.createParagraphElement();
+                element.style.display = "block";
+                element.style.fontSize = ".83em";
+                element.style.margin = "1.67em 0";
+                element.style.fontWeight = "bold";
+            case h6:
+                element = Browser.document.createParagraphElement();
+                element.style.display = "block";
+                element.style.fontSize = ".67em";
+                element.style.margin = "2.33em 0";
+                element.style.fontWeight = "bold";
+            case p:
+                element = Browser.document.createParagraphElement();
+                element.style.display = "inline";
+                element.style.fontSize = "1em";
+                element.style.margin = "0 0";
+                element.style.fontWeight = "normal";
+            case a:
+                element = Browser.document.createParagraphElement();
+                element.style.display = "inline";
+                element.style.fontSize = "1em";
+                element.style.margin = "0 0";
+                element.style.fontWeight = "normal";
+            case pre:
+                element = Browser.document.createParagraphElement();
+                element.style.display = "inline";
+                element.style.fontSize = "1em";
+                element.style.margin = "0 0";
+                element.style.fontWeight = "normal";
+            
+        }
+        //var element = Browser.document.createParagraphElement();
         element.style.color = style.getColor();
         element.style.backgroundColor = style.getBackgroundColor();
         element.innerText = text;
         return element;
-
     }
 }

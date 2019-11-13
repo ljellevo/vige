@@ -126,6 +126,36 @@ class HomePage extends StaticComponent{
   }
 }
 
+class HomeView  extends StaticComponent {
+  public function new() {}
+
+  public function component() : Widget {
+    return new Page({
+      route: "/",
+      child: new Center({
+        alignment: CenterAlignment.Both,
+        child: new Column({
+          size: new Size({height: 100, heigthType: "%"}),
+          style: new Style({
+            backgroundColor: Color.TRANSPARENT
+          }),
+          children: [
+            new Text("Dette er h1", {textFormat: TextFormat.h1}),
+            new Text("Dette er h2", {textFormat: TextFormat.h2}),
+            new Text("Dette er h3", {textFormat: TextFormat.h3}),
+            new Text("Dette er h4", {textFormat: TextFormat.h4}),
+            new Text("Dette er h5", {textFormat: TextFormat.h5}),
+            new Text("Dette er h6", {textFormat: TextFormat.h6}),
+            new Text("Dette er p", {textFormat: TextFormat.p}),
+            new Text("Dette er p2", {textFormat: TextFormat.p}),
+
+          ]
+        })
+      })
+    });
+  }
+} 
+
 
 class Main {
   static function main() {
@@ -133,7 +163,7 @@ class Main {
 
 
     Navigate.routes = [
-      {route: "/", component: new HomePage().component()},
+      {route: "/", component: new HomeView().component()},
       {route: "/hello", component: new HelloPage().component()}
     ];
     Navigate.to({route: Browser.location.pathname, main: true});

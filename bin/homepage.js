@@ -60,11 +60,20 @@ HomePage.prototype = $extend(lib_core_StaticComponent.prototype,{
 		}})]})});
 	}
 });
+var HomeView = function() {
+};
+HomeView.__name__ = true;
+HomeView.__super__ = lib_core_StaticComponent;
+HomeView.prototype = $extend(lib_core_StaticComponent.prototype,{
+	component: function() {
+		return new lib_components_Page({ route : "/", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), style : new lib_utils_Style({ backgroundColor : 0}), children : [new lib_components_Text("Dette er h1",{ textFormat : lib_components_TextFormat.h1}),new lib_components_Text("Dette er h2",{ textFormat : lib_components_TextFormat.h2}),new lib_components_Text("Dette er h3",{ textFormat : lib_components_TextFormat.h3}),new lib_components_Text("Dette er h4",{ textFormat : lib_components_TextFormat.h4}),new lib_components_Text("Dette er h5",{ textFormat : lib_components_TextFormat.h5}),new lib_components_Text("Dette er h6",{ textFormat : lib_components_TextFormat.h6}),new lib_components_Text("Dette er p",{ textFormat : lib_components_TextFormat.p}),new lib_components_Text("Dette er p2",{ textFormat : lib_components_TextFormat.p})]})})});
+	}
+});
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
 	var body = new lib_core_Body();
-	lib_core_Navigate.routes = [{ route : "/", component : new HomePage().component()},{ route : "/hello", component : new HelloPage().component()}];
+	lib_core_Navigate.routes = [{ route : "/", component : new HomeView().component()},{ route : "/hello", component : new HelloPage().component()}];
 	lib_core_Navigate.to({ route : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
 		lib_core_Navigate.navigationEvent();
@@ -366,9 +375,10 @@ var lib_components_Text = function(text,arg) {
 	this.text = "";
 	this.text = text;
 	if(arg == null) {
-		arg = { style : new lib_utils_Style({ })};
+		arg = { style : new lib_utils_Style({ }), textFormat : lib_components_TextFormat.p};
 	}
-	this.style = arg.style;
+	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
+	this.textFormat = arg.textFormat != null ? arg.textFormat : lib_components_TextFormat.p;
 };
 lib_components_Text.__name__ = true;
 lib_components_Text.prototype = {
@@ -376,7 +386,72 @@ lib_components_Text.prototype = {
 		return this.text;
 	}
 	,render: function() {
-		var element = window.document.createElement("p");
+		var element;
+		switch(this.textFormat._hx_index) {
+		case 0:
+			element = window.document.createElement("p");
+			element.style.display = "block";
+			element.style.fontSize = "2em";
+			element.style.margin = ".67em 0";
+			element.style.fontWeight = "bold";
+			break;
+		case 1:
+			element = window.document.createElement("p");
+			element.style.display = "block";
+			element.style.fontSize = "1.5em";
+			element.style.margin = ".83em 0";
+			element.style.fontWeight = "bold";
+			break;
+		case 2:
+			element = window.document.createElement("p");
+			element.style.display = "block";
+			element.style.fontSize = "1.17em";
+			element.style.margin = "1em 0";
+			element.style.fontWeight = "bold";
+			break;
+		case 3:
+			element = window.document.createElement("p");
+			element.style.display = "block";
+			element.style.fontSize = "1em";
+			element.style.margin = "1.33em 0";
+			element.style.fontWeight = "bold";
+			break;
+		case 4:
+			element = window.document.createElement("p");
+			element.style.display = "block";
+			element.style.fontSize = ".83em";
+			element.style.margin = "1.67em 0";
+			element.style.fontWeight = "bold";
+			break;
+		case 5:
+			element = window.document.createElement("p");
+			element.style.display = "block";
+			element.style.fontSize = ".67em";
+			element.style.margin = "2.33em 0";
+			element.style.fontWeight = "bold";
+			break;
+		case 6:
+			element = window.document.createElement("p");
+			element.style.display = "inline";
+			element.style.fontSize = "1em";
+			element.style.margin = "0 0";
+			element.style.fontWeight = "normal";
+			break;
+		case 7:
+			element = window.document.createElement("p");
+			element.style.display = "inline";
+			element.style.fontSize = "1em";
+			element.style.margin = "0 0";
+			element.style.fontWeight = "normal";
+			break;
+		case 8:
+			element = window.document.createElement("p");
+			element.style.display = "inline";
+			element.style.fontSize = "1em";
+			element.style.margin = "0 0";
+			element.style.fontWeight = "normal";
+			break;
+		}
 		element.style.color = this.style.getColor();
 		element.style.backgroundColor = this.style.getBackgroundColor();
 		element.innerText = this.text;
@@ -453,7 +528,7 @@ lib_support_StyleManager.prototype = {
 	addStyleToDiv: function(arg) {
 		arg.widget.style.height = arg.size.getHeight();
 		arg.widget.style.width = arg.size.getWidth();
-		arg.widget.style.backgroundColor = arg.style.getColor();
+		arg.widget.style.backgroundColor = arg.style.getBackgroundColor();
 		arg.widget.style.padding = arg.padding.getPadding();
 		return arg.widget;
 	}
