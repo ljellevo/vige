@@ -66,7 +66,7 @@ HomeView.__name__ = true;
 HomeView.__super__ = lib_core_StaticComponent;
 HomeView.prototype = $extend(lib_core_StaticComponent.prototype,{
 	component: function() {
-		return new lib_components_Page({ route : "/", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), style : new lib_utils_Style({ backgroundColor : 0}), children : [new lib_components_Text("Dette er h1",{ textFormat : lib_components_TextFormat.h1}),new lib_components_Text("Dette er h2",{ textFormat : lib_components_TextFormat.h2}),new lib_components_Text("Dette er h3",{ textFormat : lib_components_TextFormat.h3}),new lib_components_Text("Dette er h4",{ textFormat : lib_components_TextFormat.h4}),new lib_components_Text("Dette er h5",{ textFormat : lib_components_TextFormat.h5}),new lib_components_Text("Dette er h6",{ textFormat : lib_components_TextFormat.h6}),new lib_components_Text("Dette er p",{ textFormat : lib_components_TextFormat.p}),new lib_components_Text("Dette er p2",{ textFormat : lib_components_TextFormat.p})]})})});
+		return new lib_components_Page({ route : "/", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), style : new lib_utils_Style({ backgroundColor : 0}), children : [new lib_components_Text("Ludvig Ellevold",{ textFormat : lib_components_TextFormat.h1})]})})});
 	}
 });
 var Main = function() { };

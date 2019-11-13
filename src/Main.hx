@@ -140,15 +140,7 @@ class HomeView  extends StaticComponent {
             backgroundColor: Color.TRANSPARENT
           }),
           children: [
-            new Text("Dette er h1", {textFormat: TextFormat.h1}),
-            new Text("Dette er h2", {textFormat: TextFormat.h2}),
-            new Text("Dette er h3", {textFormat: TextFormat.h3}),
-            new Text("Dette er h4", {textFormat: TextFormat.h4}),
-            new Text("Dette er h5", {textFormat: TextFormat.h5}),
-            new Text("Dette er h6", {textFormat: TextFormat.h6}),
-            new Text("Dette er p", {textFormat: TextFormat.p}),
-            new Text("Dette er p2", {textFormat: TextFormat.p}),
-
+            new Text("Ludvig Ellevold", {textFormat: TextFormat.h1}),
           ]
         })
       })
