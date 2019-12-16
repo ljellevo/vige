@@ -66,13 +66,14 @@ HomeView.__name__ = true;
 HomeView.__super__ = lib_core_StaticComponent;
 HomeView.prototype = $extend(lib_core_StaticComponent.prototype,{
 	component: function() {
-		return new lib_components_Page({ route : "/", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), style : new lib_utils_Style({ backgroundColor : 0}), children : [new lib_components_Text("Ludvig Ellevold",{ textFormat : lib_components_TextFormat.h1})]})})});
+		return new lib_components_Page({ route : "/", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), style : new lib_utils_Style({ backgroundColor : 0}), children : [new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Text("Ludvig Ellevold",{ size : 88})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Text("Under construction")})]})})});
 	}
 });
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
 	var body = new lib_core_Body();
+	body.font("Cormorant Garamond","100");
 	lib_core_Navigate.routes = [{ route : "/", component : new HomeView().component()},{ route : "/hello", component : new HelloPage().component()}];
 	lib_core_Navigate.to({ route : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
@@ -373,10 +374,12 @@ var lib_components_TextFormat = $hxEnums["lib.components.TextFormat"] = { __enam
 };
 var lib_components_Text = function(text,arg) {
 	this.text = "";
+	this.size = -1;
 	this.text = text;
 	if(arg == null) {
-		arg = { style : new lib_utils_Style({ }), textFormat : lib_components_TextFormat.p};
+		arg = { size : -1, style : new lib_utils_Style({ }), textFormat : lib_components_TextFormat.p};
 	}
+	this.size = arg.size != null ? arg.size : -1;
 	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
 	this.textFormat = arg.textFormat != null ? arg.textFormat : lib_components_TextFormat.p;
 };
@@ -452,6 +455,9 @@ lib_components_Text.prototype = {
 			element.style.fontWeight = "normal";
 			break;
 		}
+		if(this.size > -1) {
+			element.style.fontSize = Std.string(this.size);
+		}
 		element.style.color = this.style.getColor();
 		element.style.backgroundColor = this.style.getBackgroundColor();
 		element.innerText = this.text;
@@ -466,6 +472,11 @@ lib_core_Body.prototype = {
 	}
 	,init: function() {
 		window.document.body.style.margin = "0px";
+	}
+	,font: function(fontFamily,fontWeight) {
+		var style = window.document.body.style;
+		style.fontFamily = fontFamily;
+		style.fontWeight = fontWeight;
 	}
 	,render: function(widget) {
 		window.document.body.appendChild(widget);

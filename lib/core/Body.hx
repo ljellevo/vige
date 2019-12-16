@@ -18,6 +18,14 @@ class Body {
         Browser.document.body.style.margin = "0px";
     }
 
+    public function font(fontFamily: String, fontWeight: String) {
+        //font-family: 'Quicksand', sans-serif;
+        var style = Browser.document.body.style;
+        style.fontFamily = fontFamily;
+        style.fontWeight = fontWeight;
+        //style.fontSize = "48";
+    }
+
 
     public function render(widget: js.html.Node) {
         Browser.document.body.appendChild(widget);

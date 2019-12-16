@@ -140,7 +140,16 @@ class HomeView  extends StaticComponent {
             backgroundColor: Color.TRANSPARENT
           }),
           children: [
-            new Text("Ludvig Ellevold", {textFormat: TextFormat.h1}),
+            new Center({
+              alignment: CenterAlignment.Horizontal,
+              child: new Text("Ludvig Ellevold", {size: 88}),
+            }),
+            
+            
+            new Center({
+              alignment: CenterAlignment.Horizontal,
+              child: new Text("Under construction")
+            })
           ]
         })
       })
@@ -152,6 +161,10 @@ class HomeView  extends StaticComponent {
 class Main {
   static function main() {
     var body = new Body();
+    body.font("Cormorant Garamond", "100");
+    //body.font("Roboto Slab", "");
+
+    
 
 
     Navigate.routes = [

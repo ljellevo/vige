@@ -19,6 +19,7 @@ enum TextFormat {
 }
 
 class Text implements Widget {
+    var size = -1;
     var text: String = "";
     var style: Style;
     var textFormat: TextFormat;
@@ -26,6 +27,7 @@ class Text implements Widget {
     public function new(
         text: String, 
         ?arg: {
+            ?size: Int,
             ?textFormat: TextFormat,
             ?style: Style
         }
@@ -33,10 +35,12 @@ class Text implements Widget {
         this.text = text;
         if(arg == null) {
             arg = {
+                size: -1,
                 style: new Style({}),
                 textFormat: TextFormat.p
             }
         }
+        this.size = arg.size != null ? arg.size : -1;
         this.style = arg.style != null ? arg.style : new Style({});
         this.textFormat = arg.textFormat != null ? arg.textFormat : TextFormat.p;
     }
@@ -106,6 +110,10 @@ class Text implements Widget {
             
         }
         //var element = Browser.document.createParagraphElement();
+        if(size > -1) {
+            element.style.fontSize = Std.string(size);
+        }
+        
         element.style.color = style.getColor();
         element.style.backgroundColor = style.getBackgroundColor();
         element.innerText = text;
