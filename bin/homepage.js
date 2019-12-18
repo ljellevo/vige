@@ -66,7 +66,7 @@ HomeView.__name__ = true;
 HomeView.__super__ = lib_core_StaticComponent;
 HomeView.prototype = $extend(lib_core_StaticComponent.prototype,{
 	component: function() {
-		return new lib_components_Page({ route : "/", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), style : new lib_utils_Style({ backgroundColor : 0}), children : [new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Text("Ludvig Ellevold",{ size : 88})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Text("Under construction")})]})})});
+		return new lib_components_Page({ route : "/", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), style : new lib_utils_Style({ backgroundColor : 0}), children : [new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "px"}), children : [new lib_components_Text("Ludvig Ellevold",{ size : 88}),new lib_components_Text("Under construction")]})})]})});
 	}
 });
 var Main = function() { };
@@ -288,7 +288,7 @@ lib_components_Column.prototype = {
 };
 var lib_components_Container = function(arg) {
 	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
-	this.style = arg.style;
+	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
 	this.child = arg.child;
 };
 lib_components_Container.__name__ = true;

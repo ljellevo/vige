@@ -1,4 +1,5 @@
 
+import haxe.macro.Expr.Var;
 import js.html.audio.ChannelSplitterNode;
 import lib.support.Widget;
 import lib.utils.Padding;
@@ -132,27 +133,37 @@ class HomeView  extends StaticComponent {
   public function component() : Widget {
     return new Page({
       route: "/",
-      child: new Center({
-        alignment: CenterAlignment.Both,
-        child: new Column({
-          size: new Size({height: 100, heigthType: "%"}),
+      child: new Column({
+          size: new Size({
+            height: 100, 
+            heigthType: "%",
+            width: 100,
+            widthType: "%"
+          
+          }),
           style: new Style({
             backgroundColor: Color.TRANSPARENT
           }),
           children: [
             new Center({
-              alignment: CenterAlignment.Horizontal,
-              child: new Text("Ludvig Ellevold", {size: 88}),
+              alignment: CenterAlignment.Both,
+              child: new Column({
+                size: new Size({height: 100, heigthType: "px"}),
+                children: [
+                  new Text("Ludvig Ellevold", {size: 88}),
+                  new Text("Under construction")
+                ]
+              }),
             }),
-            
-            
-            new Center({
-              alignment: CenterAlignment.Horizontal,
-              child: new Text("Under construction")
-            })
           ]
         })
+        /*
+      
+      new Center({
+        alignment: CenterAlignment.Both,
+        child: 
       })
+      */
     });
   }
 } 

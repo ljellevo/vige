@@ -20,10 +20,10 @@ class Container implements Widget {
     public function new(arg: {
         ?size: Size,
         ?style: Style,
-        ?child: Widget
+        child: Widget
     }) {
         this.size = arg.size != null ? arg.size : new Size({});
-        this.style = arg.style;
+        this.style = arg.style != null ? arg.style : new Style({});
         this.child = arg.child;
     }
     
