@@ -1,4 +1,6 @@
 
+import js.html.TextTrackList;
+import haxe.display.Display.Package;
 import haxe.macro.Expr.Var;
 import js.html.audio.ChannelSplitterNode;
 import lib.support.Widget;
@@ -134,36 +136,56 @@ class HomeView  extends StaticComponent {
     return new Page({
       route: "/",
       child: new Column({
-          size: new Size({
-            height: 100, 
-            heigthType: "%",
-            width: 100,
-            widthType: "%"
-          
-          }),
-          style: new Style({
-            backgroundColor: Color.TRANSPARENT
-          }),
-          children: [
-            new Center({
-              alignment: CenterAlignment.Both,
-              child: new Column({
-                size: new Size({height: 100, heigthType: "px"}),
-                children: [
-                  new Text("Ludvig Ellevold", {size: 88}),
-                  new Text("Under construction")
-                ]
-              }),
+        size: new Size({
+          height: 100, 
+          heigthType: "%",
+          width: 100,
+          widthType: "%"
+        
+        }),
+        style: new Style({
+          backgroundColor: Color.TRANSPARENT
+        }),
+        children: [
+          new Center({
+            alignment: CenterAlignment.Both,
+            child: new Column({
+              //size: new Size({height: 10, heigthType: "px"}),
+              children: [
+                new Text("MIST.IO", {size: 88}),
+                new Text("The declarative web-framework")
+              ]
             }),
-          ]
-        })
-        /*
-      
-      new Center({
-        alignment: CenterAlignment.Both,
-        child: 
+          }),
+          
+          new Center({
+            style: new Style({backgroundColor: Color.fromRGBAi(53, 129, 184, 1)}),
+            alignment: CenterAlignment.Both,
+            child: new Column({
+              size: new Size({height: 10, heigthType: "px"}),
+              children: [
+                new Row({
+                  padding: Padding.all(10.0),
+                  children: [
+                    new Text("Page 2"),
+                    new Container({
+                      size: new Size({width: 40, widthType: "px"}),
+                    }),
+                    new Button({
+                      text: "Prosjekter",
+                      onClick: function(e) {
+                        trace("Click");
+                      }
+                    })
+                  ]
+                })
+              ]
+            }),
+            
+          }),
+          
+        ]
       })
-      */
     });
   }
 } 
@@ -172,10 +194,10 @@ class HomeView  extends StaticComponent {
 class Main {
   static function main() {
     var body = new Body();
-    body.font("Cormorant Garamond", "100");
-    //body.font("Roboto Slab", "");
+    //body.font("Cormorant Garamond", "100");
+    body.font("Lato", "100");
+    //Lato
 
-    
 
 
     Navigate.routes = [

@@ -19,13 +19,14 @@ class Style {
         if (color == null) {
             return "";
         }
-        return "rgba(" + color.ri + ", " +  color.gi + ", " + color.bi + ", " + color.af + ")";
+        return "rgba(" + color.ri + ", " +  color.gi + ", " + color.bi + ", " + color.ai + ")";
     }
 
     public function getBackgroundColor(): String {
         if (backgroundColor == null) {
             return "";
         }
-        return "rgba(" + backgroundColor.ri + ", " +  backgroundColor.gi + ", " + backgroundColor.bi + ", " + backgroundColor.af + ")";
+        trace("rgba(" + backgroundColor.ri + ", " +  backgroundColor.gi + ", " + backgroundColor.bi + ", " + backgroundColor.ai + ")");
+        return "rgba(" + backgroundColor.ri + ", " +  backgroundColor.gi + ", " + backgroundColor.bi + ", " + backgroundColor.ai + ")";
     }
 }
