@@ -23,7 +23,8 @@ abstract Color(Int) from Int to Int {
    * @return  Color based on hex string
    */
   @:from public static inline function fromString(rgba : String) : Color {
-    return new Color(Std.parseInt(rgba));
+    //StringTools.replace(rgba, "#", "0xff");
+    return new Color(Std.parseInt("0xff" + rgba.substr(1)));
   }
   
   /**

@@ -1,7 +1,6 @@
 package lib.components;
 
 import lib.utils.Padding;
-import lib.utils.Color;
 import lib.support.StyleManager;
 import js.Browser;
 import lib.utils.Style;

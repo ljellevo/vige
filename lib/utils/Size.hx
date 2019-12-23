@@ -2,18 +2,18 @@ package lib.utils;
 
 class Size {
     var height: Float;
-    var heigthType: String;
+    var heightType: String;
     var width: Float;
     var widthType: String;
 
     public function new(arg: {
         ?height: Float,
-        ?heigthType: String,
+        ?heightType: String,
         ?width: Float,
         ?widthType: String
     }) {
         this.height = arg.height != null ? arg.height : Math.NEGATIVE_INFINITY;
-        this.heigthType = arg.heigthType != "" ? arg.heigthType : "px";
+        this.heightType = arg.heightType != "" ? arg.heightType : "px";
         this.width = arg.width != null ? arg.width : Math.NEGATIVE_INFINITY;
         this.widthType = arg.widthType != "" ? arg.widthType : "px";
     }
@@ -22,7 +22,7 @@ class Size {
         if (height == Math.NEGATIVE_INFINITY) {
             return null;
         }
-        return Std.string(height) + heigthType;
+        return Std.string(height) + heightType;
     }
 
     public function getWidth(): String {

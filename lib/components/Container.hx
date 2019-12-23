@@ -1,5 +1,6 @@
 package lib.components;
 
+import lib.components.Center.CenterAlignment;
 import lib.utils.Padding;
 import lib.utils.Size;
 import js.Browser;
@@ -22,7 +23,7 @@ class Container implements Widget {
         ?style: Style,
         ?child: Widget
     }) {
-        this.size = arg.size != null ? arg.size : new Size({});
+        this.size = arg.size != null ? arg.size : new Size({height: 100, heightType: "%", width: 100, widthType: "%"});
         this.style = arg.style != null ? arg.style : new Style({});
         this.child = arg.child;
     }
@@ -32,6 +33,7 @@ class Container implements Widget {
         if(child != null) {
              container.appendChild(child.render());
         }
+        
        
         new StyleManager().addStyleToDiv({size: size, widget: container, style: style, padding: Padding.all(0.0)});
         //container.style.margin = "auto";

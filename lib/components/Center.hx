@@ -8,29 +8,34 @@ import js.Browser;
 import js.html.Node;
 import lib.support.Widget;
 
+
 enum CenterAlignment {
     Horizontal;
     Vertical;
     Both;
 }
 
+
 class Center implements Widget {
     var child: Widget;
     var alignment: CenterAlignment;
     var style: Style;
+    var size: Size;
     var padding: Padding;
 
 
     public function new(arg: {
         child: Widget, 
         alignment: CenterAlignment,
-        ?style: Style,        
+        ?style: Style,  
+        ?size: Size,      
         ?padding: Padding,
         
     }) {
         this.child = arg.child;
         this.alignment = arg.alignment;
         this.style = arg.style != null ? arg.style : new Style({});
+        this.size = arg.size != null ? arg.size : new Size({});
         this.padding = arg.padding != null ? arg.padding : Padding.all(0.0);
     }
 
@@ -54,7 +59,7 @@ class Center implements Widget {
                 element.style.position = "relative";
                 element.style.top = "50%";
                 element.style.transform = "translateY(-50%)";
-                new StyleManager().addStyleToDiv({size: new Size({height: 100, heigthType: "%"}), widget: parent, style: style, padding: padding});
+                new StyleManager().addStyleToDiv({size: new Size({height: 100, heightType: "%"}), widget: parent, style: style, padding: padding});
                 element.appendChild(child.render());
                 parent.appendChild(element);
             case Both:
@@ -64,7 +69,7 @@ class Center implements Widget {
                 element.style.position = "relative";
                 element.style.top = "50%";
                 element.style.transform = "translateY(-50%)";
-                new StyleManager().addStyleToDiv({size: new Size({height: 100, heigthType: "%"}), widget: parent, style: style, padding: padding});
+                new StyleManager().addStyleToDiv({size: new Size({height: 100, heightType: "%"}), widget: parent, style: style, padding: padding});
                 element.appendChild(child.render());
                 parent.appendChild(element);
 

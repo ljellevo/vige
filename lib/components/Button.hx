@@ -12,7 +12,7 @@ class Button implements Widget {
         this.onClick = arg.onClick;
     }
 
-    public function render():js.html.Node {
+    public function render():js.html.ButtonElement {
         var button = Browser.document.createButtonElement();
         button.textContent = text;
         button.onclick = onClick;

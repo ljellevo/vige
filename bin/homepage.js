@@ -7,6 +7,58 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var lib_components_Button = function(arg) {
+	this.onClick = null;
+	this.text = "";
+	this.text = arg.text;
+	this.onClick = arg.onClick;
+};
+lib_components_Button.__name__ = true;
+lib_components_Button.prototype = {
+	render: function() {
+		var button = window.document.createElement("button");
+		button.textContent = this.text;
+		button.onclick = this.onClick;
+		return button;
+	}
+	,__class__: lib_components_Button
+};
+var HomeButton = function(arg) {
+	lib_components_Button.call(this,arg);
+};
+HomeButton.__name__ = true;
+HomeButton.__super__ = lib_components_Button;
+HomeButton.prototype = $extend(lib_components_Button.prototype,{
+	render: function() {
+		var button = new lib_components_Button({ text : this.text, onClick : this.onClick});
+		var castButton = button.render();
+		castButton.style.backgroundColor = "#2e3440";
+		castButton.style.border = "none";
+		castButton.style.color = "#fafafa";
+		castButton.style.padding = "15px 32px";
+		castButton.style.textAlign = "center";
+		castButton.style.textDecoration = "none";
+		castButton.style.display = "inline-block";
+		castButton.style.fontSize = "16px";
+		castButton.style.borderRadius = "12px";
+		return castButton;
+	}
+	,__class__: HomeButton
+});
+var HxOverrides = function() { };
+HxOverrides.__name__ = true;
+HxOverrides.substr = function(s,pos,len) {
+	if(len == null) {
+		len = s.length;
+	} else if(len < 0) {
+		if(pos == 0) {
+			len = s.length + len;
+		} else {
+			return "";
+		}
+	}
+	return s.substr(pos,len);
+};
 var lib_core_DynamicComponent = function() {
 	this.page = null;
 };
@@ -21,6 +73,7 @@ lib_core_DynamicComponent.prototype = {
 	,component: function() {
 		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
 	}
+	,__class__: lib_core_DynamicComponent
 };
 var HelloPage = function() {
 	this.textTo = 0;
@@ -32,7 +85,7 @@ HelloPage.__super__ = lib_core_DynamicComponent;
 HelloPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	component: function() {
 		var _gthis = this;
-		this.page = new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), children : [new lib_components_Text("Text en: " + this.text),new lib_components_Text("Text to: " + this.textTo),new lib_components_Button({ text : "Click me: En", onClick : function(e) {
+		this.page = new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "%"}), children : [new lib_components_Text("Text en: " + this.text),new lib_components_Text("Text to: " + this.textTo),new lib_components_Button({ text : "Click me: En", onClick : function(e) {
 			_gthis.setState(_gthis,function(e1) {
 				_gthis.text++;
 			});
@@ -46,6 +99,7 @@ HelloPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		}})]})]})});
 		return this.page;
 	}
+	,__class__: HelloPage
 });
 var lib_core_StaticComponent = function() { };
 lib_core_StaticComponent.__name__ = true;
@@ -55,10 +109,11 @@ HomePage.__name__ = true;
 HomePage.__super__ = lib_core_StaticComponent;
 HomePage.prototype = $extend(lib_core_StaticComponent.prototype,{
 	component: function() {
-		return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heigthType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281, backgroundColor : -256})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
+		return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heightType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281, backgroundColor : -256})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
 			lib_core_Navigate.to({ route : "/hello", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
 		}})]})});
 	}
+	,__class__: HomePage
 });
 var HomeView = function() {
 };
@@ -66,11 +121,23 @@ HomeView.__name__ = true;
 HomeView.__super__ = lib_core_StaticComponent;
 HomeView.prototype = $extend(lib_core_StaticComponent.prototype,{
 	component: function() {
-		var this1 = 20283832;
-		return new lib_components_Page({ route : "/", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heigthType : "%", width : 100, widthType : "%"}), style : new lib_utils_Style({ backgroundColor : 0}), children : [new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ size : 88}),new lib_components_Text("The declarative web-framework")]})}),new lib_components_Center({ style : new lib_utils_Style({ backgroundColor : this1}), alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ size : new lib_utils_Size({ height : 10, heigthType : "px"}), children : [new lib_components_Row({ padding : lib_utils_Padding.all(10.0), children : [new lib_components_Text("Page 2"),new lib_components_Container({ size : new lib_utils_Size({ width : 40, widthType : "px"})}),new lib_components_Button({ text : "Prosjekter", onClick : function(e) {
-			console.log("src/Main.hx:177:","Click");
+		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp = new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ size : 88}),new lib_components_Text("The declarative web-framework")]})})});
+		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp1 = new lib_components_Container({ child : new lib_components_Column({ style : new lib_utils_Style({ backgroundColor : this11}), size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0), alignment : lib_components_RowAlignment.Left, children : [new lib_components_Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.",{ style : new lib_utils_Style({ color : -1})})]})})]})]})});
+		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp2 = new lib_utils_Style({ backgroundColor : this12});
+		var tmp3 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp4 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
+		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp5 = new lib_components_Container({ child : new lib_components_Column({ style : tmp2, size : tmp3, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : tmp4, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Contributing to the codebase",{ style : new lib_utils_Style({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100})]})})]})]})});
+		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		return new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp5,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this14}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [new lib_components_Column({ children : [new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Image({ src : "./assets/book-open.svg", height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ height : 20, heightType : "px"})}),new HomeButton({ text : "Quick-start", onClick : function(e) {
+		}})]}),new lib_components_Column({ children : [new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Image({ src : "./assets/book-solid.svg", height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ height : 20, heightType : "px"})}),new HomeButton({ text : "Widgets", onClick : function(e1) {
+		}})]}),new lib_components_Column({ children : [new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Image({ src : "./assets/code-solid.svg", height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ height : 20, heightType : "px"})}),new HomeButton({ text : "Snippets", onClick : function(e2) {
 		}})]})]})})]})});
 	}
+	,__class__: HomeView
 });
 var Main = function() { };
 Main.__name__ = true;
@@ -119,6 +186,7 @@ var js__$Boot_HaxeError = function(val) {
 js__$Boot_HaxeError.__name__ = true;
 js__$Boot_HaxeError.__super__ = Error;
 js__$Boot_HaxeError.prototype = $extend(Error.prototype,{
+	__class__: js__$Boot_HaxeError
 });
 var js_Boot = function() { };
 js_Boot.__name__ = true;
@@ -215,21 +283,6 @@ js_Boot.__string_rec = function(o,s) {
 		return String(o);
 	}
 };
-var lib_components_Button = function(arg) {
-	this.onClick = null;
-	this.text = "";
-	this.text = arg.text;
-	this.onClick = arg.onClick;
-};
-lib_components_Button.__name__ = true;
-lib_components_Button.prototype = {
-	render: function() {
-		var button = window.document.createElement("button");
-		button.textContent = this.text;
-		button.onclick = this.onClick;
-		return button;
-	}
-};
 var lib_components_CenterAlignment = $hxEnums["lib.components.CenterAlignment"] = { __ename__ : true, __constructs__ : ["Horizontal","Vertical","Both"]
 	,Horizontal: {_hx_index:0,__enum__:"lib.components.CenterAlignment",toString:$estr}
 	,Vertical: {_hx_index:1,__enum__:"lib.components.CenterAlignment",toString:$estr}
@@ -239,6 +292,7 @@ var lib_components_Center = function(arg) {
 	this.child = arg.child;
 	this.alignment = arg.alignment;
 	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
+	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
 	this.padding = arg.padding != null ? arg.padding : lib_utils_Padding.all(0.0);
 };
 lib_components_Center.__name__ = true;
@@ -260,7 +314,7 @@ lib_components_Center.prototype = {
 			element.style.position = "relative";
 			element.style.top = "50%";
 			element.style.transform = "translateY(-50%)";
-			new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), widget : parent, style : this.style, padding : this.padding});
+			new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ height : 100, heightType : "%"}), widget : parent, style : this.style, padding : this.padding});
 			element.appendChild(this.child.render());
 			parent.appendChild(element);
 			break;
@@ -271,13 +325,14 @@ lib_components_Center.prototype = {
 			element.style.position = "relative";
 			element.style.top = "50%";
 			element.style.transform = "translateY(-50%)";
-			new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ height : 100, heigthType : "%"}), widget : parent, style : this.style, padding : this.padding});
+			new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ height : 100, heightType : "%"}), widget : parent, style : this.style, padding : this.padding});
 			element.appendChild(this.child.render());
 			parent.appendChild(element);
 			break;
 		}
 		return parent;
 	}
+	,__class__: lib_components_Center
 };
 var lib_components_Column = function(arg) {
 	this.children = null;
@@ -308,9 +363,10 @@ lib_components_Column.prototype = {
 		}
 		return column;
 	}
+	,__class__: lib_components_Column
 };
 var lib_components_Container = function(arg) {
-	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
+	this.size = arg.size != null ? arg.size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
 	this.child = arg.child;
 };
@@ -324,6 +380,33 @@ lib_components_Container.prototype = {
 		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : container, style : this.style, padding : lib_utils_Padding.all(0.0)});
 		return container;
 	}
+	,__class__: lib_components_Container
+};
+var lib_components_Image = function(arg) {
+	this.src = arg.src;
+	this.alt = arg.alt;
+	this.height = arg.height;
+	this.width = arg.width;
+};
+lib_components_Image.__name__ = true;
+lib_components_Image.prototype = {
+	render: function() {
+		var container = window.document.createElement("img");
+		container.src = this.src;
+		container.alt = this.alt;
+		if(this.height == null) {
+			container.style.height = "auto";
+		} else {
+			container.style.height = Std.string(this.height);
+		}
+		if(this.width == null) {
+			container.style.width = "auto";
+		} else {
+			container.style.width = Std.string(this.width) + "%";
+		}
+		return container;
+	}
+	,__class__: lib_components_Image
 };
 var lib_components_Page = function(arg) {
 	this.size = null;
@@ -352,25 +435,76 @@ lib_components_Page.prototype = {
 		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : element, style : this.style, padding : lib_utils_Padding.all(0.0)});
 		return element;
 	}
+	,__class__: lib_components_Page
+};
+var lib_components_Positioned = function(arg) {
+	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
+	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
+	this.top = arg.top != null ? arg.top : 0.0;
+	this.right = arg.right != null ? arg.right : 0.0;
+	this.bottom = arg.bottom != null ? arg.bottom : 0.0;
+	this.left = arg.left != null ? arg.left : 0.0;
+	this.child = arg.child;
+};
+lib_components_Positioned.__name__ = true;
+lib_components_Positioned.prototype = {
+	render: function() {
+		var parent = window.document.createElement("div");
+		parent.style.position = "relative";
+		new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), widget : parent, style : new lib_utils_Style({ }), padding : lib_utils_Padding.all(0.0)});
+		var positioned = window.document.createElement("div");
+		positioned.appendChild(this.child.render());
+		positioned.style.position = "absolute";
+		if(this.top != 0.0) {
+			positioned.style.top = Std.string(this.top) + "px";
+		}
+		if(this.right != 0.0) {
+			positioned.style.right = Std.string(this.right) + "px";
+		}
+		if(this.bottom != 0.0) {
+			positioned.style.bottom = Std.string(this.bottom) + "px";
+		}
+		if(this.left != 0.0) {
+			positioned.style.left = Std.string(this.left) + "px";
+		}
+		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : positioned, style : this.style, padding : lib_utils_Padding.all(0.0)});
+		parent.appendChild(positioned);
+		return parent;
+	}
+	,__class__: lib_components_Positioned
+};
+var lib_components_RowAlignment = $hxEnums["lib.components.RowAlignment"] = { __ename__ : true, __constructs__ : ["TopLeft","TopCenter","TopRight","Left","Center","Right","LowerLeft","LowerCenter","LowerRight","Stretch"]
+	,TopLeft: {_hx_index:0,__enum__:"lib.components.RowAlignment",toString:$estr}
+	,TopCenter: {_hx_index:1,__enum__:"lib.components.RowAlignment",toString:$estr}
+	,TopRight: {_hx_index:2,__enum__:"lib.components.RowAlignment",toString:$estr}
+	,Left: {_hx_index:3,__enum__:"lib.components.RowAlignment",toString:$estr}
+	,Center: {_hx_index:4,__enum__:"lib.components.RowAlignment",toString:$estr}
+	,Right: {_hx_index:5,__enum__:"lib.components.RowAlignment",toString:$estr}
+	,LowerLeft: {_hx_index:6,__enum__:"lib.components.RowAlignment",toString:$estr}
+	,LowerCenter: {_hx_index:7,__enum__:"lib.components.RowAlignment",toString:$estr}
+	,LowerRight: {_hx_index:8,__enum__:"lib.components.RowAlignment",toString:$estr}
+	,Stretch: {_hx_index:9,__enum__:"lib.components.RowAlignment",toString:$estr}
 };
 var lib_components_Row = function(arg) {
 	this.children = null;
 	this.children = arg.children;
 	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
 	this.cellStyle = arg.cellStyle != null ? arg.cellStyle : new lib_utils_Style({ });
-	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
+	this.size = arg.size != null ? arg.size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 	this.cellSize = arg.cellSize != null ? arg.cellSize : new lib_utils_Size({ });
 	this.padding = arg.padding != null ? arg.padding : lib_utils_Padding.all(0.0);
+	this.margin = arg.margin != null ? arg.margin : lib_utils_Margin.all(0.0);
 	this.cellPadding = arg.cellPadding != null ? arg.cellPadding : lib_utils_Padding.all(0.0);
+	this.alignment = arg.alignment != null ? arg.alignment : lib_components_RowAlignment.Center;
 };
 lib_components_Row.__name__ = true;
 lib_components_Row.prototype = {
 	render: function() {
 		var row = window.document.createElement("div");
 		row.style.display = "grid";
-		row.style.gridTemplateColumns = "auto auto auto";
+		row.style.gridTemplateColumns = Std.string(this.children.length) + " auto auto";
 		row.style.gridAutoFlow = "column";
-		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : row, style : this.style, padding : this.padding});
+		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : row, style : this.style, padding : this.padding, alignment : this.alignment});
 		var _g = 0;
 		var _g1 = this.children;
 		while(_g < _g1.length) {
@@ -378,11 +512,12 @@ lib_components_Row.prototype = {
 			++_g;
 			var rowCell = window.document.createElement("div");
 			rowCell.appendChild(child.render());
-			new lib_support_StyleManager().addStyleToDiv({ size : this.cellSize, widget : rowCell, style : this.cellStyle, padding : this.cellPadding});
+			new lib_support_StyleManager().addStyleToDiv({ size : this.cellSize, widget : rowCell, style : this.cellStyle, padding : this.cellPadding, margin : this.margin});
 			row.appendChild(rowCell);
 		}
 		return row;
 	}
+	,__class__: lib_components_Row
 };
 var lib_components_TextFormat = $hxEnums["lib.components.TextFormat"] = { __ename__ : true, __constructs__ : ["h1","h2","h3","h4","h5","h6","p","a","pre"]
 	,h1: {_hx_index:0,__enum__:"lib.components.TextFormat",toString:$estr}
@@ -486,6 +621,7 @@ lib_components_Text.prototype = {
 		element.innerText = this.text;
 		return element;
 	}
+	,__class__: lib_components_Text
 };
 var lib_core_Body = function() {
 };
@@ -504,6 +640,7 @@ lib_core_Body.prototype = {
 	,render: function(widget) {
 		window.document.body.appendChild(widget);
 	}
+	,__class__: lib_core_Body
 };
 var lib_core_Navigate = function() {
 };
@@ -555,6 +692,9 @@ lib_core_Navigate.updateComponent = function(component) {
 	}
 	window.document.body.appendChild(component);
 };
+lib_core_Navigate.prototype = {
+	__class__: lib_core_Navigate
+};
 var lib_support_StyleManager = function() {
 };
 lib_support_StyleManager.__name__ = true;
@@ -564,13 +704,50 @@ lib_support_StyleManager.prototype = {
 		arg.widget.style.width = arg.size.getWidth();
 		arg.widget.style.backgroundColor = arg.style.getBackgroundColor();
 		arg.widget.style.padding = arg.padding.getPadding();
+		var tmp = arg.margin != null ? arg.margin.getMargin() : lib_utils_Margin.all(0.0).getMargin();
+		arg.widget.style.margin = tmp;
+		if(arg.alignment != null) {
+			switch(arg.alignment._hx_index) {
+			case 0:
+				arg.widget.style.placeItems = "start start";
+				break;
+			case 1:
+				arg.widget.style.placeItems = "start center";
+				break;
+			case 2:
+				arg.widget.style.placeItems = "start end";
+				break;
+			case 3:
+				arg.widget.style.placeItems = "center start";
+				break;
+			case 4:
+				arg.widget.style.placeItems = "center center";
+				break;
+			case 5:
+				arg.widget.style.placeItems = "center end";
+				break;
+			case 6:
+				arg.widget.style.placeItems = "end start";
+				break;
+			case 7:
+				arg.widget.style.placeItems = "end center";
+				break;
+			case 8:
+				arg.widget.style.placeItems = "end end";
+				break;
+			case 9:
+				arg.widget.style.placeItems = "stretch";
+				break;
+			}
+		}
 		return arg.widget;
 	}
+	,__class__: lib_support_StyleManager
 };
 var lib_utils__$Color_Color_$Impl_$ = {};
 lib_utils__$Color_Color_$Impl_$.__name__ = true;
 lib_utils__$Color_Color_$Impl_$.fromString = function(rgba) {
-	var this1 = Std.parseInt(rgba);
+	var this1 = Std.parseInt("0xff" + HxOverrides.substr(rgba,1,null));
 	return this1;
 };
 lib_utils__$Color_Color_$Impl_$.fromRGBAi = function(r,g,b,a) {
@@ -649,6 +826,25 @@ lib_utils__$Color_Color_$Impl_$.set_bf = function(this1,bf) {
 	this1 = this2;
 	return bf;
 };
+var lib_utils_Margin = function(arg) {
+	this.top = arg.top;
+	this.right = arg.right;
+	this.bottom = arg.bottom;
+	this.left = arg.left;
+};
+lib_utils_Margin.__name__ = true;
+lib_utils_Margin.fromTRBL = function(top,right,bottom,left) {
+	return new lib_utils_Margin({ top : top, right : right, bottom : bottom, left : left});
+};
+lib_utils_Margin.all = function(padding) {
+	return new lib_utils_Margin({ top : padding, right : padding, bottom : padding, left : padding});
+};
+lib_utils_Margin.prototype = {
+	getMargin: function() {
+		return this.top + "px " + this.right + "px " + this.bottom + "px " + this.left + "px";
+	}
+	,__class__: lib_utils_Margin
+};
 var lib_utils_Padding = function(arg) {
 	this.top = arg.top;
 	this.right = arg.right;
@@ -666,10 +862,11 @@ lib_utils_Padding.prototype = {
 	getPadding: function() {
 		return this.top + "px " + this.right + "px " + this.bottom + "px " + this.left + "px";
 	}
+	,__class__: lib_utils_Padding
 };
 var lib_utils_Size = function(arg) {
 	this.height = arg.height != null ? arg.height : -Infinity;
-	this.heigthType = arg.heigthType != "" ? arg.heigthType : "px";
+	this.heightType = arg.heightType != "" ? arg.heightType : "px";
 	this.width = arg.width != null ? arg.width : -Infinity;
 	this.widthType = arg.widthType != "" ? arg.widthType : "px";
 };
@@ -679,7 +876,7 @@ lib_utils_Size.prototype = {
 		if(this.height == -Infinity) {
 			return null;
 		}
-		return Std.string(this.height) + this.heigthType;
+		return Std.string(this.height) + this.heightType;
 	}
 	,getWidth: function() {
 		if(this.width == -Infinity) {
@@ -687,6 +884,7 @@ lib_utils_Size.prototype = {
 		}
 		return Std.string(this.width) + this.widthType;
 	}
+	,__class__: lib_utils_Size
 };
 var lib_utils_Style = function(arg) {
 	this.color = arg.color;
@@ -707,7 +905,9 @@ lib_utils_Style.prototype = {
 		console.log("lib/utils/Style.hx:29:","rgba(" + (this.backgroundColor >> 16 & 255) + ", " + (this.backgroundColor >> 8 & 255) + ", " + (this.backgroundColor & 255) + ", " + (this.backgroundColor >> 24 & 255) + ")");
 		return "rgba(" + (this.backgroundColor >> 16 & 255) + ", " + (this.backgroundColor >> 8 & 255) + ", " + (this.backgroundColor & 255) + ", " + (this.backgroundColor >> 24 & 255) + ")";
 	}
+	,__class__: lib_utils_Style
 };
+String.prototype.__class__ = String;
 String.__name__ = true;
 Array.__name__ = true;
 Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function() {
@@ -725,4 +925,4 @@ lib_utils__$Color_Color_$Impl_$.CYAN = -16711681;
 lib_utils__$Color_Color_$Impl_$.MAGENTA = -65281;
 lib_utils__$Color_Color_$Impl_$.YELLOW = -256;
 Main.main();
-})({});
+})(typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
