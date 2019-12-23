@@ -14,6 +14,13 @@ class HomeButton extends Button {
         castButton.style.display = "inline-block";
         castButton.style.fontSize = "16px";
         castButton.style.borderRadius = "12px";
+        
+        castButton.onmouseenter = function (e) {
+            castButton.style.borderRadius = "16px";
+        }
+        castButton.onmouseleave = function (e) {
+            castButton.style.borderRadius = "12px";
+        }
         return castButton;
     }
 }
