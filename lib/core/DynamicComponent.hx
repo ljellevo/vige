@@ -17,6 +17,7 @@ class DynamicComponent {
         
     }
 
+    @:require
     public function component(): Widget{
 
         return new Page({route: "/", child: new Text("Component function not overwritten")});

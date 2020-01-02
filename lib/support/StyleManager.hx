@@ -21,6 +21,7 @@ class StyleManager {
         arg.widget.style.height = arg.size.getHeight();
         arg.widget.style.width = arg.size.getWidth();
         arg.widget.style.backgroundColor = arg.style.getBackgroundColor();
+        arg.widget.style.color = arg.style.getColor();
         arg.widget.style.padding = arg.padding.getPadding();
         arg.widget.style.margin = arg.margin != null ? arg.margin.getMargin() : Margin.all(0.0).getMargin();
         

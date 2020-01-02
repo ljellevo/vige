@@ -1,3 +1,4 @@
+import js.Error.SyntaxError;
 import lib.support.Widget;
 import lib.utils.Padding;
 import lib.utils.Size;
@@ -45,7 +46,7 @@ class HelloPage extends DynamicComponent {
               new Text("Text en: " + text),
               new Text("Text to: " + textTo),
               new Button({
-                text: "Click me: En",
+                child: new Text("Click me: En"),
                 onClick: function (e) {
                   setState(this, function(e){
                       text++;
@@ -53,7 +54,7 @@ class HelloPage extends DynamicComponent {
                 }
               }),
               new Button({
-                text: "Click me: To",
+                child: new Text("Click me: To"),
                 onClick: function (e) {
                   setState(this, function(e){
                     text++;
@@ -62,7 +63,7 @@ class HelloPage extends DynamicComponent {
                 }
               }),
               new Button({
-                text: "Navigate",
+                child: new Text("Navigate"),
                 onClick: function (e) {
                   Navigate.to({route: "/", param: [
                     {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
@@ -83,7 +84,8 @@ class HelloPage extends DynamicComponent {
 class HomePage extends StaticComponent{
   public function new() {}
 
-  public function component() : Widget {
+ 
+  override public function component() : Widget {
     return new Page({
       route: "/",
       child: new Column({
@@ -111,7 +113,7 @@ class HomePage extends StaticComponent{
             })
           }),
           new Button({
-            text: "Click me",
+            child: new Text("Click me"),
             onClick: function (e) {
               Navigate.to({route: "/hello", param: [
                 {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
@@ -129,7 +131,22 @@ class HomePage extends StaticComponent{
 class HomeView  extends StaticComponent {
   public function new() {}
 
-  public function component() : Widget {
+
+
+  function homepageButton(text: String, src: String): Widget{
+    return new HomeButton({
+      child: new Row({
+        children: [
+          new Container({style: new Style({color: Color.WHITE}), child: new Image({src: src, height: 20})}),
+          new Container({size: new Size({width: 20, widthType: "px"})}),
+          new Text(text)
+        ]
+      }), 
+      onClick: function (e) {}
+    });
+  }
+
+  override public function component() : Widget {
     return new Page({
       route: "/",
       child: new Column({
@@ -221,7 +238,7 @@ class HomeView  extends StaticComponent {
                         alignment: RowAlignment.Right,
                         children: [
                           //new Button({text: "Prosjekter",onClick: function(e) {trace("Click");}}),
-                          new Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Contributing to the codebase", {style: new Style({color: Color.fromString("#2e3440")})}),
+                          new Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase", {style: new Style({color: Color.fromString("#2e3440")})}),
                         ]
                       })
                     }),
@@ -252,37 +269,9 @@ class HomeView  extends StaticComponent {
             child: new Row({
               alignment: RowAlignment.Center,
               children: [
-                new Column({
-                  children: [
-                    new Center({
-                      alignment: CenterAlignment.Horizontal,
-                      child: new Image({src: "./assets/book-open.svg", height: 20}),
-                    }),
-                    new Container({size: new Size({height: 20, heightType: "px"})}),
-                    new HomeButton({text: "Quick-start", onClick: function (e) {}}),
-                  ]
-                }),
-                new Column({
-                  children: [
-                    new Center({
-                      alignment: CenterAlignment.Horizontal,
-                      child: new Image({src: "./assets/book-solid.svg", height: 20}),
-                    }),
-                    
-                    new Container({size: new Size({height: 20, heightType: "px"})}),
-                    new HomeButton({text: "Widgets", onClick: function (e) {}}),
-                  ]
-                }),
-                new Column({
-                  children: [
-                    new Center({
-                      alignment: CenterAlignment.Horizontal,
-                      child: new Image({src: "./assets/code-solid.svg", height: 20}),
-                    }),
-                    new Container({size: new Size({height: 20, heightType: "px"})}),
-                    new HomeButton({text: "Snippets", onClick: function (e) {}}),
-                  ]
-                }),
+                homepageButton("Quick-start", "./assets/book-open.svg"),
+                homepageButton("Widgets", "./assets/book-solid.svg"),
+                homepageButton("Snippets", "./assets/code-solid.svg")
               ]
             })
           }),

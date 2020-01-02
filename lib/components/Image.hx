@@ -19,17 +19,20 @@ class Image implements Widget {
     var alt: String;
     var height: Float;
     var width: Float;
+    var style: Style;
 
     public function new(arg: {
         src: String,
         ?alt: String,
         ?height: Float,
-        ?width: Float
+        ?width: Float,
+        ?style: Style
     }) {
         this.src = arg.src;
         this.alt = arg.alt;
         this.height = arg.height;
         this.width = arg.width;
+        this.style = arg.style;
     }
     
     public function render():js.html.Node {
@@ -47,6 +50,11 @@ class Image implements Widget {
             container.style.width = "auto";
         } else {
             container.style.width = Std.string(width) + "%";
+        }
+
+        if(style != null) {
+            //container.style.fill = style.getColor();
+            //container.style.backgroundColor = style.getBackgroundColor();
         }
         
         

@@ -9,19 +9,24 @@ function $extend(from, fields) {
 }
 var lib_components_Button = function(arg) {
 	this.onClick = null;
-	this.text = "";
-	this.text = arg.text;
+	this.image = null;
+	this.child = null;
+	this.child = arg.child;
+	this.image = arg.image;
 	this.onClick = arg.onClick;
 };
 lib_components_Button.__name__ = true;
 lib_components_Button.prototype = {
 	render: function() {
 		var button = window.document.createElement("button");
-		button.textContent = this.text;
+		button.appendChild(this.child.render());
 		button.onclick = this.onClick;
+		if(this.image != null) {
+			console.log("lib/components/Button.hx:23:","Button with image");
+			button.appendChild(this.image.render());
+		}
 		return button;
 	}
-	,__class__: lib_components_Button
 };
 var HomeButton = function(arg) {
 	lib_components_Button.call(this,arg);
@@ -30,7 +35,7 @@ HomeButton.__name__ = true;
 HomeButton.__super__ = lib_components_Button;
 HomeButton.prototype = $extend(lib_components_Button.prototype,{
 	render: function() {
-		var button = new lib_components_Button({ text : this.text, onClick : this.onClick});
+		var button = new lib_components_Button({ child : this.child, onClick : this.onClick});
 		var castButton = button.render();
 		castButton.style.backgroundColor = "#2e3440";
 		castButton.style.border = "none";
@@ -49,7 +54,6 @@ HomeButton.prototype = $extend(lib_components_Button.prototype,{
 		};
 		return castButton;
 	}
-	,__class__: HomeButton
 });
 var HxOverrides = function() { };
 HxOverrides.__name__ = true;
@@ -79,7 +83,6 @@ lib_core_DynamicComponent.prototype = {
 	,component: function() {
 		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
 	}
-	,__class__: lib_core_DynamicComponent
 };
 var HelloPage = function() {
 	this.textTo = 0;
@@ -91,42 +94,49 @@ HelloPage.__super__ = lib_core_DynamicComponent;
 HelloPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	component: function() {
 		var _gthis = this;
-		this.page = new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "%"}), children : [new lib_components_Text("Text en: " + this.text),new lib_components_Text("Text to: " + this.textTo),new lib_components_Button({ text : "Click me: En", onClick : function(e) {
+		this.page = new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "%"}), children : [new lib_components_Text("Text en: " + this.text),new lib_components_Text("Text to: " + this.textTo),new lib_components_Button({ child : new lib_components_Text("Click me: En"), onClick : function(e) {
 			_gthis.setState(_gthis,function(e1) {
 				_gthis.text++;
 			});
-		}}),new lib_components_Button({ text : "Click me: To", onClick : function(e2) {
+		}}),new lib_components_Button({ child : new lib_components_Text("Click me: To"), onClick : function(e2) {
 			_gthis.setState(_gthis,function(e3) {
 				_gthis.text++;
 				_gthis.textTo++;
 			});
-		}}),new lib_components_Button({ text : "Navigate", onClick : function(e4) {
+		}}),new lib_components_Button({ child : new lib_components_Text("Navigate"), onClick : function(e4) {
 			lib_core_Navigate.to({ route : "/", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
 		}})]})]})});
 		return this.page;
 	}
-	,__class__: HelloPage
 });
 var lib_core_StaticComponent = function() { };
 lib_core_StaticComponent.__name__ = true;
+lib_core_StaticComponent.prototype = {
+	component: function() {
+		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
+	}
+};
 var HomePage = function() {
 };
 HomePage.__name__ = true;
 HomePage.__super__ = lib_core_StaticComponent;
 HomePage.prototype = $extend(lib_core_StaticComponent.prototype,{
 	component: function() {
-		return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heightType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281, backgroundColor : -256})}),new lib_components_Button({ text : "Click me", onClick : function(e) {
+		return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heightType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281, backgroundColor : -256})}),new lib_components_Button({ child : new lib_components_Text("Click me"), onClick : function(e) {
 			lib_core_Navigate.to({ route : "/hello", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
 		}})]})});
 	}
-	,__class__: HomePage
 });
 var HomeView = function() {
 };
 HomeView.__name__ = true;
 HomeView.__super__ = lib_core_StaticComponent;
 HomeView.prototype = $extend(lib_core_StaticComponent.prototype,{
-	component: function() {
+	homepageButton: function(text,src) {
+		return new HomeButton({ child : new lib_components_Row({ children : [new lib_components_Container({ style : new lib_utils_Style({ color : -1}), child : new lib_components_Image({ src : src, height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})}),new lib_components_Text(text)]}), onClick : function(e) {
+		}});
+	}
+	,component: function() {
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		var tmp = new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ size : 88}),new lib_components_Text("The declarative web-framework")]})})});
 		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
@@ -136,14 +146,10 @@ HomeView.prototype = $extend(lib_core_StaticComponent.prototype,{
 		var tmp3 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 		var tmp4 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
 		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp5 = new lib_components_Container({ child : new lib_components_Column({ style : tmp2, size : tmp3, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : tmp4, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Contributing to the codebase",{ style : new lib_utils_Style({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100})]})})]})]})});
+		var tmp5 = new lib_components_Container({ child : new lib_components_Column({ style : tmp2, size : tmp3, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : tmp4, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ style : new lib_utils_Style({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100})]})})]})]})});
 		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		return new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp5,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this14}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [new lib_components_Column({ children : [new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Image({ src : "./assets/book-open.svg", height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ height : 20, heightType : "px"})}),new HomeButton({ text : "Quick-start", onClick : function(e) {
-		}})]}),new lib_components_Column({ children : [new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Image({ src : "./assets/book-solid.svg", height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ height : 20, heightType : "px"})}),new HomeButton({ text : "Widgets", onClick : function(e1) {
-		}})]}),new lib_components_Column({ children : [new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Image({ src : "./assets/code-solid.svg", height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ height : 20, heightType : "px"})}),new HomeButton({ text : "Snippets", onClick : function(e2) {
-		}})]})]})})]})});
+		return new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp5,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this14}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg")]})})]})});
 	}
-	,__class__: HomeView
 });
 var Main = function() { };
 Main.__name__ = true;
@@ -192,7 +198,6 @@ var js__$Boot_HaxeError = function(val) {
 js__$Boot_HaxeError.__name__ = true;
 js__$Boot_HaxeError.__super__ = Error;
 js__$Boot_HaxeError.prototype = $extend(Error.prototype,{
-	__class__: js__$Boot_HaxeError
 });
 var js_Boot = function() { };
 js_Boot.__name__ = true;
@@ -338,7 +343,6 @@ lib_components_Center.prototype = {
 		}
 		return parent;
 	}
-	,__class__: lib_components_Center
 };
 var lib_components_Column = function(arg) {
 	this.children = null;
@@ -369,7 +373,6 @@ lib_components_Column.prototype = {
 		}
 		return column;
 	}
-	,__class__: lib_components_Column
 };
 var lib_components_Container = function(arg) {
 	this.size = arg.size != null ? arg.size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
@@ -386,13 +389,13 @@ lib_components_Container.prototype = {
 		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : container, style : this.style, padding : lib_utils_Padding.all(0.0)});
 		return container;
 	}
-	,__class__: lib_components_Container
 };
 var lib_components_Image = function(arg) {
 	this.src = arg.src;
 	this.alt = arg.alt;
 	this.height = arg.height;
 	this.width = arg.width;
+	this.style = arg.style;
 };
 lib_components_Image.__name__ = true;
 lib_components_Image.prototype = {
@@ -410,9 +413,9 @@ lib_components_Image.prototype = {
 		} else {
 			container.style.width = Std.string(this.width) + "%";
 		}
+		var tmp = this.style != null;
 		return container;
 	}
-	,__class__: lib_components_Image
 };
 var lib_components_Page = function(arg) {
 	this.size = null;
@@ -441,7 +444,6 @@ lib_components_Page.prototype = {
 		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : element, style : this.style, padding : lib_utils_Padding.all(0.0)});
 		return element;
 	}
-	,__class__: lib_components_Page
 };
 var lib_components_Positioned = function(arg) {
 	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
@@ -477,7 +479,6 @@ lib_components_Positioned.prototype = {
 		parent.appendChild(positioned);
 		return parent;
 	}
-	,__class__: lib_components_Positioned
 };
 var lib_components_RowAlignment = $hxEnums["lib.components.RowAlignment"] = { __ename__ : true, __constructs__ : ["TopLeft","TopCenter","TopRight","Left","Center","Right","LowerLeft","LowerCenter","LowerRight","Stretch"]
 	,TopLeft: {_hx_index:0,__enum__:"lib.components.RowAlignment",toString:$estr}
@@ -523,7 +524,6 @@ lib_components_Row.prototype = {
 		}
 		return row;
 	}
-	,__class__: lib_components_Row
 };
 var lib_components_TextFormat = $hxEnums["lib.components.TextFormat"] = { __ename__ : true, __constructs__ : ["h1","h2","h3","h4","h5","h6","p","a","pre"]
 	,h1: {_hx_index:0,__enum__:"lib.components.TextFormat",toString:$estr}
@@ -627,7 +627,6 @@ lib_components_Text.prototype = {
 		element.innerText = this.text;
 		return element;
 	}
-	,__class__: lib_components_Text
 };
 var lib_core_Body = function() {
 };
@@ -646,7 +645,6 @@ lib_core_Body.prototype = {
 	,render: function(widget) {
 		window.document.body.appendChild(widget);
 	}
-	,__class__: lib_core_Body
 };
 var lib_core_Navigate = function() {
 };
@@ -698,9 +696,6 @@ lib_core_Navigate.updateComponent = function(component) {
 	}
 	window.document.body.appendChild(component);
 };
-lib_core_Navigate.prototype = {
-	__class__: lib_core_Navigate
-};
 var lib_support_StyleManager = function() {
 };
 lib_support_StyleManager.__name__ = true;
@@ -709,6 +704,7 @@ lib_support_StyleManager.prototype = {
 		arg.widget.style.height = arg.size.getHeight();
 		arg.widget.style.width = arg.size.getWidth();
 		arg.widget.style.backgroundColor = arg.style.getBackgroundColor();
+		arg.widget.style.color = arg.style.getColor();
 		arg.widget.style.padding = arg.padding.getPadding();
 		var tmp = arg.margin != null ? arg.margin.getMargin() : lib_utils_Margin.all(0.0).getMargin();
 		arg.widget.style.margin = tmp;
@@ -748,7 +744,6 @@ lib_support_StyleManager.prototype = {
 		}
 		return arg.widget;
 	}
-	,__class__: lib_support_StyleManager
 };
 var lib_utils__$Color_Color_$Impl_$ = {};
 lib_utils__$Color_Color_$Impl_$.__name__ = true;
@@ -849,7 +844,6 @@ lib_utils_Margin.prototype = {
 	getMargin: function() {
 		return this.top + "px " + this.right + "px " + this.bottom + "px " + this.left + "px";
 	}
-	,__class__: lib_utils_Margin
 };
 var lib_utils_Padding = function(arg) {
 	this.top = arg.top;
@@ -868,7 +862,6 @@ lib_utils_Padding.prototype = {
 	getPadding: function() {
 		return this.top + "px " + this.right + "px " + this.bottom + "px " + this.left + "px";
 	}
-	,__class__: lib_utils_Padding
 };
 var lib_utils_Size = function(arg) {
 	this.height = arg.height != null ? arg.height : -Infinity;
@@ -890,7 +883,6 @@ lib_utils_Size.prototype = {
 		}
 		return Std.string(this.width) + this.widthType;
 	}
-	,__class__: lib_utils_Size
 };
 var lib_utils_Style = function(arg) {
 	this.color = arg.color;
@@ -911,9 +903,7 @@ lib_utils_Style.prototype = {
 		console.log("lib/utils/Style.hx:29:","rgba(" + (this.backgroundColor >> 16 & 255) + ", " + (this.backgroundColor >> 8 & 255) + ", " + (this.backgroundColor & 255) + ", " + (this.backgroundColor >> 24 & 255) + ")");
 		return "rgba(" + (this.backgroundColor >> 16 & 255) + ", " + (this.backgroundColor >> 8 & 255) + ", " + (this.backgroundColor & 255) + ", " + (this.backgroundColor >> 24 & 255) + ")";
 	}
-	,__class__: lib_utils_Style
 };
-String.prototype.__class__ = String;
 String.__name__ = true;
 Array.__name__ = true;
 Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function() {
@@ -931,4 +921,4 @@ lib_utils__$Color_Color_$Impl_$.CYAN = -16711681;
 lib_utils__$Color_Color_$Impl_$.MAGENTA = -65281;
 lib_utils__$Color_Color_$Impl_$.YELLOW = -256;
 Main.main();
-})(typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
+})({});
