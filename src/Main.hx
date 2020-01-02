@@ -263,14 +263,65 @@ class HomeView  extends DynamicComponent {
                         ]
                       })
                     }),
-                    
                   ]
                 })
               ]
             }),
           }),
+          
           new Container({
-            style: new Style({backgroundColor: Color.fromString("#fafafa")}),
+            style: new Style({backgroundColor: Color.fromString("#98b979")}),
+            size: new Size({height: 400, heightType: "px", width: 100, widthType: "%"}),
+            child: new Center({
+              alignment: CenterAlignment.Both,
+              child: new Column({
+                children: [
+                  new Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.", {style: new Style({color: Color.fromString("#2e3440")})}),
+                  new Container({size: new Size({height: 50, heightType: "px"})}),
+                  new Center({
+                    alignment: CenterAlignment.Horizontal,
+                    child: new Request({
+                      url: "http://localhost:3000/test",
+                      onComplete: function(res: HttpResponse) {
+                        trace(res.content);
+                        return new Text("Single request: " + res.content);
+                      },
+                      onProgress: function() {
+                        return new Text("Loading");
+                      },
+                      onError: function(res: HttpResponse) {
+                        return new Text("Error: " + res.error);
+                      },
+                    }),
+                  }),
+                  new Container({size: new Size({height: 50, heightType: "px"})}),
+                  new Center({
+                    alignment: CenterAlignment.Horizontal,
+                    child: new Stream({
+                      url: "ws://localhost:3001/socket",
+                      onStandby: function() {
+                        return new Text("On standby");
+                      },
+                      onOpen: function(res: Event) {
+                        return new Text("Connection opened");
+                      },
+                      onMessage: function(res: MessageEvent) {
+                        return new Text("WebSocket: " + res.data);
+                      },
+                      onClose: function(res: CloseEvent) {
+                        return new Text("Connection closed");
+                      },
+                      onError: function(res: ErrorEvent) {
+                        return new Text("Error");
+                      },
+                    })
+                  }),
+                ]
+              })
+            }), 
+          }),
+          new Container({
+            style: new Style({backgroundColor: Color.fromString("#98b979")}),
             size: new Size({height: 150, heightType: "px", width: 100, widthType: "%"}),
             child: new Row({
               alignment: RowAlignment.Center,
@@ -283,38 +334,6 @@ class HomeView  extends DynamicComponent {
               ]
             })
           }),
-
-          new Request({
-            url: "http://localhost:3000/test",
-            onComplete: function(res: HttpResponse) {
-              trace(res.content);
-              return new Text("Done from main: " + res.content);
-            },
-            onProgress: function() {
-              return new Text("Progress");
-            },
-            onError: function(res: HttpResponse) {
-              return new Text("Error from main: " + res.error);
-            },
-          }),
-          new Stream({
-            url: "ws://localhost:3001/socket",
-            onStandby: function() {
-              return new Text("On standby");
-            },
-            onOpen: function(res: Event) {
-              return new Text("Connection opened");
-            },
-            onMessage: function(res: MessageEvent) {
-              return new Text("Message recieved: " + res.data);
-            },
-            onClose: function(res: CloseEvent) {
-              return new Text("Connection closed");
-            },
-            onError: function(res: ErrorEvent) {
-              return new Text("Error");
-            },
-          })
         ]
       })
     });

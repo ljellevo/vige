@@ -8,7 +8,7 @@ class HomeButton extends Button {
         castButton.style.backgroundColor = "#2e3440";
         castButton.style.border = "none";
         castButton.style.color = "#fafafa";
-        castButton.style.padding = "15px 32px";
+        castButton.style.padding = "8px 22px";
         castButton.style.textAlign = "center";
         castButton.style.textDecoration = "none";
         castButton.style.display = "inline-block";

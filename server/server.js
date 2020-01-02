@@ -41,7 +41,7 @@ app.get('*', function(req, res){
 var expressWs = require('express-ws')(app);
 
 app.get('/test', function(req, res){
-    res.send("Hello World");
+    res.send("I am a message from the server!");
   
 
 });

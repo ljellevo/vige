@@ -71,7 +71,7 @@ HomeButton.prototype = $extend(lib_components_Button.prototype,{
 		castButton.style.backgroundColor = "#2e3440";
 		castButton.style.border = "none";
 		castButton.style.color = "#fafafa";
-		castButton.style.padding = "15px 32px";
+		castButton.style.padding = "8px 22px";
 		castButton.style.textAlign = "center";
 		castButton.style.textDecoration = "none";
 		castButton.style.display = "inline-block";
@@ -221,25 +221,30 @@ HomeView.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var tmp4 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
 		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
 		var tmp5 = new lib_components_Container({ child : new lib_components_Column({ style : tmp2, size : tmp3, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : tmp4, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ style : new lib_utils_Style({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100})]})})]})]})});
-		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp5,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this14}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg"),this.homepageButton("Templates","./assets/template.svg"),this.homepageButton("Codebase","./assets/github.svg")]})}),new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
-			console.log("src/Main.hx:290:",res.get_content());
-			return new lib_components_Text("Done from main: " + Std.string(res.get_content()));
+		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
+		var tmp6 = new lib_utils_Style({ backgroundColor : this14});
+		var tmp7 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
+		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp8 = new lib_components_Container({ style : tmp6, size : tmp7, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ style : new lib_utils_Style({ color : this15})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
+			console.log("src/Main.hx:286:",res.get_content());
+			return new lib_components_Text("Single request: " + Std.string(res.get_content()));
 		}, onProgress : function() {
-			return new lib_components_Text("Progress");
+			return new lib_components_Text("Loading");
 		}, onError : function(res1) {
-			return new lib_components_Text("Error from main: " + res1.get_error());
-		}}),new lib_components_Stream({ url : "ws://localhost:3001/socket", onStandby : function() {
+			return new lib_components_Text("Error: " + res1.get_error());
+		}})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Stream({ url : "ws://localhost:3001/socket", onStandby : function() {
 			return new lib_components_Text("On standby");
 		}, onOpen : function(res2) {
 			return new lib_components_Text("Connection opened");
 		}, onMessage : function(res3) {
-			return new lib_components_Text("Message recieved: " + Std.string(res3.data));
+			return new lib_components_Text("WebSocket: " + Std.string(res3.data));
 		}, onClose : function(res4) {
 			return new lib_components_Text("Connection closed");
 		}, onError : function(res5) {
 			return new lib_components_Text("Error");
-		}})]})});
+		}})})]})})});
+		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
+		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp5,tmp8,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this16}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg"),this.homepageButton("Templates","./assets/template.svg"),this.homepageButton("Codebase","./assets/github.svg")]})})]})});
 		return this.page;
 	}
 	,__class__: HomeView
