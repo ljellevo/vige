@@ -8,7 +8,12 @@ class DynamicComponent {
     var page: Page = null;
 
     public function setState(component: DynamicComponent, callback: haxe.Constraints.Function) {
-        var oldComponent = page.render();
+        var oldComponent;
+        if(page != null){
+            
+            oldComponent = page.render();
+        }
+        
         callback();
         var newComponent = component.component().render();
         Navigate.updateComponent(component.component().render());
@@ -19,7 +24,6 @@ class DynamicComponent {
 
     @:require
     public function component(): Widget{
-
         return new Page({route: "/", child: new Text("Component function not overwritten")});
     }
     

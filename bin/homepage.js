@@ -7,6 +7,34 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var EReg = function(r,opt) {
+	this.r = new RegExp(r,opt.split("u").join(""));
+};
+EReg.__name__ = "EReg";
+EReg.prototype = {
+	match: function(s) {
+		if(this.r.global) {
+			this.r.lastIndex = 0;
+		}
+		this.r.m = this.r.exec(s);
+		this.r.s = s;
+		return this.r.m != null;
+	}
+	,matched: function(n) {
+		if(this.r.m != null && n >= 0 && n < this.r.m.length) {
+			return this.r.m[n];
+		} else {
+			throw new js__$Boot_HaxeError("EReg::matched");
+		}
+	}
+	,__class__: EReg
+};
+var lib_support_Widget = function() { };
+lib_support_Widget.__name__ = "lib.support.Widget";
+lib_support_Widget.__isInterface__ = true;
+lib_support_Widget.prototype = {
+	__class__: lib_support_Widget
+};
 var lib_components_Button = function(arg) {
 	this.onClick = null;
 	this.image = null;
@@ -15,7 +43,8 @@ var lib_components_Button = function(arg) {
 	this.image = arg.image;
 	this.onClick = arg.onClick;
 };
-lib_components_Button.__name__ = true;
+lib_components_Button.__name__ = "lib.components.Button";
+lib_components_Button.__interfaces__ = [lib_support_Widget];
 lib_components_Button.prototype = {
 	render: function() {
 		var button = window.document.createElement("button");
@@ -27,11 +56,12 @@ lib_components_Button.prototype = {
 		}
 		return button;
 	}
+	,__class__: lib_components_Button
 };
 var HomeButton = function(arg) {
 	lib_components_Button.call(this,arg);
 };
-HomeButton.__name__ = true;
+HomeButton.__name__ = "HomeButton";
 HomeButton.__super__ = lib_components_Button;
 HomeButton.prototype = $extend(lib_components_Button.prototype,{
 	render: function() {
@@ -54,9 +84,17 @@ HomeButton.prototype = $extend(lib_components_Button.prototype,{
 		};
 		return castButton;
 	}
+	,__class__: HomeButton
 });
 var HxOverrides = function() { };
-HxOverrides.__name__ = true;
+HxOverrides.__name__ = "HxOverrides";
+HxOverrides.cca = function(s,index) {
+	var x = s.charCodeAt(index);
+	if(x != x) {
+		return undefined;
+	}
+	return x;
+};
 HxOverrides.substr = function(s,pos,len) {
 	if(len == null) {
 		len = s.length;
@@ -69,13 +107,43 @@ HxOverrides.substr = function(s,pos,len) {
 	}
 	return s.substr(pos,len);
 };
+HxOverrides.remove = function(a,obj) {
+	var i = a.indexOf(obj);
+	if(i == -1) {
+		return false;
+	}
+	a.splice(i,1);
+	return true;
+};
+HxOverrides.iter = function(a) {
+	return { cur : 0, arr : a, hasNext : function() {
+		return this.cur < this.arr.length;
+	}, next : function() {
+		return this.arr[this.cur++];
+	}};
+};
+var Lambda = function() { };
+Lambda.__name__ = "Lambda";
+Lambda.exists = function(it,f) {
+	var x = $getIterator(it);
+	while(x.hasNext()) {
+		var x1 = x.next();
+		if(f(x1)) {
+			return true;
+		}
+	}
+	return false;
+};
 var lib_core_DynamicComponent = function() {
 	this.page = null;
 };
-lib_core_DynamicComponent.__name__ = true;
+lib_core_DynamicComponent.__name__ = "lib.core.DynamicComponent";
 lib_core_DynamicComponent.prototype = {
 	setState: function(component,callback) {
-		var oldComponent = this.page.render();
+		var oldComponent;
+		if(this.page != null) {
+			oldComponent = this.page.render();
+		}
 		callback();
 		var newComponent = component.component().render();
 		lib_core_Navigate.updateComponent(component.component().render());
@@ -83,13 +151,14 @@ lib_core_DynamicComponent.prototype = {
 	,component: function() {
 		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
 	}
+	,__class__: lib_core_DynamicComponent
 };
 var HelloPage = function() {
 	this.textTo = 0;
 	this.text = 0;
 	lib_core_DynamicComponent.call(this);
 };
-HelloPage.__name__ = true;
+HelloPage.__name__ = "HelloPage";
 HelloPage.__super__ = lib_core_DynamicComponent;
 HelloPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	component: function() {
@@ -108,17 +177,19 @@ HelloPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		}})]})]})});
 		return this.page;
 	}
+	,__class__: HelloPage
 });
 var lib_core_StaticComponent = function() { };
-lib_core_StaticComponent.__name__ = true;
+lib_core_StaticComponent.__name__ = "lib.core.StaticComponent";
 lib_core_StaticComponent.prototype = {
 	component: function() {
 		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
 	}
+	,__class__: lib_core_StaticComponent
 };
 var HomePage = function() {
 };
-HomePage.__name__ = true;
+HomePage.__name__ = "HomePage";
 HomePage.__super__ = lib_core_StaticComponent;
 HomePage.prototype = $extend(lib_core_StaticComponent.prototype,{
 	component: function() {
@@ -126,12 +197,14 @@ HomePage.prototype = $extend(lib_core_StaticComponent.prototype,{
 			lib_core_Navigate.to({ route : "/hello", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
 		}})]})});
 	}
+	,__class__: HomePage
 });
 var HomeView = function() {
+	lib_core_DynamicComponent.call(this);
 };
-HomeView.__name__ = true;
-HomeView.__super__ = lib_core_StaticComponent;
-HomeView.prototype = $extend(lib_core_StaticComponent.prototype,{
+HomeView.__name__ = "HomeView";
+HomeView.__super__ = lib_core_DynamicComponent;
+HomeView.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	homepageButton: function(text,src) {
 		return new HomeButton({ child : new lib_components_Row({ children : [new lib_components_Container({ style : new lib_utils_Style({ color : -1}), child : new lib_components_Image({ src : src, height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})}),new lib_components_Text(text)]}), onClick : function(e) {
 		}});
@@ -148,11 +221,19 @@ HomeView.prototype = $extend(lib_core_StaticComponent.prototype,{
 		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
 		var tmp5 = new lib_components_Container({ child : new lib_components_Column({ style : tmp2, size : tmp3, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : tmp4, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ style : new lib_utils_Style({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100})]})})]})]})});
 		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		return new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp5,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this14}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg")]})})]})});
+		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp5,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this14}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg")]})}),new lib_components_Request(this,{ url : "http://localhost:3000/test", onComplete : function(res) {
+			return new lib_components_Text("Done from main: " + res);
+		}, onProgress : function() {
+			return new lib_components_Text("Progress");
+		}, onError : function(res1) {
+			return new lib_components_Text("Error from main: " + res1);
+		}})]})});
+		return this.page;
 	}
+	,__class__: HomeView
 });
 var Main = function() { };
-Main.__name__ = true;
+Main.__name__ = "Main";
 Main.main = function() {
 	var body = new lib_core_Body();
 	body.font("Lato","100");
@@ -163,9 +244,62 @@ Main.main = function() {
 	});
 	body.init();
 };
-Math.__name__ = true;
+Math.__name__ = "Math";
+var Reflect = function() { };
+Reflect.__name__ = "Reflect";
+Reflect.getProperty = function(o,field) {
+	var tmp;
+	if(o == null) {
+		return null;
+	} else {
+		var tmp1;
+		if(o.__properties__) {
+			tmp = o.__properties__["get_" + field];
+			tmp1 = tmp;
+		} else {
+			tmp1 = false;
+		}
+		if(tmp1) {
+			return o[tmp]();
+		} else {
+			return o[field];
+		}
+	}
+};
+Reflect.fields = function(o) {
+	var a = [];
+	if(o != null) {
+		var hasOwnProperty = Object.prototype.hasOwnProperty;
+		for( var f in o ) {
+		if(f != "__id__" && f != "hx__closures__" && hasOwnProperty.call(o,f)) {
+			a.push(f);
+		}
+		}
+	}
+	return a;
+};
+Reflect.isFunction = function(f) {
+	if(typeof(f) == "function") {
+		return !(f.__name__ || f.__ename__);
+	} else {
+		return false;
+	}
+};
+Reflect.compareMethods = function(f1,f2) {
+	if(f1 == f2) {
+		return true;
+	}
+	if(!Reflect.isFunction(f1) || !Reflect.isFunction(f2)) {
+		return false;
+	}
+	if(f1.scope == f2.scope && f1.method == f2.method) {
+		return f1.method != null;
+	} else {
+		return false;
+	}
+};
 var Std = function() { };
-Std.__name__ = true;
+Std.__name__ = "Std";
 Std.string = function(s) {
 	return js_Boot.__string_rec(s,"");
 };
@@ -188,6 +322,2159 @@ Std.parseInt = function(x) {
 	}
 	return null;
 };
+Std.random = function(x) {
+	if(x <= 0) {
+		return 0;
+	} else {
+		return Math.floor(Math.random() * x);
+	}
+};
+var StringBuf = function() {
+	this.b = "";
+};
+StringBuf.__name__ = "StringBuf";
+StringBuf.prototype = {
+	__class__: StringBuf
+};
+var StringTools = function() { };
+StringTools.__name__ = "StringTools";
+StringTools.htmlEscape = function(s,quotes) {
+	var buf_b = "";
+	var _g_offset = 0;
+	var _g_s = s;
+	while(_g_offset < _g_s.length) {
+		var s1 = _g_s;
+		var index = _g_offset++;
+		var c = s1.charCodeAt(index);
+		if(c >= 55296 && c <= 56319) {
+			c = c - 55232 << 10 | s1.charCodeAt(index + 1) & 1023;
+		}
+		var c1 = c;
+		if(c1 >= 65536) {
+			++_g_offset;
+		}
+		var code = c1;
+		switch(code) {
+		case 34:
+			if(quotes) {
+				buf_b += "&quot;";
+			} else {
+				buf_b += String.fromCodePoint(code);
+			}
+			break;
+		case 38:
+			buf_b += "&amp;";
+			break;
+		case 39:
+			if(quotes) {
+				buf_b += "&#039;";
+			} else {
+				buf_b += String.fromCodePoint(code);
+			}
+			break;
+		case 60:
+			buf_b += "&lt;";
+			break;
+		case 62:
+			buf_b += "&gt;";
+			break;
+		default:
+			buf_b += String.fromCodePoint(code);
+		}
+	}
+	return buf_b;
+};
+StringTools.isSpace = function(s,pos) {
+	var c = HxOverrides.cca(s,pos);
+	if(!(c > 8 && c < 14)) {
+		return c == 32;
+	} else {
+		return true;
+	}
+};
+StringTools.ltrim = function(s) {
+	var l = s.length;
+	var r = 0;
+	while(r < l && StringTools.isSpace(s,r)) ++r;
+	if(r > 0) {
+		return HxOverrides.substr(s,r,l - r);
+	} else {
+		return s;
+	}
+};
+StringTools.rtrim = function(s) {
+	var l = s.length;
+	var r = 0;
+	while(r < l && StringTools.isSpace(s,l - r - 1)) ++r;
+	if(r > 0) {
+		return HxOverrides.substr(s,0,l - r);
+	} else {
+		return s;
+	}
+};
+StringTools.trim = function(s) {
+	return StringTools.ltrim(StringTools.rtrim(s));
+};
+var _$Xml_XmlType_$Impl_$ = {};
+_$Xml_XmlType_$Impl_$.__name__ = "_Xml.XmlType_Impl_";
+_$Xml_XmlType_$Impl_$.toString = function(this1) {
+	switch(this1) {
+	case 0:
+		return "Element";
+	case 1:
+		return "PCData";
+	case 2:
+		return "CData";
+	case 3:
+		return "Comment";
+	case 4:
+		return "DocType";
+	case 5:
+		return "ProcessingInstruction";
+	case 6:
+		return "Document";
+	}
+};
+var Xml = function(nodeType) {
+	this.nodeType = nodeType;
+	this.children = [];
+	this.attributeMap = new haxe_ds_StringMap();
+};
+Xml.__name__ = "Xml";
+Xml.parse = function(str) {
+	return haxe_xml_Parser.parse(str);
+};
+Xml.createElement = function(name) {
+	var xml = new Xml(Xml.Element);
+	if(xml.nodeType != Xml.Element) {
+		throw new js__$Boot_HaxeError("Bad node type, expected Element but found " + _$Xml_XmlType_$Impl_$.toString(xml.nodeType));
+	}
+	xml.nodeName = name;
+	return xml;
+};
+Xml.createPCData = function(data) {
+	var xml = new Xml(Xml.PCData);
+	if(xml.nodeType == Xml.Document || xml.nodeType == Xml.Element) {
+		throw new js__$Boot_HaxeError("Bad node type, unexpected " + _$Xml_XmlType_$Impl_$.toString(xml.nodeType));
+	}
+	xml.nodeValue = data;
+	return xml;
+};
+Xml.createCData = function(data) {
+	var xml = new Xml(Xml.CData);
+	if(xml.nodeType == Xml.Document || xml.nodeType == Xml.Element) {
+		throw new js__$Boot_HaxeError("Bad node type, unexpected " + _$Xml_XmlType_$Impl_$.toString(xml.nodeType));
+	}
+	xml.nodeValue = data;
+	return xml;
+};
+Xml.createComment = function(data) {
+	var xml = new Xml(Xml.Comment);
+	if(xml.nodeType == Xml.Document || xml.nodeType == Xml.Element) {
+		throw new js__$Boot_HaxeError("Bad node type, unexpected " + _$Xml_XmlType_$Impl_$.toString(xml.nodeType));
+	}
+	xml.nodeValue = data;
+	return xml;
+};
+Xml.createDocType = function(data) {
+	var xml = new Xml(Xml.DocType);
+	if(xml.nodeType == Xml.Document || xml.nodeType == Xml.Element) {
+		throw new js__$Boot_HaxeError("Bad node type, unexpected " + _$Xml_XmlType_$Impl_$.toString(xml.nodeType));
+	}
+	xml.nodeValue = data;
+	return xml;
+};
+Xml.createProcessingInstruction = function(data) {
+	var xml = new Xml(Xml.ProcessingInstruction);
+	if(xml.nodeType == Xml.Document || xml.nodeType == Xml.Element) {
+		throw new js__$Boot_HaxeError("Bad node type, unexpected " + _$Xml_XmlType_$Impl_$.toString(xml.nodeType));
+	}
+	xml.nodeValue = data;
+	return xml;
+};
+Xml.createDocument = function() {
+	return new Xml(Xml.Document);
+};
+Xml.prototype = {
+	get: function(att) {
+		if(this.nodeType != Xml.Element) {
+			throw new js__$Boot_HaxeError("Bad node type, expected Element but found " + _$Xml_XmlType_$Impl_$.toString(this.nodeType));
+		}
+		var _this = this.attributeMap;
+		if(__map_reserved[att] != null) {
+			return _this.getReserved(att);
+		} else {
+			return _this.h[att];
+		}
+	}
+	,set: function(att,value) {
+		if(this.nodeType != Xml.Element) {
+			throw new js__$Boot_HaxeError("Bad node type, expected Element but found " + _$Xml_XmlType_$Impl_$.toString(this.nodeType));
+		}
+		var _this = this.attributeMap;
+		if(__map_reserved[att] != null) {
+			_this.setReserved(att,value);
+		} else {
+			_this.h[att] = value;
+		}
+	}
+	,exists: function(att) {
+		if(this.nodeType != Xml.Element) {
+			throw new js__$Boot_HaxeError("Bad node type, expected Element but found " + _$Xml_XmlType_$Impl_$.toString(this.nodeType));
+		}
+		var _this = this.attributeMap;
+		if(__map_reserved[att] != null) {
+			return _this.existsReserved(att);
+		} else {
+			return _this.h.hasOwnProperty(att);
+		}
+	}
+	,attributes: function() {
+		if(this.nodeType != Xml.Element) {
+			throw new js__$Boot_HaxeError("Bad node type, expected Element but found " + _$Xml_XmlType_$Impl_$.toString(this.nodeType));
+		}
+		return this.attributeMap.keys();
+	}
+	,addChild: function(x) {
+		if(this.nodeType != Xml.Document && this.nodeType != Xml.Element) {
+			throw new js__$Boot_HaxeError("Bad node type, expected Element or Document but found " + _$Xml_XmlType_$Impl_$.toString(this.nodeType));
+		}
+		if(x.parent != null) {
+			x.parent.removeChild(x);
+		}
+		this.children.push(x);
+		x.parent = this;
+	}
+	,removeChild: function(x) {
+		if(this.nodeType != Xml.Document && this.nodeType != Xml.Element) {
+			throw new js__$Boot_HaxeError("Bad node type, expected Element or Document but found " + _$Xml_XmlType_$Impl_$.toString(this.nodeType));
+		}
+		if(HxOverrides.remove(this.children,x)) {
+			x.parent = null;
+			return true;
+		}
+		return false;
+	}
+	,toString: function() {
+		return haxe_xml_Printer.print(this);
+	}
+	,__class__: Xml
+};
+var com_akifox_asynchttp__$AsyncHttp_HttpTransferMode = $hxEnums["com.akifox.asynchttp._AsyncHttp.HttpTransferMode"] = { __ename__ : true, __constructs__ : ["UNDEFINED","FIXED","CHUNKED","NO_CONTENT"]
+	,UNDEFINED: {_hx_index:0,__enum__:"com.akifox.asynchttp._AsyncHttp.HttpTransferMode",toString:$estr}
+	,FIXED: {_hx_index:1,__enum__:"com.akifox.asynchttp._AsyncHttp.HttpTransferMode",toString:$estr}
+	,CHUNKED: {_hx_index:2,__enum__:"com.akifox.asynchttp._AsyncHttp.HttpTransferMode",toString:$estr}
+	,NO_CONTENT: {_hx_index:3,__enum__:"com.akifox.asynchttp._AsyncHttp.HttpTransferMode",toString:$estr}
+};
+var com_akifox_asynchttp_ContentKind = $hxEnums["com.akifox.asynchttp.ContentKind"] = { __ename__ : true, __constructs__ : ["XML","JSON","IMAGE","TEXT","BYTES"]
+	,XML: {_hx_index:0,__enum__:"com.akifox.asynchttp.ContentKind",toString:$estr}
+	,JSON: {_hx_index:1,__enum__:"com.akifox.asynchttp.ContentKind",toString:$estr}
+	,IMAGE: {_hx_index:2,__enum__:"com.akifox.asynchttp.ContentKind",toString:$estr}
+	,TEXT: {_hx_index:3,__enum__:"com.akifox.asynchttp.ContentKind",toString:$estr}
+	,BYTES: {_hx_index:4,__enum__:"com.akifox.asynchttp.ContentKind",toString:$estr}
+};
+var com_akifox_asynchttp_AsyncHttp = function() {
+};
+com_akifox_asynchttp_AsyncHttp.__name__ = "com.akifox.asynchttp.AsyncHttp";
+com_akifox_asynchttp_AsyncHttp.log = function(message,fingerprint) {
+	if(fingerprint == null) {
+		fingerprint = "";
+	}
+	if(com_akifox_asynchttp_AsyncHttp.logEnabled) {
+		console.log("com/akifox/asynchttp/AsyncHttp.hx:186:","" + fingerprint + " INFO:" + message);
+	}
+	return message;
+};
+com_akifox_asynchttp_AsyncHttp.error = function(message,fingerprint,throwError) {
+	if(throwError == null) {
+		throwError = false;
+	}
+	if(fingerprint == null) {
+		fingerprint = "";
+	}
+	if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+		console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+	}
+	if(throwError) {
+		throw new js__$Boot_HaxeError("AsyncHttp Error:" + message);
+	}
+	return message;
+};
+com_akifox_asynchttp_AsyncHttp.determineContentKind = function(contentType) {
+	var contentKind = com_akifox_asynchttp_ContentKind.BYTES;
+	var _g = 0;
+	var _g1 = com_akifox_asynchttp_AsyncHttp.CONTENT_KIND_MATCHES;
+	while(_g < _g1.length) {
+		var el = _g1[_g];
+		++_g;
+		if(el.regex.match(contentType)) {
+			contentKind = el.kind;
+			break;
+		}
+	}
+	return contentKind;
+};
+com_akifox_asynchttp_AsyncHttp.determineIsBinary = function(contentKind) {
+	if(contentKind == com_akifox_asynchttp_ContentKind.BYTES || contentKind == com_akifox_asynchttp_ContentKind.IMAGE) {
+		return true;
+	}
+	return false;
+};
+com_akifox_asynchttp_AsyncHttp.prototype = {
+	send: function(request) {
+		if(request.get_finalised()) {
+			var message = "Unable to send the request:it was already sent before\n" + "To send it again you have to clone it before.";
+			var fingerprint = request.get_fingerprint();
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + message);
+			}
+			return;
+		}
+		request.finalise();
+		this.httpViaHaxeHttp(request);
+	}
+	,callback: function(request,time,url,headers,status,content,error) {
+		if(error == null) {
+			error = "";
+		}
+		headers.finalise();
+		var response = new com_akifox_asynchttp_HttpResponse(request,time,url,headers,status,content,error);
+		if(request.get_callbackError() != null && !response.get_isOK()) {
+			(request.get_callbackError())(response);
+		} else if(request.get_callback() != null) {
+			(request.get_callback())(response);
+		}
+		response = null;
+	}
+	,callbackProgress: function(request,loaded,total) {
+		if(request.get_callbackProgress() != null) {
+			(request.get_callbackProgress())(loaded,total);
+		}
+	}
+	,httpViaHaxeHttp: function(request) {
+		var _gthis = this;
+		if(request == null) {
+			return;
+		}
+		var start = Date.now() / 1000;
+		var url = request.get_url();
+		var status = 0;
+		var headers = new com_akifox_asynchttp_HttpHeaders();
+		var content = null;
+		var r = new haxe_http_HttpJs(url.toString());
+		r.async = request.get_async();
+		if(request.get_content() != null) {
+			r.setPostData(Std.string(request.get_content()));
+		}
+		var httpstatusDone = false;
+		r.onError = function(msg) {
+			var message = "Request failed -> " + msg;
+			var fingerprint = request.get_fingerprint();
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+			}
+			var errorMessage = message;
+			var time = _gthis.elapsedTime(start);
+			var error = errorMessage;
+			if(error == null) {
+				error = "";
+			}
+			headers.finalise();
+			var response = new com_akifox_asynchttp_HttpResponse(request,time,url,headers,status,content,error);
+			if(request.get_callbackError() != null && !response.get_isOK()) {
+				(request.get_callbackError())(response);
+			} else if(request.get_callback() != null) {
+				(request.get_callback())(response);
+			}
+			response = null;
+		};
+		r.onData = function(data) {
+			if(!httpstatusDone) {
+				status = 200;
+			}
+			var time1 = _gthis.elapsedTime(start);
+			content = haxe_io_Bytes.ofString(data);
+			var message1 = "Response Complete " + status + " (" + time1 + " s)\n> " + request.get_method() + " " + Std.string(request.get_url());
+			var fingerprint1 = request.get_fingerprint();
+			if(fingerprint1 == null) {
+				fingerprint1 = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:186:","" + fingerprint1 + " INFO:" + message1);
+			}
+			headers.finalise();
+			var response1 = new com_akifox_asynchttp_HttpResponse(request,time1,url,headers,status,content,"");
+			if(request.get_callbackError() != null && !response1.get_isOK()) {
+				(request.get_callbackError())(response1);
+			} else if(request.get_callback() != null) {
+				(request.get_callback())(response1);
+			}
+			response1 = null;
+		};
+		r.onStatus = function(http_status) {
+			status = http_status;
+			var message2 = "Response HTTP Status " + status;
+			var fingerprint2 = request.get_fingerprint();
+			if(fingerprint2 == null) {
+				fingerprint2 = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:186:","" + fingerprint2 + " INFO:" + message2);
+			}
+			httpstatusDone = true;
+		};
+		r.request(request.get_content() != null);
+	}
+	,elapsedTime: function(start) {
+		return ((Date.now() / 1000 - start) * 1000 | 0) / 1000;
+	}
+	,randomUID: function(size) {
+		if(size == null) {
+			size = 32;
+		}
+		var nchars = com_akifox_asynchttp_AsyncHttp.UID_CHARS.length;
+		var uid_b = "";
+		var _g = 0;
+		var _g1 = size;
+		while(_g < _g1) {
+			var i = _g++;
+			var c = HxOverrides.cca(com_akifox_asynchttp_AsyncHttp.UID_CHARS,Std.random(nchars));
+			uid_b += String.fromCodePoint(c);
+		}
+		return uid_b;
+	}
+	,__class__: com_akifox_asynchttp_AsyncHttp
+};
+var com_akifox_asynchttp_HttpHeaders = function(headers) {
+	this._finalised = false;
+	this._headers = new haxe_ds_StringMap();
+	if(headers == null) {
+		return;
+	}
+	var c = js_Boot.getClass(headers);
+	switch(c.__name__) {
+	case "HttpHeaders":case "com.akifox.asynchttp.HttpHeaders":
+		var key = (js_Boot.__cast(headers , com_akifox_asynchttp_HttpHeaders)).keys();
+		while(key.hasNext()) {
+			var key1 = key.next();
+			this.add(key1,(js_Boot.__cast(headers , com_akifox_asynchttp_HttpHeaders)).get(key1));
+		}
+		break;
+	default:
+		var _g = 0;
+		var _g1 = Reflect.fields(headers);
+		while(_g < _g1.length) {
+			var key2 = _g1[_g];
+			++_g;
+			var value = Reflect.getProperty(headers,key2);
+			this.add(key2,value);
+		}
+	}
+};
+com_akifox_asynchttp_HttpHeaders.__name__ = "com.akifox.asynchttp.HttpHeaders";
+com_akifox_asynchttp_HttpHeaders.validateRequest = function(header) {
+	if(header == null) {
+		return false;
+	}
+	if(com_akifox_asynchttp_HttpHeaders.FORBIDDEN_ON_REQUEST.indexOf(header.toLowerCase()) >= 0) {
+		return false;
+	}
+	return true;
+};
+com_akifox_asynchttp_HttpHeaders.prototype = {
+	get_finalised: function() {
+		return this._finalised;
+	}
+	,toString: function() {
+		return "[HttpHeaders <" + this._headers.toString() + ">]";
+	}
+	,clone: function() {
+		return new com_akifox_asynchttp_HttpHeaders(this);
+	}
+	,finalise: function() {
+		this._finalised = true;
+	}
+	,keys: function() {
+		return this._headers.keys();
+	}
+	,exists: function(key) {
+		var _this = this._headers;
+		if(__map_reserved[key] != null) {
+			return _this.existsReserved(key);
+		} else {
+			return _this.h.hasOwnProperty(key);
+		}
+	}
+	,get: function(key) {
+		var _this = this._headers;
+		if(__map_reserved[key] != null ? _this.existsReserved(key) : _this.h.hasOwnProperty(key)) {
+			var _this1 = this._headers;
+			if(__map_reserved[key] != null) {
+				return _this1.getReserved(key);
+			} else {
+				return _this1.h[key];
+			}
+		}
+		return "";
+	}
+	,add: function(key,value) {
+		if(this._finalised) {
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:"," ERROR:" + "HttpHeaders.add() -> Can't add an header. This HttpHeaders object is immutable");
+			}
+			return this;
+		}
+		var _this = this._headers;
+		if(__map_reserved[key] != null) {
+			_this.setReserved(key,value);
+		} else {
+			_this.h[key] = value;
+		}
+		return this;
+	}
+	,remove: function(key) {
+		if(key == null) {
+			return this;
+		}
+		if(this._finalised) {
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:"," ERROR:" + "HttpHeaders.remove() -> Can't remove an header. This HttpHeaders object is immutable");
+			}
+			return this;
+		}
+		this._headers.remove(key);
+		return this;
+	}
+	,__class__: com_akifox_asynchttp_HttpHeaders
+	,__properties__: {get_finalised:"get_finalised"}
+};
+var com_akifox_asynchttp_HttpMethod = function() { };
+com_akifox_asynchttp_HttpMethod.__name__ = "com.akifox.asynchttp.HttpMethod";
+com_akifox_asynchttp_HttpMethod.validate = function(value) {
+	if(value == null) {
+		value = "GET";
+	}
+	return value.toUpperCase();
+};
+var com_akifox_asynchttp_HttpRequest = function(options) {
+	this._callbackProgress = null;
+	this._callbackError = null;
+	this._callback = null;
+	this._contentIsBinary = false;
+	this._contentType = "application/x-www-form-urlencoded";
+	this._content = null;
+	this._method = "GET";
+	this._url = null;
+	this._http11 = true;
+	this._async = true;
+	this._timeout = 10;
+	this._headers = new com_akifox_asynchttp_HttpHeaders();
+	this._finalised = false;
+	this._fingerprint = new com_akifox_asynchttp_AsyncHttp().randomUID(8);
+	if(options != null) {
+		if(options.async != null) {
+			this.set_async(options.async);
+		}
+		if(options.http11 != null) {
+			this.set_http11(options.http11);
+		}
+		if(options.url != null) {
+			this.set_url(options.url);
+		}
+		if(options.callback != null) {
+			this.set_callback(options.callback);
+		}
+		if(options.callbackProgress != null) {
+			this.set_callbackProgress(options.callbackProgress);
+		}
+		if(options.callbackError != null) {
+			this.set_callbackError(options.callbackError);
+		}
+		if(options.headers != null) {
+			this._headers = options.headers.clone();
+		}
+		if(options.timeout != null) {
+			this.set_timeout(options.timeout);
+		}
+		if(options.method != null) {
+			this.set_method(options.method);
+		}
+		if(options.content != null) {
+			this.set_content(options.content);
+		}
+		if(options.contentType != null) {
+			this.set_contentType(options.contentType);
+		}
+		if(options.contentIsBinary != null) {
+			this.set_contentIsBinary(options.contentIsBinary);
+		}
+	}
+};
+com_akifox_asynchttp_HttpRequest.__name__ = "com.akifox.asynchttp.HttpRequest";
+com_akifox_asynchttp_HttpRequest.prototype = {
+	get_finalised: function() {
+		return this._finalised;
+	}
+	,toString: function() {
+		return "[HttpRequest <" + this._fingerprint + "> (" + this._method + " " + Std.string(this._url) + ")]";
+	}
+	,clone: function() {
+		return new com_akifox_asynchttp_HttpRequest({ async : this._async, http11 : this._http11, url : this._url, callback : this._callback, callbackProgress : this._callbackProgress, headers : this._headers, timeout : this._timeout, method : this._method, content : this._content, contentType : this._contentType, contentIsBinary : this._contentIsBinary});
+	}
+	,finalise: function() {
+		this._headers.finalise();
+		this._finalised = true;
+	}
+	,send: function() {
+		new com_akifox_asynchttp_AsyncHttp().send(this);
+	}
+	,get_fingerprint: function() {
+		return this._fingerprint;
+	}
+	,get_headers: function() {
+		return this._headers;
+	}
+	,set_headers: function(value) {
+		if(this._finalised) {
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.headers -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.headers -> Can't modify a property when the instance is already sent");
+			}
+			return this._headers;
+		}
+		return this._headers = value;
+	}
+	,get_timeout: function() {
+		return this._timeout;
+	}
+	,set_timeout: function(value) {
+		if(this._finalised) {
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.timeout -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.timeout -> Can't modify a property when the instance is already sent");
+			}
+			return this._timeout;
+		}
+		if(value < 1) {
+			value = 1;
+		}
+		return this._timeout = value;
+	}
+	,get_async: function() {
+		return this._async;
+	}
+	,set_async: function(value) {
+		if(this._finalised) {
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.async -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.async -> Can't modify a property when the instance is already sent");
+			}
+			return this._async;
+		}
+		return this._async = value;
+	}
+	,get_http11: function() {
+		return this._http11;
+	}
+	,set_http11: function(value) {
+		if(this._finalised) {
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.http11 -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.http11 -> Can't modify a property when the instance is already sent");
+			}
+			return this._http11;
+		}
+		return this._http11 = value;
+	}
+	,get_url: function() {
+		return this._url;
+	}
+	,set_url: function(value) {
+		var v = null;
+		var c = js_Boot.getClass(value);
+		switch(c.__name__) {
+		case "String":
+			v = new com_akifox_asynchttp_URL(value);
+			break;
+		case "URL":case "com.akifox.asynchttp.URL":
+			v = value.clone();
+			break;
+		default:
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.url -> Please specify an URL Object or a String");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.url -> Please specify an URL Object or a String");
+			}
+			return this._url;
+		}
+		if(this._finalised) {
+			var fingerprint1 = this._fingerprint;
+			var throwError1 = true;
+			if(throwError1 == null) {
+				throwError1 = false;
+			}
+			if(fingerprint1 == null) {
+				fingerprint1 = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint1 + " ERROR:" + "HttpRequest.url -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError1) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.url -> Can't modify a property when the instance is already sent");
+			}
+			return this._url;
+		}
+		return this._url = v;
+	}
+	,get_method: function() {
+		return this._method;
+	}
+	,set_method: function(value) {
+		if(this._finalised) {
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.method -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.method -> Can't modify a property when the instance is already sent");
+			}
+			return this._method;
+		}
+		value = com_akifox_asynchttp_HttpMethod.validate(value);
+		return this._method = value;
+	}
+	,get_content: function() {
+		return this._content;
+	}
+	,set_content: function(value) {
+		if(this._finalised) {
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.content -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.content -> Can't modify a property when the instance is already sent");
+			}
+			return this._content;
+		}
+		return this._content = value;
+	}
+	,get_contentType: function() {
+		return this._contentType;
+	}
+	,set_contentType: function(value) {
+		if(this._finalised) {
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.contentType -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.contentType -> Can't modify a property when the instance is already sent");
+			}
+			return this._contentType;
+		}
+		if(value == null) {
+			value = "application/x-www-form-urlencoded";
+		}
+		this._contentIsBinary = com_akifox_asynchttp_AsyncHttp.determineIsBinary(com_akifox_asynchttp_AsyncHttp.determineContentKind(value));
+		return this._contentType = value;
+	}
+	,get_contentIsBinary: function() {
+		return this._contentIsBinary;
+	}
+	,set_contentIsBinary: function(value) {
+		if(this._finalised) {
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.contentIsBinary -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.contentIsBinary -> Can't modify a property when the instance is already sent");
+			}
+			return this._contentIsBinary;
+		}
+		return this._contentIsBinary = value;
+	}
+	,get_callback: function() {
+		return this._callback;
+	}
+	,set_callback: function(value) {
+		if(this._finalised) {
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.callback -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.callback -> Can't modify a property when the instance is already sent");
+			}
+			return this._callback;
+		}
+		return this._callback = value;
+	}
+	,get_callbackError: function() {
+		return this._callbackError;
+	}
+	,set_callbackError: function(value) {
+		if(this._finalised) {
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.callbackError -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.callbackError -> Can't modify a property when the instance is already sent");
+			}
+			return this._callbackError;
+		}
+		return this._callbackError = value;
+	}
+	,get_callbackProgress: function() {
+		return this._callbackProgress;
+	}
+	,set_callbackProgress: function(value) {
+		if(this._finalised) {
+			var fingerprint = this._fingerprint;
+			var throwError = true;
+			if(throwError == null) {
+				throwError = false;
+			}
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.callbackProgress -> Can't modify a property when the instance is already sent");
+			}
+			if(throwError) {
+				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.callbackProgress -> Can't modify a property when the instance is already sent");
+			}
+			return this._callbackProgress;
+		}
+		return this._callbackProgress = value;
+	}
+	,__class__: com_akifox_asynchttp_HttpRequest
+	,__properties__: {set_callbackProgress:"set_callbackProgress",get_callbackProgress:"get_callbackProgress",set_callbackError:"set_callbackError",get_callbackError:"get_callbackError",set_callback:"set_callback",get_callback:"get_callback",set_contentIsBinary:"set_contentIsBinary",get_contentIsBinary:"get_contentIsBinary",set_contentType:"set_contentType",get_contentType:"get_contentType",set_content:"set_content",get_content:"get_content",set_method:"set_method",get_method:"get_method",set_url:"set_url",get_url:"get_url",set_http11:"set_http11",get_http11:"get_http11",set_async:"set_async",get_async:"get_async",set_timeout:"set_timeout",get_timeout:"get_timeout",get_headers:"get_headers",get_fingerprint:"get_fingerprint",get_finalised:"get_finalised"}
+};
+var haxe_IMap = function() { };
+haxe_IMap.__name__ = "haxe.IMap";
+haxe_IMap.__isInterface__ = true;
+var haxe_ds_IntMap = function() {
+	this.h = { };
+};
+haxe_ds_IntMap.__name__ = "haxe.ds.IntMap";
+haxe_ds_IntMap.__interfaces__ = [haxe_IMap];
+haxe_ds_IntMap.prototype = {
+	__class__: haxe_ds_IntMap
+};
+var com_akifox_asynchttp_HttpResponse = function(request,time,url,headers,status,content,error) {
+	this._error = null;
+	this._filename = null;
+	this._request = request;
+	this._time = time;
+	this._url = url;
+	this._status = status;
+	this._isOK = this._status >= 200 && this._status < 400;
+	this._headers = headers;
+	this._error = error;
+	if(!this._isOK && this._status != 0) {
+		this._error = com_akifox_asynchttp_HttpResponse._httpStatus.h[this._status];
+	}
+	if(this._headers.exists("content-type")) {
+		this._contentType = this._headers.get("content-type");
+	} else {
+		this._contentType = "text/plain";
+	}
+	this._contentKind = com_akifox_asynchttp_AsyncHttp.determineContentKind(this._contentType);
+	this._contentIsBinary = com_akifox_asynchttp_AsyncHttp.determineIsBinary(this._contentKind);
+	this._contentRaw = content;
+	if(!this._contentIsBinary) {
+		this._content = this.toText();
+	} else {
+		this._content = this._contentRaw;
+	}
+	this._contentLength = 0;
+	if(this._headers.exists("content-length")) {
+		this._contentLength = Std.parseInt(this._headers.get("content-length"));
+	} else if(content != null) {
+		this._contentLength = this._content.length;
+	}
+};
+com_akifox_asynchttp_HttpResponse.__name__ = "com.akifox.asynchttp.HttpResponse";
+com_akifox_asynchttp_HttpResponse.prototype = {
+	toString: function() {
+		return "[HttpResponse <" + this._request.get_fingerprint() + "> (isOK=" + Std.string(this._isOK) + ", status=" + this._status + ", length=" + this._contentLength + " bytes in " + this._time + " sec), error=" + this._error + "]";
+	}
+	,get_isBinary: function() {
+		return this._contentIsBinary;
+	}
+	,get_isText: function() {
+		return !this._contentIsBinary;
+	}
+	,get_isXml: function() {
+		return this._contentKind == com_akifox_asynchttp_ContentKind.XML;
+	}
+	,get_isJson: function() {
+		return this._contentKind == com_akifox_asynchttp_ContentKind.JSON;
+	}
+	,get_isImage: function() {
+		return this._contentKind == com_akifox_asynchttp_ContentKind.IMAGE;
+	}
+	,toXml: function() {
+		var _contentXml = null;
+		try {
+			_contentXml = Xml.parse(this.toText());
+		} catch( msg ) {
+			var message = "HttpResponse.toXml() -> " + Std.string(((msg) instanceof js__$Boot_HaxeError) ? msg.val : msg);
+			var fingerprint = this._request.get_fingerprint();
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+			}
+		}
+		return _contentXml;
+	}
+	,toJson: function() {
+		var _contentJson = null;
+		try {
+			_contentJson = JSON.parse(this.toText());
+		} catch( msg ) {
+			var message = "HttpResponse.toJson() -> " + Std.string(((msg) instanceof js__$Boot_HaxeError) ? msg.val : msg);
+			var fingerprint = this._request.get_fingerprint();
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+			}
+		}
+		return _contentJson;
+	}
+	,toText: function() {
+		var _contentText = null;
+		try {
+			_contentText = Std.string(this._contentRaw);
+		} catch( msg ) {
+			var message = "HttpResponse.toText() -> " + Std.string(((msg) instanceof js__$Boot_HaxeError) ? msg.val : msg);
+			var fingerprint = this._request.get_fingerprint();
+			if(fingerprint == null) {
+				fingerprint = "";
+			}
+			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+			}
+		}
+		return _contentText;
+	}
+	,get_request: function() {
+		return this._request;
+	}
+	,get_fingerprint: function() {
+		return this._request.get_fingerprint();
+	}
+	,get_url: function() {
+		return this._url;
+	}
+	,get_urlString: function() {
+		return this._url.toString();
+	}
+	,get_headers: function() {
+		return this._headers;
+	}
+	,get_status: function() {
+		return this._status;
+	}
+	,get_content: function() {
+		return this._content;
+	}
+	,get_contentRaw: function() {
+		return this._contentRaw;
+	}
+	,get_contentType: function() {
+		return this._contentType;
+	}
+	,get_contentIsBinary: function() {
+		return this._contentIsBinary;
+	}
+	,get_contentLength: function() {
+		return this._contentLength;
+	}
+	,get_time: function() {
+		return this._time;
+	}
+	,get_filename: function() {
+		if(this._filename == null) {
+			var filename = "";
+			var rx = new EReg("([^?/]*)($|\\?.*)","");
+			if(rx.match(this._url.toString())) {
+				filename = rx.matched(1);
+			}
+			if(filename == "") {
+				filename = "unknown";
+			}
+			this._filename = filename;
+		}
+		return this._filename;
+	}
+	,get_isOK: function() {
+		return this._isOK;
+	}
+	,get_error: function() {
+		return this._error;
+	}
+	,__class__: com_akifox_asynchttp_HttpResponse
+	,__properties__: {get_error:"get_error",get_isOK:"get_isOK",get_filename:"get_filename",get_time:"get_time",get_contentLength:"get_contentLength",get_contentIsBinary:"get_contentIsBinary",get_contentType:"get_contentType",get_contentRaw:"get_contentRaw",get_content:"get_content",get_status:"get_status",get_headers:"get_headers",get_urlString:"get_urlString",get_url:"get_url",get_fingerprint:"get_fingerprint",get_request:"get_request",get_isImage:"get_isImage",get_isJson:"get_isJson",get_isXml:"get_isXml",get_isText:"get_isText",get_isBinary:"get_isBinary"}
+};
+var com_akifox_asynchttp_URL = function(urlString) {
+	this._querystring = "";
+	this._resource = "";
+	this._port = "";
+	this._host = "";
+	this._protocol = "";
+	this.regexURL = new EReg("^([a-z]+:|)(//[^/\\?:]+|)(:\\d+|)([^\\?]*|)(\\?.*|)","i");
+	this._urlString = urlString;
+	if(this.regexURL.match(urlString)) {
+		this._protocol = HxOverrides.substr(this.regexURL.matched(1),0,-1);
+		if(this._protocol == null) {
+			this._protocol = "";
+		}
+		this._host = HxOverrides.substr(this.regexURL.matched(2),2,null);
+		if(this._host == null) {
+			this._host = "";
+		}
+		this._port = this.regexURL.matched(3);
+		if(this._port == null) {
+			this._port = "";
+		}
+		this._resource = this.regexURL.matched(4);
+		if(this._resource == null) {
+			this._resource = "";
+		}
+		this._querystring = this.regexURL.matched(5);
+		if(this._querystring == null) {
+			this._querystring = "";
+		}
+	}
+};
+com_akifox_asynchttp_URL.__name__ = "com.akifox.asynchttp.URL";
+com_akifox_asynchttp_URL.prototype = {
+	toString: function() {
+		return "" + this.get_protocol() + this._host + this._port + this._resource + this._querystring;
+	}
+	,clone: function() {
+		return new com_akifox_asynchttp_URL(this.toString());
+	}
+	,merge: function(url) {
+		if(this._protocol == "") {
+			this._protocol = url._protocol;
+		}
+		if(this._host == "") {
+			this._host = url._host;
+		}
+		if(this._port == "") {
+			this._port = url._port;
+		}
+		this._resource = this.mergeResources(this._resource,url._resource);
+		return this;
+	}
+	,mergeResources: function(resNew,resOriginal) {
+		if(resOriginal == null) {
+			resOriginal = "";
+		}
+		var levels;
+		if(HxOverrides.substr(resNew,0,1) == "/") {
+			levels = resNew.split("/");
+		} else {
+			levels = resOriginal.split("/");
+			levels.pop();
+			levels = levels.concat(resNew.split("/"));
+		}
+		var finish = false;
+		while(true) {
+			var loop = levels.length;
+			var i = 0;
+			while(true) {
+				if(levels[i] == "..") {
+					if(i > 0) {
+						levels.splice(i - 1,2);
+					} else {
+						levels.shift();
+					}
+					break;
+				}
+				++i;
+				if(i >= loop) {
+					finish = true;
+					break;
+				}
+			}
+			if(!(!finish)) {
+				break;
+			}
+		}
+		var result = levels.join("/");
+		if(HxOverrides.substr(result,0,1) != "/") {
+			result = "/" + result;
+		}
+		return result;
+	}
+	,get_isSsl: function() {
+		return this._protocol == "https";
+	}
+	,get_isHttp: function() {
+		return HxOverrides.substr(this._protocol,0,4) == "http";
+	}
+	,get_isRelative: function() {
+		if(this._protocol != "") {
+			return this._host == "";
+		} else {
+			return true;
+		}
+	}
+	,get_protocol: function() {
+		if(this._protocol != "") {
+			return "" + this._protocol + "://";
+		}
+		return "";
+	}
+	,get_port: function() {
+		if(this._port == "") {
+			if(this.get_isHttp() && !this.get_isSsl()) {
+				return 80;
+			} else if(this.get_isHttp() && this.get_isSsl()) {
+				return 443;
+			} else {
+				return 0;
+			}
+		} else {
+			return Std.parseInt(HxOverrides.substr(this._port,1,null));
+		}
+	}
+	,get_host: function() {
+		return this._host;
+	}
+	,get_resource: function() {
+		if(this._resource == "") {
+			return "/";
+		}
+		return this._resource;
+	}
+	,get_querystring: function() {
+		return this._querystring;
+	}
+	,__class__: com_akifox_asynchttp_URL
+	,__properties__: {get_querystring:"get_querystring",get_resource:"get_resource",get_host:"get_host",get_port:"get_port",get_protocol:"get_protocol",get_isRelative:"get_isRelative",get_isHttp:"get_isHttp",get_isSsl:"get_isSsl"}
+};
+var haxe_ds_StringMap = function() {
+	this.h = { };
+};
+haxe_ds_StringMap.__name__ = "haxe.ds.StringMap";
+haxe_ds_StringMap.__interfaces__ = [haxe_IMap];
+haxe_ds_StringMap.prototype = {
+	setReserved: function(key,value) {
+		if(this.rh == null) {
+			this.rh = { };
+		}
+		this.rh["$" + key] = value;
+	}
+	,getReserved: function(key) {
+		if(this.rh == null) {
+			return null;
+		} else {
+			return this.rh["$" + key];
+		}
+	}
+	,existsReserved: function(key) {
+		if(this.rh == null) {
+			return false;
+		}
+		return this.rh.hasOwnProperty("$" + key);
+	}
+	,remove: function(key) {
+		if(__map_reserved[key] != null) {
+			key = "$" + key;
+			if(this.rh == null || !this.rh.hasOwnProperty(key)) {
+				return false;
+			}
+			delete(this.rh[key]);
+			return true;
+		} else {
+			if(!this.h.hasOwnProperty(key)) {
+				return false;
+			}
+			delete(this.h[key]);
+			return true;
+		}
+	}
+	,keys: function() {
+		return HxOverrides.iter(this.arrayKeys());
+	}
+	,arrayKeys: function() {
+		var out = [];
+		for( var key in this.h ) {
+		if(this.h.hasOwnProperty(key)) {
+			out.push(key);
+		}
+		}
+		if(this.rh != null) {
+			for( var key in this.rh ) {
+			if(key.charCodeAt(0) == 36) {
+				out.push(key.substr(1));
+			}
+			}
+		}
+		return out;
+	}
+	,toString: function() {
+		var s_b = "";
+		s_b += "{";
+		var keys = this.arrayKeys();
+		var _g = 0;
+		var _g1 = keys.length;
+		while(_g < _g1) {
+			var i = _g++;
+			var k = keys[i];
+			s_b += k == null ? "null" : "" + k;
+			s_b += " => ";
+			s_b += Std.string(Std.string(__map_reserved[k] != null ? this.getReserved(k) : this.h[k]));
+			if(i < keys.length - 1) {
+				s_b += ", ";
+			}
+		}
+		s_b += "}";
+		return s_b;
+	}
+	,__class__: haxe_ds_StringMap
+};
+var haxe_http_HttpBase = function(url) {
+	this.url = url;
+	this.headers = [];
+	this.params = [];
+	this.emptyOnData = $bind(this,this.onData);
+};
+haxe_http_HttpBase.__name__ = "haxe.http.HttpBase";
+haxe_http_HttpBase.prototype = {
+	setPostData: function(data) {
+		this.postData = data;
+		this.postBytes = null;
+	}
+	,onData: function(data) {
+	}
+	,onBytes: function(data) {
+	}
+	,onError: function(msg) {
+	}
+	,onStatus: function(status) {
+	}
+	,hasOnData: function() {
+		return !Reflect.compareMethods($bind(this,this.onData),this.emptyOnData);
+	}
+	,success: function(data) {
+		this.responseBytes = data;
+		this.responseAsString = null;
+		if(this.hasOnData()) {
+			this.onData(this.get_responseData());
+		}
+		this.onBytes(this.responseBytes);
+	}
+	,get_responseData: function() {
+		if(this.responseAsString == null && this.responseBytes != null) {
+			this.responseAsString = this.responseBytes.getString(0,this.responseBytes.length,haxe_io_Encoding.UTF8);
+		}
+		return this.responseAsString;
+	}
+	,__class__: haxe_http_HttpBase
+	,__properties__: {get_responseData:"get_responseData"}
+};
+var haxe_http_HttpJs = function(url) {
+	this.async = true;
+	this.withCredentials = false;
+	haxe_http_HttpBase.call(this,url);
+};
+haxe_http_HttpJs.__name__ = "haxe.http.HttpJs";
+haxe_http_HttpJs.__super__ = haxe_http_HttpBase;
+haxe_http_HttpJs.prototype = $extend(haxe_http_HttpBase.prototype,{
+	request: function(post) {
+		var _gthis = this;
+		this.responseAsString = null;
+		this.responseBytes = null;
+		var r = this.req = js_Browser.createXMLHttpRequest();
+		var onreadystatechange = function(_) {
+			if(r.readyState != 4) {
+				return;
+			}
+			var s;
+			try {
+				s = r.status;
+			} catch( e ) {
+				var e1 = ((e) instanceof js__$Boot_HaxeError) ? e.val : e;
+				s = null;
+			}
+			if(s == 0 && typeof(window) != "undefined") {
+				var protocol = window.location.protocol.toLowerCase();
+				var rlocalProtocol = new EReg("^(?:about|app|app-storage|.+-extension|file|res|widget):$","");
+				var isLocal = rlocalProtocol.match(protocol);
+				if(isLocal) {
+					s = r.response != null ? 200 : 404;
+				}
+			}
+			if(s == undefined) {
+				s = null;
+			}
+			if(s != null) {
+				_gthis.onStatus(s);
+			}
+			if(s != null && s >= 200 && s < 400) {
+				_gthis.req = null;
+				var onreadystatechange1 = haxe_io_Bytes.ofData(r.response);
+				_gthis.success(onreadystatechange1);
+			} else if(s == null) {
+				_gthis.req = null;
+				_gthis.onError("Failed to connect or resolve host");
+			} else if(s == null) {
+				_gthis.req = null;
+				_gthis.responseBytes = haxe_io_Bytes.ofData(r.response);
+				_gthis.onError("Http Error #" + r.status);
+			} else {
+				switch(s) {
+				case 12007:
+					_gthis.req = null;
+					_gthis.onError("Unknown host");
+					break;
+				case 12029:
+					_gthis.req = null;
+					_gthis.onError("Failed to connect to host");
+					break;
+				default:
+					_gthis.req = null;
+					_gthis.responseBytes = haxe_io_Bytes.ofData(r.response);
+					_gthis.onError("Http Error #" + r.status);
+				}
+			}
+		};
+		if(this.async) {
+			r.onreadystatechange = onreadystatechange;
+		}
+		var uri;
+		var _g = this.postBytes;
+		var _g1 = this.postData;
+		if(_g1 == null) {
+			if(_g == null) {
+				uri = null;
+			} else {
+				var bytes = _g;
+				uri = new Blob([bytes.b.bufferValue]);
+			}
+		} else if(_g == null) {
+			var str = _g1;
+			uri = str;
+		} else {
+			uri = null;
+		}
+		if(uri != null) {
+			post = true;
+		} else {
+			var _g2 = 0;
+			var _g3 = this.params;
+			while(_g2 < _g3.length) {
+				var p = _g3[_g2];
+				++_g2;
+				if(uri == null) {
+					uri = "";
+				} else {
+					uri = Std.string(uri) + "&";
+				}
+				var s1 = p.name;
+				var value = Std.string(uri) + encodeURIComponent(s1) + "=";
+				var s2 = p.value;
+				uri = value + encodeURIComponent(s2);
+			}
+		}
+		try {
+			if(post) {
+				r.open("POST",this.url,this.async);
+			} else if(uri != null) {
+				var question = this.url.split("?").length <= 1;
+				r.open("GET",this.url + (question ? "?" : "&") + Std.string(uri),this.async);
+				uri = null;
+			} else {
+				r.open("GET",this.url,this.async);
+			}
+			r.responseType = "arraybuffer";
+		} catch( e2 ) {
+			var e3 = ((e2) instanceof js__$Boot_HaxeError) ? e2.val : e2;
+			this.req = null;
+			this.onError(e3.toString());
+			return;
+		}
+		r.withCredentials = this.withCredentials;
+		if(!Lambda.exists(this.headers,function(h) {
+			return h.name == "Content-Type";
+		}) && post && this.postData == null) {
+			r.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		}
+		var _g21 = 0;
+		var _g31 = this.headers;
+		while(_g21 < _g31.length) {
+			var h1 = _g31[_g21];
+			++_g21;
+			r.setRequestHeader(h1.name,h1.value);
+		}
+		r.send(uri);
+		if(!this.async) {
+			onreadystatechange(null);
+		}
+	}
+	,__class__: haxe_http_HttpJs
+});
+var haxe_io_Bytes = function(data) {
+	this.length = data.byteLength;
+	this.b = new Uint8Array(data);
+	this.b.bufferValue = data;
+	data.hxBytes = this;
+	data.bytes = this.b;
+};
+haxe_io_Bytes.__name__ = "haxe.io.Bytes";
+haxe_io_Bytes.ofString = function(s,encoding) {
+	if(encoding == haxe_io_Encoding.RawNative) {
+		var buf = new Uint8Array(s.length << 1);
+		var _g = 0;
+		var _g1 = s.length;
+		while(_g < _g1) {
+			var i = _g++;
+			var c = s.charCodeAt(i);
+			buf[i << 1] = c & 255;
+			buf[i << 1 | 1] = c >> 8;
+		}
+		return new haxe_io_Bytes(buf.buffer);
+	}
+	var a = [];
+	var i1 = 0;
+	while(i1 < s.length) {
+		var c1 = s.charCodeAt(i1++);
+		if(55296 <= c1 && c1 <= 56319) {
+			c1 = c1 - 55232 << 10 | s.charCodeAt(i1++) & 1023;
+		}
+		if(c1 <= 127) {
+			a.push(c1);
+		} else if(c1 <= 2047) {
+			a.push(192 | c1 >> 6);
+			a.push(128 | c1 & 63);
+		} else if(c1 <= 65535) {
+			a.push(224 | c1 >> 12);
+			a.push(128 | c1 >> 6 & 63);
+			a.push(128 | c1 & 63);
+		} else {
+			a.push(240 | c1 >> 18);
+			a.push(128 | c1 >> 12 & 63);
+			a.push(128 | c1 >> 6 & 63);
+			a.push(128 | c1 & 63);
+		}
+	}
+	return new haxe_io_Bytes(new Uint8Array(a).buffer);
+};
+haxe_io_Bytes.ofData = function(b) {
+	var hb = b.hxBytes;
+	if(hb != null) {
+		return hb;
+	}
+	return new haxe_io_Bytes(b);
+};
+haxe_io_Bytes.prototype = {
+	getString: function(pos,len,encoding) {
+		if(pos < 0 || len < 0 || pos + len > this.length) {
+			throw new js__$Boot_HaxeError(haxe_io_Error.OutsideBounds);
+		}
+		if(encoding == null) {
+			encoding = haxe_io_Encoding.UTF8;
+		}
+		var s = "";
+		var b = this.b;
+		var i = pos;
+		var max = pos + len;
+		switch(encoding._hx_index) {
+		case 0:
+			var debug = pos > 0;
+			while(i < max) {
+				var c = b[i++];
+				if(c < 128) {
+					if(c == 0) {
+						break;
+					}
+					s += String.fromCodePoint(c);
+				} else if(c < 224) {
+					var code = (c & 63) << 6 | b[i++] & 127;
+					s += String.fromCodePoint(code);
+				} else if(c < 240) {
+					var c2 = b[i++];
+					var code1 = (c & 31) << 12 | (c2 & 127) << 6 | b[i++] & 127;
+					s += String.fromCodePoint(code1);
+				} else {
+					var c21 = b[i++];
+					var c3 = b[i++];
+					var u = (c & 15) << 18 | (c21 & 127) << 12 | (c3 & 127) << 6 | b[i++] & 127;
+					s += String.fromCodePoint(u);
+				}
+			}
+			break;
+		case 1:
+			while(i < max) {
+				var c1 = b[i++] | b[i++] << 8;
+				s += String.fromCodePoint(c1);
+			}
+			break;
+		}
+		return s;
+	}
+	,toString: function() {
+		return this.getString(0,this.length);
+	}
+	,__class__: haxe_io_Bytes
+};
+var haxe_io_Encoding = $hxEnums["haxe.io.Encoding"] = { __ename__ : true, __constructs__ : ["UTF8","RawNative"]
+	,UTF8: {_hx_index:0,__enum__:"haxe.io.Encoding",toString:$estr}
+	,RawNative: {_hx_index:1,__enum__:"haxe.io.Encoding",toString:$estr}
+};
+var haxe_io_Error = $hxEnums["haxe.io.Error"] = { __ename__ : true, __constructs__ : ["Blocked","Overflow","OutsideBounds","Custom"]
+	,Blocked: {_hx_index:0,__enum__:"haxe.io.Error",toString:$estr}
+	,Overflow: {_hx_index:1,__enum__:"haxe.io.Error",toString:$estr}
+	,OutsideBounds: {_hx_index:2,__enum__:"haxe.io.Error",toString:$estr}
+	,Custom: ($_=function(e) { return {_hx_index:3,e:e,__enum__:"haxe.io.Error",toString:$estr}; },$_.__params__ = ["e"],$_)
+};
+var haxe_xml_XmlParserException = function(message,xml,position) {
+	this.xml = xml;
+	this.message = message;
+	this.position = position;
+	this.lineNumber = 1;
+	this.positionAtLine = 0;
+	var _g = 0;
+	var _g1 = position;
+	while(_g < _g1) {
+		var i = _g++;
+		var c = xml.charCodeAt(i);
+		if(c == 10) {
+			this.lineNumber++;
+			this.positionAtLine = 0;
+		} else if(c != 13) {
+			this.positionAtLine++;
+		}
+	}
+};
+haxe_xml_XmlParserException.__name__ = "haxe.xml.XmlParserException";
+haxe_xml_XmlParserException.prototype = {
+	toString: function() {
+		var c = js_Boot.getClass(this);
+		return c.__name__ + ": " + this.message + " at line " + this.lineNumber + " char " + this.positionAtLine;
+	}
+	,__class__: haxe_xml_XmlParserException
+};
+var haxe_xml_Parser = function() { };
+haxe_xml_Parser.__name__ = "haxe.xml.Parser";
+haxe_xml_Parser.parse = function(str,strict) {
+	if(strict == null) {
+		strict = false;
+	}
+	var doc = Xml.createDocument();
+	haxe_xml_Parser.doParse(str,strict,0,doc);
+	return doc;
+};
+haxe_xml_Parser.doParse = function(str,strict,p,parent) {
+	if(p == null) {
+		p = 0;
+	}
+	var xml = null;
+	var state = 1;
+	var next = 1;
+	var aname = null;
+	var start = 0;
+	var nsubs = 0;
+	var nbrackets = 0;
+	var c = str.charCodeAt(p);
+	var buf = new StringBuf();
+	var escapeNext = 1;
+	var attrValQuote = -1;
+	while(c == c) {
+		switch(state) {
+		case 0:
+			switch(c) {
+			case 9:case 10:case 13:case 32:
+				break;
+			default:
+				state = next;
+				continue;
+			}
+			break;
+		case 1:
+			if(c == 60) {
+				state = 0;
+				next = 2;
+			} else {
+				start = p;
+				state = 13;
+				continue;
+			}
+			break;
+		case 2:
+			switch(c) {
+			case 33:
+				if(str.charCodeAt(p + 1) == 91) {
+					p += 2;
+					if(HxOverrides.substr(str,p,6).toUpperCase() != "CDATA[") {
+						throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected <![CDATA[",str,p));
+					}
+					p += 5;
+					state = 17;
+					start = p + 1;
+				} else if(str.charCodeAt(p + 1) == 68 || str.charCodeAt(p + 1) == 100) {
+					if(HxOverrides.substr(str,p + 2,6).toUpperCase() != "OCTYPE") {
+						throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected <!DOCTYPE",str,p));
+					}
+					p += 8;
+					state = 16;
+					start = p + 1;
+				} else if(str.charCodeAt(p + 1) != 45 || str.charCodeAt(p + 2) != 45) {
+					throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected <!--",str,p));
+				} else {
+					p += 2;
+					state = 15;
+					start = p + 1;
+				}
+				break;
+			case 47:
+				if(parent == null) {
+					throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected node name",str,p));
+				}
+				start = p + 1;
+				state = 0;
+				next = 10;
+				break;
+			case 63:
+				state = 14;
+				start = p;
+				break;
+			default:
+				state = 3;
+				start = p;
+				continue;
+			}
+			break;
+		case 3:
+			if(!(c >= 97 && c <= 122 || c >= 65 && c <= 90 || c >= 48 && c <= 57 || c == 58 || c == 46 || c == 95 || c == 45)) {
+				if(p == start) {
+					throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected node name",str,p));
+				}
+				xml = Xml.createElement(HxOverrides.substr(str,start,p - start));
+				parent.addChild(xml);
+				++nsubs;
+				state = 0;
+				next = 4;
+				continue;
+			}
+			break;
+		case 4:
+			switch(c) {
+			case 47:
+				state = 11;
+				break;
+			case 62:
+				state = 9;
+				break;
+			default:
+				state = 5;
+				start = p;
+				continue;
+			}
+			break;
+		case 5:
+			if(!(c >= 97 && c <= 122 || c >= 65 && c <= 90 || c >= 48 && c <= 57 || c == 58 || c == 46 || c == 95 || c == 45)) {
+				if(start == p) {
+					throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected attribute name",str,p));
+				}
+				var tmp = HxOverrides.substr(str,start,p - start);
+				aname = tmp;
+				if(xml.exists(aname)) {
+					throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Duplicate attribute [" + aname + "]",str,p));
+				}
+				state = 0;
+				next = 6;
+				continue;
+			}
+			break;
+		case 6:
+			if(c == 61) {
+				state = 0;
+				next = 7;
+			} else {
+				throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected =",str,p));
+			}
+			break;
+		case 7:
+			switch(c) {
+			case 34:case 39:
+				buf = new StringBuf();
+				state = 8;
+				start = p + 1;
+				attrValQuote = c;
+				break;
+			default:
+				throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected \"",str,p));
+			}
+			break;
+		case 8:
+			switch(c) {
+			case 38:
+				var len = p - start;
+				buf.b += len == null ? HxOverrides.substr(str,start,null) : HxOverrides.substr(str,start,len);
+				state = 18;
+				escapeNext = 8;
+				start = p + 1;
+				break;
+			case 60:case 62:
+				if(strict) {
+					throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Invalid unescaped " + String.fromCodePoint(c) + " in attribute value",str,p));
+				} else if(c == attrValQuote) {
+					var len1 = p - start;
+					buf.b += len1 == null ? HxOverrides.substr(str,start,null) : HxOverrides.substr(str,start,len1);
+					var val = buf.b;
+					buf = new StringBuf();
+					xml.set(aname,val);
+					state = 0;
+					next = 4;
+				}
+				break;
+			default:
+				if(c == attrValQuote) {
+					var len2 = p - start;
+					buf.b += len2 == null ? HxOverrides.substr(str,start,null) : HxOverrides.substr(str,start,len2);
+					var val1 = buf.b;
+					buf = new StringBuf();
+					xml.set(aname,val1);
+					state = 0;
+					next = 4;
+				}
+			}
+			break;
+		case 9:
+			p = haxe_xml_Parser.doParse(str,strict,p,xml);
+			start = p;
+			state = 1;
+			break;
+		case 10:
+			if(!(c >= 97 && c <= 122 || c >= 65 && c <= 90 || c >= 48 && c <= 57 || c == 58 || c == 46 || c == 95 || c == 45)) {
+				if(start == p) {
+					throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected node name",str,p));
+				}
+				var v = HxOverrides.substr(str,start,p - start);
+				if(parent == null || parent.nodeType != 0) {
+					throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Unexpected </" + v + ">, tag is not open",str,p));
+				}
+				if(parent.nodeType != Xml.Element) {
+					throw new js__$Boot_HaxeError("Bad node type, expected Element but found " + _$Xml_XmlType_$Impl_$.toString(parent.nodeType));
+				}
+				if(v != parent.nodeName) {
+					if(parent.nodeType != Xml.Element) {
+						throw new js__$Boot_HaxeError("Bad node type, expected Element but found " + _$Xml_XmlType_$Impl_$.toString(parent.nodeType));
+					}
+					throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected </" + parent.nodeName + ">",str,p));
+				}
+				state = 0;
+				next = 12;
+				continue;
+			}
+			break;
+		case 11:
+			if(c == 62) {
+				state = 1;
+			} else {
+				throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected >",str,p));
+			}
+			break;
+		case 12:
+			if(c == 62) {
+				if(nsubs == 0) {
+					parent.addChild(Xml.createPCData(""));
+				}
+				return p;
+			} else {
+				throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Expected >",str,p));
+			}
+			break;
+		case 13:
+			if(c == 60) {
+				var len3 = p - start;
+				buf.b += len3 == null ? HxOverrides.substr(str,start,null) : HxOverrides.substr(str,start,len3);
+				var child = Xml.createPCData(buf.b);
+				buf = new StringBuf();
+				parent.addChild(child);
+				++nsubs;
+				state = 0;
+				next = 2;
+			} else if(c == 38) {
+				var len4 = p - start;
+				buf.b += len4 == null ? HxOverrides.substr(str,start,null) : HxOverrides.substr(str,start,len4);
+				state = 18;
+				escapeNext = 13;
+				start = p + 1;
+			}
+			break;
+		case 14:
+			if(c == 63 && str.charCodeAt(p + 1) == 62) {
+				++p;
+				var str1 = HxOverrides.substr(str,start + 1,p - start - 2);
+				parent.addChild(Xml.createProcessingInstruction(str1));
+				++nsubs;
+				state = 1;
+			}
+			break;
+		case 15:
+			if(c == 45 && str.charCodeAt(p + 1) == 45 && str.charCodeAt(p + 2) == 62) {
+				parent.addChild(Xml.createComment(HxOverrides.substr(str,start,p - start)));
+				++nsubs;
+				p += 2;
+				state = 1;
+			}
+			break;
+		case 16:
+			if(c == 91) {
+				++nbrackets;
+			} else if(c == 93) {
+				--nbrackets;
+			} else if(c == 62 && nbrackets == 0) {
+				parent.addChild(Xml.createDocType(HxOverrides.substr(str,start,p - start)));
+				++nsubs;
+				state = 1;
+			}
+			break;
+		case 17:
+			if(c == 93 && str.charCodeAt(p + 1) == 93 && str.charCodeAt(p + 2) == 62) {
+				var child1 = Xml.createCData(HxOverrides.substr(str,start,p - start));
+				parent.addChild(child1);
+				++nsubs;
+				p += 2;
+				state = 1;
+			}
+			break;
+		case 18:
+			if(c == 59) {
+				var s = HxOverrides.substr(str,start,p - start);
+				if(s.charCodeAt(0) == 35) {
+					var c1 = s.charCodeAt(1) == 120 ? Std.parseInt("0" + HxOverrides.substr(s,1,s.length - 1)) : Std.parseInt(HxOverrides.substr(s,1,s.length - 1));
+					buf.b += String.fromCodePoint(c1);
+				} else {
+					var _this = haxe_xml_Parser.escapes;
+					if(!(__map_reserved[s] != null ? _this.existsReserved(s) : _this.h.hasOwnProperty(s))) {
+						if(strict) {
+							throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Undefined entity: " + s,str,p));
+						}
+						buf.b += Std.string("&" + s + ";");
+					} else {
+						var _this1 = haxe_xml_Parser.escapes;
+						var x = __map_reserved[s] != null ? _this1.getReserved(s) : _this1.h[s];
+						buf.b += Std.string(x);
+					}
+				}
+				start = p + 1;
+				state = escapeNext;
+			} else if(!(c >= 97 && c <= 122 || c >= 65 && c <= 90 || c >= 48 && c <= 57 || c == 58 || c == 46 || c == 95 || c == 45) && c != 35) {
+				if(strict) {
+					throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Invalid character in entity: " + String.fromCodePoint(c),str,p));
+				}
+				buf.b += String.fromCodePoint(38);
+				var len5 = p - start;
+				buf.b += len5 == null ? HxOverrides.substr(str,start,null) : HxOverrides.substr(str,start,len5);
+				--p;
+				start = p + 1;
+				state = escapeNext;
+			}
+			break;
+		}
+		c = str.charCodeAt(++p);
+	}
+	if(state == 1) {
+		start = p;
+		state = 13;
+	}
+	if(state == 13) {
+		if(parent.nodeType == 0) {
+			if(parent.nodeType != Xml.Element) {
+				throw new js__$Boot_HaxeError("Bad node type, expected Element but found " + _$Xml_XmlType_$Impl_$.toString(parent.nodeType));
+			}
+			throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Unclosed node <" + parent.nodeName + ">",str,p));
+		}
+		if(p != start || nsubs == 0) {
+			var len6 = p - start;
+			buf.b += len6 == null ? HxOverrides.substr(str,start,null) : HxOverrides.substr(str,start,len6);
+			parent.addChild(Xml.createPCData(buf.b));
+			++nsubs;
+		}
+		return p;
+	}
+	if(!strict && state == 18 && escapeNext == 13) {
+		buf.b += String.fromCodePoint(38);
+		var len7 = p - start;
+		buf.b += len7 == null ? HxOverrides.substr(str,start,null) : HxOverrides.substr(str,start,len7);
+		parent.addChild(Xml.createPCData(buf.b));
+		++nsubs;
+		return p;
+	}
+	throw new js__$Boot_HaxeError(new haxe_xml_XmlParserException("Unexpected end",str,p));
+};
+var haxe_xml_Printer = function(pretty) {
+	this.output = new StringBuf();
+	this.pretty = pretty;
+};
+haxe_xml_Printer.__name__ = "haxe.xml.Printer";
+haxe_xml_Printer.print = function(xml,pretty) {
+	if(pretty == null) {
+		pretty = false;
+	}
+	var printer = new haxe_xml_Printer(pretty);
+	printer.writeNode(xml,"");
+	return printer.output.b;
+};
+haxe_xml_Printer.prototype = {
+	writeNode: function(value,tabs) {
+		switch(value.nodeType) {
+		case 0:
+			this.output.b += Std.string(tabs + "<");
+			if(value.nodeType != Xml.Element) {
+				throw new js__$Boot_HaxeError("Bad node type, expected Element but found " + _$Xml_XmlType_$Impl_$.toString(value.nodeType));
+			}
+			this.output.b += Std.string(value.nodeName);
+			var attribute = value.attributes();
+			while(attribute.hasNext()) {
+				var attribute1 = attribute.next();
+				this.output.b += Std.string(" " + attribute1 + "=\"");
+				var input = StringTools.htmlEscape(value.get(attribute1),true);
+				this.output.b += Std.string(input);
+				this.output.b += "\"";
+			}
+			if(this.hasChildren(value)) {
+				this.output.b += ">";
+				if(this.pretty) {
+					this.output.b += "\n";
+				}
+				if(value.nodeType != Xml.Document && value.nodeType != Xml.Element) {
+					throw new js__$Boot_HaxeError("Bad node type, expected Element or Document but found " + _$Xml_XmlType_$Impl_$.toString(value.nodeType));
+				}
+				var child = HxOverrides.iter(value.children);
+				while(child.hasNext()) {
+					var child1 = child.next();
+					this.writeNode(child1,this.pretty ? tabs + "\t" : tabs);
+				}
+				this.output.b += Std.string(tabs + "</");
+				if(value.nodeType != Xml.Element) {
+					throw new js__$Boot_HaxeError("Bad node type, expected Element but found " + _$Xml_XmlType_$Impl_$.toString(value.nodeType));
+				}
+				this.output.b += Std.string(value.nodeName);
+				this.output.b += ">";
+				if(this.pretty) {
+					this.output.b += "\n";
+				}
+			} else {
+				this.output.b += "/>";
+				if(this.pretty) {
+					this.output.b += "\n";
+				}
+			}
+			break;
+		case 1:
+			if(value.nodeType == Xml.Document || value.nodeType == Xml.Element) {
+				throw new js__$Boot_HaxeError("Bad node type, unexpected " + _$Xml_XmlType_$Impl_$.toString(value.nodeType));
+			}
+			var nodeValue = value.nodeValue;
+			if(nodeValue.length != 0) {
+				var input1 = tabs + StringTools.htmlEscape(nodeValue);
+				this.output.b += Std.string(input1);
+				if(this.pretty) {
+					this.output.b += "\n";
+				}
+			}
+			break;
+		case 2:
+			this.output.b += Std.string(tabs + "<![CDATA[");
+			if(value.nodeType == Xml.Document || value.nodeType == Xml.Element) {
+				throw new js__$Boot_HaxeError("Bad node type, unexpected " + _$Xml_XmlType_$Impl_$.toString(value.nodeType));
+			}
+			this.output.b += Std.string(value.nodeValue);
+			this.output.b += "]]>";
+			if(this.pretty) {
+				this.output.b += "\n";
+			}
+			break;
+		case 3:
+			if(value.nodeType == Xml.Document || value.nodeType == Xml.Element) {
+				throw new js__$Boot_HaxeError("Bad node type, unexpected " + _$Xml_XmlType_$Impl_$.toString(value.nodeType));
+			}
+			var commentContent = value.nodeValue;
+			var _this_r = new RegExp("[\n\r\t]+","g".split("u").join(""));
+			commentContent = commentContent.replace(_this_r,"");
+			commentContent = "<!--" + commentContent + "-->";
+			this.output.b += tabs == null ? "null" : "" + tabs;
+			var input2 = StringTools.trim(commentContent);
+			this.output.b += Std.string(input2);
+			if(this.pretty) {
+				this.output.b += "\n";
+			}
+			break;
+		case 4:
+			if(value.nodeType == Xml.Document || value.nodeType == Xml.Element) {
+				throw new js__$Boot_HaxeError("Bad node type, unexpected " + _$Xml_XmlType_$Impl_$.toString(value.nodeType));
+			}
+			this.output.b += Std.string("<!DOCTYPE " + value.nodeValue + ">");
+			if(this.pretty) {
+				this.output.b += "\n";
+			}
+			break;
+		case 5:
+			if(value.nodeType == Xml.Document || value.nodeType == Xml.Element) {
+				throw new js__$Boot_HaxeError("Bad node type, unexpected " + _$Xml_XmlType_$Impl_$.toString(value.nodeType));
+			}
+			this.output.b += Std.string("<?" + value.nodeValue + "?>");
+			if(this.pretty) {
+				this.output.b += "\n";
+			}
+			break;
+		case 6:
+			if(value.nodeType != Xml.Document && value.nodeType != Xml.Element) {
+				throw new js__$Boot_HaxeError("Bad node type, expected Element or Document but found " + _$Xml_XmlType_$Impl_$.toString(value.nodeType));
+			}
+			var child2 = HxOverrides.iter(value.children);
+			while(child2.hasNext()) {
+				var child3 = child2.next();
+				this.writeNode(child3,tabs);
+			}
+			break;
+		}
+	}
+	,hasChildren: function(value) {
+		if(value.nodeType != Xml.Document && value.nodeType != Xml.Element) {
+			throw new js__$Boot_HaxeError("Bad node type, expected Element or Document but found " + _$Xml_XmlType_$Impl_$.toString(value.nodeType));
+		}
+		var child = HxOverrides.iter(value.children);
+		while(child.hasNext()) {
+			var child1 = child.next();
+			switch(child1.nodeType) {
+			case 0:case 1:
+				return true;
+			case 2:case 3:
+				if(child1.nodeType == Xml.Document || child1.nodeType == Xml.Element) {
+					throw new js__$Boot_HaxeError("Bad node type, unexpected " + _$Xml_XmlType_$Impl_$.toString(child1.nodeType));
+				}
+				if(StringTools.ltrim(child1.nodeValue).length != 0) {
+					return true;
+				}
+				break;
+			default:
+			}
+		}
+		return false;
+	}
+	,__class__: haxe_xml_Printer
+};
 var js__$Boot_HaxeError = function(val) {
 	Error.call(this);
 	this.val = val;
@@ -195,12 +2482,30 @@ var js__$Boot_HaxeError = function(val) {
 		Error.captureStackTrace(this,js__$Boot_HaxeError);
 	}
 };
-js__$Boot_HaxeError.__name__ = true;
+js__$Boot_HaxeError.__name__ = "js._Boot.HaxeError";
 js__$Boot_HaxeError.__super__ = Error;
 js__$Boot_HaxeError.prototype = $extend(Error.prototype,{
+	__class__: js__$Boot_HaxeError
 });
 var js_Boot = function() { };
-js_Boot.__name__ = true;
+js_Boot.__name__ = "js.Boot";
+js_Boot.getClass = function(o) {
+	if(o == null) {
+		return null;
+	} else if(((o) instanceof Array)) {
+		return Array;
+	} else {
+		var cl = o.__class__;
+		if(cl != null) {
+			return cl;
+		}
+		var name = js_Boot.__nativeClassName(o);
+		if(name != null) {
+			return js_Boot.__resolveNativeClass(name);
+		}
+		return null;
+	}
+};
 js_Boot.__string_rec = function(o,s) {
 	if(o == null) {
 		return "null";
@@ -294,6 +2599,114 @@ js_Boot.__string_rec = function(o,s) {
 		return String(o);
 	}
 };
+js_Boot.__interfLoop = function(cc,cl) {
+	if(cc == null) {
+		return false;
+	}
+	if(cc == cl) {
+		return true;
+	}
+	if(Object.prototype.hasOwnProperty.call(cc,"__interfaces__")) {
+		var intf = cc.__interfaces__;
+		var _g = 0;
+		var _g1 = intf.length;
+		while(_g < _g1) {
+			var i = _g++;
+			var i1 = intf[i];
+			if(i1 == cl || js_Boot.__interfLoop(i1,cl)) {
+				return true;
+			}
+		}
+	}
+	return js_Boot.__interfLoop(cc.__super__,cl);
+};
+js_Boot.__instanceof = function(o,cl) {
+	if(cl == null) {
+		return false;
+	}
+	switch(cl) {
+	case Array:
+		return ((o) instanceof Array);
+	case Bool:
+		return typeof(o) == "boolean";
+	case Dynamic:
+		return o != null;
+	case Float:
+		return typeof(o) == "number";
+	case Int:
+		if(typeof(o) == "number") {
+			return ((o | 0) === o);
+		} else {
+			return false;
+		}
+		break;
+	case String:
+		return typeof(o) == "string";
+	default:
+		if(o != null) {
+			if(typeof(cl) == "function") {
+				if(js_Boot.__downcastCheck(o,cl)) {
+					return true;
+				}
+			} else if(typeof(cl) == "object" && js_Boot.__isNativeObj(cl)) {
+				if(((o) instanceof cl)) {
+					return true;
+				}
+			}
+		} else {
+			return false;
+		}
+		if(cl == Class ? o.__name__ != null : false) {
+			return true;
+		}
+		if(cl == Enum ? o.__ename__ != null : false) {
+			return true;
+		}
+		return o.__enum__ != null ? $hxEnums[o.__enum__] == cl : false;
+	}
+};
+js_Boot.__downcastCheck = function(o,cl) {
+	if(!((o) instanceof cl)) {
+		if(cl.__isInterface__) {
+			return js_Boot.__interfLoop(js_Boot.getClass(o),cl);
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+};
+js_Boot.__cast = function(o,t) {
+	if(o == null || js_Boot.__instanceof(o,t)) {
+		return o;
+	} else {
+		throw new js__$Boot_HaxeError("Cannot cast " + Std.string(o) + " to " + Std.string(t));
+	}
+};
+js_Boot.__nativeClassName = function(o) {
+	var name = js_Boot.__toStr.call(o).slice(8,-1);
+	if(name == "Object" || name == "Function" || name == "Math" || name == "JSON") {
+		return null;
+	}
+	return name;
+};
+js_Boot.__isNativeObj = function(o) {
+	return js_Boot.__nativeClassName(o) != null;
+};
+js_Boot.__resolveNativeClass = function(name) {
+	return $global[name];
+};
+var js_Browser = function() { };
+js_Browser.__name__ = "js.Browser";
+js_Browser.createXMLHttpRequest = function() {
+	if(typeof XMLHttpRequest != "undefined") {
+		return new XMLHttpRequest();
+	}
+	if(typeof ActiveXObject != "undefined") {
+		return new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	throw new js__$Boot_HaxeError("Unable to create XMLHttpRequest object.");
+};
 var lib_components_CenterAlignment = $hxEnums["lib.components.CenterAlignment"] = { __ename__ : true, __constructs__ : ["Horizontal","Vertical","Both"]
 	,Horizontal: {_hx_index:0,__enum__:"lib.components.CenterAlignment",toString:$estr}
 	,Vertical: {_hx_index:1,__enum__:"lib.components.CenterAlignment",toString:$estr}
@@ -306,7 +2719,8 @@ var lib_components_Center = function(arg) {
 	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
 	this.padding = arg.padding != null ? arg.padding : lib_utils_Padding.all(0.0);
 };
-lib_components_Center.__name__ = true;
+lib_components_Center.__name__ = "lib.components.Center";
+lib_components_Center.__interfaces__ = [lib_support_Widget];
 lib_components_Center.prototype = {
 	render: function() {
 		var parent = window.document.createElement("div");
@@ -343,6 +2757,7 @@ lib_components_Center.prototype = {
 		}
 		return parent;
 	}
+	,__class__: lib_components_Center
 };
 var lib_components_Column = function(arg) {
 	this.children = null;
@@ -353,7 +2768,8 @@ var lib_components_Column = function(arg) {
 	this.cellSize = arg.cellSize != null ? arg.cellSize : new lib_utils_Size({ });
 	this.padding = arg.padding != null ? arg.padding : lib_utils_Padding.all(0.0);
 };
-lib_components_Column.__name__ = true;
+lib_components_Column.__name__ = "lib.components.Column";
+lib_components_Column.__interfaces__ = [lib_support_Widget];
 lib_components_Column.prototype = {
 	render: function() {
 		var column = window.document.createElement("div");
@@ -373,13 +2789,15 @@ lib_components_Column.prototype = {
 		}
 		return column;
 	}
+	,__class__: lib_components_Column
 };
 var lib_components_Container = function(arg) {
 	this.size = arg.size != null ? arg.size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
 	this.child = arg.child;
 };
-lib_components_Container.__name__ = true;
+lib_components_Container.__name__ = "lib.components.Container";
+lib_components_Container.__interfaces__ = [lib_support_Widget];
 lib_components_Container.prototype = {
 	render: function() {
 		var container = window.document.createElement("div");
@@ -389,6 +2807,7 @@ lib_components_Container.prototype = {
 		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : container, style : this.style, padding : lib_utils_Padding.all(0.0)});
 		return container;
 	}
+	,__class__: lib_components_Container
 };
 var lib_components_Image = function(arg) {
 	this.src = arg.src;
@@ -397,7 +2816,8 @@ var lib_components_Image = function(arg) {
 	this.width = arg.width;
 	this.style = arg.style;
 };
-lib_components_Image.__name__ = true;
+lib_components_Image.__name__ = "lib.components.Image";
+lib_components_Image.__interfaces__ = [lib_support_Widget];
 lib_components_Image.prototype = {
 	render: function() {
 		var container = window.document.createElement("img");
@@ -416,6 +2836,7 @@ lib_components_Image.prototype = {
 		var tmp = this.style != null;
 		return container;
 	}
+	,__class__: lib_components_Image
 };
 var lib_components_Page = function(arg) {
 	this.size = null;
@@ -429,7 +2850,8 @@ var lib_components_Page = function(arg) {
 	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
 	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
 };
-lib_components_Page.__name__ = true;
+lib_components_Page.__name__ = "lib.components.Page";
+lib_components_Page.__interfaces__ = [lib_support_Widget];
 lib_components_Page.prototype = {
 	getRoute: function() {
 		return this.route;
@@ -444,6 +2866,7 @@ lib_components_Page.prototype = {
 		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : element, style : this.style, padding : lib_utils_Padding.all(0.0)});
 		return element;
 	}
+	,__class__: lib_components_Page
 };
 var lib_components_Positioned = function(arg) {
 	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
@@ -454,7 +2877,8 @@ var lib_components_Positioned = function(arg) {
 	this.left = arg.left != null ? arg.left : 0.0;
 	this.child = arg.child;
 };
-lib_components_Positioned.__name__ = true;
+lib_components_Positioned.__name__ = "lib.components.Positioned";
+lib_components_Positioned.__interfaces__ = [lib_support_Widget];
 lib_components_Positioned.prototype = {
 	render: function() {
 		var parent = window.document.createElement("div");
@@ -479,7 +2903,55 @@ lib_components_Positioned.prototype = {
 		parent.appendChild(positioned);
 		return parent;
 	}
+	,__class__: lib_components_Positioned
 };
+var lib_components_Request = function(parent,arg) {
+	this.onError = null;
+	this.onProgress = null;
+	this.onComplete = null;
+	this.parent = null;
+	this.url = "";
+	lib_core_DynamicComponent.call(this);
+	this.url = arg.url;
+	this.parent = parent;
+	this.onComplete = arg.onComplete;
+	this.onProgress = arg.onProgress;
+	this.onError = arg.onError;
+};
+lib_components_Request.__name__ = "lib.components.Request";
+lib_components_Request.__interfaces__ = [lib_support_Widget];
+lib_components_Request.__super__ = lib_core_DynamicComponent;
+lib_components_Request.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	component: function() {
+		return this.page;
+	}
+	,replace: function(container,onProgressNode,component) {
+		container.removeChild(onProgressNode);
+		container.appendChild(component.render());
+	}
+	,render: function() {
+		var _gthis = this;
+		var container = window.document.createElement("div");
+		var progressComponent = this.onProgress();
+		var onProgressNode = progressComponent.render();
+		var onProgressNode1 = container.appendChild(onProgressNode);
+		var request = new com_akifox_asynchttp_HttpRequest({ url : "http://localhost:3000/test", callback : function(response) {
+			if(response.get_isOK()) {
+				console.log("lib/components/Request.hx:48:",response.get_content());
+				console.log("lib/components/Request.hx:49:","DONE " + response.get_status());
+				var component = _gthis.onComplete(response.get_content());
+				_gthis.replace(container,onProgressNode1,component);
+			} else {
+				var component1 = _gthis.onError(response.get_content());
+				_gthis.replace(container,onProgressNode1,component1);
+				console.log("lib/components/Request.hx:57:","ERROR " + response.get_status() + " " + response.get_error());
+			}
+		}});
+		request.send();
+		return container;
+	}
+	,__class__: lib_components_Request
+});
 var lib_components_RowAlignment = $hxEnums["lib.components.RowAlignment"] = { __ename__ : true, __constructs__ : ["TopLeft","TopCenter","TopRight","Left","Center","Right","LowerLeft","LowerCenter","LowerRight","Stretch"]
 	,TopLeft: {_hx_index:0,__enum__:"lib.components.RowAlignment",toString:$estr}
 	,TopCenter: {_hx_index:1,__enum__:"lib.components.RowAlignment",toString:$estr}
@@ -504,7 +2976,8 @@ var lib_components_Row = function(arg) {
 	this.cellPadding = arg.cellPadding != null ? arg.cellPadding : lib_utils_Padding.all(0.0);
 	this.alignment = arg.alignment != null ? arg.alignment : lib_components_RowAlignment.Center;
 };
-lib_components_Row.__name__ = true;
+lib_components_Row.__name__ = "lib.components.Row";
+lib_components_Row.__interfaces__ = [lib_support_Widget];
 lib_components_Row.prototype = {
 	render: function() {
 		var row = window.document.createElement("div");
@@ -524,6 +2997,7 @@ lib_components_Row.prototype = {
 		}
 		return row;
 	}
+	,__class__: lib_components_Row
 };
 var lib_components_TextFormat = $hxEnums["lib.components.TextFormat"] = { __ename__ : true, __constructs__ : ["h1","h2","h3","h4","h5","h6","p","a","pre"]
 	,h1: {_hx_index:0,__enum__:"lib.components.TextFormat",toString:$estr}
@@ -547,7 +3021,8 @@ var lib_components_Text = function(text,arg) {
 	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
 	this.textFormat = arg.textFormat != null ? arg.textFormat : lib_components_TextFormat.p;
 };
-lib_components_Text.__name__ = true;
+lib_components_Text.__name__ = "lib.components.Text";
+lib_components_Text.__interfaces__ = [lib_support_Widget];
 lib_components_Text.prototype = {
 	getText: function() {
 		return this.text;
@@ -627,10 +3102,11 @@ lib_components_Text.prototype = {
 		element.innerText = this.text;
 		return element;
 	}
+	,__class__: lib_components_Text
 };
 var lib_core_Body = function() {
 };
-lib_core_Body.__name__ = true;
+lib_core_Body.__name__ = "lib.core.Body";
 lib_core_Body.prototype = {
 	to: function(arg) {
 	}
@@ -645,10 +3121,11 @@ lib_core_Body.prototype = {
 	,render: function(widget) {
 		window.document.body.appendChild(widget);
 	}
+	,__class__: lib_core_Body
 };
 var lib_core_Navigate = function() {
 };
-lib_core_Navigate.__name__ = true;
+lib_core_Navigate.__name__ = "lib.core.Navigate";
 lib_core_Navigate.to = function(arg) {
 	var url = arg.route;
 	if(arg.main == null) {
@@ -696,9 +3173,12 @@ lib_core_Navigate.updateComponent = function(component) {
 	}
 	window.document.body.appendChild(component);
 };
+lib_core_Navigate.prototype = {
+	__class__: lib_core_Navigate
+};
 var lib_support_StyleManager = function() {
 };
-lib_support_StyleManager.__name__ = true;
+lib_support_StyleManager.__name__ = "lib.support.StyleManager";
 lib_support_StyleManager.prototype = {
 	addStyleToDiv: function(arg) {
 		arg.widget.style.height = arg.size.getHeight();
@@ -744,9 +3224,11 @@ lib_support_StyleManager.prototype = {
 		}
 		return arg.widget;
 	}
+	,__class__: lib_support_StyleManager
 };
 var lib_utils__$Color_Color_$Impl_$ = {};
-lib_utils__$Color_Color_$Impl_$.__name__ = true;
+lib_utils__$Color_Color_$Impl_$.__name__ = "lib.utils._Color.Color_Impl_";
+lib_utils__$Color_Color_$Impl_$.__properties__ = {set_bf:"set_bf",get_bf:"get_bf",set_gf:"set_gf",get_gf:"get_gf",set_rf:"set_rf",get_rf:"get_rf",set_af:"set_af",get_af:"get_af",set_bi:"set_bi",get_bi:"get_bi",set_gi:"set_gi",get_gi:"get_gi",set_ri:"set_ri",get_ri:"get_ri",set_ai:"set_ai",get_ai:"get_ai"};
 lib_utils__$Color_Color_$Impl_$.fromString = function(rgba) {
 	var this1 = Std.parseInt("0xff" + HxOverrides.substr(rgba,1,null));
 	return this1;
@@ -833,7 +3315,7 @@ var lib_utils_Margin = function(arg) {
 	this.bottom = arg.bottom;
 	this.left = arg.left;
 };
-lib_utils_Margin.__name__ = true;
+lib_utils_Margin.__name__ = "lib.utils.Margin";
 lib_utils_Margin.fromTRBL = function(top,right,bottom,left) {
 	return new lib_utils_Margin({ top : top, right : right, bottom : bottom, left : left});
 };
@@ -844,6 +3326,7 @@ lib_utils_Margin.prototype = {
 	getMargin: function() {
 		return this.top + "px " + this.right + "px " + this.bottom + "px " + this.left + "px";
 	}
+	,__class__: lib_utils_Margin
 };
 var lib_utils_Padding = function(arg) {
 	this.top = arg.top;
@@ -851,7 +3334,7 @@ var lib_utils_Padding = function(arg) {
 	this.bottom = arg.bottom;
 	this.left = arg.left;
 };
-lib_utils_Padding.__name__ = true;
+lib_utils_Padding.__name__ = "lib.utils.Padding";
 lib_utils_Padding.fromTRBL = function(top,right,bottom,left) {
 	return new lib_utils_Padding({ top : top, right : right, bottom : bottom, left : left});
 };
@@ -862,6 +3345,7 @@ lib_utils_Padding.prototype = {
 	getPadding: function() {
 		return this.top + "px " + this.right + "px " + this.bottom + "px " + this.left + "px";
 	}
+	,__class__: lib_utils_Padding
 };
 var lib_utils_Size = function(arg) {
 	this.height = arg.height != null ? arg.height : -Infinity;
@@ -869,7 +3353,7 @@ var lib_utils_Size = function(arg) {
 	this.width = arg.width != null ? arg.width : -Infinity;
 	this.widthType = arg.widthType != "" ? arg.widthType : "px";
 };
-lib_utils_Size.__name__ = true;
+lib_utils_Size.__name__ = "lib.utils.Size";
 lib_utils_Size.prototype = {
 	getHeight: function() {
 		if(this.height == -Infinity) {
@@ -883,12 +3367,13 @@ lib_utils_Size.prototype = {
 		}
 		return Std.string(this.width) + this.widthType;
 	}
+	,__class__: lib_utils_Size
 };
 var lib_utils_Style = function(arg) {
 	this.color = arg.color;
 	this.backgroundColor = arg.backgroundColor;
 };
-lib_utils_Style.__name__ = true;
+lib_utils_Style.__name__ = "lib.utils.Style";
 lib_utils_Style.prototype = {
 	getColor: function() {
 		if(this.color == null) {
@@ -903,13 +3388,146 @@ lib_utils_Style.prototype = {
 		console.log("lib/utils/Style.hx:29:","rgba(" + (this.backgroundColor >> 16 & 255) + ", " + (this.backgroundColor >> 8 & 255) + ", " + (this.backgroundColor & 255) + ", " + (this.backgroundColor >> 24 & 255) + ")");
 		return "rgba(" + (this.backgroundColor >> 16 & 255) + ", " + (this.backgroundColor >> 8 & 255) + ", " + (this.backgroundColor & 255) + ", " + (this.backgroundColor >> 24 & 255) + ")";
 	}
+	,__class__: lib_utils_Style
 };
-String.__name__ = true;
-Array.__name__ = true;
+function $getIterator(o) { if( o instanceof Array ) return HxOverrides.iter(o); else return o.iterator(); }
+function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $global.$haxeUID++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = m.bind(o); o.hx__closures__[m.__id__] = f; } return f; }
+$global.$haxeUID |= 0;
+if( String.fromCodePoint == null ) String.fromCodePoint = function(c) { return c < 0x10000 ? String.fromCharCode(c) : String.fromCharCode((c>>10)+0xD7C0)+String.fromCharCode((c&0x3FF)+0xDC00); }
+String.prototype.__class__ = String;
+String.__name__ = "String";
+Array.__name__ = "Array";
+var Int = { };
+var Dynamic = { };
+var Float = Number;
+var Bool = Boolean;
+var Class = { };
+var Enum = { };
+var __map_reserved = {};
 Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function() {
 	return String(this.val);
 }});
 js_Boot.__toStr = ({ }).toString;
+Xml.Element = 0;
+Xml.PCData = 1;
+Xml.CData = 2;
+Xml.Comment = 3;
+Xml.DocType = 4;
+Xml.ProcessingInstruction = 5;
+Xml.Document = 6;
+com_akifox_asynchttp_AsyncHttp.logEnabled = false;
+com_akifox_asynchttp_AsyncHttp.logErrorEnabled = true;
+com_akifox_asynchttp_AsyncHttp.errorSafe = false;
+com_akifox_asynchttp_AsyncHttp.userAgent = "akifox-asynchttp";
+com_akifox_asynchttp_AsyncHttp.maxRedirections = 10;
+com_akifox_asynchttp_AsyncHttp.DEFAULT_CONTENT_TYPE = "text/plain";
+com_akifox_asynchttp_AsyncHttp.DEFAULT_FILENAME = "unknown";
+com_akifox_asynchttp_AsyncHttp.CONTENT_KIND_MATCHES = [{ kind : com_akifox_asynchttp_ContentKind.IMAGE, regex : new EReg("^image/(jpe?g|png|gif)","i")},{ kind : com_akifox_asynchttp_ContentKind.XML, regex : new EReg("(application/xml|text/xml|\\+xml)","i")},{ kind : com_akifox_asynchttp_ContentKind.JSON, regex : new EReg("^(application/json|\\+json)","i")},{ kind : com_akifox_asynchttp_ContentKind.TEXT, regex : new EReg("(^text|application/javascript)","i")}];
+com_akifox_asynchttp_AsyncHttp.UID_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+com_akifox_asynchttp_HttpHeaders.FORBIDDEN_ON_REQUEST = ["user-agent","host","content-type","content-length"];
+com_akifox_asynchttp_HttpMethod.GET = "GET";
+com_akifox_asynchttp_HttpMethod.POST = "POST";
+com_akifox_asynchttp_HttpMethod.PUT = "PUT";
+com_akifox_asynchttp_HttpMethod.DELETE = "DELETE";
+com_akifox_asynchttp_HttpMethod.HEAD = "HEAD";
+com_akifox_asynchttp_HttpMethod.CONNECT = "CONNECT";
+com_akifox_asynchttp_HttpMethod.OPTIONS = "OPTIONS";
+com_akifox_asynchttp_HttpMethod.TRACE = "TRACE";
+com_akifox_asynchttp_HttpMethod.PATCH = "PATCH";
+com_akifox_asynchttp_HttpMethod.DEFAULT_METHOD = "GET";
+com_akifox_asynchttp_HttpRequest.DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
+com_akifox_asynchttp_HttpResponse._httpStatus = (function($this) {
+	var $r;
+	var _g = new haxe_ds_IntMap();
+	_g.h[100] = "Continue";
+	_g.h[101] = "Switching Protocols";
+	_g.h[102] = "Processing";
+	_g.h[200] = "OK";
+	_g.h[201] = "Created";
+	_g.h[202] = "Accepted";
+	_g.h[203] = "Non-Authoritative Information";
+	_g.h[204] = "No Content";
+	_g.h[205] = "Reset Content";
+	_g.h[206] = "Partial Content";
+	_g.h[207] = "Multi-Status";
+	_g.h[300] = "Multiple Choices";
+	_g.h[301] = "Moved Permanently";
+	_g.h[302] = "Found";
+	_g.h[303] = "See Other";
+	_g.h[304] = "Not Modified";
+	_g.h[305] = "Use Proxy";
+	_g.h[306] = "Switch Proxy";
+	_g.h[307] = "Temporary Redirect";
+	_g.h[400] = "Bad Request";
+	_g.h[401] = "Unauthorized";
+	_g.h[402] = "Payment Required";
+	_g.h[403] = "Forbidden";
+	_g.h[404] = "Not Found";
+	_g.h[405] = "Method Not Allowed";
+	_g.h[406] = "Not Acceptable";
+	_g.h[407] = "Proxy Authentication Required";
+	_g.h[408] = "Request Timeout";
+	_g.h[409] = "Conflict";
+	_g.h[410] = "Gone";
+	_g.h[411] = "Length Required";
+	_g.h[412] = "Precondition Failed";
+	_g.h[413] = "Request Entity Too Large";
+	_g.h[414] = "Request-URI Too Long";
+	_g.h[415] = "Unsupported Media Type";
+	_g.h[416] = "Requested Range Not Satisfiable";
+	_g.h[417] = "Expectation Failed";
+	_g.h[418] = "I'm a teapot";
+	_g.h[422] = "Unprocessable Entity";
+	_g.h[423] = "Locked";
+	_g.h[424] = "Failed Dependency";
+	_g.h[425] = "Unordered Collection";
+	_g.h[426] = "Upgrade Required";
+	_g.h[449] = "Retry With";
+	_g.h[450] = "Blocked by Windows Parental Controls";
+	_g.h[500] = "Internal Server Error";
+	_g.h[501] = "Not Implemented";
+	_g.h[502] = "Bad Gateway";
+	_g.h[503] = "Service Unavailable";
+	_g.h[504] = "Gateway Timeout";
+	_g.h[505] = "HTTP Version Not Supported";
+	_g.h[506] = "Variant Also Negotiates";
+	_g.h[507] = "Insufficient Storage";
+	_g.h[509] = "Bandwidth Limit Exceeded";
+	_g.h[510] = "Not Extended";
+	$r = _g;
+	return $r;
+}(this));
+haxe_xml_Parser.escapes = (function($this) {
+	var $r;
+	var h = new haxe_ds_StringMap();
+	if(__map_reserved["lt"] != null) {
+		h.setReserved("lt","<");
+	} else {
+		h.h["lt"] = "<";
+	}
+	if(__map_reserved["gt"] != null) {
+		h.setReserved("gt",">");
+	} else {
+		h.h["gt"] = ">";
+	}
+	if(__map_reserved["amp"] != null) {
+		h.setReserved("amp","&");
+	} else {
+		h.h["amp"] = "&";
+	}
+	if(__map_reserved["quot"] != null) {
+		h.setReserved("quot","\"");
+	} else {
+		h.h["quot"] = "\"";
+	}
+	if(__map_reserved["apos"] != null) {
+		h.setReserved("apos","'");
+	} else {
+		h.h["apos"] = "'";
+	}
+	$r = h;
+	return $r;
+}(this));
 lib_core_Navigate.routes = [];
 lib_utils__$Color_Color_$Impl_$.TRANSPARENT = 0;
 lib_utils__$Color_Color_$Impl_$.BLACK = -16777216;
@@ -921,4 +3539,4 @@ lib_utils__$Color_Color_$Impl_$.CYAN = -16711681;
 lib_utils__$Color_Color_$Impl_$.MAGENTA = -65281;
 lib_utils__$Color_Color_$Impl_$.YELLOW = -256;
 Main.main();
-})({});
+})(typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);

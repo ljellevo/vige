@@ -1,4 +1,4 @@
-import js.Error.SyntaxError;
+
 import lib.support.Widget;
 import lib.utils.Padding;
 import lib.utils.Size;
@@ -6,6 +6,7 @@ import lib.utils.Color;
 import lib.utils.Style;
 import js.Browser;
 
+import lib.components.Request;
 import lib.components.Button;
 import lib.components.Page;
 import lib.components.Text;
@@ -13,7 +14,6 @@ import lib.components.Column;
 import lib.components.Row;
 import lib.components.Center;
 import lib.components.Container;
-import lib.components.Positioned;
 import lib.components.Image;
 
 import lib.core.Body;
@@ -128,7 +128,7 @@ class HomePage extends StaticComponent{
   }
 }
 
-class HomeView  extends StaticComponent {
+class HomeView  extends DynamicComponent {
   public function new() {}
 
 
@@ -147,7 +147,7 @@ class HomeView  extends StaticComponent {
   }
 
   override public function component() : Widget {
-    return new Page({
+    page = new Page({
       route: "/",
       child: new Column({
         children: [
@@ -275,12 +275,27 @@ class HomeView  extends StaticComponent {
               ]
             })
           }),
+
+          new Request(this,{
+            url: "http://localhost:3000/test",
+            onComplete: function(res) {
+              return new Text("Done from main: " + res);
+            },
+            onProgress: function() {
+              return new Text("Progress");
+            },
+            onError: function(res) {
+              return new Text("Error from main: " + res);
+            },
+          })
         ]
       })
     });
+    return page;
   }
 } 
 
+//haxe.Constraints.Function
 
 class Main {
   static function main() {
