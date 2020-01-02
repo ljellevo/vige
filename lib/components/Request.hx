@@ -41,23 +41,18 @@ class Request implements Widget extends DynamicComponent {
         var container = Browser.document.createDivElement();
         var progressComponent = onProgress();
         var onProgressNode = container.appendChild(progressComponent.render());
-            var request = new HttpRequest({
-                url : "http://localhost:3000/test",
-                callback : function(response:HttpResponse):Void {
-                    if (response.isOK) {
-                        trace(response.content);
-                        trace('DONE ${response.status}');
-                        var component = onComplete(response);
-                        replace(container, onProgressNode, component);
-
-                    } else {
-                        var component = onError(response);
-                        replace(container, onProgressNode, component);
-
-                        trace('ERROR ${response.status} ${response.error}');
-                    }
-                }  
-            });
+        var request = new HttpRequest({
+            url : "http://localhost:3000/test",
+            callback : function(response:HttpResponse):Void {
+                if (response.isOK) {
+                    var component = onComplete(response);
+                    replace(container, onProgressNode, component);
+                } else {
+                    var component = onError(response);
+                    replace(container, onProgressNode, component);
+                }
+            }  
+        });
         request.send();      
         return container;
     }
