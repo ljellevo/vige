@@ -47,11 +47,11 @@ class Request implements Widget extends DynamicComponent {
                     if (response.isOK) {
                         trace(response.content);
                         trace('DONE ${response.status}');
-                        var component = onComplete(response.content);
+                        var component = onComplete(response);
                         replace(container, onProgressNode, component);
 
                     } else {
-                        var component = onError(response.content);
+                        var component = onError(response);
                         replace(container, onProgressNode, component);
 
                         trace('ERROR ${response.status} ${response.error}');

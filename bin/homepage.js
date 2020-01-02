@@ -222,11 +222,12 @@ HomeView.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var tmp5 = new lib_components_Container({ child : new lib_components_Column({ style : tmp2, size : tmp3, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : tmp4, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ style : new lib_utils_Style({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100})]})})]})]})});
 		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp5,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this14}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg")]})}),new lib_components_Request(this,{ url : "http://localhost:3000/test", onComplete : function(res) {
-			return new lib_components_Text("Done from main: " + res);
+			console.log("src/Main.hx:283:",res.get_content());
+			return new lib_components_Text("Done from main: " + Std.string(res.get_content()));
 		}, onProgress : function() {
 			return new lib_components_Text("Progress");
 		}, onError : function(res1) {
-			return new lib_components_Text("Error from main: " + res1);
+			return new lib_components_Text("Error from main: " + res1.get_error());
 		}})]})});
 		return this.page;
 	}
@@ -2868,43 +2869,6 @@ lib_components_Page.prototype = {
 	}
 	,__class__: lib_components_Page
 };
-var lib_components_Positioned = function(arg) {
-	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
-	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
-	this.top = arg.top != null ? arg.top : 0.0;
-	this.right = arg.right != null ? arg.right : 0.0;
-	this.bottom = arg.bottom != null ? arg.bottom : 0.0;
-	this.left = arg.left != null ? arg.left : 0.0;
-	this.child = arg.child;
-};
-lib_components_Positioned.__name__ = "lib.components.Positioned";
-lib_components_Positioned.__interfaces__ = [lib_support_Widget];
-lib_components_Positioned.prototype = {
-	render: function() {
-		var parent = window.document.createElement("div");
-		parent.style.position = "relative";
-		new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), widget : parent, style : new lib_utils_Style({ }), padding : lib_utils_Padding.all(0.0)});
-		var positioned = window.document.createElement("div");
-		positioned.appendChild(this.child.render());
-		positioned.style.position = "absolute";
-		if(this.top != 0.0) {
-			positioned.style.top = Std.string(this.top) + "px";
-		}
-		if(this.right != 0.0) {
-			positioned.style.right = Std.string(this.right) + "px";
-		}
-		if(this.bottom != 0.0) {
-			positioned.style.bottom = Std.string(this.bottom) + "px";
-		}
-		if(this.left != 0.0) {
-			positioned.style.left = Std.string(this.left) + "px";
-		}
-		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : positioned, style : this.style, padding : lib_utils_Padding.all(0.0)});
-		parent.appendChild(positioned);
-		return parent;
-	}
-	,__class__: lib_components_Positioned
-};
 var lib_components_Request = function(parent,arg) {
 	this.onError = null;
 	this.onProgress = null;
@@ -2939,10 +2903,10 @@ lib_components_Request.prototype = $extend(lib_core_DynamicComponent.prototype,{
 			if(response.get_isOK()) {
 				console.log("lib/components/Request.hx:48:",response.get_content());
 				console.log("lib/components/Request.hx:49:","DONE " + response.get_status());
-				var component = _gthis.onComplete(response.get_content());
+				var component = _gthis.onComplete(response);
 				_gthis.replace(container,onProgressNode1,component);
 			} else {
-				var component1 = _gthis.onError(response.get_content());
+				var component1 = _gthis.onError(response);
 				_gthis.replace(container,onProgressNode1,component1);
 				console.log("lib/components/Request.hx:57:","ERROR " + response.get_status() + " " + response.get_error());
 			}

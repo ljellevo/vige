@@ -1,4 +1,5 @@
 
+import com.akifox.asynchttp.HttpResponse;
 import lib.support.Widget;
 import lib.utils.Padding;
 import lib.utils.Size;
@@ -278,14 +279,15 @@ class HomeView  extends DynamicComponent {
 
           new Request(this,{
             url: "http://localhost:3000/test",
-            onComplete: function(res) {
-              return new Text("Done from main: " + res);
+            onComplete: function(res: HttpResponse) {
+              trace(res.content);
+              return new Text("Done from main: " + res.content);
             },
             onProgress: function() {
               return new Text("Progress");
             },
-            onError: function(res) {
-              return new Text("Error from main: " + res);
+            onError: function(res: HttpResponse) {
+              return new Text("Error from main: " + res.error);
             },
           })
         ]
