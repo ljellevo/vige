@@ -41,8 +41,9 @@ class Stream implements Widget{
         var lastComponent = container.appendChild(onStandby().render());
 
         var socket = new WebSocket(url);
-        socket.onopen = function (res: String) {
-            var component = onOpen(res);
+        socket.onopen = function (res) {
+            trace(res);
+            var component = onOpen();
             lastComponent = replace(container, lastComponent, component);
         }
 
@@ -52,7 +53,8 @@ class Stream implements Widget{
         }
 
         socket.onclose = function (res) {
-            var component = onClose(res);
+            trace(res);
+            var component = onClose();
             lastComponent = replace(container, lastComponent, component);
         }
 

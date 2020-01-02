@@ -1,4 +1,8 @@
 
+import js.html.ErrorEvent;
+import js.html.Event;
+import js.html.CloseEvent;
+import js.html.MessageEvent;
 import com.akifox.asynchttp.HttpResponse;
 import lib.support.Widget;
 import lib.utils.Padding;
@@ -293,19 +297,19 @@ class HomeView  extends DynamicComponent {
           }),
           new Stream({
             url: "ws://localhost:3001/socket",
-            onStandby: function(res) {
+            onStandby: function() {
               return new Text("On standby");
             },
-            onOpen: function(res) {
+            onOpen: function(res: Event) {
               return new Text("Connection opened");
             },
-            onMessage: function(res) {
+            onMessage: function(res: MessageEvent) {
               return new Text("Message recieved: " + res.data);
             },
-            onClose: function(res) {
+            onClose: function(res: CloseEvent) {
               return new Text("Connection closed");
             },
-            onError: function(res) {
+            onError: function(res: ErrorEvent) {
               return new Text("Error");
             },
           })
