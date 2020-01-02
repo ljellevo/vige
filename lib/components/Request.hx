@@ -1,34 +1,26 @@
 package lib.components;
 
 import com.akifox.asynchttp.*;
-import lib.core.DynamicComponent;
 import lib.support.Widget;
 import js.Browser;
 
-class Request implements Widget extends DynamicComponent {
+class Request implements Widget{
     var url: String = "";
-    var parent: DynamicComponent = null;
     var onComplete: haxe.Constraints.Function = null;
     var onProgress: haxe.Constraints.Function = null;
     var onError: haxe.Constraints.Function = null;
 
     public function new(
-    parent: DynamicComponent,
     arg: {
         url: String,
         onComplete: haxe.Constraints.Function,
-        ?onProgress: haxe.Constraints.Function,
+        onProgress: haxe.Constraints.Function,
         ?onError: haxe.Constraints.Function
     }){
         this.url = arg.url;
-        this.parent = parent;
         this.onComplete = arg.onComplete;
         this.onProgress = arg.onProgress;
         this.onError = arg.onError;
-    }
-
-    override public function component() : Widget {
-        return page;
     }
 
     function replace(container: js.html.DivElement, onProgressNode: js.html.Node, component: Widget) {
@@ -42,14 +34,16 @@ class Request implements Widget extends DynamicComponent {
         var progressComponent = onProgress();
         var onProgressNode = container.appendChild(progressComponent.render());
         var request = new HttpRequest({
-            url : "http://localhost:3000/test",
+            url : url,
             callback : function(response:HttpResponse):Void {
                 if (response.isOK) {
                     var component = onComplete(response);
                     replace(container, onProgressNode, component);
                 } else {
-                    var component = onError(response);
-                    replace(container, onProgressNode, component);
+                    if(onError != null) {
+                        var component = onError(response);
+                        replace(container, onProgressNode, component);
+                    }
                 }
             }  
         });

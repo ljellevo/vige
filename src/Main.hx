@@ -8,6 +8,7 @@ import lib.utils.Style;
 import js.Browser;
 
 import lib.components.Request;
+import lib.components.Stream;
 import lib.components.Button;
 import lib.components.Page;
 import lib.components.Text;
@@ -277,7 +278,7 @@ class HomeView  extends DynamicComponent {
             })
           }),
 
-          new Request(this,{
+          new Request({
             url: "http://localhost:3000/test",
             onComplete: function(res: HttpResponse) {
               trace(res.content);
@@ -288,6 +289,24 @@ class HomeView  extends DynamicComponent {
             },
             onError: function(res: HttpResponse) {
               return new Text("Error from main: " + res.error);
+            },
+          }),
+          new Stream({
+            url: "ws://localhost:3001/socket",
+            onStandby: function(res) {
+              return new Text("On standby");
+            },
+            onOpen: function(res) {
+              return new Text("Connection opened");
+            },
+            onMessage: function(res) {
+              return new Text("Message recieved: " + res.data);
+            },
+            onClose: function(res) {
+              return new Text("Connection closed");
+            },
+            onError: function(res) {
+              return new Text("Error");
             },
           })
         ]

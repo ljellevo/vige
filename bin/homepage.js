@@ -221,13 +221,23 @@ HomeView.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
 		var tmp5 = new lib_components_Container({ child : new lib_components_Column({ style : tmp2, size : tmp3, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : tmp4, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ style : new lib_utils_Style({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100})]})})]})]})});
 		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp5,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this14}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg")]})}),new lib_components_Request(this,{ url : "http://localhost:3000/test", onComplete : function(res) {
-			console.log("src/Main.hx:283:",res.get_content());
+		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp5,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this14}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg")]})}),new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
+			console.log("src/Main.hx:284:",res.get_content());
 			return new lib_components_Text("Done from main: " + Std.string(res.get_content()));
 		}, onProgress : function() {
 			return new lib_components_Text("Progress");
 		}, onError : function(res1) {
 			return new lib_components_Text("Error from main: " + res1.get_error());
+		}}),new lib_components_Stream({ url : "ws://localhost:3001/socket", onStandby : function(res2) {
+			return new lib_components_Text("On standby");
+		}, onOpen : function(res3) {
+			return new lib_components_Text("Connection opened");
+		}, onMessage : function(res4) {
+			return new lib_components_Text("Message recieved: " + res4.data);
+		}, onClose : function(res5) {
+			return new lib_components_Text("Connection closed");
+		}, onError : function(res6) {
+			return new lib_components_Text("Error");
 		}})]})});
 		return this.page;
 	}
@@ -2869,27 +2879,20 @@ lib_components_Page.prototype = {
 	}
 	,__class__: lib_components_Page
 };
-var lib_components_Request = function(parent,arg) {
+var lib_components_Request = function(arg) {
 	this.onError = null;
 	this.onProgress = null;
 	this.onComplete = null;
-	this.parent = null;
 	this.url = "";
-	lib_core_DynamicComponent.call(this);
 	this.url = arg.url;
-	this.parent = parent;
 	this.onComplete = arg.onComplete;
 	this.onProgress = arg.onProgress;
 	this.onError = arg.onError;
 };
 lib_components_Request.__name__ = "lib.components.Request";
 lib_components_Request.__interfaces__ = [lib_support_Widget];
-lib_components_Request.__super__ = lib_core_DynamicComponent;
-lib_components_Request.prototype = $extend(lib_core_DynamicComponent.prototype,{
-	component: function() {
-		return this.page;
-	}
-	,replace: function(container,onProgressNode,component) {
+lib_components_Request.prototype = {
+	replace: function(container,onProgressNode,component) {
 		container.removeChild(onProgressNode);
 		container.appendChild(component.render());
 	}
@@ -2899,23 +2902,20 @@ lib_components_Request.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var progressComponent = this.onProgress();
 		var onProgressNode = progressComponent.render();
 		var onProgressNode1 = container.appendChild(onProgressNode);
-		var request = new com_akifox_asynchttp_HttpRequest({ url : "http://localhost:3000/test", callback : function(response) {
+		var request = new com_akifox_asynchttp_HttpRequest({ url : this.url, callback : function(response) {
 			if(response.get_isOK()) {
-				console.log("lib/components/Request.hx:48:",response.get_content());
-				console.log("lib/components/Request.hx:49:","DONE " + response.get_status());
 				var component = _gthis.onComplete(response);
 				_gthis.replace(container,onProgressNode1,component);
-			} else {
+			} else if(_gthis.onError != null) {
 				var component1 = _gthis.onError(response);
 				_gthis.replace(container,onProgressNode1,component1);
-				console.log("lib/components/Request.hx:57:","ERROR " + response.get_status() + " " + response.get_error());
 			}
 		}});
 		request.send();
 		return container;
 	}
 	,__class__: lib_components_Request
-});
+};
 var lib_components_RowAlignment = $hxEnums["lib.components.RowAlignment"] = { __ename__ : true, __constructs__ : ["TopLeft","TopCenter","TopRight","Left","Center","Right","LowerLeft","LowerCenter","LowerRight","Stretch"]
 	,TopLeft: {_hx_index:0,__enum__:"lib.components.RowAlignment",toString:$estr}
 	,TopCenter: {_hx_index:1,__enum__:"lib.components.RowAlignment",toString:$estr}
@@ -2962,6 +2962,53 @@ lib_components_Row.prototype = {
 		return row;
 	}
 	,__class__: lib_components_Row
+};
+var lib_components_Stream = function(arg) {
+	this.onError = null;
+	this.onClose = null;
+	this.onMessage = null;
+	this.onOpen = null;
+	this.onStandby = null;
+	this.url = "";
+	this.url = arg.url;
+	this.onStandby = arg.onStandby;
+	this.onOpen = arg.onOpen;
+	this.onMessage = arg.onMessage;
+	this.onClose = arg.onClose;
+	this.onError = arg.onError;
+};
+lib_components_Stream.__name__ = "lib.components.Stream";
+lib_components_Stream.__interfaces__ = [lib_support_Widget];
+lib_components_Stream.prototype = {
+	replace: function(container,onProgressNode,component) {
+		container.removeChild(onProgressNode);
+		return container.appendChild(component.render());
+	}
+	,render: function() {
+		var _gthis = this;
+		var container = window.document.createElement("div");
+		var lastComponent = this.onStandby().render();
+		var lastComponent1 = container.appendChild(lastComponent);
+		var socket = new WebSocket(this.url);
+		socket.onopen = function(res) {
+			var component = _gthis.onOpen(res);
+			lastComponent1 = _gthis.replace(container,lastComponent1,component);
+		};
+		socket.onmessage = function(message) {
+			var component1 = _gthis.onMessage(message);
+			lastComponent1 = _gthis.replace(container,lastComponent1,component1);
+		};
+		socket.onclose = function(res1) {
+			var component2 = _gthis.onClose(res1);
+			lastComponent1 = _gthis.replace(container,lastComponent1,component2);
+		};
+		socket.onerror = function(error) {
+			var component3 = _gthis.onError(error);
+			lastComponent1 = _gthis.replace(container,lastComponent1,component3);
+		};
+		return container;
+	}
+	,__class__: lib_components_Stream
 };
 var lib_components_TextFormat = $hxEnums["lib.components.TextFormat"] = { __ename__ : true, __constructs__ : ["h1","h2","h3","h4","h5","h6","p","a","pre"]
 	,h1: {_hx_index:0,__enum__:"lib.components.TextFormat",toString:$estr}
