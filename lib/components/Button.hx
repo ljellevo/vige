@@ -19,6 +19,7 @@ class Button implements Widget {
         button.appendChild(child.render());
         //button.textContent = text;
         button.onclick = onClick;
+        button.style.cursor = "pointer";
         if(this.image != null) {
             trace("Button with image");
             //var imageElement = Browser.document.createImageElement();

@@ -277,7 +277,9 @@ class HomeView  extends DynamicComponent {
               children: [
                 homepageButton("Quick-start", "./assets/book-open.svg"),
                 homepageButton("Widgets", "./assets/book-solid.svg"),
-                homepageButton("Snippets", "./assets/code-solid.svg")
+                homepageButton("Snippets", "./assets/code-solid.svg"),
+                homepageButton("Templates", "./assets/template.svg"),
+                homepageButton("Codebase", "./assets/github.svg")
               ]
             })
           }),
