@@ -4,17 +4,17 @@ import lib.components.Page;
 import js.html.WebSocket;
 
 class StreamConnection{
-    var page: Page;
+    var route: String;
     var socket: WebSocket;
     
 
-    public function new(url: String, page: Page) {
+    public function new(url: String, route: String) {
         socket = new WebSocket(url);
-        this.page = page;
+        this.route = route;
     }
 
-    public function getPage(): Page {
-        return page;
+    public function getRoute(): String {
+        return route;
     }
 
     public function getSocket(): WebSocket {

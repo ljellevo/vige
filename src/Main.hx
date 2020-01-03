@@ -34,7 +34,7 @@ class HelloPage extends DynamicComponent {
   var textTo = 0;
   public function new() {}
 
-  override public function component() : Widget {
+  override public function component() : Page {
     page = new Page({
       route: "/hello",
       child: new Column({
@@ -73,7 +73,7 @@ class HelloPage extends DynamicComponent {
               new Button({
                 child: new Text("Navigate"),
                 onClick: function (e) {
-                  Navigate.to({route: "/", from: page, param: [
+                  Navigate.to({url: "/", param: [
                     {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
                     {param: "name", data: "Ludvig"},
                     {param: "age", data: "23"}
@@ -123,7 +123,7 @@ class HomePage extends StaticComponent{
           new Button({
             child: new Text("Click me"),
             onClick: function (e) {
-              Navigate.to({route: "/hello", from: null, param: [
+              Navigate.to({url: "/hello", param: [
                 {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
                 {param: "name", data: "Ludvig"},
                 {param: "age", data: "23"}
@@ -156,7 +156,7 @@ class HomeView  extends DynamicComponent {
     });
   }
 
-  override public function component() : Widget {
+  override public function component() : Page {
     page = new Page({
       route: "/",
       child: new Column({
@@ -287,7 +287,8 @@ class HomeView  extends DynamicComponent {
                         return new Text("Connection opened");
                       },
                       onMessage: function(res: MessageEvent) {
-                        return new Text("WebSocket: " + res.data);
+                        trace("Message recieved (Homepage)");
+                        return new Text("WebSocket on homepage: " + res.data);
                       },
                       onClose: function(res: CloseEvent) {
                         return new Text("Connection closed");
@@ -301,6 +302,7 @@ class HomeView  extends DynamicComponent {
               })
             }), 
           }),
+          
           new Container({
             style: new Style({backgroundColor: Color.fromString("#98b979")}),
             size: new Size({height: 150, heightType: "px", width: 100, widthType: "%"}),
@@ -315,7 +317,7 @@ class HomeView  extends DynamicComponent {
                 new Button({
                   child: new Text("Sockets"),
                   onClick: function (e) {
-                    Navigate.to({route: "/socket",from: page});
+                    Navigate.to({url: "/socket"});
                   }
                 })
               ]
@@ -341,7 +343,7 @@ class SocketPage extends DynamicComponent {
 
   public function new() {}
 
-  override public function component(): Widget {
+  override public function component(): Page {
     page = new Page({
       route: "/socket",
       child: new Center({
@@ -400,14 +402,11 @@ class Main {
 
 
     Navigate.routes = [
-      {route: "/", component: new HomeView().component()},
-      {route: "/socket", component: new SocketPage().component()}
+      new HomeView().component(),
+      new SocketPage().component()
     ];
 
-    trace(Browser.location.pathname);
-    var rootPage= Navigate.routes[0].component cast Page;
-    cast(rootPage, Page);
-    Navigate.to({route: Browser.location.pathname, from: rootPage});
+    Navigate.to({url: Browser.location.pathname});
 
 
     //Need to move to a different class

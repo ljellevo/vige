@@ -26,7 +26,6 @@ class Style {
         if (backgroundColor == null) {
             return "";
         }
-        trace("rgba(" + backgroundColor.ri + ", " +  backgroundColor.gi + ", " + backgroundColor.bi + ", " + backgroundColor.ai + ")");
         return "rgba(" + backgroundColor.ri + ", " +  backgroundColor.gi + ", " + backgroundColor.bi + ", " + backgroundColor.ai + ")";
     }
 }

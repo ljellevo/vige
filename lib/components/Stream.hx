@@ -2,7 +2,6 @@ package lib.components;
 
 import lib.support.StreamConnection;
 import js.html.Node;
-import js.html.WebSocket;
 import lib.core.GlobalState;
 import lib.support.Widget;
 import js.Browser;
@@ -44,7 +43,7 @@ class Stream implements Widget{
         var lastComponent = container.appendChild(onStandby().render());
 
         //var socket = new WebSocket(url);
-        var streamConnection = new StreamConnection(url, page);
+        var streamConnection = new StreamConnection(url, Browser.location.pathname);
         streamConnection.getSocket().onopen = function (res) {
             trace(res);
             GlobalState.instance.openStream(streamConnection);
