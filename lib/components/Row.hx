@@ -61,12 +61,14 @@ class Row implements Widget {
     public function render(): Node {
         var row = Browser.document.createDivElement();
         row.style.display = "grid";
-        row.style.gridTemplateColumns =  Std.string(children.length) + " auto auto";
+        //row.style.gridTemplateColumns =  Std.string(children.length) + " auto auto";
+        row.classList.add("row");
         row.style.gridAutoFlow = "column";
         new StyleManager().addStyleToDiv({size: size, widget: row, style: style, padding: padding, alignment: alignment});
 
         for(child in children) {
             var rowCell = Browser.document.createDivElement();
+            rowCell.classList.add("row-cell");
             rowCell.appendChild(child.render());
             new StyleManager().addStyleToDiv({size: cellSize, widget: rowCell, style: cellStyle, padding: cellPadding, margin: margin});
             row.appendChild(rowCell);

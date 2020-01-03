@@ -23,13 +23,15 @@ class Container implements Widget {
         ?style: Style,
         ?child: Widget
     }) {
-        this.size = arg.size != null ? arg.size : new Size({height: 100, heightType: "%", width: 100, widthType: "%"});
+        //this.size = arg.size != null ? arg.size : new Size({height: 100, heightType: "%", width: 100, widthType: "%"});
+        this.size = arg.size;
         this.style = arg.style != null ? arg.style : new Style({});
         this.child = arg.child;
     }
     
     public function render():js.html.Node {
         var container = Browser.document.createDivElement();
+        container.classList.add("container");
         if(child != null) {
              container.appendChild(child.render());
         }

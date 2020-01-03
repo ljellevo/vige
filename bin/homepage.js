@@ -38,8 +38,10 @@ lib_support_Widget.prototype = {
 var lib_components_Button = function(arg) {
 	this.onClick = null;
 	this.image = null;
+	this.size = null;
 	this.child = null;
 	this.child = arg.child;
+	this.size = arg.size;
 	this.image = arg.image;
 	this.onClick = arg.onClick;
 };
@@ -51,8 +53,12 @@ lib_components_Button.prototype = {
 		button.appendChild(this.child.render());
 		button.onclick = this.onClick;
 		button.style.cursor = "pointer";
+		if(this.size != null) {
+			button.style.height = this.size.getHeight();
+			button.style.width = this.size.getWidth();
+		}
 		if(this.image != null) {
-			console.log("lib/components/Button.hx:24:","Button with image");
+			console.log("lib/components/Button.hx:31:","Button with image");
 			button.appendChild(this.image.render());
 		}
 		return button;
@@ -66,7 +72,7 @@ HomeButton.__name__ = "HomeButton";
 HomeButton.__super__ = lib_components_Button;
 HomeButton.prototype = $extend(lib_components_Button.prototype,{
 	render: function() {
-		var button = new lib_components_Button({ child : this.child, onClick : this.onClick});
+		var button = new lib_components_Button({ child : this.child, size : this.size, onClick : this.onClick});
 		var castButton = button.render();
 		castButton.style.backgroundColor = "#2e3440";
 		castButton.style.border = "none";
@@ -207,26 +213,18 @@ HomeView.__name__ = "HomeView";
 HomeView.__super__ = lib_core_DynamicComponent;
 HomeView.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	homepageButton: function(text,src) {
-		return new HomeButton({ child : new lib_components_Row({ children : [new lib_components_Container({ style : new lib_utils_Style({ color : -1}), child : new lib_components_Image({ src : src, height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})}),new lib_components_Text(text)]}), onClick : function(e) {
+		return new HomeButton({ size : new lib_utils_Size({ height : 40, heightType : "px"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [new lib_components_Container({ style : new lib_utils_Style({ color : -1}), child : new lib_components_Image({ src : src, height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})}),new lib_components_Text(text)]}), onClick : function(e) {
 		}});
 	}
 	,component: function() {
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		var tmp = new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ size : 88}),new lib_components_Text("The declarative web-framework")]})})});
-		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp1 = new lib_components_Container({ child : new lib_components_Column({ style : new lib_utils_Style({ backgroundColor : this11}), size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0), alignment : lib_components_RowAlignment.Left, children : [new lib_components_Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.",{ style : new lib_utils_Style({ color : -1})})]})})]})]})});
-		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp2 = new lib_utils_Style({ backgroundColor : this12});
-		var tmp3 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp4 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
-		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp5 = new lib_components_Container({ child : new lib_components_Column({ style : tmp2, size : tmp3, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : tmp4, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ style : new lib_utils_Style({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100})]})})]})]})});
-		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
-		var tmp6 = new lib_utils_Style({ backgroundColor : this14});
-		var tmp7 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
-		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp8 = new lib_components_Container({ style : tmp6, size : tmp7, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ style : new lib_utils_Style({ color : this15})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
-			console.log("src/Main.hx:286:",res.get_content());
+		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
+		var tmp1 = new lib_utils_Style({ backgroundColor : this11});
+		var tmp2 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
+		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp3 = new lib_components_Container({ style : tmp1, size : tmp2, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ style : new lib_utils_Style({ color : this12})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
+			console.log("src/Main.hx:266:",res.get_content());
 			return new lib_components_Text("Single request: " + Std.string(res.get_content()));
 		}, onProgress : function() {
 			return new lib_components_Text("Loading");
@@ -243,8 +241,10 @@ HomeView.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		}, onError : function(res5) {
 			return new lib_components_Text("Error");
 		}})})]})})});
-		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
-		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp5,tmp8,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this16}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg"),this.homepageButton("Templates","./assets/template.svg"),this.homepageButton("Codebase","./assets/github.svg")]})})]})});
+		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
+		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp3,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this13}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg"),this.homepageButton("Templates","./assets/template.svg"),this.homepageButton("Codebase","./assets/github.svg")]})}),new lib_components_Collection({ count : 10}).build(function(iterator) {
+			return new lib_components_Text(iterator);
+		})]})});
 		return this.page;
 	}
 	,__class__: HomeView
@@ -2776,6 +2776,30 @@ lib_components_Center.prototype = {
 	}
 	,__class__: lib_components_Center
 };
+var lib_components_Collection = function(arg) {
+	this.child = arg.child;
+	this.count = arg.count;
+};
+lib_components_Collection.__name__ = "lib.components.Collection";
+lib_components_Collection.__interfaces__ = [lib_support_Widget];
+lib_components_Collection.prototype = {
+	build: function(callback) {
+		var widgets = [];
+		var _g = 0;
+		var _g1 = this.count;
+		while(_g < _g1) {
+			var i = _g++;
+			widgets.push(callback(i));
+		}
+		return new lib_components_Column({ children : widgets});
+	}
+	,render: function() {
+		var container = window.document.createElement("div");
+		container.classList.add("collection");
+		return container;
+	}
+	,__class__: lib_components_Collection
+};
 var lib_components_Column = function(arg) {
 	this.children = null;
 	this.children = arg.children;
@@ -2791,7 +2815,6 @@ lib_components_Column.prototype = {
 	render: function() {
 		var column = window.document.createElement("div");
 		column.style.display = "grid";
-		column.style.gridTemplateColumns = "auto/auto";
 		column.style.boxSizing = "border-box";
 		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : column, style : this.style, padding : this.padding});
 		var _g = 0;
@@ -2809,7 +2832,7 @@ lib_components_Column.prototype = {
 	,__class__: lib_components_Column
 };
 var lib_components_Container = function(arg) {
-	this.size = arg.size != null ? arg.size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+	this.size = arg.size;
 	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
 	this.child = arg.child;
 };
@@ -2818,6 +2841,7 @@ lib_components_Container.__interfaces__ = [lib_support_Widget];
 lib_components_Container.prototype = {
 	render: function() {
 		var container = window.document.createElement("div");
+		container.classList.add("container");
 		if(this.child != null) {
 			container.appendChild(this.child.render());
 		}
@@ -2830,7 +2854,9 @@ var lib_components_Image = function(arg) {
 	this.src = arg.src;
 	this.alt = arg.alt;
 	this.height = arg.height;
+	this.minHeight = arg.minHeight;
 	this.width = arg.width;
+	this.minWidth = arg.minWidth;
 	this.style = arg.style;
 };
 lib_components_Image.__name__ = "lib.components.Image";
@@ -2849,6 +2875,12 @@ lib_components_Image.prototype = {
 			container.style.width = "auto";
 		} else {
 			container.style.width = Std.string(this.width) + "%";
+		}
+		if(this.minWidth != null) {
+			container.style.minWidth = Std.string(this.minWidth) + "px";
+		}
+		if(this.minHeight != null) {
+			container.style.minHeight = Std.string(this.minHeight) + "px";
 		}
 		var tmp = this.style != null;
 		return container;
@@ -2952,7 +2984,7 @@ lib_components_Row.prototype = {
 	render: function() {
 		var row = window.document.createElement("div");
 		row.style.display = "grid";
-		row.style.gridTemplateColumns = Std.string(this.children.length) + " auto auto";
+		row.classList.add("row");
 		row.style.gridAutoFlow = "column";
 		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : row, style : this.style, padding : this.padding, alignment : this.alignment});
 		var _g = 0;
@@ -2961,6 +2993,7 @@ lib_components_Row.prototype = {
 			var child = _g1[_g];
 			++_g;
 			var rowCell = window.document.createElement("div");
+			rowCell.classList.add("row-cell");
 			rowCell.appendChild(child.render());
 			new lib_support_StyleManager().addStyleToDiv({ size : this.cellSize, widget : rowCell, style : this.cellStyle, padding : this.cellPadding, margin : this.margin});
 			row.appendChild(rowCell);
@@ -3200,13 +3233,19 @@ var lib_support_StyleManager = function() {
 lib_support_StyleManager.__name__ = "lib.support.StyleManager";
 lib_support_StyleManager.prototype = {
 	addStyleToDiv: function(arg) {
-		arg.widget.style.height = arg.size.getHeight();
-		arg.widget.style.width = arg.size.getWidth();
+		if(arg.size != null) {
+			arg.widget.style.height = arg.size.getHeight();
+			arg.widget.style.width = arg.size.getWidth();
+		}
 		arg.widget.style.backgroundColor = arg.style.getBackgroundColor();
 		arg.widget.style.color = arg.style.getColor();
-		arg.widget.style.padding = arg.padding.getPadding();
-		var tmp = arg.margin != null ? arg.margin.getMargin() : lib_utils_Margin.all(0.0).getMargin();
-		arg.widget.style.margin = tmp;
+		if(arg.padding != null) {
+			arg.widget.style.padding = arg.padding.getPadding();
+		}
+		if(arg.margin != null) {
+			var tmp = arg.margin != null ? arg.margin.getMargin() : lib_utils_Margin.all(0.0).getMargin();
+			arg.widget.style.margin = tmp;
+		}
 		if(arg.alignment != null) {
 			switch(arg.alignment._hx_index) {
 			case 0:

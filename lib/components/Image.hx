@@ -18,20 +18,26 @@ class Image implements Widget {
     var src: String;
     var alt: String;
     var height: Float;
+    var minHeight: Float;
     var width: Float;
+    var minWidth: Float;
     var style: Style;
 
     public function new(arg: {
         src: String,
         ?alt: String,
         ?height: Float,
+        ?minHeight: Float,
         ?width: Float,
+        ?minWidth: Float,
         ?style: Style
     }) {
         this.src = arg.src;
         this.alt = arg.alt;
         this.height = arg.height;
+        this.minHeight = arg.minHeight;
         this.width = arg.width;
+        this.minWidth = arg.minWidth;
         this.style = arg.style;
     }
     
@@ -50,6 +56,14 @@ class Image implements Widget {
             container.style.width = "auto";
         } else {
             container.style.width = Std.string(width) + "%";
+        }
+
+        if(minWidth != null) {
+            container.style.minWidth = Std.string(minWidth) + "px";
+        }
+
+        if(minHeight != null) {
+            container.style.minHeight = Std.string(minHeight) + "px";
         }
 
         if(style != null) {

@@ -18,12 +18,21 @@ class StyleManager {
         ?margin: Margin,
         ?alignment: RowAlignment
     }): js.html.Node {
-        arg.widget.style.height = arg.size.getHeight();
-        arg.widget.style.width = arg.size.getWidth();
+        if(arg.size != null){
+            arg.widget.style.height = arg.size.getHeight();
+            arg.widget.style.width = arg.size.getWidth();
+        }
+        
         arg.widget.style.backgroundColor = arg.style.getBackgroundColor();
         arg.widget.style.color = arg.style.getColor();
-        arg.widget.style.padding = arg.padding.getPadding();
-        arg.widget.style.margin = arg.margin != null ? arg.margin.getMargin() : Margin.all(0.0).getMargin();
+        if(arg.padding != null){
+            arg.widget.style.padding = arg.padding.getPadding();
+        }
+        
+        if(arg.margin != null){
+            arg.widget.style.margin = arg.margin != null ? arg.margin.getMargin() : Margin.all(0.0).getMargin();
+        }
+        
         
         
         if(arg.alignment != null) {

@@ -17,6 +17,7 @@ import lib.components.Button;
 import lib.components.Page;
 import lib.components.Text;
 import lib.components.Column;
+import lib.components.Collection;
 import lib.components.Row;
 import lib.components.Center;
 import lib.components.Container;
@@ -141,7 +142,9 @@ class HomeView  extends DynamicComponent {
 
   function homepageButton(text: String, src: String): Widget{
     return new HomeButton({
+      size: new Size({height: 40, heightType: "px"}),
       child: new Row({
+        alignment: RowAlignment.Center,
         children: [
           new Container({style: new Style({color: Color.WHITE}), child: new Image({src: src, height: 20})}),
           new Container({size: new Size({width: 20, widthType: "px"})}),
@@ -170,46 +173,35 @@ class HomeView  extends DynamicComponent {
               }),
             }),
           }),
+          /*
           new Container({
-            //size: new Size({height: 500, heightType: "px", width: 100, widthType: "%"}),
             child: new Column({
-              //style: new Style({backgroundColor: Color.fromRGBAi(27, 152, 224, 1)}),
-              //style: new Style({backgroundColor: Color.fromRGBAf(0.3, 0.3, 0.3, 0.8)}),
               style: new Style({backgroundColor: Color.fromString("#2e3440")}),
               size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
               children: [
                 new Row({
                   alignment: RowAlignment.Stretch,
+                  cellSize: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                   children: [
-                    /*
-                    new Positioned({
-                      bottom: 30,
-                      right: 40,
-                      child: new Text("Pos", {style: new Style({color: Color.WHITE})}),
-                    }),
-                    */
                     new Container({
                       child: new Row({
-                        //margin: Margin.fromTRBL(0.0, 20.0, 0.0, 0.0),
                         cellPadding: Padding.fromTRBL(80.0, 0.0, 80.0, 0.0),
                         alignment: RowAlignment.Center,
                         children: [
-                          //new Text("Page 2", {style: new Style({color: Color.WHITE})}),
                           new Image({
                             src: "./assets/code2.png",
-                            width: 100
-                            //height: 80
+                            width: 100,
+                            minWidth: 20
                           })
                         ]
                       })
                     }),
                     new Container({
                       child: new Row({
-                        //margin: Margin.fromTRBL(0.0, 0.0, 0.0, 20.0),
+                        size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                         cellPadding: Padding.fromTRBL(0.0, 0.0, 0.0, 20.0),
                         alignment: RowAlignment.Left,
                         children: [
-                          //new Button({text: "Prosjekter",onClick: function(e) {trace("Click");}}),
                           new Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.", {style: new Style({color: Color.WHITE})}),
                         ]
                       })
@@ -219,46 +211,34 @@ class HomeView  extends DynamicComponent {
               ]
             }),
           }),
+          
           new Container({
-            //size: new Size({height: 500, heightType: "px", width: 100, widthType: "%"}),
             child: new Column({
-              //style: new Style({backgroundColor: Color.fromRGBAi(27, 152, 224, 1)}),
-              //style: new Style({backgroundColor: Color.fromRGBAf(0.3, 0.3, 0.3, 0.8)}),
               style: new Style({backgroundColor: Color.fromString("#fafafa")}),
               size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
               children: [
                 new Row({
+                  cellSize: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                   alignment: RowAlignment.Stretch,
-                  children: [
-                    /*
-                    new Positioned({
-                      bottom: 30,
-                      right: 40,
-                      child: new Text("Pos", {style: new Style({color: Color.WHITE})}),
-                    }),
-                    */
+                  children: [ 
                     new Container({
                       child: new Row({
-                        //margin: Margin.fromTRBL(0.0, 0.0, 0.0, 20.0),
                         cellPadding: Padding.fromTRBL(0.0, 0.0, 0.0, 20.0),
                         alignment: RowAlignment.Right,
                         children: [
-                          //new Button({text: "Prosjekter",onClick: function(e) {trace("Click");}}),
                           new Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase", {style: new Style({color: Color.fromString("#2e3440")})}),
                         ]
                       })
                     }),
                     new Container({
                       child: new Row({
-                        //margin: Margin.fromTRBL(0.0, 20.0, 0.0, 0.0),
                         cellPadding: Padding.fromTRBL(80.0, 0.0, 80.0, 0.0),
                         alignment: RowAlignment.Center,
                         children: [
-                          //new Text("Page 2", {style: new Style({color: Color.WHITE})}),
                           new Image({
                             src: "./assets/code3.png",
-                            width: 100
-                            //height: 80
+                            width: 100,
+                            minWidth: 20
                           })
                         ]
                       })
@@ -268,7 +248,7 @@ class HomeView  extends DynamicComponent {
               ]
             }),
           }),
-          
+          */
           new Container({
             style: new Style({backgroundColor: Color.fromString("#98b979")}),
             size: new Size({height: 400, heightType: "px", width: 100, widthType: "%"}),
@@ -334,6 +314,12 @@ class HomeView  extends DynamicComponent {
               ]
             })
           }),
+          new Collection({
+            count: 10,
+          }).build(function(iterator) {
+            return new Text(iterator);
+          }),
+          
         ]
       })
     });
@@ -341,7 +327,6 @@ class HomeView  extends DynamicComponent {
   }
 } 
 
-//haxe.Constraints.Function
 
 class Main {
   static function main() {

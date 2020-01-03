@@ -31,13 +31,14 @@ class Column implements Widget {
         this.size = arg.size != null ? arg.size : new Size({});
         this.cellSize = arg.cellSize != null ? arg.cellSize : new Size({});
         this.padding = arg.padding != null ? arg.padding : Padding.all(0.0);
+        //this.padding = arg.padding;
     }
 
 
     public function render(): Node {
         var column = Browser.document.createDivElement();
         column.style.display = "grid";
-        column.style.gridTemplateColumns = "auto/auto";
+        //column.style.gridTemplateColumns = "auto/auto";
         column.style.boxSizing = "border-box";
         new StyleManager().addStyleToDiv({size: size, widget: column, style: style, padding: padding});
 
