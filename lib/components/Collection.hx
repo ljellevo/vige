@@ -1,12 +1,8 @@
 package lib.components;
 
-import lib.components.Center.CenterAlignment;
-import lib.utils.Padding;
-import lib.utils.Size;
 import js.Browser;
 import lib.support.Widget;
-import lib.support.StyleManager;
-import lib.utils.Style;
+
 
 
 /**

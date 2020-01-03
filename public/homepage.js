@@ -180,7 +180,7 @@ HelloPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 				_gthis.textTo++;
 			});
 		}}),new lib_components_Button({ child : new lib_components_Text("Navigate"), onClick : function(e4) {
-			lib_core_Navigate.to({ route : "/", from : _gthis.page, param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
+			lib_core_Navigate.to({ route : "/", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
 		}})]})]})});
 		return this.page;
 	}
@@ -201,7 +201,7 @@ HomePage.__super__ = lib_core_StaticComponent;
 HomePage.prototype = $extend(lib_core_StaticComponent.prototype,{
 	component: function() {
 		return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heightType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281, backgroundColor : -256})}),new lib_components_Button({ child : new lib_components_Text("Click me"), onClick : function(e) {
-			lib_core_Navigate.to({ route : "/hello", from : null, param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
+			lib_core_Navigate.to({ route : "/hello", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
 		}})]})});
 	}
 	,__class__: HomePage
@@ -217,7 +217,6 @@ HomeView.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		}});
 	}
 	,component: function() {
-		var _gthis = this;
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		var tmp = new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ size : 88}),new lib_components_Text("The declarative web-framework")]})})});
 		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
@@ -240,7 +239,7 @@ HomeView.prototype = $extend(lib_core_DynamicComponent.prototype,{
 			return new lib_components_Text("Loading");
 		}, onError : function(res1) {
 			return new lib_components_Text("Error: " + res1.get_error());
-		}})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Stream(this.page,{ url : "ws://localhost:3001/socket", onStandby : function() {
+		}})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Stream({ url : "ws://localhost:3001/socket", onStandby : function() {
 			return new lib_components_Text("On standby");
 		}, onOpen : function(res2) {
 			return new lib_components_Text("Connection opened");
@@ -253,7 +252,7 @@ HomeView.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		}})})]})})});
 		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
 		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp6,tmp9,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this16}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg"),this.homepageButton("Templates","./assets/template.svg"),this.homepageButton("Codebase","./assets/github.svg"),new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
-			lib_core_Navigate.to({ route : "/socket", from : _gthis.page});
+			lib_core_Navigate.to({ route : "/socket"});
 		}})]})})]})});
 		return this.page;
 	}
@@ -268,7 +267,7 @@ SocketPage.__super__ = lib_core_DynamicComponent;
 SocketPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	component: function() {
 		var _gthis = this;
-		this.page = new lib_components_Page({ route : "/socket", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Stream(this.page,{ url : "ws://localhost:3001/socket", onStandby : function() {
+		this.page = new lib_components_Page({ route : "/socket", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Stream({ url : "ws://localhost:3001/socket", onStandby : function() {
 			return new lib_components_Text("On standby");
 		}, onOpen : function(res) {
 			return new lib_components_Text("Connection open");
@@ -295,7 +294,7 @@ Main.main = function() {
 	body.font("Lato","100");
 	lib_core_Navigate.routes = [{ route : "/", component : new HomeView().component()},{ route : "/socket", component : new SocketPage().component()}];
 	console.log("src/Main.hx:406:",window.location.pathname);
-	lib_core_Navigate.to({ route : window.location.pathname, from : null});
+	lib_core_Navigate.to({ route : window.location.pathname});
 	window.addEventListener("popstate",function(e) {
 		lib_core_Navigate.navigationEvent();
 	});
@@ -3042,16 +3041,14 @@ lib_components_Row.prototype = {
 	}
 	,__class__: lib_components_Row
 };
-var lib_components_Stream = function(page,arg) {
+var lib_components_Stream = function(arg) {
 	this.onError = null;
 	this.onClose = null;
 	this.onMessage = null;
 	this.onOpen = null;
 	this.onStandby = null;
-	this.page = null;
 	this.url = "";
 	this.url = arg.url;
-	this.page = page;
 	this.onStandby = arg.onStandby;
 	this.onOpen = arg.onOpen;
 	this.onMessage = arg.onMessage;
@@ -3070,23 +3067,22 @@ lib_components_Stream.prototype = {
 		var container = window.document.createElement("div");
 		var lastComponent = this.onStandby().render();
 		var lastComponent1 = container.appendChild(lastComponent);
-		var streamConnection = new lib_support_StreamConnection(this.url,this.page);
-		streamConnection.getSocket().onopen = function(res) {
-			console.log("lib/components/Stream.hx:49:",res);
-			lib_core_GlobalState.instance.openStream(streamConnection);
+		var socket = new WebSocket(this.url);
+		socket.onopen = function(res) {
+			console.log("lib/components/Stream.hx:45:",res);
 			var component = _gthis.onOpen();
 			lastComponent1 = _gthis.replace(container,lastComponent1,component);
 		};
-		streamConnection.getSocket().onmessage = function(message) {
+		socket.onmessage = function(message) {
 			var component1 = _gthis.onMessage(message);
 			lastComponent1 = _gthis.replace(container,lastComponent1,component1);
 		};
-		streamConnection.getSocket().onclose = function(res1) {
-			console.log("lib/components/Stream.hx:61:",res1);
+		socket.onclose = function(res1) {
+			console.log("lib/components/Stream.hx:56:",res1);
 			var component2 = _gthis.onClose();
 			lastComponent1 = _gthis.replace(container,lastComponent1,component2);
 		};
-		streamConnection.getSocket().onerror = function(error) {
+		socket.onerror = function(error) {
 			var component3 = _gthis.onError(error);
 			lastComponent1 = _gthis.replace(container,lastComponent1,component3);
 		};
@@ -3218,49 +3214,6 @@ lib_core_Body.prototype = {
 	}
 	,__class__: lib_core_Body
 };
-var lib_core_GlobalState = function() {
-	this.streams = [];
-};
-lib_core_GlobalState.__name__ = "lib.core.GlobalState";
-lib_core_GlobalState.prototype = {
-	openStream: function(stream) {
-		console.log("lib/core/GlobalState.hx:16:","Added stream: " + stream.getSocket().url);
-		this.streams.push(stream);
-	}
-	,closeAllStreamsOnPage: function(page) {
-		var _g = 0;
-		var _g1 = this.streams.length;
-		while(_g < _g1) {
-			var i = _g++;
-			if(this.streams[i].getPage().getRoute() == page.getRoute()) {
-				console.log("lib/core/GlobalState.hx:24:","Closed stream: " + this.streams[i].getSocket().url);
-				this.streams.splice(i,0);
-			}
-		}
-	}
-	,closeAllStreamsWithURL: function(url) {
-		var _g = 0;
-		var _g1 = this.streams.length;
-		while(_g < _g1) {
-			var i = _g++;
-			if(this.streams[i].getSocket().url == url) {
-				this.streams.splice(i,0);
-			}
-		}
-	}
-	,closeStream: function(page,url) {
-		var _g = 0;
-		var _g1 = this.streams.length;
-		while(_g < _g1) {
-			var i = _g++;
-			if(this.streams[i].getPage().getRoute() == page.getRoute() && this.streams[i].getSocket().url == url) {
-				this.streams.splice(i,0);
-				return;
-			}
-		}
-	}
-	,__class__: lib_core_GlobalState
-};
 var lib_core_Navigate = function() {
 };
 lib_core_Navigate.__name__ = "lib.core.Navigate";
@@ -3280,9 +3233,6 @@ lib_core_Navigate.to = function(arg) {
 			}
 			url += arg.param[i].param + "=" + arg.param[i].data;
 		}
-	}
-	if(arg.from != null) {
-		lib_core_GlobalState.instance.closeAllStreamsOnPage(arg.from);
 	}
 	if(!arg.main) {
 		window.history.pushState(null,"Index",url);
@@ -3316,20 +3266,6 @@ lib_core_Navigate.updateComponent = function(component) {
 };
 lib_core_Navigate.prototype = {
 	__class__: lib_core_Navigate
-};
-var lib_support_StreamConnection = function(url,page) {
-	this.socket = new WebSocket(url);
-	this.page = page;
-};
-lib_support_StreamConnection.__name__ = "lib.support.StreamConnection";
-lib_support_StreamConnection.prototype = {
-	getPage: function() {
-		return this.page;
-	}
-	,getSocket: function() {
-		return this.socket;
-	}
-	,__class__: lib_support_StreamConnection
 };
 var lib_support_StyleManager = function() {
 };
@@ -3689,7 +3625,6 @@ haxe_xml_Parser.escapes = (function($this) {
 	$r = h;
 	return $r;
 }(this));
-lib_core_GlobalState.instance = new lib_core_GlobalState();
 lib_core_Navigate.routes = [];
 lib_utils__$Color_Color_$Impl_$.TRANSPARENT = 0;
 lib_utils__$Color_Color_$Impl_$.BLACK = -16777216;

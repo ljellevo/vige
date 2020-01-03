@@ -1,5 +1,6 @@
 package lib.core;
 
+import lib.components.Page;
 import js.Browser;
 import lib.support.Widget;
 
@@ -9,7 +10,7 @@ class Navigate {
     
     public function new() { }
 
-    public static function to(arg: {route: String, ?param: Array<{param: String, data: String}>, ?main: Bool}) {
+    public static function to(arg: {route: String, from: Page, ?param: Array<{param: String, data: String}>, ?main: Bool}) {
         var url = arg.route;
         if (arg.main == null) arg.main = false;
         if (arg.param != null && arg.param.length > 0) {
@@ -21,7 +22,13 @@ class Navigate {
             }
         }
         
+        if(arg.from != null) {
+            GlobalState.instance.closeAllStreamsOnPage(arg.from);
+        }
+        
+
         if (!arg.main) {
+
             Browser.window.history.pushState(null, "Index", url);
         }
         

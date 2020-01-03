@@ -1,4 +1,5 @@
 
+import haxe.display.Display.HoverExpectedNameKind;
 import js.html.ErrorEvent;
 import js.html.Event;
 import js.html.CloseEvent;
@@ -72,7 +73,7 @@ class HelloPage extends DynamicComponent {
               new Button({
                 child: new Text("Navigate"),
                 onClick: function (e) {
-                  Navigate.to({route: "/", param: [
+                  Navigate.to({route: "/", from: page, param: [
                     {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
                     {param: "name", data: "Ludvig"},
                     {param: "age", data: "23"}
@@ -122,7 +123,7 @@ class HomePage extends StaticComponent{
           new Button({
             child: new Text("Click me"),
             onClick: function (e) {
-              Navigate.to({route: "/hello", param: [
+              Navigate.to({route: "/hello", from: null, param: [
                 {param: "id", data: "dkadaJKFJmvlERFGMS120Fmf545"},
                 {param: "name", data: "Ludvig"},
                 {param: "age", data: "23"}
@@ -173,7 +174,7 @@ class HomeView  extends DynamicComponent {
               }),
             }),
           }),
-          /*
+          
           new Container({
             child: new Column({
               style: new Style({backgroundColor: Color.fromString("#2e3440")}),
@@ -248,7 +249,7 @@ class HomeView  extends DynamicComponent {
               ]
             }),
           }),
-          */
+          
           new Container({
             style: new Style({backgroundColor: Color.fromString("#98b979")}),
             size: new Size({height: 400, heightType: "px", width: 100, widthType: "%"}),
@@ -277,7 +278,7 @@ class HomeView  extends DynamicComponent {
                   new Container({size: new Size({height: 50, heightType: "px"})}),
                   new Center({
                     alignment: CenterAlignment.Horizontal,
-                    child: new Stream({
+                    child: new Stream(page, {
                       url: "ws://localhost:3001/socket",
                       onStandby: function() {
                         return new Text("On standby");
@@ -310,15 +311,23 @@ class HomeView  extends DynamicComponent {
                 homepageButton("Widgets", "./assets/book-solid.svg"),
                 homepageButton("Snippets", "./assets/code-solid.svg"),
                 homepageButton("Templates", "./assets/template.svg"),
-                homepageButton("Codebase", "./assets/github.svg")
+                homepageButton("Codebase", "./assets/github.svg"),
+                new Button({
+                  child: new Text("Sockets"),
+                  onClick: function (e) {
+                    Navigate.to({route: "/socket",from: page});
+                  }
+                })
               ]
             })
           }),
+          /*
           new Collection({
             count: 10,
           }).build(function(iterator) {
             return new Text(iterator);
           }),
+          */
           
         ]
       })
@@ -327,6 +336,59 @@ class HomeView  extends DynamicComponent {
   }
 } 
 
+class SocketPage extends DynamicComponent {
+  var data: Array<String> = [];
+
+  public function new() {}
+
+  override public function component(): Widget {
+    page = new Page({
+      route: "/socket",
+      child: new Center({
+        alignment: CenterAlignment.Horizontal,
+        child: new Stream(page, {
+          url: "ws://localhost:3001/socket",
+          onStandby: function() {
+            return new Text("On standby");
+          },
+          onOpen: function(res: Event) {
+            return new Text("Connection open");
+          },
+          onMessage: function(res: MessageEvent) {
+            trace("Message recieved");
+            data.push(res.data);
+            
+            return new Collection({
+              count: data.length,
+            }).build(function(iterator) {
+              trace("Building");
+              return new Text(data[iterator]);
+            });
+          },
+          onClose: function(res: CloseEvent) {
+            return new Text("Connection closed");
+          },
+          onError: function(res: ErrorEvent) {
+            return new Text("Error");
+          },
+        })
+      }),
+    });
+
+    return page;
+  }
+}
+
+/*
+
+new Collection({
+  count: 10,
+}).build(function(iterator) {
+  return new Text(iterator);
+}),
+
+
+*/
 
 class Main {
   static function main() {
@@ -339,13 +401,18 @@ class Main {
 
     Navigate.routes = [
       {route: "/", component: new HomeView().component()},
-      {route: "/hello", component: new HelloPage().component()}
+      {route: "/socket", component: new SocketPage().component()}
     ];
-    Navigate.to({route: Browser.location.pathname, main: true});
+
+    trace(Browser.location.pathname);
+    var rootPage= Navigate.routes[0].component cast Page;
+    cast(rootPage, Page);
+    Navigate.to({route: Browser.location.pathname, from: rootPage});
 
 
     //Need to move to a different class
     Browser.window.addEventListener('popstate', function(e) {
+
       //Browser.window.history.pushState(null, null, Browser.window.location.pathname);
       Navigate.navigationEvent();
     });

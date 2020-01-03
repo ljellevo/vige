@@ -1,20 +1,22 @@
 package lib.components;
 
+import lib.support.StreamConnection;
 import js.html.Node;
 import js.html.WebSocket;
+import lib.core.GlobalState;
 import lib.support.Widget;
 import js.Browser;
 
 class Stream implements Widget{
     var url: String = "";
+    var page: Page = null;
     var onStandby: haxe.Constraints.Function = null;
     var onOpen: haxe.Constraints.Function = null;
     var onMessage: haxe.Constraints.Function = null;
     var onClose: haxe.Constraints.Function = null;
     var onError: haxe.Constraints.Function = null;
 
-    public function new(
-    arg: {
+    public function new(page: Page, arg: {
         url: String,
         onStandby: haxe.Constraints.Function,
         onOpen: haxe.Constraints.Function,
@@ -23,6 +25,7 @@ class Stream implements Widget{
         ?onError: haxe.Constraints.Function
     }){
         this.url = arg.url;
+        this.page = page;
         this.onStandby = arg.onStandby;
         this.onOpen = arg.onOpen;
         this.onMessage = arg.onMessage;
@@ -40,25 +43,27 @@ class Stream implements Widget{
         var container = Browser.document.createDivElement();        
         var lastComponent = container.appendChild(onStandby().render());
 
-        var socket = new WebSocket(url);
-        socket.onopen = function (res) {
+        //var socket = new WebSocket(url);
+        var streamConnection = new StreamConnection(url, page);
+        streamConnection.getSocket().onopen = function (res) {
             trace(res);
+            GlobalState.instance.openStream(streamConnection);
             var component = onOpen();
             lastComponent = replace(container, lastComponent, component);
         }
 
-        socket.onmessage = function (message) {
+        streamConnection.getSocket().onmessage = function (message) {
             var component = onMessage(message);
             lastComponent = replace(container, lastComponent, component);
         }
 
-        socket.onclose = function (res) {
+        streamConnection.getSocket().onclose = function (res) {
             trace(res);
             var component = onClose();
             lastComponent = replace(container, lastComponent, component);
         }
 
-        socket.onerror = function (error) {
+        streamConnection.getSocket().onerror = function (error) {
             var component = onError(error);
             lastComponent = replace(container, lastComponent, component);
         }
