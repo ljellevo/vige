@@ -3218,13 +3218,12 @@ lib_core_Body.prototype = {
 	,__class__: lib_core_Body
 };
 var lib_core_GlobalState = function() {
-	this.routeHistory = [];
 	this.streams = [];
 };
 lib_core_GlobalState.__name__ = "lib.core.GlobalState";
 lib_core_GlobalState.prototype = {
 	openStream: function(stream) {
-		console.log("lib/core/GlobalState.hx:18:","Added stream: " + stream.getSocket().url + " from page " + stream.getRoute());
+		console.log("lib/core/GlobalState.hx:16:","Added stream: " + stream.getSocket().url + " from page " + stream.getRoute());
 		this.streams.push(stream);
 	}
 	,closeAllStreams: function() {
@@ -3232,7 +3231,8 @@ lib_core_GlobalState.prototype = {
 		var _g1 = this.streams.length;
 		while(_g < _g1) {
 			var i = _g++;
-			this.streams[i].getSocket().close();
+			console.log("lib/core/GlobalState.hx:22:","Removed stream: " + this.streams[i].getSocket().url + " from page " + this.streams[i].getRoute());
+			this.streams[i].getSocket().close(1000);
 			this.streams = [];
 		}
 	}
