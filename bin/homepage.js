@@ -36,14 +36,14 @@ DatabasePage.__super__ = lib_core_DynamicComponent;
 DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	queryDB: function(operation) {
 		var _gthis = this;
-		console.log("src/DatabasePage.hx:34:","Request called");
-		new lib_core_SingleRequest({ url : "http://localhost:3000/database/" + operation, method : "GET", onComplete : function(res) {
-			console.log("src/DatabasePage.hx:39:",res);
+		console.log("src/DatabasePage.hx:21:","Request called");
+		new lib_core_SingleRequest({ url : "http://localhost:3000/maintenance/database/widgets/catalogue/" + operation, method : "GET", onComplete : function(res) {
+			console.log("src/DatabasePage.hx:26:",res);
 			_gthis.setState(_gthis,function() {
 				_gthis.status = res.get_content();
 			});
 		}, onProgress : function() {
-			console.log("src/DatabasePage.hx:45:","working");
+			console.log("src/DatabasePage.hx:32:","working");
 			_gthis.setState(_gthis,function() {
 				_gthis.status = "Loading";
 			});
@@ -52,9 +52,9 @@ DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	,component: function() {
 		var _gthis = this;
 		this.page = new lib_components_Page({ route : "/database", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Column({ children : [new lib_components_Row({ children : [new lib_components_Text(this.status)]}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Insert"), onClick : function(e) {
-			_gthis.queryDB("insertDemoData");
+			_gthis.queryDB("insert");
 		}}),new lib_components_Button({ child : new lib_components_Text("Delete"), onClick : function(e1) {
-			_gthis.queryDB("deleteDemoData");
+			_gthis.queryDB("delete");
 		}})]})]})})});
 		return this.page;
 	}

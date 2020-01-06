@@ -20,7 +20,7 @@ class DatabasePage extends DynamicComponent {
     function queryDB(operation){
       trace("Request called");
       new SingleRequest({
-        url: "http://localhost:3000/database/" + operation,
+        url: "http://localhost:3000/maintenance/database/widgets/catalogue/" + operation,
         method: "GET",
         onComplete: function(res: HttpResponse) {
           trace(res);
@@ -55,13 +55,13 @@ class DatabasePage extends DynamicComponent {
                   new Button({
                     child: new Text("Insert"),
                     onClick: function(e) {
-                      queryDB("insertDemoData");
+                      queryDB("insert");
                     }
                   }),
                   new Button({
                     child: new Text("Delete"),
                     onClick: function(e) {
-                      queryDB("deleteDemoData");
+                      queryDB("delete");
                     }
                   })
                 ]
