@@ -15,10 +15,11 @@ class Main {
     Navigate.routes = [
       new HomePage().component(),
       new SocketsPage().component(),
-      new WidgetsPage().component()
+      new WidgetsPage().component(),
+      new DatabasePage().component()
     ];
 
-    Navigate.to({url: Browser.location.pathname});
+    Navigate.to({url: Browser.location.pathname, main: true});
 
     //Need to move to a different class
     Browser.window.addEventListener('popstate', function(e) {

@@ -1,5 +1,6 @@
 package lib.components;
 
+import lib.core.GlobalState;
 import com.akifox.asynchttp.*;
 import lib.support.Widget;
 import js.Browser;
@@ -21,6 +22,7 @@ import js.Browser;
 
 class Request implements Widget{
     var url: String = "";
+    var method: String;
     var onComplete: haxe.Constraints.Function = null;
     var onProgress: haxe.Constraints.Function = null;
     var onError: haxe.Constraints.Function = null;
@@ -28,11 +30,13 @@ class Request implements Widget{
     public function new(
     arg: {
         url: String,
+        ?method: String,
         onComplete: haxe.Constraints.Function,
         onProgress: haxe.Constraints.Function,
         ?onError: haxe.Constraints.Function
     }){
         this.url = arg.url;
+        this.method = arg.method != null ? arg.method : "GET";
         this.onComplete = arg.onComplete;
         this.onProgress = arg.onProgress;
         this.onError = arg.onError;
@@ -45,24 +49,26 @@ class Request implements Widget{
     }
     
     public function render():js.html.Node {
-        var container = Browser.document.createDivElement();
-        var progressComponent = onProgress();
-        var onProgressNode = container.appendChild(progressComponent.render());
-        var request = new HttpRequest({
-            url : url,
-            callback : function(response:HttpResponse):Void {
-                if (response.isOK) {
-                    var component = onComplete(response);
-                    replace(container, onProgressNode, component);
-                } else {
-                    if(onError != null) {
-                        var component = onError(response);
-                        replace(container, onProgressNode, component);
-                    }
-                }
-            }  
+      var container = Browser.document.createDivElement();
+      var progressComponent = onProgress();
+      var onProgressNode = container.appendChild(progressComponent.render());
+      var request = new HttpRequest({
+          url : url,
+          method: method,
+          callback : function(response:HttpResponse):Void {
+            if (response.isOK) {
+              var component = onComplete(response);
+              replace(container, onProgressNode, component);
+            } else {
+              if(onError != null) {
+                var component = onError(response);
+                replace(container, onProgressNode, component);
+              }
+            }
+          }  
         });
-        request.send();      
-        return container;
+      
+      request.send();      
+      return container;
     }
 }

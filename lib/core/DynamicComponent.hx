@@ -19,7 +19,6 @@ class DynamicComponent {
         Navigate.updateComponent(component.component().render());
         
         // Need to compare both components and identify the changes
-        
     }
 
     @:require

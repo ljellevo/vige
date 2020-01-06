@@ -7,6 +7,59 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var lib_core_DynamicComponent = function() {
+	this.page = null;
+};
+lib_core_DynamicComponent.__name__ = "lib.core.DynamicComponent";
+lib_core_DynamicComponent.prototype = {
+	setState: function(component,callback) {
+		var oldComponent;
+		if(this.page != null) {
+			oldComponent = this.page.render();
+		}
+		callback();
+		var newComponent = component.component().render();
+		lib_core_Navigate.updateComponent(component.component().render());
+	}
+	,component: function() {
+		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
+	}
+	,__class__: lib_core_DynamicComponent
+};
+var DatabasePage = function() {
+	this.status = "Waiting for operation";
+	this.data = [];
+	lib_core_DynamicComponent.call(this);
+};
+DatabasePage.__name__ = "DatabasePage";
+DatabasePage.__super__ = lib_core_DynamicComponent;
+DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	queryDB: function(operation) {
+		var _gthis = this;
+		console.log("src/DatabasePage.hx:34:","Request called");
+		new lib_core_SingleRequest({ url : "http://localhost:3000/database/" + operation, method : "GET", onComplete : function(res) {
+			console.log("src/DatabasePage.hx:39:",res);
+			_gthis.setState(_gthis,function() {
+				_gthis.status = res.get_content();
+			});
+		}, onProgress : function() {
+			console.log("src/DatabasePage.hx:45:","working");
+			_gthis.setState(_gthis,function() {
+				_gthis.status = "Loading";
+			});
+		}}).request();
+	}
+	,component: function() {
+		var _gthis = this;
+		this.page = new lib_components_Page({ route : "/database", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Column({ children : [new lib_components_Row({ children : [new lib_components_Text(this.status)]}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Insert"), onClick : function(e) {
+			_gthis.queryDB("insertDemoData");
+		}}),new lib_components_Button({ child : new lib_components_Text("Delete"), onClick : function(e1) {
+			_gthis.queryDB("deleteDemoData");
+		}})]})]})})});
+		return this.page;
+	}
+	,__class__: DatabasePage
+});
 var EReg = function(r,opt) {
 	this.r = new RegExp(r,opt.split("u").join(""));
 };
@@ -93,25 +146,6 @@ HomeButton.prototype = $extend(lib_components_Button.prototype,{
 	}
 	,__class__: HomeButton
 });
-var lib_core_DynamicComponent = function() {
-	this.page = null;
-};
-lib_core_DynamicComponent.__name__ = "lib.core.DynamicComponent";
-lib_core_DynamicComponent.prototype = {
-	setState: function(component,callback) {
-		var oldComponent;
-		if(this.page != null) {
-			oldComponent = this.page.render();
-		}
-		callback();
-		var newComponent = component.component().render();
-		lib_core_Navigate.updateComponent(component.component().render());
-	}
-	,component: function() {
-		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
-	}
-	,__class__: lib_core_DynamicComponent
-};
 var HomePage = function() {
 	lib_core_DynamicComponent.call(this);
 };
@@ -160,6 +194,8 @@ HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
 		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp6,tmp9,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this16}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg"),this.homepageButton("Templates","./assets/template.svg"),this.homepageButton("Codebase","./assets/github.svg"),new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
 			lib_core_Navigate.to({ url : "/sockets"});
+		}}),new lib_components_Button({ child : new lib_components_Text("Database"), onClick : function(e1) {
+			lib_core_Navigate.to({ url : "/database"});
 		}})]})})]})});
 		return this.page;
 	}
@@ -218,8 +254,8 @@ Main.__name__ = "Main";
 Main.main = function() {
 	var body = new lib_core_Body();
 	body.font("Lato","100");
-	lib_core_Navigate.routes = [new HomePage().component(),new SocketsPage().component(),new WidgetsPage().component()];
-	lib_core_Navigate.to({ url : window.location.pathname});
+	lib_core_Navigate.routes = [new HomePage().component(),new SocketsPage().component(),new WidgetsPage().component(),new DatabasePage().component()];
+	lib_core_Navigate.to({ url : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
 		lib_core_Navigate.navigationEvent();
 	});
@@ -606,7 +642,7 @@ com_akifox_asynchttp_AsyncHttp.log = function(message,fingerprint) {
 		fingerprint = "";
 	}
 	if(com_akifox_asynchttp_AsyncHttp.logEnabled) {
-		console.log("com/akifox/asynchttp/AsyncHttp.hx:186:","" + fingerprint + " INFO:" + message);
+		console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} INFO:${message}");
 	}
 	return message;
 };
@@ -618,10 +654,10 @@ com_akifox_asynchttp_AsyncHttp.error = function(message,fingerprint,throwError) 
 		fingerprint = "";
 	}
 	if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-		console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+		console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 	}
 	if(throwError) {
-		throw new js__$Boot_HaxeError("AsyncHttp Error:" + message);
+		throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 	}
 	return message;
 };
@@ -648,20 +684,16 @@ com_akifox_asynchttp_AsyncHttp.determineIsBinary = function(contentKind) {
 com_akifox_asynchttp_AsyncHttp.prototype = {
 	send: function(request) {
 		if(request.get_finalised()) {
-			var message = "Unable to send the request:it was already sent before\n" + "To send it again you have to clone it before.";
 			var fingerprint = request.get_fingerprint();
 			var throwError = true;
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + message);
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return;
 		}
@@ -703,15 +735,11 @@ com_akifox_asynchttp_AsyncHttp.prototype = {
 		}
 		var httpstatusDone = false;
 		r.onError = function(msg) {
-			var message = "Request failed -> " + msg;
 			var fingerprint = request.get_fingerprint();
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
-			var errorMessage = message;
+			var errorMessage = "Request failed -> $msg";
 			var time = _gthis.elapsedTime(start);
 			var error = errorMessage;
 			if(error == null) {
@@ -732,13 +760,9 @@ com_akifox_asynchttp_AsyncHttp.prototype = {
 			}
 			var time1 = _gthis.elapsedTime(start);
 			content = haxe_io_Bytes.ofString(data);
-			var message1 = "Response Complete " + status + " (" + time1 + " s)\n> " + request.get_method() + " " + Std.string(request.get_url());
 			var fingerprint1 = request.get_fingerprint();
-			if(fingerprint1 == null) {
-				fingerprint1 = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:186:","" + fingerprint1 + " INFO:" + message1);
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} INFO:${message}");
 			}
 			headers.finalise();
 			var response1 = new com_akifox_asynchttp_HttpResponse(request,time1,url,headers,status,content,"");
@@ -751,13 +775,9 @@ com_akifox_asynchttp_AsyncHttp.prototype = {
 		};
 		r.onStatus = function(http_status) {
 			status = http_status;
-			var message2 = "Response HTTP Status " + status;
 			var fingerprint2 = request.get_fingerprint();
-			if(fingerprint2 == null) {
-				fingerprint2 = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:186:","" + fingerprint2 + " INFO:" + message2);
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} INFO:${message}");
 			}
 			httpstatusDone = true;
 		};
@@ -858,7 +878,7 @@ com_akifox_asynchttp_HttpHeaders.prototype = {
 	,add: function(key,value) {
 		if(this._finalised) {
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:"," ERROR:" + "HttpHeaders.add() -> Can't add an header. This HttpHeaders object is immutable");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			return this;
 		}
@@ -876,7 +896,7 @@ com_akifox_asynchttp_HttpHeaders.prototype = {
 		}
 		if(this._finalised) {
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:"," ERROR:" + "HttpHeaders.remove() -> Can't remove an header. This HttpHeaders object is immutable");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			return this;
 		}
@@ -979,14 +999,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.headers -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.headers -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._headers;
 		}
@@ -1002,14 +1019,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.timeout -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.timeout -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._timeout;
 		}
@@ -1028,14 +1042,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.async -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.async -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._async;
 		}
@@ -1051,14 +1062,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.http11 -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.http11 -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._http11;
 		}
@@ -1083,14 +1091,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.url -> Please specify an URL Object or a String");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.url -> Please specify an URL Object or a String");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._url;
 		}
@@ -1100,14 +1105,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError1 == null) {
 				throwError1 = false;
 			}
-			if(fingerprint1 == null) {
-				fingerprint1 = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint1 + " ERROR:" + "HttpRequest.url -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError1) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.url -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._url;
 		}
@@ -1123,14 +1125,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.method -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.method -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._method;
 		}
@@ -1147,14 +1146,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.content -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.content -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._content;
 		}
@@ -1170,14 +1166,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.contentType -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.contentType -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._contentType;
 		}
@@ -1197,14 +1190,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.contentIsBinary -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.contentIsBinary -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._contentIsBinary;
 		}
@@ -1220,14 +1210,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.callback -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.callback -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._callback;
 		}
@@ -1243,14 +1230,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.callbackError -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.callbackError -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._callbackError;
 		}
@@ -1266,14 +1250,11 @@ com_akifox_asynchttp_HttpRequest.prototype = {
 			if(throwError == null) {
 				throwError = false;
 			}
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + "HttpRequest.callbackProgress -> Can't modify a property when the instance is already sent");
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 			if(throwError) {
-				throw new js__$Boot_HaxeError("AsyncHttp Error:" + "HttpRequest.callbackProgress -> Can't modify a property when the instance is already sent");
+				throw new js__$Boot_HaxeError("AsyncHttp Error:${message}");
 			}
 			return this._callbackProgress;
 		}
@@ -1353,11 +1334,8 @@ com_akifox_asynchttp_HttpResponse.prototype = {
 		} catch( msg ) {
 			var message = "HttpResponse.toXml() -> " + Std.string(((msg) instanceof js__$Boot_HaxeError) ? msg.val : msg);
 			var fingerprint = this._request.get_fingerprint();
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 		}
 		return _contentXml;
@@ -1369,11 +1347,8 @@ com_akifox_asynchttp_HttpResponse.prototype = {
 		} catch( msg ) {
 			var message = "HttpResponse.toJson() -> " + Std.string(((msg) instanceof js__$Boot_HaxeError) ? msg.val : msg);
 			var fingerprint = this._request.get_fingerprint();
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 		}
 		return _contentJson;
@@ -1385,11 +1360,8 @@ com_akifox_asynchttp_HttpResponse.prototype = {
 		} catch( msg ) {
 			var message = "HttpResponse.toText() -> " + Std.string(((msg) instanceof js__$Boot_HaxeError) ? msg.val : msg);
 			var fingerprint = this._request.get_fingerprint();
-			if(fingerprint == null) {
-				fingerprint = "";
-			}
 			if(com_akifox_asynchttp_AsyncHttp.logErrorEnabled) {
-				console.log("com/akifox/asynchttp/AsyncHttp.hx:195:","" + fingerprint + " ERROR:" + message);
+				console.log("com/akifox/asynchttp/AsyncHttp.hx:98:","${fingerprint} ERROR:${message}");
 			}
 		}
 		return _contentText;
@@ -2930,6 +2902,7 @@ var lib_components_Request = function(arg) {
 	this.onComplete = null;
 	this.url = "";
 	this.url = arg.url;
+	this.method = arg.method != null ? arg.method : "GET";
 	this.onComplete = arg.onComplete;
 	this.onProgress = arg.onProgress;
 	this.onError = arg.onError;
@@ -2947,7 +2920,7 @@ lib_components_Request.prototype = {
 		var progressComponent = this.onProgress();
 		var onProgressNode = progressComponent.render();
 		var onProgressNode1 = container.appendChild(onProgressNode);
-		var request = new com_akifox_asynchttp_HttpRequest({ url : this.url, callback : function(response) {
+		var request = new com_akifox_asynchttp_HttpRequest({ url : this.url, method : this.method, callback : function(response) {
 			if(response.get_isOK()) {
 				var component = _gthis.onComplete(response);
 				_gthis.replace(container,onProgressNode1,component);
@@ -3186,6 +3159,7 @@ lib_core_Body.prototype = {
 	,__class__: lib_core_Body
 };
 var lib_core_GlobalState = function() {
+	this.connections = [];
 	this.streams = [];
 };
 lib_core_GlobalState.__name__ = "lib.core.GlobalState";
@@ -3201,6 +3175,32 @@ lib_core_GlobalState.prototype = {
 			this.streams[i].getSocket().close(1000);
 			this.streams = [];
 		}
+	}
+	,openConnection: function(connection) {
+		this.connections.push(connection);
+	}
+	,isConnectionOpen: function(url) {
+		var _g = 0;
+		var _g1 = this.connections.length;
+		while(_g < _g1) {
+			var i = _g++;
+			if(this.connections[i].get_url().toString() == url) {
+				console.log("lib/core/GlobalState.hx:36:","Found request");
+				return true;
+			}
+		}
+		return false;
+	}
+	,removeConnection: function(url) {
+		var _g = 0;
+		var _g1 = this.connections.length;
+		while(_g < _g1) {
+			var i = _g++;
+			if(this.connections[i].get_url().toString() == url) {
+				return this.connections.splice(i,0)[0];
+			}
+		}
+		return null;
 	}
 	,__class__: lib_core_GlobalState
 };
@@ -3259,6 +3259,34 @@ lib_core_Navigate.updateComponent = function(component) {
 };
 lib_core_Navigate.prototype = {
 	__class__: lib_core_Navigate
+};
+var lib_core_SingleRequest = function(arg) {
+	this.onError = null;
+	this.onProgress = null;
+	this.onComplete = null;
+	this.url = "";
+	this.url = arg.url;
+	this.method = arg.method != null ? arg.method : "GET";
+	this.onComplete = arg.onComplete;
+	this.onProgress = arg.onProgress;
+	this.onError = arg.onError;
+};
+lib_core_SingleRequest.__name__ = "lib.core.SingleRequest";
+lib_core_SingleRequest.prototype = {
+	request: function() {
+		var _gthis = this;
+		this.onProgress();
+		var request = new com_akifox_asynchttp_HttpRequest({ url : this.url, method : this.method, callback : function(response) {
+			if(response.get_isOK()) {
+				return _gthis.onComplete(response);
+			} else {
+				return _gthis.onError(response);
+			}
+		}});
+		request.send();
+		return request;
+	}
+	,__class__: lib_core_SingleRequest
 };
 var lib_support_StreamConnection = function(url,route) {
 	this.socket = new WebSocket(url);

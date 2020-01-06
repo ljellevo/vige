@@ -205,6 +205,12 @@ class HomePage  extends DynamicComponent {
                     onClick: function (e) {
                       Navigate.to({url: "/sockets"});
                     }
+                  }),
+                  new Button({
+                    child: new Text("Database"),
+                    onClick: function (e) {
+                      Navigate.to({url: "/database"});
+                    }
                   })
                 ]
               })
