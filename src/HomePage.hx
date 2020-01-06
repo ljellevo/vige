@@ -1,4 +1,5 @@
 
+import haxe.macro.Type;
 import js.html.ErrorEvent;
 import js.html.Event;
 import js.html.CloseEvent;
@@ -20,6 +21,7 @@ import lib.components.Row;
 import lib.components.Center;
 import lib.components.Container;
 import lib.components.Image;
+import lib.components.Navbar;
 
 import lib.core.Navigate;
 import lib.core.DynamicComponent;
@@ -44,6 +46,17 @@ class HomePage  extends DynamicComponent {
   
     override public function component() : Page {
       page = new Page({
+        navbar: new Navbar({
+            height: 50,
+            style: new Style({backgroundColor: "#fafafa"}),
+            child: new Row({
+                children: [
+                    new Text("First"),
+                    new Text("Second")
+                ],
+                
+            })
+        }),
         route: "/",
         child: new Column({
           children: [

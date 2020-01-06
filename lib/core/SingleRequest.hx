@@ -1,6 +1,5 @@
 package lib.core;
 
-import haxe.display.Protocol.Response;
 import com.akifox.asynchttp.HttpResponse;
 import com.akifox.asynchttp.HttpRequest;
 import js.Browser;
