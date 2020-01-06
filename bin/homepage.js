@@ -93,6 +93,78 @@ HomeButton.prototype = $extend(lib_components_Button.prototype,{
 	}
 	,__class__: HomeButton
 });
+var lib_core_DynamicComponent = function() {
+	this.page = null;
+};
+lib_core_DynamicComponent.__name__ = "lib.core.DynamicComponent";
+lib_core_DynamicComponent.prototype = {
+	setState: function(component,callback) {
+		var oldComponent;
+		if(this.page != null) {
+			oldComponent = this.page.render();
+		}
+		callback();
+		var newComponent = component.component().render();
+		lib_core_Navigate.updateComponent(component.component().render());
+	}
+	,component: function() {
+		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
+	}
+	,__class__: lib_core_DynamicComponent
+};
+var HomePage = function() {
+	lib_core_DynamicComponent.call(this);
+};
+HomePage.__name__ = "HomePage";
+HomePage.__super__ = lib_core_DynamicComponent;
+HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	homepageButton: function(text,src) {
+		return new HomeButton({ size : new lib_utils_Size({ height : 40, heightType : "px"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [new lib_components_Container({ style : new lib_utils_Style({ color : -1}), child : new lib_components_Image({ src : src, height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})}),new lib_components_Text(text)]}), onClick : function(e) {
+		}});
+	}
+	,component: function() {
+		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp = new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ size : 88}),new lib_components_Text("The declarative web-framework")]})})});
+		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp1 = new lib_components_Container({ child : new lib_components_Column({ style : new lib_utils_Style({ backgroundColor : this11}), size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, cellSize : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100, minWidth : 20})]})}),new lib_components_Container({ child : new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), cellPadding : lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0), alignment : lib_components_RowAlignment.Left, children : [new lib_components_Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.",{ style : new lib_utils_Style({ color : -1})})]})})]})]})});
+		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp2 = new lib_utils_Style({ backgroundColor : this12});
+		var tmp3 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp4 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp5 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
+		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp6 = new lib_components_Container({ child : new lib_components_Column({ style : tmp2, size : tmp3, children : [new lib_components_Row({ cellSize : tmp4, alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : tmp5, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ style : new lib_utils_Style({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100, minWidth : 20})]})})]})]})});
+		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
+		var tmp7 = new lib_utils_Style({ backgroundColor : this14});
+		var tmp8 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
+		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp9 = new lib_components_Container({ style : tmp7, size : tmp8, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ style : new lib_utils_Style({ color : this15})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
+			console.log("src/HomePage.hx:153:",res.get_content());
+			return new lib_components_Text("Single request: " + Std.string(res.get_content()));
+		}, onProgress : function() {
+			return new lib_components_Text("Loading");
+		}, onError : function(res1) {
+			return new lib_components_Text("Error: " + res1.get_error());
+		}})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Stream(this.page,{ url : "ws://localhost:3001/socket", onStandby : function() {
+			return new lib_components_Text("On standby");
+		}, onOpen : function(res2) {
+			return new lib_components_Text("Connection opened");
+		}, onMessage : function(res3) {
+			console.log("src/HomePage.hx:176:","Message recieved (Homepage)");
+			return new lib_components_Text("WebSocket on homepage: " + Std.string(res3.data));
+		}, onClose : function(res4) {
+			return new lib_components_Text("Connection closed");
+		}, onError : function(res5) {
+			return new lib_components_Text("Error");
+		}})})]})})});
+		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
+		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp6,tmp9,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this16}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg"),this.homepageButton("Templates","./assets/template.svg"),this.homepageButton("Codebase","./assets/github.svg"),new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
+			lib_core_Navigate.to({ url : "/sockets"});
+		}})]})})]})});
+		return this.page;
+	}
+	,__class__: HomePage
+});
 var HxOverrides = function() { };
 HxOverrides.__name__ = "HxOverrides";
 HxOverrides.cca = function(s,index) {
@@ -141,159 +213,12 @@ Lambda.exists = function(it,f) {
 	}
 	return false;
 };
-var lib_core_DynamicComponent = function() {
-	this.page = null;
-};
-lib_core_DynamicComponent.__name__ = "lib.core.DynamicComponent";
-lib_core_DynamicComponent.prototype = {
-	setState: function(component,callback) {
-		var oldComponent;
-		if(this.page != null) {
-			oldComponent = this.page.render();
-		}
-		callback();
-		var newComponent = component.component().render();
-		lib_core_Navigate.updateComponent(component.component().render());
-	}
-	,component: function() {
-		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
-	}
-	,__class__: lib_core_DynamicComponent
-};
-var HelloPage = function() {
-	this.textTo = 0;
-	this.text = 0;
-	lib_core_DynamicComponent.call(this);
-};
-HelloPage.__name__ = "HelloPage";
-HelloPage.__super__ = lib_core_DynamicComponent;
-HelloPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
-	component: function() {
-		var _gthis = this;
-		this.page = new lib_components_Page({ route : "/hello", child : new lib_components_Column({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "%"}), children : [new lib_components_Text("Text en: " + this.text),new lib_components_Text("Text to: " + this.textTo),new lib_components_Button({ child : new lib_components_Text("Click me: En"), onClick : function(e) {
-			_gthis.setState(_gthis,function(e1) {
-				_gthis.text++;
-			});
-		}}),new lib_components_Button({ child : new lib_components_Text("Click me: To"), onClick : function(e2) {
-			_gthis.setState(_gthis,function(e3) {
-				_gthis.text++;
-				_gthis.textTo++;
-			});
-		}}),new lib_components_Button({ child : new lib_components_Text("Navigate"), onClick : function(e4) {
-			lib_core_Navigate.to({ url : "/", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
-		}})]})]})});
-		return this.page;
-	}
-	,__class__: HelloPage
-});
-var lib_core_StaticComponent = function() { };
-lib_core_StaticComponent.__name__ = "lib.core.StaticComponent";
-lib_core_StaticComponent.prototype = {
-	component: function() {
-		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
-	}
-	,__class__: lib_core_StaticComponent
-};
-var HomePage = function() {
-};
-HomePage.__name__ = "HomePage";
-HomePage.__super__ = lib_core_StaticComponent;
-HomePage.prototype = $extend(lib_core_StaticComponent.prototype,{
-	component: function() {
-		return new lib_components_Page({ route : "/", child : new lib_components_Column({ style : new lib_utils_Style({ color : -1}), size : new lib_utils_Size({ height : 100, heightType : "%"}), padding : lib_utils_Padding.all(10), children : [new lib_components_Row({ children : [new lib_components_Text("Row"),new lib_components_Text("Row"),new lib_components_Text("Row")]}),new lib_components_Text("Hello"),new lib_components_Text("Hello",{ style : new lib_utils_Style({ color : -65281, backgroundColor : -256})}),new lib_components_Button({ child : new lib_components_Text("Click me"), onClick : function(e) {
-			lib_core_Navigate.to({ url : "/hello", param : [{ param : "id", data : "dkadaJKFJmvlERFGMS120Fmf545"},{ param : "name", data : "Ludvig"},{ param : "age", data : "23"}]});
-		}})]})});
-	}
-	,__class__: HomePage
-});
-var HomeView = function() {
-	lib_core_DynamicComponent.call(this);
-};
-HomeView.__name__ = "HomeView";
-HomeView.__super__ = lib_core_DynamicComponent;
-HomeView.prototype = $extend(lib_core_DynamicComponent.prototype,{
-	homepageButton: function(text,src) {
-		return new HomeButton({ size : new lib_utils_Size({ height : 40, heightType : "px"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [new lib_components_Container({ style : new lib_utils_Style({ color : -1}), child : new lib_components_Image({ src : src, height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})}),new lib_components_Text(text)]}), onClick : function(e) {
-		}});
-	}
-	,component: function() {
-		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp = new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ size : 88}),new lib_components_Text("The declarative web-framework")]})})});
-		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp1 = new lib_components_Container({ child : new lib_components_Column({ style : new lib_utils_Style({ backgroundColor : this11}), size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, cellSize : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100, minWidth : 20})]})}),new lib_components_Container({ child : new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), cellPadding : lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0), alignment : lib_components_RowAlignment.Left, children : [new lib_components_Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.",{ style : new lib_utils_Style({ color : -1})})]})})]})]})});
-		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp2 = new lib_utils_Style({ backgroundColor : this12});
-		var tmp3 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp4 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp5 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
-		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp6 = new lib_components_Container({ child : new lib_components_Column({ style : tmp2, size : tmp3, children : [new lib_components_Row({ cellSize : tmp4, alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : tmp5, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ style : new lib_utils_Style({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100, minWidth : 20})]})})]})]})});
-		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
-		var tmp7 = new lib_utils_Style({ backgroundColor : this14});
-		var tmp8 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
-		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp9 = new lib_components_Container({ style : tmp7, size : tmp8, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ style : new lib_utils_Style({ color : this15})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
-			console.log("src/Main.hx:267:",res.get_content());
-			return new lib_components_Text("Single request: " + Std.string(res.get_content()));
-		}, onProgress : function() {
-			return new lib_components_Text("Loading");
-		}, onError : function(res1) {
-			return new lib_components_Text("Error: " + res1.get_error());
-		}})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Stream(this.page,{ url : "ws://localhost:3001/socket", onStandby : function() {
-			return new lib_components_Text("On standby");
-		}, onOpen : function(res2) {
-			return new lib_components_Text("Connection opened");
-		}, onMessage : function(res3) {
-			console.log("src/Main.hx:290:","Message recieved (Homepage)");
-			return new lib_components_Text("WebSocket on homepage: " + Std.string(res3.data));
-		}, onClose : function(res4) {
-			return new lib_components_Text("Connection closed");
-		}, onError : function(res5) {
-			return new lib_components_Text("Error");
-		}})})]})})});
-		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
-		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp6,tmp9,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this16}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg"),this.homepageButton("Templates","./assets/template.svg"),this.homepageButton("Codebase","./assets/github.svg"),new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
-			lib_core_Navigate.to({ url : "/socket"});
-		}})]})})]})});
-		return this.page;
-	}
-	,__class__: HomeView
-});
-var SocketPage = function() {
-	this.data = [];
-	lib_core_DynamicComponent.call(this);
-};
-SocketPage.__name__ = "SocketPage";
-SocketPage.__super__ = lib_core_DynamicComponent;
-SocketPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
-	component: function() {
-		var _gthis = this;
-		this.page = new lib_components_Page({ route : "/socket", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Stream(this.page,{ url : "ws://localhost:3001/socket", onStandby : function() {
-			return new lib_components_Text("On standby");
-		}, onOpen : function(res) {
-			return new lib_components_Text("Connection open");
-		}, onMessage : function(res1) {
-			console.log("src/Main.hx:360:","Message recieved");
-			_gthis.data.push(res1.data);
-			return new lib_components_Collection({ count : _gthis.data.length}).build(function(iterator) {
-				console.log("src/Main.hx:366:","Building");
-				return new lib_components_Text(_gthis.data[iterator]);
-			});
-		}, onClose : function(res2) {
-			return new lib_components_Text("Connection closed");
-		}, onError : function(res3) {
-			return new lib_components_Text("Error");
-		}})})});
-		return this.page;
-	}
-	,__class__: SocketPage
-});
 var Main = function() { };
 Main.__name__ = "Main";
 Main.main = function() {
 	var body = new lib_core_Body();
 	body.font("Lato","100");
-	lib_core_Navigate.routes = [new HomeView().component(),new SocketPage().component()];
+	lib_core_Navigate.routes = [new HomePage().component(),new SocketsPage().component(),new WidgetsPage().component()];
 	lib_core_Navigate.to({ url : window.location.pathname});
 	window.addEventListener("popstate",function(e) {
 		lib_core_Navigate.navigationEvent();
@@ -354,6 +279,35 @@ Reflect.compareMethods = function(f1,f2) {
 		return false;
 	}
 };
+var SocketsPage = function() {
+	this.data = [];
+	lib_core_DynamicComponent.call(this);
+};
+SocketsPage.__name__ = "SocketsPage";
+SocketsPage.__super__ = lib_core_DynamicComponent;
+SocketsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	component: function() {
+		var _gthis = this;
+		this.page = new lib_components_Page({ route : "/sockets", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Stream(this.page,{ url : "ws://localhost:3001/socket", onStandby : function() {
+			return new lib_components_Text("On standby");
+		}, onOpen : function(res) {
+			return new lib_components_Text("Connection open");
+		}, onMessage : function(res1) {
+			console.log("src/SocketsPage.hx:36:","Message recieved");
+			_gthis.data.push(res1.data);
+			return new lib_components_Collection({ count : _gthis.data.length}).build(function(iterator) {
+				console.log("src/SocketsPage.hx:42:","Building");
+				return new lib_components_Text(_gthis.data[iterator]);
+			});
+		}, onClose : function(res2) {
+			return new lib_components_Text("Connection closed");
+		}, onError : function(res3) {
+			return new lib_components_Text("Error");
+		}})})});
+		return this.page;
+	}
+	,__class__: SocketsPage
+});
 var Std = function() { };
 Std.__name__ = "Std";
 Std.string = function(s) {
@@ -471,6 +425,21 @@ StringTools.rtrim = function(s) {
 StringTools.trim = function(s) {
 	return StringTools.ltrim(StringTools.rtrim(s));
 };
+var WidgetsPage = function() {
+	this.data = [];
+	lib_core_DynamicComponent.call(this);
+};
+WidgetsPage.__name__ = "WidgetsPage";
+WidgetsPage.__super__ = lib_core_DynamicComponent;
+WidgetsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	component: function() {
+		this.page = new lib_components_Page({ route : "/widgets", child : new lib_components_Request({ url : "http://localhost:3000/widgets", onProgress : function() {
+		}, onComplete : function(res) {
+		}})});
+		return this.page;
+	}
+	,__class__: WidgetsPage
+});
 var _$Xml_XmlType_$Impl_$ = {};
 _$Xml_XmlType_$Impl_$.__name__ = "_Xml.XmlType_Impl_";
 _$Xml_XmlType_$Impl_$.toString = function(this1) {
@@ -2816,7 +2785,6 @@ lib_components_Center.prototype = {
 	,__class__: lib_components_Center
 };
 var lib_components_Collection = function(arg) {
-	this.child = arg.child;
 	this.count = arg.count;
 };
 lib_components_Collection.__name__ = "lib.components.Collection";
@@ -3071,7 +3039,7 @@ lib_components_Stream.prototype = {
 		var lastComponent1 = container.appendChild(lastComponent);
 		var streamConnection = new lib_support_StreamConnection(this.url,window.location.pathname);
 		streamConnection.getSocket().onopen = function(res) {
-			console.log("lib/components/Stream.hx:48:",res);
+			console.log("lib/components/Stream.hx:69:",res);
 			lib_core_GlobalState.instance.openStream(streamConnection);
 			var component = _gthis.onOpen();
 			lastComponent1 = _gthis.replace(container,lastComponent1,component);
@@ -3081,7 +3049,7 @@ lib_components_Stream.prototype = {
 			lastComponent1 = _gthis.replace(container,lastComponent1,component1);
 		};
 		streamConnection.getSocket().onclose = function(res1) {
-			console.log("lib/components/Stream.hx:60:",res1);
+			console.log("lib/components/Stream.hx:81:",res1);
 			var component2 = _gthis.onClose();
 			lastComponent1 = _gthis.replace(container,lastComponent1,component2);
 		};
@@ -3223,7 +3191,6 @@ var lib_core_GlobalState = function() {
 lib_core_GlobalState.__name__ = "lib.core.GlobalState";
 lib_core_GlobalState.prototype = {
 	openStream: function(stream) {
-		console.log("lib/core/GlobalState.hx:16:","Added stream: " + stream.getSocket().url + " from page " + stream.getRoute());
 		this.streams.push(stream);
 	}
 	,closeAllStreams: function() {
@@ -3231,7 +3198,6 @@ lib_core_GlobalState.prototype = {
 		var _g1 = this.streams.length;
 		while(_g < _g1) {
 			var i = _g++;
-			console.log("lib/core/GlobalState.hx:22:","Removed stream: " + this.streams[i].getSocket().url + " from page " + this.streams[i].getRoute());
 			this.streams[i].getSocket().close(1000);
 			this.streams = [];
 		}

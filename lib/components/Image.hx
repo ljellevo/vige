@@ -13,6 +13,15 @@ import lib.utils.Style;
 Not done
 **/
 
+
+/**
+new Image({
+    src: "./assets/code-icon.png",
+    width: 100,
+    minWidth: 20
+})
+**/
+
 class Image implements Widget {
 
     var src: String;

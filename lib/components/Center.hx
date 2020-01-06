@@ -72,12 +72,7 @@ class Center implements Widget {
                 new StyleManager().addStyleToDiv({size: new Size({height: 100, heightType: "%"}), widget: parent, style: style, padding: padding});
                 element.appendChild(child.render());
                 parent.appendChild(element);
-
-
         }
-        
-
-        
         return parent;
     }
 

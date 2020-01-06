@@ -6,6 +6,27 @@ import lib.core.GlobalState;
 import lib.support.Widget;
 import js.Browser;
 
+/**
+new Stream(page, {
+    url: "ws://example.com",
+    onStandby: function() {
+        return new Text("On standby");
+    },
+    onOpen: function(res: Event) {
+        return new Text("Connection open");
+    },
+    onMessage: function(res: MessageEvent) {
+        return new Text(res.data);
+    },
+    onClose: function(res: CloseEvent) {
+        return new Text("Connection closed");
+    },
+    onError: function(res: ErrorEvent) {
+        return new Text("Error");
+    },
+})
+**/
+
 class Stream implements Widget{
     var url: String = "";
     var page: Page = null;

@@ -4,6 +4,11 @@ const app = express();
 const WebSocket = require('ws');
 var path = require('path');
 const wss = new WebSocket.Server({port: 3001, noServer: true});
+const MongoClient = require('mongodb').MongoClient
+
+MongoClient.connect('link-to-mongodb', (err, database) => {
+  
+})
 
 
 try {
@@ -32,6 +37,12 @@ app.use(express.static('bin'));
 app.get('/test', function(req, res){
     res.send("I am a message from the server!");
 });
+
+
+app.get('/widgets', function(req, res){
+  res.send("I am a message from the server!");
+});
+
 
 app.get('*', function(req, res){
   //res.send("I am a message from the server yo");

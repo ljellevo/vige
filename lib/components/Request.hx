@@ -4,6 +4,21 @@ import com.akifox.asynchttp.*;
 import lib.support.Widget;
 import js.Browser;
 
+/**
+    new Request({
+        url: "http://localhost:3000/test",
+        onComplete: function(res: HttpResponse) {
+            return new Text("Result: " + res.content);
+        },
+        onProgress: function() {
+            return new Text("Loading");
+        },
+        onError: function(res: HttpResponse) {
+            return new Text("Error: " + res.error);
+        },
+    }),
+**/
+
 class Request implements Widget{
     var url: String = "";
     var onComplete: haxe.Constraints.Function = null;

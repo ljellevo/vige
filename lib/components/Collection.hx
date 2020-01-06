@@ -9,15 +9,23 @@ import lib.support.Widget;
 Not done
 **/
 
+
+/**
+var data = ["1", "2", "3"]
+return new Collection({
+    count: data.length,
+}).build(function(i) {
+    return new Text(data[i]);
+});
+
+**/
+
 class Collection implements Widget {
-    var child: Widget;
     var count: Int;
 
     public function new(arg: {
-        ?child: Widget,
         count: Int
     }) {
-        this.child = arg.child;
         this.count = arg.count;
     }
 
