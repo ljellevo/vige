@@ -1,20 +1,28 @@
 package lib.components;
 
-import lib.utils.Padding;
 import lib.support.StyleManager;
 import js.Browser;
-import lib.utils.Style;
-import lib.utils.Size;
 import js.html.Node;
 import lib.support.Widget;
+
+import lib.utils.Color;
+import lib.utils.Border;
+import lib.utils.Padding;
+import lib.utils.Margin;
+import lib.utils.Size;
 
 class Page implements Widget{
     var route: String;
     var title: String = "NOT IMPLEMENTED";
     var navbar: Widget = null;
     var child: Widget;
-    var style: Style = null;
-    var size : Size = null;
+
+
+    public var color: Color;
+    public var border: Border;
+    public var padding: Padding;
+    public var margin: Margin;
+    public var size: Size;
 
 
     public function new(arg: {
@@ -22,15 +30,23 @@ class Page implements Widget{
         ?title: String,
         ?navbar: Widget,
         child: Widget,
-        ?style: Style,
-        ?size: Size,
+
+        ?color: Color,
+        ?border: Border,
+        ?padding: Padding,
+        ?margin: Margin,
+        ?size: Size, 
     }) {
         this.route = arg.route;
         this.title = arg.title;
         this.navbar = arg.navbar;
         this.child = arg.child;
-        this.style = arg.style != null ? arg.style : new Style({});
-        this.size = arg.size != null ? arg.size : new Size({});
+
+        this.color = arg.color;
+        this.border = arg.border;
+        this.padding = arg.padding;
+        this.margin = arg.margin;
+        this.size = arg.size;
     }
 
     public function getRoute(): String {
@@ -45,7 +61,7 @@ class Page implements Widget{
 
         element.appendChild(child.render());
         
-        new StyleManager().addStyleToDiv({size: size, widget: element, style: style, padding: Padding.all(0.0)});
+        new StyleManager().addStyleToDiv({widget: element, color: color, border: border, padding: padding, margin: margin, size: size});
 
         //Need to style container
 

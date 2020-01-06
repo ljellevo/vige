@@ -1,12 +1,15 @@
 package lib.components;
 
 import lib.components.Center.CenterAlignment;
-import lib.utils.Padding;
-import lib.utils.Size;
 import js.Browser;
 import lib.support.Widget;
 import lib.support.StyleManager;
-import lib.utils.Style;
+
+import lib.utils.Color;
+import lib.utils.Border;
+import lib.utils.Padding;
+import lib.utils.Margin;
+import lib.utils.Size;
 
 
 /**
@@ -14,19 +17,30 @@ Not done
 **/
 
 class Container implements Widget {
-    var size: Size;
-    var style: Style;
     var child: Widget;
 
+    public var color: Color;
+    public var border: Border;
+    public var padding: Padding;
+    public var margin: Margin;
+    public var size: Size;
+
     public function new(arg: {
-        ?size: Size,
-        ?style: Style,
-        ?child: Widget
+        ?child: Widget,
+
+        ?color: Color,
+        ?border: Border,
+        ?padding: Padding,
+        ?margin: Margin,
+        ?size: Size, 
     }) {
-        //this.size = arg.size != null ? arg.size : new Size({height: 100, heightType: "%", width: 100, widthType: "%"});
-        this.size = arg.size;
-        this.style = arg.style != null ? arg.style : new Style({});
         this.child = arg.child;
+
+        this.color = arg.color;
+        this.border = arg.border;
+        this.padding = arg.padding;
+        this.margin = arg.margin;
+        this.size = arg.size != null ? arg.size : new Size({height: 100, heightType: "%", width: 100, widthType: "%"});
     }
     
     public function render():js.html.Node {
@@ -37,7 +51,7 @@ class Container implements Widget {
         }
         
        
-        new StyleManager().addStyleToDiv({size: size, widget: container, style: style, padding: Padding.all(0.0)});
+        new StyleManager().addStyleToDiv({widget: container, color: color, border: border, padding: padding, margin: margin, size: size});
         //container.style.margin = "auto";
         
         return container;

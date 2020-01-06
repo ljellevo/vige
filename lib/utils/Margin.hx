@@ -22,8 +22,8 @@ class Margin {
         return new Margin({top: top, right: right, bottom: bottom, left: left});
     }
 
-    public static function all(padding: Float): Margin {
-        return new Margin({top: padding, right: padding, bottom: padding, left: padding});
+    public static function all(margin: Float): Margin {
+        return new Margin({top: margin, right: margin, bottom: margin, left: margin});
     }
 
     public function getMargin(): String {

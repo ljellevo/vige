@@ -1,5 +1,5 @@
 
-import haxe.macro.Type;
+import lib.utils.Margin;
 import js.html.ErrorEvent;
 import js.html.Event;
 import js.html.CloseEvent;
@@ -8,8 +8,8 @@ import com.akifox.asynchttp.HttpResponse;
 import lib.support.Widget;
 import lib.utils.Padding;
 import lib.utils.Size;
+import lib.utils.Colors;
 import lib.utils.Color;
-import lib.utils.Style;
 
 import lib.components.Request;
 import lib.components.Stream;
@@ -35,7 +35,7 @@ class HomePage  extends DynamicComponent {
         child: new Row({
           alignment: RowAlignment.Center,
           children: [
-            new Container({style: new Style({color: Color.WHITE}), child: new Image({src: src, height: 20})}),
+            new Container({color: new Color({color: Colors.WHITE}), child: new Image({src: src, height: 20})}),
             new Container({size: new Size({width: 20, widthType: "px"})}),
             new Text(text)
           ]
@@ -47,12 +47,27 @@ class HomePage  extends DynamicComponent {
     override public function component() : Page {
       page = new Page({
         navbar: new Navbar({
-            height: 50,
-            style: new Style({backgroundColor: "#fafafa"}),
+            color: new Color({backgroundColor: "#fafafa"}),
             child: new Row({
+                margin: Margin.all(10),
                 children: [
-                    new Text("First"),
-                    new Text("Second")
+                  homepageButton("Quick-start", "./assets/book-open.svg"),
+                  homepageButton("Widgets", "./assets/book-solid.svg"),
+                  homepageButton("Snippets", "./assets/code-solid.svg"),
+                  homepageButton("Templates", "./assets/template.svg"),
+                  homepageButton("Codebase", "./assets/github.svg"),
+                  new Button({
+                    child: new Text("Sockets"),
+                    onClick: function (e) {
+                      Navigate.to({url: "/sockets"});
+                    }
+                  }),
+                  new Button({
+                    child: new Text("Database"),
+                    onClick: function (e) {
+                      Navigate.to({url: "/database"});
+                    }
+                  })
                 ],
                 
             })
@@ -61,13 +76,13 @@ class HomePage  extends DynamicComponent {
         child: new Column({
           children: [
             new Container({
-              style: new Style({backgroundColor: Color.fromString("#fafafa")}),
+              color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
               size: new Size({height: 100, heightType: "vh", width: 100, widthType: "%"}),
               child: new Center({
                 alignment: CenterAlignment.Both,
                 child: new Column({
                   children: [
-                    new Text("MIST.IO", {size: 88}),
+                    new Text("MIST.IO", {textSize: 88}),
                     new Text("The declarative web-framework")
                   ]
                 }),
@@ -76,7 +91,7 @@ class HomePage  extends DynamicComponent {
             
             new Container({
               child: new Column({
-                style: new Style({backgroundColor: Color.fromString("#2e3440")}),
+                color: new Color({backgroundColor: Colors.fromString("#2e3440")}),
                 size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                 children: [
                   new Row({
@@ -102,7 +117,7 @@ class HomePage  extends DynamicComponent {
                           cellPadding: Padding.fromTRBL(0.0, 0.0, 0.0, 20.0),
                           alignment: RowAlignment.Left,
                           children: [
-                            new Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.", {style: new Style({color: Color.WHITE})}),
+                            new Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.", {color: new Color({color: Colors.WHITE})}),
                           ]
                         })
                       }),
@@ -114,7 +129,7 @@ class HomePage  extends DynamicComponent {
             
             new Container({
               child: new Column({
-                style: new Style({backgroundColor: Color.fromString("#fafafa")}),
+                color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
                 size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                 children: [
                   new Row({
@@ -123,10 +138,11 @@ class HomePage  extends DynamicComponent {
                     children: [ 
                       new Container({
                         child: new Row({
+                          size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                           cellPadding: Padding.fromTRBL(0.0, 0.0, 0.0, 20.0),
                           alignment: RowAlignment.Right,
                           children: [
-                            new Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase", {style: new Style({color: Color.fromString("#2e3440")})}),
+                            new Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase", {color: new Color({color: Colors.fromString("#2e3440")})}),
                           ]
                         })
                       }),
@@ -150,13 +166,13 @@ class HomePage  extends DynamicComponent {
             }),
             
             new Container({
-              style: new Style({backgroundColor: Color.fromString("#98b979")}),
+              color: new Color({backgroundColor: Colors.fromString("#98b979")}),
               size: new Size({height: 400, heightType: "px", width: 100, widthType: "%"}),
               child: new Center({
                 alignment: CenterAlignment.Both,
                 child: new Column({
                   children: [
-                    new Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.", {style: new Style({color: Color.fromString("#2e3440")})}),
+                    new Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.", {color: new Color({color: Colors.fromString("#2e3440")})}),
                     new Container({size: new Size({height: 50, heightType: "px"})}),
                     new Center({
                       alignment: CenterAlignment.Horizontal,
@@ -201,7 +217,7 @@ class HomePage  extends DynamicComponent {
                 })
               }), 
             }),
-            
+            /*
             new Container({
               style: new Style({backgroundColor: Color.fromString("#98b979")}),
               size: new Size({height: 150, heightType: "px", width: 100, widthType: "%"}),
@@ -228,6 +244,7 @@ class HomePage  extends DynamicComponent {
                 ]
               })
             }),
+            */
           ]
         })
       });

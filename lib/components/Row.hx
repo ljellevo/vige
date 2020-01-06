@@ -1,12 +1,15 @@
 package lib.components;
 
-import lib.utils.Padding;
-import lib.utils.Margin;
-import lib.utils.Style;
+
 import lib.support.StyleManager;
 import js.Browser;
 import js.html.Node;
 import lib.support.Widget;
+
+import lib.utils.Color;
+import lib.utils.Border;
+import lib.utils.Padding;
+import lib.utils.Margin;
 import lib.utils.Size;
 
 enum RowAlignment {
@@ -24,37 +27,43 @@ enum RowAlignment {
 
 class Row implements Widget {
     var children: Array<Widget> = null;
-    var style: Style;
-    var cellStyle: Style;
-    var size: Size;
+    var cellColor: Color;
     var cellSize: Size;
-    var padding: Padding;
-    var margin: Margin;
     var cellPadding: Padding;
     var alignment: RowAlignment;
+
+    public var color: Color;
+    public var border: Border;
+    public var padding: Padding;
+    public var margin: Margin;
+    public var size: Size;
 
 
     public function new(arg: {
         children: Array<Widget>,
-        ?style: Style,
-        ?cellStyle: Style,
-        ?size: Size,
+        ?cellColor: Color,
         ?cellSize: Size,
+        ?cellPadding: Padding,
+        ?alignment: RowAlignment,
+
+        ?color: Color,
+        ?border: Border,
         ?padding: Padding,
         ?margin: Margin,
-        ?cellPadding: Padding,
-        ?alignment: RowAlignment
+        ?size: Size, 
         
     }) {
         this.children = arg.children;
-        this.style = arg.style != null ? arg.style : new Style({});
-        this.cellStyle = arg.cellStyle != null ? arg.cellStyle : new Style({});
-        this.size = arg.size != null ? arg.size : new Size({height: 100, heightType: "%", width: 100, widthType: "%"});
+        this.cellColor = arg.cellColor != null ? arg.cellColor : new Color({});
         this.cellSize = arg.cellSize != null ? arg.cellSize : new Size({});
-        this.padding = arg.padding != null ? arg.padding : Padding.all(0.0);
-        this.margin = arg.margin != null ? arg.margin : Margin.all(0.0);
         this.cellPadding = arg.cellPadding != null ? arg.cellPadding : Padding.all(0.0);
         this.alignment = arg.alignment != null ? arg.alignment : RowAlignment.Center; 
+
+        this.color = arg.color;
+        this.border = arg.border;
+        this.padding = arg.padding;
+        this.margin = arg.margin;
+        this.size = arg.size;
     }
 
 
@@ -64,13 +73,13 @@ class Row implements Widget {
         //row.style.gridTemplateColumns =  Std.string(children.length) + " auto auto";
         row.classList.add("row");
         row.style.gridAutoFlow = "column";
-        new StyleManager().addStyleToDiv({size: size, widget: row, style: style, padding: padding, alignment: alignment});
+        new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, alignment: alignment});
 
         for(child in children) {
             var rowCell = Browser.document.createDivElement();
             rowCell.classList.add("row-cell");
             rowCell.appendChild(child.render());
-            new StyleManager().addStyleToDiv({size: cellSize, widget: rowCell, style: cellStyle, padding: cellPadding, margin: margin});
+            new StyleManager().addStyleToDiv({widget: rowCell, color: cellColor, padding: cellPadding, size: cellSize});
             row.appendChild(rowCell);
         }
         

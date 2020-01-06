@@ -5,7 +5,7 @@ class HomeButton extends Button {
         var button = new Button({child: child, size: size,/*image: image,*/ onClick: onClick });
         var castButton = button.render();
 
-        castButton.style.backgroundColor = "#2e3440";
+        castButton.style.backgroundColor =  "#000000";//Color.TRANSPARENT;
         castButton.style.border = "none";
         castButton.style.color = "#fafafa";
         castButton.style.padding = "8px 22px";

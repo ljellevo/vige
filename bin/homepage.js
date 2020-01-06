@@ -89,13 +89,14 @@ lib_support_Widget.prototype = {
 };
 var lib_components_Button = function(arg) {
 	this.onClick = null;
-	this.image = null;
-	this.size = null;
 	this.child = null;
 	this.child = arg.child;
-	this.size = arg.size;
-	this.image = arg.image;
 	this.onClick = arg.onClick;
+	this.color = arg.color;
+	this.border = arg.border;
+	this.padding = arg.padding;
+	this.margin = arg.margin;
+	this.size = arg.size;
 };
 lib_components_Button.__name__ = "lib.components.Button";
 lib_components_Button.__interfaces__ = [lib_support_Widget];
@@ -105,14 +106,7 @@ lib_components_Button.prototype = {
 		button.appendChild(this.child.render());
 		button.onclick = this.onClick;
 		button.style.cursor = "pointer";
-		if(this.size != null) {
-			button.style.height = this.size.getHeight();
-			button.style.width = this.size.getWidth();
-		}
-		if(this.image != null) {
-			console.log("lib/components/Button.hx:31:","Button with image");
-			button.appendChild(this.image.render());
-		}
+		new lib_support_StyleManager().addStyleToButton({ widget : button, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
 		return button;
 	}
 	,__class__: lib_components_Button
@@ -126,7 +120,7 @@ HomeButton.prototype = $extend(lib_components_Button.prototype,{
 	render: function() {
 		var button = new lib_components_Button({ child : this.child, size : this.size, onClick : this.onClick});
 		var castButton = button.render();
-		castButton.style.backgroundColor = "#2e3440";
+		castButton.style.backgroundColor = "#000000";
 		castButton.style.border = "none";
 		castButton.style.color = "#fafafa";
 		castButton.style.padding = "8px 22px";
@@ -152,29 +146,34 @@ HomePage.__name__ = "HomePage";
 HomePage.__super__ = lib_core_DynamicComponent;
 HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	homepageButton: function(text,src) {
-		return new HomeButton({ size : new lib_utils_Size({ height : 40, heightType : "px"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [new lib_components_Container({ style : new lib_utils_Style({ color : -1}), child : new lib_components_Image({ src : src, height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})}),new lib_components_Text(text)]}), onClick : function(e) {
+		return new HomeButton({ size : new lib_utils_Size({ height : 40, heightType : "px"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [new lib_components_Container({ color : new lib_utils_Color({ color : -1}), child : new lib_components_Image({ src : src, height : 20})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})}),new lib_components_Text(text)]}), onClick : function(e) {
 		}});
 	}
 	,component: function() {
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp = new lib_components_Navbar({ height : 50, style : new lib_utils_Style({ backgroundColor : this1}), child : new lib_components_Row({ children : [new lib_components_Text("First"),new lib_components_Text("Second")]})});
+		var tmp = new lib_components_Navbar({ color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Row({ margin : lib_utils_Margin.all(10), children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg"),this.homepageButton("Templates","./assets/template.svg"),this.homepageButton("Codebase","./assets/github.svg"),new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
+			lib_core_Navigate.to({ url : "/sockets"});
+		}}),new lib_components_Button({ child : new lib_components_Text("Database"), onClick : function(e1) {
+			lib_core_Navigate.to({ url : "/database"});
+		}})]})});
 		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp1 = new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this11}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ size : 88}),new lib_components_Text("The declarative web-framework")]})})});
+		var tmp1 = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this11}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ textSize : 88}),new lib_components_Text("The declarative web-framework")]})})});
 		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp2 = new lib_components_Container({ child : new lib_components_Column({ style : new lib_utils_Style({ backgroundColor : this12}), size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, cellSize : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100, minWidth : 20})]})}),new lib_components_Container({ child : new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), cellPadding : lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0), alignment : lib_components_RowAlignment.Left, children : [new lib_components_Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.",{ style : new lib_utils_Style({ color : -1})})]})})]})]})});
+		var tmp2 = new lib_components_Container({ child : new lib_components_Column({ color : new lib_utils_Color({ backgroundColor : this12}), size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, cellSize : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100, minWidth : 20})]})}),new lib_components_Container({ child : new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), cellPadding : lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0), alignment : lib_components_RowAlignment.Left, children : [new lib_components_Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.",{ color : new lib_utils_Color({ color : -1})})]})})]})]})});
 		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp3 = new lib_utils_Style({ backgroundColor : this13});
+		var tmp3 = new lib_utils_Color({ backgroundColor : this13});
 		var tmp4 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 		var tmp5 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp6 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
+		var tmp6 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp7 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
 		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp7 = new lib_components_Container({ child : new lib_components_Column({ style : tmp3, size : tmp4, children : [new lib_components_Row({ cellSize : tmp5, alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : tmp6, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ style : new lib_utils_Style({ color : this14})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100, minWidth : 20})]})})]})]})});
+		var tmp8 = new lib_components_Container({ child : new lib_components_Column({ color : tmp3, size : tmp4, children : [new lib_components_Row({ cellSize : tmp5, alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ size : tmp6, cellPadding : tmp7, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ color : new lib_utils_Color({ color : this14})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100, minWidth : 20})]})})]})]})});
 		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
-		var tmp8 = new lib_utils_Style({ backgroundColor : this15});
-		var tmp9 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
+		var tmp9 = new lib_utils_Color({ backgroundColor : this15});
+		var tmp10 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
 		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp10 = new lib_components_Container({ style : tmp8, size : tmp9, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ style : new lib_utils_Style({ color : this16})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
-			console.log("src/HomePage.hx:166:",res.get_content());
+		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ children : [tmp1,tmp2,tmp8,new lib_components_Container({ color : tmp9, size : tmp10, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ color : new lib_utils_Color({ color : this16})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
+			console.log("src/HomePage.hx:182:",res.get_content());
 			return new lib_components_Text("Single request: " + Std.string(res.get_content()));
 		}, onProgress : function() {
 			return new lib_components_Text("Loading");
@@ -185,19 +184,13 @@ HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		}, onOpen : function(res2) {
 			return new lib_components_Text("Connection opened");
 		}, onMessage : function(res3) {
-			console.log("src/HomePage.hx:189:","Message recieved (Homepage)");
+			console.log("src/HomePage.hx:205:","Message recieved (Homepage)");
 			return new lib_components_Text("WebSocket on homepage: " + Std.string(res3.data));
 		}, onClose : function(res4) {
 			return new lib_components_Text("Connection closed");
 		}, onError : function(res5) {
 			return new lib_components_Text("Error");
-		}})})]})})});
-		var this17 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
-		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ children : [tmp1,tmp2,tmp7,tmp10,new lib_components_Container({ style : new lib_utils_Style({ backgroundColor : this17}), size : new lib_utils_Size({ height : 150, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [this.homepageButton("Quick-start","./assets/book-open.svg"),this.homepageButton("Widgets","./assets/book-solid.svg"),this.homepageButton("Snippets","./assets/code-solid.svg"),this.homepageButton("Templates","./assets/template.svg"),this.homepageButton("Codebase","./assets/github.svg"),new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
-			lib_core_Navigate.to({ url : "/sockets"});
-		}}),new lib_components_Button({ child : new lib_components_Text("Database"), onClick : function(e1) {
-			lib_core_Navigate.to({ url : "/database"});
-		}})]})})]})});
+		}})})]})})})]})});
 		return this.page;
 	}
 	,__class__: HomePage
@@ -2510,9 +2503,11 @@ var lib_components_CenterAlignment = $hxEnums["lib.components.CenterAlignment"] 
 var lib_components_Center = function(arg) {
 	this.child = arg.child;
 	this.alignment = arg.alignment;
-	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
-	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
-	this.padding = arg.padding != null ? arg.padding : lib_utils_Padding.all(0.0);
+	this.color = arg.color;
+	this.border = arg.border;
+	this.padding = arg.padding;
+	this.margin = arg.margin;
+	this.size = arg.size;
 };
 lib_components_Center.__name__ = "lib.components.Center";
 lib_components_Center.__interfaces__ = [lib_support_Widget];
@@ -2526,7 +2521,7 @@ lib_components_Center.prototype = {
 			element.id = "element";
 			element.style.display = "flex";
 			element.style.justifyContent = "center";
-			new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ width : 100, widthType : "%"}), widget : parent, style : this.style, padding : this.padding});
+			new lib_support_StyleManager().addStyleToDiv({ widget : parent, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : new lib_utils_Size({ width : 100, widthType : "%"})});
 			element.appendChild(this.child.render());
 			parent = element;
 			break;
@@ -2534,7 +2529,7 @@ lib_components_Center.prototype = {
 			element.style.position = "relative";
 			element.style.top = "50%";
 			element.style.transform = "translateY(-50%)";
-			new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ height : 100, heightType : "%"}), widget : parent, style : this.style, padding : this.padding});
+			new lib_support_StyleManager().addStyleToDiv({ widget : parent, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : new lib_utils_Size({ height : 100, heightType : "%"})});
 			element.appendChild(this.child.render());
 			parent.appendChild(element);
 			break;
@@ -2545,7 +2540,7 @@ lib_components_Center.prototype = {
 			element.style.position = "relative";
 			element.style.top = "50%";
 			element.style.transform = "translateY(-50%)";
-			new lib_support_StyleManager().addStyleToDiv({ size : new lib_utils_Size({ height : 100, heightType : "%"}), widget : parent, style : this.style, padding : this.padding});
+			new lib_support_StyleManager().addStyleToDiv({ widget : parent, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : new lib_utils_Size({ height : 100, heightType : "%"})});
 			element.appendChild(this.child.render());
 			parent.appendChild(element);
 			break;
@@ -2556,6 +2551,11 @@ lib_components_Center.prototype = {
 };
 var lib_components_Collection = function(arg) {
 	this.count = arg.count;
+	this.color = arg.color;
+	this.border = arg.border;
+	this.padding = arg.padding;
+	this.margin = arg.margin;
+	this.size = arg.size;
 };
 lib_components_Collection.__name__ = "lib.components.Collection";
 lib_components_Collection.__interfaces__ = [lib_support_Widget];
@@ -2573,6 +2573,7 @@ lib_components_Collection.prototype = {
 	,render: function() {
 		var container = window.document.createElement("div");
 		container.classList.add("collection");
+		new lib_support_StyleManager().addStyleToDiv({ widget : container, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
 		return container;
 	}
 	,__class__: lib_components_Collection
@@ -2580,11 +2581,13 @@ lib_components_Collection.prototype = {
 var lib_components_Column = function(arg) {
 	this.children = null;
 	this.children = arg.children;
-	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
-	this.cellStyle = arg.cellStyle != null ? arg.cellStyle : new lib_utils_Style({ });
-	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
+	this.cellColor = arg.cellColor != null ? arg.cellColor : new lib_utils_Color({ });
 	this.cellSize = arg.cellSize != null ? arg.cellSize : new lib_utils_Size({ });
-	this.padding = arg.padding != null ? arg.padding : lib_utils_Padding.all(0.0);
+	this.color = arg.color;
+	this.border = arg.border;
+	this.padding = arg.padding;
+	this.margin = arg.margin;
+	this.size = arg.size;
 };
 lib_components_Column.__name__ = "lib.components.Column";
 lib_components_Column.__interfaces__ = [lib_support_Widget];
@@ -2593,7 +2596,7 @@ lib_components_Column.prototype = {
 		var column = window.document.createElement("div");
 		column.style.display = "grid";
 		column.style.boxSizing = "border-box";
-		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : column, style : this.style, padding : this.padding});
+		new lib_support_StyleManager().addStyleToDiv({ widget : column, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
 		var _g = 0;
 		var _g1 = this.children;
 		while(_g < _g1.length) {
@@ -2601,7 +2604,7 @@ lib_components_Column.prototype = {
 			++_g;
 			var columnCell = window.document.createElement("div");
 			columnCell.appendChild(child.render());
-			new lib_support_StyleManager().addStyleToDiv({ size : this.cellSize, widget : columnCell, style : this.cellStyle, padding : this.padding});
+			new lib_support_StyleManager().addStyleToDiv({ widget : columnCell, color : this.cellColor, size : this.cellSize});
 			column.appendChild(columnCell);
 		}
 		return column;
@@ -2609,9 +2612,12 @@ lib_components_Column.prototype = {
 	,__class__: lib_components_Column
 };
 var lib_components_Container = function(arg) {
-	this.size = arg.size;
-	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
 	this.child = arg.child;
+	this.color = arg.color;
+	this.border = arg.border;
+	this.padding = arg.padding;
+	this.margin = arg.margin;
+	this.size = arg.size != null ? arg.size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 };
 lib_components_Container.__name__ = "lib.components.Container";
 lib_components_Container.__interfaces__ = [lib_support_Widget];
@@ -2622,7 +2628,7 @@ lib_components_Container.prototype = {
 		if(this.child != null) {
 			container.appendChild(this.child.render());
 		}
-		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : container, style : this.style, padding : lib_utils_Padding.all(0.0)});
+		new lib_support_StyleManager().addStyleToDiv({ widget : container, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
 		return container;
 	}
 	,__class__: lib_components_Container
@@ -2634,7 +2640,11 @@ var lib_components_Image = function(arg) {
 	this.minHeight = arg.minHeight;
 	this.width = arg.width;
 	this.minWidth = arg.minWidth;
-	this.style = arg.style;
+	this.color = arg.color;
+	this.border = arg.border;
+	this.padding = arg.padding;
+	this.margin = arg.margin;
+	this.size = arg.size;
 };
 lib_components_Image.__name__ = "lib.components.Image";
 lib_components_Image.__interfaces__ = [lib_support_Widget];
@@ -2659,7 +2669,7 @@ lib_components_Image.prototype = {
 		if(this.minHeight != null) {
 			container.style.minHeight = Std.string(this.minHeight) + "px";
 		}
-		var tmp = this.style != null;
+		var tmp = this.color != null;
 		return container;
 	}
 	,__class__: lib_components_Image
@@ -2671,40 +2681,45 @@ var lib_components_NavbarPosition = $hxEnums["lib.components.NavbarPosition"] = 
 var lib_components_Navbar = function(arg) {
 	this.child = arg.child;
 	this.height = arg.height;
-	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
 	this.position = arg.position != null ? arg.position : lib_components_NavbarPosition.Top;
 	this.sticky = arg.sticky != null ? arg.sticky : true;
-	this.padding = arg.padding != null ? arg.padding : lib_utils_Padding.all(0.0);
-	this.margin = arg.margin != null ? arg.margin : lib_utils_Margin.all(0.0);
 	this.offset = arg.offset != null ? arg.offset : 0;
+	this.color = arg.color;
+	this.border = arg.border;
+	this.padding = arg.padding;
+	this.margin = arg.margin;
+	this.size = arg.size;
 };
 lib_components_Navbar.__name__ = "lib.components.Navbar";
 lib_components_Navbar.__interfaces__ = [lib_support_Widget];
 lib_components_Navbar.prototype = {
 	render: function() {
 		var navbar = window.document.createElement("div");
-		new lib_support_StyleManager().addStyleToDiv({ size : null, widget : navbar, style : this.style, padding : this.padding, margin : this.margin});
+		new lib_support_StyleManager().addStyleToDiv({ widget : navbar, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
 		navbar.appendChild(this.child.render());
 		navbar.style.overflow = "hidden";
 		navbar.style.position = "fixed";
 		navbar.style.top = Std.string(this.offset) + "px";
 		navbar.style.width = "100%";
-		navbar.style.height = Std.string(this.height) + "px";
+		if(this.height != null) {
+			navbar.style.height = Std.string(this.height) + "px";
+		}
 		return navbar;
 	}
 	,__class__: lib_components_Navbar
 };
 var lib_components_Page = function(arg) {
-	this.size = null;
-	this.style = null;
 	this.navbar = null;
 	this.title = "NOT IMPLEMENTED";
 	this.route = arg.route;
 	this.title = arg.title;
 	this.navbar = arg.navbar;
 	this.child = arg.child;
-	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
-	this.size = arg.size != null ? arg.size : new lib_utils_Size({ });
+	this.color = arg.color;
+	this.border = arg.border;
+	this.padding = arg.padding;
+	this.margin = arg.margin;
+	this.size = arg.size;
 };
 lib_components_Page.__name__ = "lib.components.Page";
 lib_components_Page.__interfaces__ = [lib_support_Widget];
@@ -2719,7 +2734,7 @@ lib_components_Page.prototype = {
 			element.appendChild(this.navbar.render());
 		}
 		element.appendChild(this.child.render());
-		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : element, style : this.style, padding : lib_utils_Padding.all(0.0)});
+		new lib_support_StyleManager().addStyleToDiv({ widget : element, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
 		return element;
 	}
 	,__class__: lib_components_Page
@@ -2777,14 +2792,15 @@ var lib_components_RowAlignment = $hxEnums["lib.components.RowAlignment"] = { __
 var lib_components_Row = function(arg) {
 	this.children = null;
 	this.children = arg.children;
-	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
-	this.cellStyle = arg.cellStyle != null ? arg.cellStyle : new lib_utils_Style({ });
-	this.size = arg.size != null ? arg.size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+	this.cellColor = arg.cellColor != null ? arg.cellColor : new lib_utils_Color({ });
 	this.cellSize = arg.cellSize != null ? arg.cellSize : new lib_utils_Size({ });
-	this.padding = arg.padding != null ? arg.padding : lib_utils_Padding.all(0.0);
-	this.margin = arg.margin != null ? arg.margin : lib_utils_Margin.all(0.0);
 	this.cellPadding = arg.cellPadding != null ? arg.cellPadding : lib_utils_Padding.all(0.0);
 	this.alignment = arg.alignment != null ? arg.alignment : lib_components_RowAlignment.Center;
+	this.color = arg.color;
+	this.border = arg.border;
+	this.padding = arg.padding;
+	this.margin = arg.margin;
+	this.size = arg.size;
 };
 lib_components_Row.__name__ = "lib.components.Row";
 lib_components_Row.__interfaces__ = [lib_support_Widget];
@@ -2794,7 +2810,7 @@ lib_components_Row.prototype = {
 		row.style.display = "grid";
 		row.classList.add("row");
 		row.style.gridAutoFlow = "column";
-		new lib_support_StyleManager().addStyleToDiv({ size : this.size, widget : row, style : this.style, padding : this.padding, alignment : this.alignment});
+		new lib_support_StyleManager().addStyleToDiv({ widget : row, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, alignment : this.alignment});
 		var _g = 0;
 		var _g1 = this.children;
 		while(_g < _g1.length) {
@@ -2803,7 +2819,7 @@ lib_components_Row.prototype = {
 			var rowCell = window.document.createElement("div");
 			rowCell.classList.add("row-cell");
 			rowCell.appendChild(child.render());
-			new lib_support_StyleManager().addStyleToDiv({ size : this.cellSize, widget : rowCell, style : this.cellStyle, padding : this.cellPadding, margin : this.margin});
+			new lib_support_StyleManager().addStyleToDiv({ widget : rowCell, color : this.cellColor, padding : this.cellPadding, size : this.cellSize});
 			row.appendChild(rowCell);
 		}
 		return row;
@@ -2840,7 +2856,7 @@ lib_components_Stream.prototype = {
 		var lastComponent1 = container.appendChild(lastComponent);
 		var streamConnection = new lib_support_StreamConnection(this.url,window.location.pathname);
 		streamConnection.getSocket().onopen = function(res) {
-			console.log("lib/components/Stream.hx:69:",res);
+			console.log("lib/components/Stream.hx:82:",res);
 			lib_core_GlobalState.instance.openStream(streamConnection);
 			var component = _gthis.onOpen();
 			lastComponent1 = _gthis.replace(container,lastComponent1,component);
@@ -2850,7 +2866,7 @@ lib_components_Stream.prototype = {
 			lastComponent1 = _gthis.replace(container,lastComponent1,component1);
 		};
 		streamConnection.getSocket().onclose = function(res1) {
-			console.log("lib/components/Stream.hx:81:",res1);
+			console.log("lib/components/Stream.hx:94:",res1);
 			var component2 = _gthis.onClose();
 			lastComponent1 = _gthis.replace(container,lastComponent1,component2);
 		};
@@ -2875,13 +2891,13 @@ var lib_components_TextFormat = $hxEnums["lib.components.TextFormat"] = { __enam
 };
 var lib_components_Text = function(text,arg) {
 	this.text = "";
-	this.size = -1;
+	this.textSize = -1;
 	this.text = text;
 	if(arg == null) {
-		arg = { size : -1, style : new lib_utils_Style({ }), textFormat : lib_components_TextFormat.p};
+		arg = { textSize : -1, color : new lib_utils_Color({ }), textFormat : lib_components_TextFormat.p};
 	}
-	this.size = arg.size != null ? arg.size : -1;
-	this.style = arg.style != null ? arg.style : new lib_utils_Style({ });
+	this.textSize = arg.textSize != null ? arg.textSize : -1;
+	this.color = arg.color != null ? arg.color : new lib_utils_Color({ });
 	this.textFormat = arg.textFormat != null ? arg.textFormat : lib_components_TextFormat.p;
 };
 lib_components_Text.__name__ = "lib.components.Text";
@@ -2957,11 +2973,11 @@ lib_components_Text.prototype = {
 			element.style.fontWeight = "normal";
 			break;
 		}
-		if(this.size > -1) {
-			element.style.fontSize = Std.string(this.size);
+		if(this.textSize > -1) {
+			element.style.fontSize = Std.string(this.textSize);
 		}
-		element.style.color = this.style.getColor();
-		element.style.backgroundColor = this.style.getBackgroundColor();
+		element.style.color = this.color.getColor();
+		element.style.backgroundColor = this.color.getBackgroundColor();
 		element.innerText = this.text;
 		return element;
 	}
@@ -3139,8 +3155,10 @@ lib_support_StyleManager.prototype = {
 			arg.widget.style.height = arg.size.getHeight();
 			arg.widget.style.width = arg.size.getWidth();
 		}
-		arg.widget.style.backgroundColor = arg.style.getBackgroundColor();
-		arg.widget.style.color = arg.style.getColor();
+		if(arg.color != null) {
+			arg.widget.style.backgroundColor = arg.color.getBackgroundColor();
+			arg.widget.style.color = arg.color.getColor();
+		}
 		if(arg.padding != null) {
 			arg.widget.style.padding = arg.padding.getPadding();
 		}
@@ -3184,87 +3202,251 @@ lib_support_StyleManager.prototype = {
 		}
 		return arg.widget;
 	}
+	,addStyleToButton: function(arg) {
+		if(arg.size != null) {
+			arg.widget.style.height = arg.size.getHeight();
+			arg.widget.style.width = arg.size.getWidth();
+		}
+		if(arg.color != null) {
+			arg.widget.style.backgroundColor = arg.color.getBackgroundColor();
+			arg.widget.style.color = arg.color.getColor();
+		}
+		if(arg.padding != null) {
+			arg.widget.style.padding = arg.padding.getPadding();
+		}
+		if(arg.margin != null) {
+			arg.widget.style.margin = arg.margin.getMargin();
+		}
+		if(arg.border != null) {
+			switch(arg.border.getSides()._hx_index) {
+			case 0:
+				var tmp = arg.border.getWidth() + " " + arg.border.getStyle() + " ";
+				var tmp1 = arg.border.getColor();
+				arg.widget.style.borderTop = tmp + tmp1;
+				break;
+			case 1:
+				var tmp2 = arg.border.getWidth() + " " + arg.border.getStyle() + " ";
+				var tmp3 = arg.border.getColor();
+				arg.widget.style.borderRight = tmp2 + tmp3;
+				break;
+			case 2:
+				var tmp4 = arg.border.getWidth() + " " + arg.border.getStyle() + " ";
+				var tmp5 = arg.border.getColor();
+				arg.widget.style.borderBottom = tmp4 + tmp5;
+				break;
+			case 3:
+				var tmp6 = arg.border.getWidth() + " " + arg.border.getStyle() + " ";
+				var tmp7 = arg.border.getColor();
+				arg.widget.style.borderLeft = tmp6 + tmp7;
+				break;
+			case 4:
+				var tmp8 = arg.border.getWidth() + " " + arg.border.getStyle() + " ";
+				var tmp9 = arg.border.getColor();
+				arg.widget.style.border = tmp8 + tmp9;
+				break;
+			}
+			arg.widget.style.borderRadius = arg.border.getCornerRadius();
+		}
+		return arg.widget;
+	}
 	,__class__: lib_support_StyleManager
 };
-var lib_utils__$Color_Color_$Impl_$ = {};
-lib_utils__$Color_Color_$Impl_$.__name__ = "lib.utils._Color.Color_Impl_";
-lib_utils__$Color_Color_$Impl_$.__properties__ = {set_bf:"set_bf",get_bf:"get_bf",set_gf:"set_gf",get_gf:"get_gf",set_rf:"set_rf",get_rf:"get_rf",set_af:"set_af",get_af:"get_af",set_bi:"set_bi",get_bi:"get_bi",set_gi:"set_gi",get_gi:"get_gi",set_ri:"set_ri",get_ri:"get_ri",set_ai:"set_ai",get_ai:"get_ai"};
-lib_utils__$Color_Color_$Impl_$.fromString = function(rgba) {
+var lib_utils_BorderStyle = $hxEnums["lib.utils.BorderStyle"] = { __ename__ : true, __constructs__ : ["Dotted","Dashed","Solid","Double","Groove","Ridge","Inset","Outset","None","Hidden"]
+	,Dotted: {_hx_index:0,__enum__:"lib.utils.BorderStyle",toString:$estr}
+	,Dashed: {_hx_index:1,__enum__:"lib.utils.BorderStyle",toString:$estr}
+	,Solid: {_hx_index:2,__enum__:"lib.utils.BorderStyle",toString:$estr}
+	,Double: {_hx_index:3,__enum__:"lib.utils.BorderStyle",toString:$estr}
+	,Groove: {_hx_index:4,__enum__:"lib.utils.BorderStyle",toString:$estr}
+	,Ridge: {_hx_index:5,__enum__:"lib.utils.BorderStyle",toString:$estr}
+	,Inset: {_hx_index:6,__enum__:"lib.utils.BorderStyle",toString:$estr}
+	,Outset: {_hx_index:7,__enum__:"lib.utils.BorderStyle",toString:$estr}
+	,None: {_hx_index:8,__enum__:"lib.utils.BorderStyle",toString:$estr}
+	,Hidden: {_hx_index:9,__enum__:"lib.utils.BorderStyle",toString:$estr}
+};
+var lib_utils_BorderSides = $hxEnums["lib.utils.BorderSides"] = { __ename__ : true, __constructs__ : ["Top","Right","Bottom","Left","All"]
+	,Top: {_hx_index:0,__enum__:"lib.utils.BorderSides",toString:$estr}
+	,Right: {_hx_index:1,__enum__:"lib.utils.BorderSides",toString:$estr}
+	,Bottom: {_hx_index:2,__enum__:"lib.utils.BorderSides",toString:$estr}
+	,Left: {_hx_index:3,__enum__:"lib.utils.BorderSides",toString:$estr}
+	,All: {_hx_index:4,__enum__:"lib.utils.BorderSides",toString:$estr}
+};
+var lib_utils_CornerRadius = function(arg) {
+	this.top = arg.top;
+	this.right = arg.right;
+	this.bottom = arg.bottom;
+	this.left = arg.left;
+};
+lib_utils_CornerRadius.__name__ = "lib.utils.CornerRadius";
+lib_utils_CornerRadius.fromTRBL = function(top,right,bottom,left) {
+	return new lib_utils_CornerRadius({ top : top, right : right, bottom : bottom, left : left});
+};
+lib_utils_CornerRadius.all = function(radius) {
+	return new lib_utils_CornerRadius({ top : radius, right : radius, bottom : radius, left : radius});
+};
+lib_utils_CornerRadius.prototype = {
+	getCornerRadius: function() {
+		return this.top + "px " + this.right + "px " + this.bottom + "px " + this.left + "px";
+	}
+	,__class__: lib_utils_CornerRadius
+};
+var lib_utils_Border = function(arg) {
+	this.style = arg.style != null ? arg.style : lib_utils_BorderStyle.Solid;
+	this.width = arg.width != null ? arg.width : 5;
+	this.color = arg.color != null ? arg.color : -16777216;
+	this.cornerRadius = arg.cornerRadius != null ? arg.cornerRadius : lib_utils_CornerRadius.all(0.0);
+	this.sides = arg.sides != null ? arg.sides : lib_utils_BorderSides.All;
+};
+lib_utils_Border.__name__ = "lib.utils.Border";
+lib_utils_Border.prototype = {
+	getStyle: function() {
+		var styleString = "";
+		switch(this.style._hx_index) {
+		case 0:
+			styleString = "dotted";
+			break;
+		case 1:
+			styleString = "dashed";
+			break;
+		case 2:
+			styleString = "solid";
+			break;
+		case 3:
+			styleString = "double";
+			break;
+		case 4:
+			styleString = "groove";
+			break;
+		case 5:
+			styleString = "ridge";
+			break;
+		case 6:
+			styleString = "inset";
+			break;
+		case 7:
+			styleString = "outset";
+			break;
+		case 8:
+			styleString = "none";
+			break;
+		case 9:
+			styleString = "hidden";
+			break;
+		}
+		return styleString;
+	}
+	,getWidth: function() {
+		return Std.string(this.width) + "px";
+	}
+	,getColor: function() {
+		return "rgba(" + (this.color >> 16 & 255) + ", " + (this.color >> 8 & 255) + ", " + (this.color & 255) + ", " + (this.color >> 24 & 255) + ")";
+	}
+	,getCornerRadius: function() {
+		return this.cornerRadius.getCornerRadius() + "px";
+	}
+	,getSides: function() {
+		return this.sides;
+	}
+	,__class__: lib_utils_Border
+};
+var lib_utils_Color = function(arg) {
+	this.color = arg.color;
+	this.backgroundColor = arg.backgroundColor;
+};
+lib_utils_Color.__name__ = "lib.utils.Color";
+lib_utils_Color.prototype = {
+	getColor: function() {
+		if(this.color == null) {
+			return "";
+		}
+		return "rgba(" + (this.color >> 16 & 255) + ", " + (this.color >> 8 & 255) + ", " + (this.color & 255) + ", " + (this.color >> 24 & 255) + ")";
+	}
+	,getBackgroundColor: function() {
+		if(this.backgroundColor == null) {
+			return "";
+		}
+		return "rgba(" + (this.backgroundColor >> 16 & 255) + ", " + (this.backgroundColor >> 8 & 255) + ", " + (this.backgroundColor & 255) + ", " + (this.backgroundColor >> 24 & 255) + ")";
+	}
+	,__class__: lib_utils_Color
+};
+var lib_utils__$Colors_Colors_$Impl_$ = {};
+lib_utils__$Colors_Colors_$Impl_$.__name__ = "lib.utils._Colors.Colors_Impl_";
+lib_utils__$Colors_Colors_$Impl_$.__properties__ = {set_bf:"set_bf",get_bf:"get_bf",set_gf:"set_gf",get_gf:"get_gf",set_rf:"set_rf",get_rf:"get_rf",set_af:"set_af",get_af:"get_af",set_bi:"set_bi",get_bi:"get_bi",set_gi:"set_gi",get_gi:"get_gi",set_ri:"set_ri",get_ri:"get_ri",set_ai:"set_ai",get_ai:"get_ai"};
+lib_utils__$Colors_Colors_$Impl_$.fromString = function(rgba) {
 	var this1 = Std.parseInt("0xff" + HxOverrides.substr(rgba,1,null));
 	return this1;
 };
-lib_utils__$Color_Color_$Impl_$.fromRGBAi = function(r,g,b,a) {
+lib_utils__$Colors_Colors_$Impl_$.fromRGBAi = function(r,g,b,a) {
 	var this1 = r << 16 | g << 8 | b | a << 24;
 	return this1;
 };
-lib_utils__$Color_Color_$Impl_$.fromRGBAf = function(r,g,b,a) {
+lib_utils__$Colors_Colors_$Impl_$.fromRGBAf = function(r,g,b,a) {
 	var this1 = (r * 255 | 0) << 16 | (g * 255 | 0) << 8 | (b * 255 | 0) | (a * 255 | 0) << 24;
 	return this1;
 };
-lib_utils__$Color_Color_$Impl_$._new = function(rgba) {
+lib_utils__$Colors_Colors_$Impl_$._new = function(rgba) {
 	var this1 = rgba;
 	return this1;
 };
-lib_utils__$Color_Color_$Impl_$.get_ai = function(this1) {
+lib_utils__$Colors_Colors_$Impl_$.get_ai = function(this1) {
 	return this1 >> 24 & 255;
 };
-lib_utils__$Color_Color_$Impl_$.set_ai = function(this1,ai) {
+lib_utils__$Colors_Colors_$Impl_$.set_ai = function(this1,ai) {
 	var this2 = (this1 >> 16 & 255) << 16 | (this1 >> 8 & 255) << 8 | this1 & 255 | ai << 24;
 	this1 = this2;
 	return ai;
 };
-lib_utils__$Color_Color_$Impl_$.get_ri = function(this1) {
+lib_utils__$Colors_Colors_$Impl_$.get_ri = function(this1) {
 	return this1 >> 16 & 255;
 };
-lib_utils__$Color_Color_$Impl_$.set_ri = function(this1,ri) {
+lib_utils__$Colors_Colors_$Impl_$.set_ri = function(this1,ri) {
 	var this2 = ri << 16 | (this1 >> 8 & 255) << 8 | this1 & 255 | (this1 >> 24 & 255) << 24;
 	this1 = this2;
 	return ri;
 };
-lib_utils__$Color_Color_$Impl_$.get_gi = function(this1) {
+lib_utils__$Colors_Colors_$Impl_$.get_gi = function(this1) {
 	return this1 >> 8 & 255;
 };
-lib_utils__$Color_Color_$Impl_$.set_gi = function(this1,gi) {
+lib_utils__$Colors_Colors_$Impl_$.set_gi = function(this1,gi) {
 	var this2 = (this1 >> 16 & 255) << 16 | gi << 8 | this1 & 255 | (this1 >> 24 & 255) << 24;
 	this1 = this2;
 	return gi;
 };
-lib_utils__$Color_Color_$Impl_$.get_bi = function(this1) {
+lib_utils__$Colors_Colors_$Impl_$.get_bi = function(this1) {
 	return this1 & 255;
 };
-lib_utils__$Color_Color_$Impl_$.set_bi = function(this1,bi) {
+lib_utils__$Colors_Colors_$Impl_$.set_bi = function(this1,bi) {
 	var this2 = (this1 >> 16 & 255) << 16 | (this1 >> 8 & 255) << 8 | bi | (this1 >> 24 & 255) << 24;
 	this1 = this2;
 	return bi;
 };
-lib_utils__$Color_Color_$Impl_$.get_af = function(this1) {
+lib_utils__$Colors_Colors_$Impl_$.get_af = function(this1) {
 	return (this1 >> 24 & 255) / 255;
 };
-lib_utils__$Color_Color_$Impl_$.set_af = function(this1,af) {
+lib_utils__$Colors_Colors_$Impl_$.set_af = function(this1,af) {
 	var this2 = ((this1 >> 16 & 255) / 255 * 255 | 0) << 16 | ((this1 >> 8 & 255) / 255 * 255 | 0) << 8 | ((this1 & 255) / 255 * 255 | 0) | (af * 255 | 0) << 24;
 	this1 = this2;
 	return af;
 };
-lib_utils__$Color_Color_$Impl_$.get_rf = function(this1) {
+lib_utils__$Colors_Colors_$Impl_$.get_rf = function(this1) {
 	return (this1 >> 16 & 255) / 255;
 };
-lib_utils__$Color_Color_$Impl_$.set_rf = function(this1,rf) {
+lib_utils__$Colors_Colors_$Impl_$.set_rf = function(this1,rf) {
 	var this2 = (rf * 255 | 0) << 16 | ((this1 >> 8 & 255) / 255 * 255 | 0) << 8 | ((this1 & 255) / 255 * 255 | 0) | ((this1 >> 24 & 255) / 255 * 255 | 0) << 24;
 	this1 = this2;
 	return rf;
 };
-lib_utils__$Color_Color_$Impl_$.get_gf = function(this1) {
+lib_utils__$Colors_Colors_$Impl_$.get_gf = function(this1) {
 	return (this1 >> 8 & 255) / 255;
 };
-lib_utils__$Color_Color_$Impl_$.set_gf = function(this1,gf) {
+lib_utils__$Colors_Colors_$Impl_$.set_gf = function(this1,gf) {
 	var this2 = ((this1 >> 16 & 255) / 255 * 255 | 0) << 16 | (gf * 255 | 0) << 8 | ((this1 & 255) / 255 * 255 | 0) | ((this1 >> 24 & 255) / 255 * 255 | 0) << 24;
 	this1 = this2;
 	return gf;
 };
-lib_utils__$Color_Color_$Impl_$.get_bf = function(this1) {
+lib_utils__$Colors_Colors_$Impl_$.get_bf = function(this1) {
 	return (this1 & 255) / 255;
 };
-lib_utils__$Color_Color_$Impl_$.set_bf = function(this1,bf) {
+lib_utils__$Colors_Colors_$Impl_$.set_bf = function(this1,bf) {
 	var this2 = ((this1 >> 16 & 255) / 255 * 255 | 0) << 16 | ((this1 >> 8 & 255) / 255 * 255 | 0) << 8 | (bf * 255 | 0) | ((this1 >> 24 & 255) / 255 * 255 | 0) << 24;
 	this1 = this2;
 	return bf;
@@ -3279,8 +3461,8 @@ lib_utils_Margin.__name__ = "lib.utils.Margin";
 lib_utils_Margin.fromTRBL = function(top,right,bottom,left) {
 	return new lib_utils_Margin({ top : top, right : right, bottom : bottom, left : left});
 };
-lib_utils_Margin.all = function(padding) {
-	return new lib_utils_Margin({ top : padding, right : padding, bottom : padding, left : padding});
+lib_utils_Margin.all = function(margin) {
+	return new lib_utils_Margin({ top : margin, right : margin, bottom : margin, left : margin});
 };
 lib_utils_Margin.prototype = {
 	getMargin: function() {
@@ -3328,26 +3510,6 @@ lib_utils_Size.prototype = {
 		return Std.string(this.width) + this.widthType;
 	}
 	,__class__: lib_utils_Size
-};
-var lib_utils_Style = function(arg) {
-	this.color = arg.color;
-	this.backgroundColor = arg.backgroundColor;
-};
-lib_utils_Style.__name__ = "lib.utils.Style";
-lib_utils_Style.prototype = {
-	getColor: function() {
-		if(this.color == null) {
-			return "";
-		}
-		return "rgba(" + (this.color >> 16 & 255) + ", " + (this.color >> 8 & 255) + ", " + (this.color & 255) + ", " + (this.color >> 24 & 255) + ")";
-	}
-	,getBackgroundColor: function() {
-		if(this.backgroundColor == null) {
-			return "";
-		}
-		return "rgba(" + (this.backgroundColor >> 16 & 255) + ", " + (this.backgroundColor >> 8 & 255) + ", " + (this.backgroundColor & 255) + ", " + (this.backgroundColor >> 24 & 255) + ")";
-	}
-	,__class__: lib_utils_Style
 };
 function $getIterator(o) { if( o instanceof Array ) return HxOverrides.iter(o); else return o.iterator(); }
 if( String.fromCodePoint == null ) String.fromCodePoint = function(c) { return c < 0x10000 ? String.fromCharCode(c) : String.fromCharCode((c>>10)+0xD7C0)+String.fromCharCode((c&0x3FF)+0xDC00); }
@@ -3487,14 +3649,14 @@ haxe_xml_Parser.escapes = (function($this) {
 }(this));
 lib_core_GlobalState.instance = new lib_core_GlobalState();
 lib_core_Navigate.routes = [];
-lib_utils__$Color_Color_$Impl_$.TRANSPARENT = 0;
-lib_utils__$Color_Color_$Impl_$.BLACK = -16777216;
-lib_utils__$Color_Color_$Impl_$.WHITE = -1;
-lib_utils__$Color_Color_$Impl_$.RED = -65536;
-lib_utils__$Color_Color_$Impl_$.GREEN = -16711936;
-lib_utils__$Color_Color_$Impl_$.BLUE = -16776961;
-lib_utils__$Color_Color_$Impl_$.CYAN = -16711681;
-lib_utils__$Color_Color_$Impl_$.MAGENTA = -65281;
-lib_utils__$Color_Color_$Impl_$.YELLOW = -256;
+lib_utils__$Colors_Colors_$Impl_$.TRANSPARENT = 0;
+lib_utils__$Colors_Colors_$Impl_$.BLACK = -16777216;
+lib_utils__$Colors_Colors_$Impl_$.WHITE = -1;
+lib_utils__$Colors_Colors_$Impl_$.RED = -65536;
+lib_utils__$Colors_Colors_$Impl_$.GREEN = -16711936;
+lib_utils__$Colors_Colors_$Impl_$.BLUE = -16776961;
+lib_utils__$Colors_Colors_$Impl_$.CYAN = -16711681;
+lib_utils__$Colors_Colors_$Impl_$.MAGENTA = -65281;
+lib_utils__$Colors_Colors_$Impl_$.YELLOW = -256;
 Main.main();
 })(typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);

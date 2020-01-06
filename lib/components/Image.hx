@@ -1,12 +1,16 @@
 package lib.components;
 
 import lib.components.Center.CenterAlignment;
-import lib.utils.Padding;
-import lib.utils.Size;
 import js.Browser;
 import lib.support.Widget;
 import lib.support.StyleManager;
-import lib.utils.Style;
+
+import lib.utils.Color;
+import lib.utils.Border;
+import lib.utils.Padding;
+import lib.utils.Margin;
+import lib.utils.Size;
+
 
 
 /**
@@ -30,7 +34,12 @@ class Image implements Widget {
     var minHeight: Float;
     var width: Float;
     var minWidth: Float;
-    var style: Style;
+
+    public var color: Color;
+    public var border: Border;
+    public var padding: Padding;
+    public var margin: Margin;
+    public var size: Size;
 
     public function new(arg: {
         src: String,
@@ -39,7 +48,12 @@ class Image implements Widget {
         ?minHeight: Float,
         ?width: Float,
         ?minWidth: Float,
-        ?style: Style
+
+        ?color: Color,
+        ?border: Border,
+        ?padding: Padding,
+        ?margin: Margin,
+        ?size: Size, 
     }) {
         this.src = arg.src;
         this.alt = arg.alt;
@@ -47,7 +61,12 @@ class Image implements Widget {
         this.minHeight = arg.minHeight;
         this.width = arg.width;
         this.minWidth = arg.minWidth;
-        this.style = arg.style;
+
+        this.color = arg.color;
+        this.border = arg.border;
+        this.padding = arg.padding;
+        this.margin = arg.margin;
+        this.size = arg.size;
     }
     
     public function render():js.html.Node {
@@ -75,7 +94,7 @@ class Image implements Widget {
             container.style.minHeight = Std.string(minHeight) + "px";
         }
 
-        if(style != null) {
+        if(color != null) {
             //container.style.fill = style.getColor();
             //container.style.backgroundColor = style.getBackgroundColor();
         }

@@ -5,6 +5,12 @@ import com.akifox.asynchttp.*;
 import lib.support.Widget;
 import js.Browser;
 
+import lib.utils.Color;
+import lib.utils.Border;
+import lib.utils.Padding;
+import lib.utils.Margin;
+import lib.utils.Size;
+
 /**
     new Request({
         url: "http://localhost:3000/test",
@@ -27,13 +33,19 @@ class Request implements Widget{
     var onProgress: haxe.Constraints.Function = null;
     var onError: haxe.Constraints.Function = null;
 
+    public var color: Color;
+    public var border: Border;
+    public var padding: Padding;
+    public var margin: Margin;
+    public var size: Size;
+
     public function new(
     arg: {
         url: String,
         ?method: String,
         onComplete: haxe.Constraints.Function,
         onProgress: haxe.Constraints.Function,
-        ?onError: haxe.Constraints.Function
+        ?onError: haxe.Constraints.Function,
     }){
         this.url = arg.url;
         this.method = arg.method != null ? arg.method : "GET";

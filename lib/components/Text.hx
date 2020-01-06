@@ -1,9 +1,14 @@
 package lib.components;
 
-import lib.utils.Style;
 import lib.support.Widget;
 import js.Browser;
 import js.html.Node;
+
+import lib.utils.Color;
+import lib.utils.Border;
+import lib.utils.Padding;
+import lib.utils.Margin;
+import lib.utils.Size;
 
 
 enum TextFormat {
@@ -19,29 +24,32 @@ enum TextFormat {
 }
 
 class Text implements Widget {
-    var size = -1;
+    var textSize = -1;
     var text: String = "";
-    var style: Style;
     var textFormat: TextFormat;
 
-    public function new(
-        text: String, 
-        ?arg: {
-            ?size: Int,
-            ?textFormat: TextFormat,
-            ?style: Style
-        }
-    ) {
+    public var color: Color;
+    public var border: Border;
+    public var padding: Padding;
+    public var margin: Margin;
+    public var size: Size;
+
+    public function new(text: String, ?arg: {
+        ?textFormat: TextFormat,
+        ?textSize: Int,
+        
+        ?color: Color,
+        ?border: Border,
+        ?padding: Padding,
+        ?margin: Margin,
+        ?size: Size, 
+    }) {
         this.text = text;
         if(arg == null) {
-            arg = {
-                size: -1,
-                style: new Style({}),
-                textFormat: TextFormat.p
-            }
+            arg = {textSize: -1, color: new Color({}), textFormat: TextFormat.p}
         }
-        this.size = arg.size != null ? arg.size : -1;
-        this.style = arg.style != null ? arg.style : new Style({});
+        this.textSize = arg.textSize != null ? arg.textSize : -1;
+        this.color = arg.color != null ? arg.color : new Color({});
         this.textFormat = arg.textFormat != null ? arg.textFormat : TextFormat.p;
     }
 
@@ -110,12 +118,12 @@ class Text implements Widget {
             
         }
         //var element = Browser.document.createParagraphElement();
-        if(size > -1) {
-            element.style.fontSize = Std.string(size);
+        if(textSize > -1) {
+            element.style.fontSize = Std.string(textSize);
         }
         
-        element.style.color = style.getColor();
-        element.style.backgroundColor = style.getBackgroundColor();
+        element.style.color = color.getColor();
+        element.style.backgroundColor = color.getBackgroundColor();
         element.innerText = text;
         return element;
     }

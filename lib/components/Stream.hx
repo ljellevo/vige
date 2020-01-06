@@ -6,6 +6,13 @@ import lib.core.GlobalState;
 import lib.support.Widget;
 import js.Browser;
 
+import lib.utils.Color;
+import lib.utils.Border;
+import lib.utils.Padding;
+import lib.utils.Margin;
+import lib.utils.Size;
+
+
 /**
 new Stream(page, {
     url: "ws://example.com",
@@ -35,6 +42,12 @@ class Stream implements Widget{
     var onMessage: haxe.Constraints.Function = null;
     var onClose: haxe.Constraints.Function = null;
     var onError: haxe.Constraints.Function = null;
+
+    public var color: Color;
+    public var border: Border;
+    public var padding: Padding;
+    public var margin: Margin;
+    public var size: Size;
 
     public function new(page: Page, arg: {
         url: String,

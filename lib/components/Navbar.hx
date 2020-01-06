@@ -1,12 +1,14 @@
 package lib.components;
 
-import lib.utils.Padding;
-import lib.utils.Margin;
-import lib.utils.Style;
 import lib.support.StyleManager;
 import js.Browser;
 import js.html.Node;
 import lib.support.Widget;
+
+import lib.utils.Color;
+import lib.utils.Border;
+import lib.utils.Padding;
+import lib.utils.Margin;
 import lib.utils.Size;
 
 
@@ -15,36 +17,47 @@ enum NavbarPosition {
     Bottom;
 }
 
+/* not done */
+
 class Navbar implements Widget {
     var child: Widget;
     var height: Int;
-    var style: Style;
     var position: NavbarPosition;
     var sticky: Bool;
-    var padding: Padding;
-    var margin: Margin;
     var offset: Int;
+
+    public var color: Color;
+    public var border: Border;
+    public var padding: Padding;
+    public var margin: Margin;
+    public var size: Size;
 
 
     public function new(arg: {
         child: Widget,
-        height: Int,
-        ?style: Style,
+        ?height: Int,
         ?position: NavbarPosition,
         ?sticky: Bool,
+        ?offset: Int,
+
+        ?color: Color,
+        ?border: Border,
         ?padding: Padding,
         ?margin: Margin,
-        ?offset: Int
+        ?size: Size, 
         
     }) {
         this.child = arg.child;
         this.height = arg.height;
-        this.style = arg.style != null ? arg.style : new Style({});
         this.position = arg.position != null ? arg.position : NavbarPosition.Top;
         this.sticky = arg.sticky != null ? arg.sticky : true;
-        this.padding = arg.padding != null ? arg.padding : Padding.all(0.0);
-        this.margin = arg.margin != null ? arg.margin : Margin.all(0.0);
         this.offset = arg.offset != null ? arg.offset : 0;
+
+        this.color = arg.color;
+        this.border = arg.border;
+        this.padding = arg.padding;
+        this.margin = arg.margin;
+        this.size = arg.size;
     }
 
 
@@ -65,13 +78,16 @@ class Navbar implements Widget {
         }
         */
 
-        new StyleManager().addStyleToDiv({size: null, widget: navbar, style: style, padding: padding, margin: margin});
+        new StyleManager().addStyleToDiv({widget: navbar, color: color, border: border, padding: padding, margin: margin, size: size});
         navbar.appendChild(child.render());
         navbar.style.overflow = "hidden";
         navbar.style.position = "fixed";
         navbar.style.top = Std.string(offset) + "px";
         navbar.style.width = "100%";
-        navbar.style.height = Std.string(height) + "px";
+        if(height != null) {
+            navbar.style.height = Std.string(height) + "px";
+        }
+        
         return navbar;
 
     }
