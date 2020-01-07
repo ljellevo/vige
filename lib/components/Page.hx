@@ -1,5 +1,6 @@
 package lib.components;
 
+import lib.core.GlobalState;
 import lib.support.StyleManager;
 import js.Browser;
 import js.html.Node;
@@ -14,7 +15,7 @@ import lib.utils.Size;
 class Page implements Widget{
     var route: String;
     var title: String = "NOT IMPLEMENTED";
-    var navbar: Widget = null;
+    var navbar: Widget = GlobalState.instance.getNavbar();
     var child: Widget;
 
 

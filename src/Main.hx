@@ -1,4 +1,5 @@
 
+import lib.core.GlobalState;
 import js.Browser;
 
 import lib.core.Body;
@@ -14,8 +15,11 @@ class Main {
     
     Navigate.routes = [
       new HomePage().component(),
-      new SocketsPage().component(),
+      new GuidesPage().component(),
       new WidgetsPage().component(),
+      new SnippetsPage().component(),
+      new TemplatesPage().component(),
+      new SocketsPage().component(),
       new DatabasePage().component()
     ];
 
@@ -27,7 +31,15 @@ class Main {
       //Browser.window.history.pushState(null, null, Browser.window.location.pathname);
       Navigate.navigationEvent();
     });
-
+    GlobalState.instance.setNavbar(CustomNavbar.getNavbar());
     body.init();
+    
+
+
   }
 }
+
+/*
+
+
+*/

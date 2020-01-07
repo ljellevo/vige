@@ -1,5 +1,6 @@
 package lib.core;
 
+import js.html.Window;
 import lib.components.Page;
 import js.Browser;
 import lib.support.Widget;
@@ -32,6 +33,11 @@ class Navigate {
         }
         
         setComponent(true); 
+    }
+
+    public static function link(arg: {url: String}) {
+        Browser.window.history.pushState(null, "Index", Browser.location.pathname);
+        Browser.window.location.replace(arg.url);
     }
 
     /**

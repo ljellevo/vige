@@ -55,11 +55,15 @@ class Column implements Widget {
 
 
         for(child in children) {
+            /*
             var columnCell = Browser.document.createDivElement();
             columnCell.appendChild(child.render());
             new StyleManager().addStyleToDiv({widget: columnCell, color: cellColor, size: cellSize});
 
             column.appendChild(columnCell);
+            */
+            var cell = child.render();
+            column.appendChild(cell);
         }
         
         return column;

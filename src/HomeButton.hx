@@ -2,12 +2,21 @@ import lib.components.Button;
 
 class HomeButton extends Button {
     override public function render():js.html.ButtonElement {
-        var button = new Button({child: child, size: size,/*image: image,*/ onClick: onClick });
+        var button = new Button({
+            child: child, 
+            onClick: onClick,
+    
+            color: color,
+            border: border,
+            padding: padding,
+            margin: margin,
+            size: size 
+        });
+
         var castButton = button.render();
 
-        castButton.style.backgroundColor =  "#000000";//Color.TRANSPARENT;
         castButton.style.border = "none";
-        castButton.style.color = "#fafafa";
+
         castButton.style.padding = "8px 22px";
         castButton.style.textAlign = "center";
         castButton.style.textDecoration = "none";

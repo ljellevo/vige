@@ -29,49 +29,39 @@ import lib.core.DynamicComponent;
 class HomePage  extends DynamicComponent {
     public function new() {}
   
-    function homepageButton(text: String, src: String): Widget{
+    function homepageButton(text: String, src: String, onClick: haxe.Constraints.Function): Widget{
+      function getButtonContents(text: String, src: String): Array<Widget>{
+        var widgets: Array<Widget> = [];
+        if(src != null && src != "") {
+
+          widgets = [
+            new Container({color: new Color({color: Colors.BLACK}), child: new Image({src: src, height: 15})}),
+            new Container({size: new Size({width: 20, widthType: "px"})}),
+           
+          ];
+        }
+        widgets.push(new Text(text, {textSize: 12, color: new Color({color: Colors.fromString("#2e3440")})}));
+        return widgets;
+      }
+
       return new HomeButton({
         size: new Size({height: 40, heightType: "px"}),
+        color: new Color({color: Colors.BLACK, backgroundColor: Colors.fromString("#fafafa")}),
         child: new Row({
           alignment: RowAlignment.Center,
-          children: [
-            new Container({color: new Color({color: Colors.WHITE}), child: new Image({src: src, height: 20})}),
-            new Container({size: new Size({width: 20, widthType: "px"})}),
-            new Text(text)
-          ]
+          children: getButtonContents(text, src)
         }), 
-        onClick: function (e) {}
+        onClick: onClick
       });
     }
+
   
     override public function component() : Page {
       page = new Page({
-        navbar: new Navbar({
-            color: new Color({backgroundColor: "#fafafa"}),
-            child: new Row({
-                margin: Margin.all(10),
-                children: [
-                  homepageButton("Quick-start", "./assets/book-open.svg"),
-                  homepageButton("Widgets", "./assets/book-solid.svg"),
-                  homepageButton("Snippets", "./assets/code-solid.svg"),
-                  homepageButton("Templates", "./assets/template.svg"),
-                  homepageButton("Codebase", "./assets/github.svg"),
-                  new Button({
-                    child: new Text("Sockets"),
-                    onClick: function (e) {
-                      Navigate.to({url: "/sockets"});
-                    }
-                  }),
-                  new Button({
-                    child: new Text("Database"),
-                    onClick: function (e) {
-                      Navigate.to({url: "/database"});
-                    }
-                  })
-                ],
-                
-            })
-        }),
+        
+        //navbar: 
+        
+        
         route: "/",
         child: new Column({
           children: [
@@ -88,6 +78,32 @@ class HomePage  extends DynamicComponent {
                 }),
               }),
             }),
+            /*
+            new Navbar({
+              position: NavbarPosition.Top,
+              offset: 0,
+              sticky: true,
+              color: new Color({backgroundColor: "#fafafa"}),
+              child: new Row({
+                margin: Margin.all(10),
+                children: [
+                  homepageButton("Quick-start", "./assets/book-open.svg", function(e){}),
+                  homepageButton("Widgets", "./assets/book-solid.svg", function(e){}),
+                  homepageButton("Snippets", "./assets/code-solid.svg", function(e){}),
+                  homepageButton("Templates", "./assets/template.svg", function(e){}),
+                  homepageButton("Codebase", "./assets/github.svg", function(e){}),
+                  
+                  homepageButton("Sockets", "", function(e){
+                    Navigate.to({url: "/sockets"});
+                  }),
+                  homepageButton("Database", "", function(e){
+                    Navigate.to({url: "/database"});
+                  }),
+                ],
+                  
+              })
+            }),
+            */
             
             new Container({
               child: new Column({
@@ -213,38 +229,20 @@ class HomePage  extends DynamicComponent {
                         },
                       })
                     }),
+                    new Row({
+                      children: [
+                        homepageButton("Sockets", "", function(e){
+                          Navigate.to({url: "/sockets"});
+                        }),
+                        homepageButton("Database", "", function(e){
+                          Navigate.to({url: "/database"});
+                        }),
+                      ]
+                    })
                   ]
                 })
               }), 
             }),
-            /*
-            new Container({
-              style: new Style({backgroundColor: Color.fromString("#98b979")}),
-              size: new Size({height: 150, heightType: "px", width: 100, widthType: "%"}),
-              child: new Row({
-                alignment: RowAlignment.Center,
-                children: [
-                  homepageButton("Quick-start", "./assets/book-open.svg"),
-                  homepageButton("Widgets", "./assets/book-solid.svg"),
-                  homepageButton("Snippets", "./assets/code-solid.svg"),
-                  homepageButton("Templates", "./assets/template.svg"),
-                  homepageButton("Codebase", "./assets/github.svg"),
-                  new Button({
-                    child: new Text("Sockets"),
-                    onClick: function (e) {
-                      Navigate.to({url: "/sockets"});
-                    }
-                  }),
-                  new Button({
-                    child: new Text("Database"),
-                    onClick: function (e) {
-                      Navigate.to({url: "/database"});
-                    }
-                  })
-                ]
-              })
-            }),
-            */
           ]
         })
       });

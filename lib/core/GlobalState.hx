@@ -1,11 +1,13 @@
 package lib.core;
 
+import lib.support.Widget;
 import com.akifox.asynchttp.HttpRequest;
 import lib.support.StreamConnection;
 
 class GlobalState {
     var streams: Array<StreamConnection> = [];
     var connections: Array<HttpRequest> = [];
+    var navbar: Widget;
 
     public static var instance(default, null): GlobalState = new GlobalState();
 
@@ -47,6 +49,14 @@ class GlobalState {
             }
         }
         return null;
+    }
+
+    public function setNavbar(navbar: Widget) {
+        this.navbar = navbar;
+    }
+
+    public function getNavbar(): Widget {
+        return navbar;
     }
     
 }

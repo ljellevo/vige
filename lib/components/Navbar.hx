@@ -11,13 +11,45 @@ import lib.utils.Padding;
 import lib.utils.Margin;
 import lib.utils.Size;
 
+/*
+new Navbar({
+    position: NavbarPosition.Top,
+    offset: 0,
+    sticky: true,
+    color: new Color({backgroundColor: "#fafafa"}),
+    child: new Row({
+    margin: Margin.all(10),
+    children: [
+        homepageButton("Quick-start", "./assets/book-open.svg", function(e){}),
+        homepageButton("Widgets", "./assets/book-solid.svg", function(e){}),
+        homepageButton("Snippets", "./assets/code-solid.svg", function(e){}),
+        homepageButton("Templates", "./assets/template.svg", function(e){}),
+        homepageButton("Codebase", "./assets/github.svg", function(e){}),
+        
+        homepageButton("Sockets", "", function(e){
+        Navigate.to({url: "/sockets"});
+        }),
+        homepageButton("Database", "", function(e){
+        Navigate.to({url: "/database"});
+        }),
+    ],
+        
+    })
+}),
+*/
 
 enum NavbarPosition {
     Top;
     Bottom;
 }
 
-/* not done */
+/* not done 
+
+
+- Needs to be able to highlight button that is connected to current route or something, this
+to show user if they are at a certain route.
+
+*/
 
 class Navbar implements Widget {
     var child: Widget;
@@ -81,8 +113,18 @@ class Navbar implements Widget {
         new StyleManager().addStyleToDiv({widget: navbar, color: color, border: border, padding: padding, margin: margin, size: size});
         navbar.appendChild(child.render());
         navbar.style.overflow = "hidden";
-        navbar.style.position = "fixed";
-        navbar.style.top = Std.string(offset) + "px";
+        if(sticky){
+            navbar.style.position = "sticky";
+            navbar.style.position = "-webkit-sticky";
+        } else {
+            navbar.style.position = "fixed";
+        }
+        if(position == NavbarPosition.Top){
+            navbar.style.top = Std.string(offset) + "px";
+        } else {
+            navbar.style.bottom = Std.string(offset) + "px";
+        }
+        
         navbar.style.width = "100%";
         if(height != null) {
             navbar.style.height = Std.string(height) + "px";
