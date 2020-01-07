@@ -12,11 +12,11 @@ class Constructors {
     var row: Array<Widget> = [];
     for(i in 0...arg.data.length) {
       if(i != 0 && i % countRows == 0) {
-        row.push(arg.elementBuilder());
+        row.push(arg.elementBuilder(i));
         rows.push(arg.rowBuilder(row));
         row = [];
       } else {
-        row.push(arg.elementBuilder());
+        row.push(arg.elementBuilder(i));
       }
     }
     rows.push(new Row({children: row}));

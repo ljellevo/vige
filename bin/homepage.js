@@ -592,8 +592,8 @@ WidgetsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		}}).request();
 	}
 	,component: function() {
-		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/widgets", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : lib_components_Constructors.constructRows({ data : this.data, elementsInEachRow : 3, elementBuilder : function(e) {
-			return new lib_components_Text("Text");
+		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/widgets", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : lib_components_Constructors.constructRows({ data : this.data, elementsInEachRow : 3, elementBuilder : function(i) {
+			return new lib_components_Text("count: " + i);
 		}, rowBuilder : function(children) {
 			return new lib_components_Row({ children : children});
 		}})})})});
@@ -3038,11 +3038,11 @@ lib_components_Constructors.constructRows = function(arg) {
 	while(_g < _g1) {
 		var i = _g++;
 		if(i != 0 && i % countRows == 0) {
-			row.push(arg.elementBuilder());
+			row.push(arg.elementBuilder(i));
 			rows.push(arg.rowBuilder(row));
 			row = [];
 		} else {
-			row.push(arg.elementBuilder());
+			row.push(arg.elementBuilder(i));
 		}
 	}
 	rows.push(new lib_components_Row({ children : row}));

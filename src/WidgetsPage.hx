@@ -61,8 +61,8 @@ class WidgetsPage extends DynamicComponent {
           children: Constructors.constructRows({
             data: data, 
             elementsInEachRow: 3, 
-            elementBuilder: function(e) { //Amount of elements in each row.
-              return new Text("Text");
+            elementBuilder: function(i) {
+              return new Text("count: " + i);
             },
             rowBuilder: function(children) {
               return new Row({children: children});
