@@ -7,38 +7,6 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
-var CustomNavbar = function() { };
-CustomNavbar.__name__ = "CustomNavbar";
-CustomNavbar.homepageButton = function(text,src,onClick) {
-	var getButtonContents = function(text1,src1) {
-		var widgets = [];
-		if(src1 != null && src1 != "") {
-			widgets = [new lib_components_Container({ color : new lib_utils_Color({ color : -16777216}), child : new lib_components_Image({ src : src1, height : 15})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})})];
-		}
-		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		widgets.push(new lib_components_Text(text1,{ textSize : 12, color : new lib_utils_Color({ color : this1})}));
-		return widgets;
-	};
-	var tmp = new lib_utils_Size({ height : 40, heightType : "px"});
-	var this11 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-	return new HomeButton({ size : tmp, color : new lib_utils_Color({ color : -16777216, backgroundColor : this11}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : getButtonContents(text,src)}), onClick : onClick});
-};
-CustomNavbar.getNavbar = function() {
-	var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-	return new lib_components_Navbar({ position : lib_components_NavbarPosition.Top, offset : 0, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Row({ margin : lib_utils_Margin.fromTRBL(10,50,10,50), children : [CustomNavbar.homepageButton("Quick-start","./assets/chevron-right-solid.svg",function(e) {
-		lib_core_Navigate.to({ url : "/guides"});
-	}),CustomNavbar.homepageButton("Docs","./assets/book-solid.svg",function(e1) {
-		lib_core_Navigate.to({ url : "/docs"});
-	}),CustomNavbar.homepageButton("Widgets","./assets/book-open.svg",function(e2) {
-		lib_core_Navigate.to({ url : "/widgets"});
-	}),CustomNavbar.homepageButton("Snippets","./assets/code-solid.svg",function(e3) {
-		lib_core_Navigate.to({ url : "/snippets"});
-	}),CustomNavbar.homepageButton("Templates","./assets/template.svg",function(e4) {
-		lib_core_Navigate.to({ url : "/templates"});
-	}),CustomNavbar.homepageButton("Codebase","./assets/github.svg",function(e5) {
-		lib_core_Navigate.link({ url : "https://github.com/ljellevo/mist.io"});
-	})]})});
-};
 var lib_core_DynamicComponent = function() {
 	this.page = null;
 };
@@ -91,6 +59,19 @@ DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		return this.page;
 	}
 	,__class__: DatabasePage
+});
+var DocsPage = function() {
+	this.data = [];
+	lib_core_DynamicComponent.call(this);
+};
+DocsPage.__name__ = "DocsPage";
+DocsPage.__super__ = lib_core_DynamicComponent;
+DocsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	component: function() {
+		this.page = new lib_components_Page({ navbar : CustomNavbar.getNavbar(), route : "/docs", child : new lib_components_Text("Docs Page")});
+		return this.page;
+	}
+	,__class__: DocsPage
 });
 var EReg = function(r,opt) {
 	this.r = new RegExp(r,opt.split("u").join(""));
@@ -189,39 +170,26 @@ var HomePage = function() {
 HomePage.__name__ = "HomePage";
 HomePage.__super__ = lib_core_DynamicComponent;
 HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
-	homepageButton: function(text,src,onClick) {
-		var getButtonContents = function(text1,src1) {
-			var widgets = [];
-			if(src1 != null && src1 != "") {
-				widgets = [new lib_components_Container({ color : new lib_utils_Color({ color : -16777216}), child : new lib_components_Image({ src : src1, height : 15})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})})];
-			}
-			var this1 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-			widgets.push(new lib_components_Text(text1,{ textSize : 12, color : new lib_utils_Color({ color : this1})}));
-			return widgets;
-		};
-		var tmp = new lib_utils_Size({ height : 40, heightType : "px"});
-		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		return new HomeButton({ size : tmp, color : new lib_utils_Color({ color : -16777216, backgroundColor : this11}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : getButtonContents(text,src)}), onClick : onClick});
-	}
-	,component: function() {
+	component: function() {
+		var tmp = CustomNavbar.getNavbar();
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ textSize : 88}),new lib_components_Text("The declarative web-framework")]})})});
+		var tmp1 = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ textSize : 88}),new lib_components_Text("The declarative web-framework")]})})});
 		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp1 = new lib_components_Container({ child : new lib_components_Column({ color : new lib_utils_Color({ backgroundColor : this11}), size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, cellSize : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100, minWidth : 20})]})}),new lib_components_Container({ child : new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), cellPadding : lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0), alignment : lib_components_RowAlignment.Left, children : [new lib_components_Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.",{ color : new lib_utils_Color({ color : -1})})]})})]})]})});
+		var tmp2 = new lib_components_Container({ child : new lib_components_Column({ color : new lib_utils_Color({ backgroundColor : this11}), size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, cellSize : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100, minWidth : 20})]})}),new lib_components_Container({ child : new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), cellPadding : lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0), alignment : lib_components_RowAlignment.Left, children : [new lib_components_Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.",{ color : new lib_utils_Color({ color : -1})})]})})]})]})});
 		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp2 = new lib_utils_Color({ backgroundColor : this12});
-		var tmp3 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp3 = new lib_utils_Color({ backgroundColor : this12});
 		var tmp4 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 		var tmp5 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp6 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
+		var tmp6 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp7 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
 		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp7 = new lib_components_Container({ child : new lib_components_Column({ color : tmp2, size : tmp3, children : [new lib_components_Row({ cellSize : tmp4, alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ size : tmp5, cellPadding : tmp6, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ color : new lib_utils_Color({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100, minWidth : 20})]})})]})]})});
+		var tmp8 = new lib_components_Container({ child : new lib_components_Column({ color : tmp3, size : tmp4, children : [new lib_components_Row({ cellSize : tmp5, alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ size : tmp6, cellPadding : tmp7, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ color : new lib_utils_Color({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100, minWidth : 20})]})})]})]})});
 		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
-		var tmp8 = new lib_utils_Color({ backgroundColor : this14});
-		var tmp9 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
+		var tmp9 = new lib_utils_Color({ backgroundColor : this14});
+		var tmp10 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
 		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		this.page = new lib_components_Page({ route : "/", child : new lib_components_Column({ children : [tmp,tmp1,tmp7,new lib_components_Container({ color : tmp8, size : tmp9, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ color : new lib_utils_Color({ color : this15})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
-			console.log("src/HomePage.hx:198:",res.get_content());
+		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ children : [tmp1,tmp2,tmp8,new lib_components_Container({ color : tmp9, size : tmp10, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ color : new lib_utils_Color({ color : this15})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
+			console.log("src/HomePage.hx:146:",res.get_content());
 			return new lib_components_Text("Single request: " + Std.string(res.get_content()));
 		}, onProgress : function() {
 			return new lib_components_Text("Loading");
@@ -232,17 +200,17 @@ HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		}, onOpen : function(res2) {
 			return new lib_components_Text("Connection opened");
 		}, onMessage : function(res3) {
-			console.log("src/HomePage.hx:221:","Message recieved (Homepage)");
+			console.log("src/HomePage.hx:169:","Message recieved (Homepage)");
 			return new lib_components_Text("WebSocket on homepage: " + Std.string(res3.data));
 		}, onClose : function(res4) {
 			return new lib_components_Text("Connection closed");
 		}, onError : function(res5) {
 			return new lib_components_Text("Error");
-		}})}),new lib_components_Row({ children : [this.homepageButton("Sockets","",function(e) {
+		}})}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
 			lib_core_Navigate.to({ url : "/sockets"});
-		}),this.homepageButton("Database","",function(e1) {
+		}}),new lib_components_Button({ child : new lib_components_Text("Database"), onClick : function(e1) {
 			lib_core_Navigate.to({ url : "/database"});
-		})]})]})})})]})});
+		}})]})]})})})]})});
 		return this.page;
 	}
 	,__class__: HomePage
@@ -300,13 +268,72 @@ Main.__name__ = "Main";
 Main.main = function() {
 	var body = new lib_core_Body();
 	body.font("Lato","100");
-	lib_core_Navigate.routes = [new HomePage().component(),new GuidesPage().component(),new WidgetsPage().component(),new SnippetsPage().component(),new TemplatesPage().component(),new SocketsPage().component(),new DatabasePage().component()];
+	lib_core_Navigate.routes = [new HomePage().component(),new GuidesPage().component(),new DocsPage().component(),new WidgetsPage().component(),new SnippetsPage().component(),new TemplatesPage().component(),new SocketsPage().component(),new DatabasePage().component()];
 	lib_core_Navigate.to({ url : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
 		lib_core_Navigate.navigationEvent();
 	});
-	lib_core_GlobalState.instance.setNavbar(CustomNavbar.getNavbar());
 	body.init();
+};
+var CustomNavbarPages = $hxEnums["CustomNavbarPages"] = { __ename__ : true, __constructs__ : ["Guides","Docs","Widgets","Snippets","Templates"]
+	,Guides: {_hx_index:0,__enum__:"CustomNavbarPages",toString:$estr}
+	,Docs: {_hx_index:1,__enum__:"CustomNavbarPages",toString:$estr}
+	,Widgets: {_hx_index:2,__enum__:"CustomNavbarPages",toString:$estr}
+	,Snippets: {_hx_index:3,__enum__:"CustomNavbarPages",toString:$estr}
+	,Templates: {_hx_index:4,__enum__:"CustomNavbarPages",toString:$estr}
+};
+var CustomNavbar = function() { };
+CustomNavbar.__name__ = "CustomNavbar";
+CustomNavbar.homepageButton = function(text,src,onClick) {
+	var getButtonContents = function(text1,src1) {
+		var widgets = [];
+		if(src1 != null && src1 != "") {
+			widgets = [new lib_components_Container({ color : new lib_utils_Color({ color : -16777216}), child : new lib_components_Image({ src : src1, height : 15})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})})];
+		}
+		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		widgets.push(new lib_components_Text(text1,{ textSize : 12, color : new lib_utils_Color({ color : this1})}));
+		return widgets;
+	};
+	var tmp = new lib_utils_Size({ height : 40, heightType : "px"});
+	var this11 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+	return new HomeButton({ size : tmp, color : new lib_utils_Color({ color : -16777216, backgroundColor : this11}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : getButtonContents(text,src)}), onClick : onClick});
+};
+CustomNavbar.getNavbar = function() {
+	var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+	return new lib_components_Navbar({ position : lib_components_NavbarPosition.Top, offset : 0, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Row({ margin : lib_utils_Margin.fromTRBL(10,50,10,50), children : [CustomNavbar.homepageButton("Quick-start","./assets/chevron-right-solid.svg",function(e) {
+		lib_core_Navigate.to({ url : "/guides"});
+	}),CustomNavbar.homepageButton("Docs","./assets/book-solid.svg",function(e1) {
+		lib_core_Navigate.to({ url : "/docs"});
+	}),CustomNavbar.homepageButton("Widgets","./assets/book-open.svg",function(e2) {
+		lib_core_Navigate.to({ url : "/widgets"});
+	}),CustomNavbar.homepageButton("Snippets","./assets/code-solid.svg",function(e3) {
+		lib_core_Navigate.to({ url : "/snippets"});
+	}),CustomNavbar.homepageButton("Templates","./assets/template.svg",function(e4) {
+		lib_core_Navigate.to({ url : "/templates"});
+	}),CustomNavbar.homepageButton("Codebase","./assets/github.svg",function(e5) {
+		lib_core_Navigate.link({ url : "https://github.com/ljellevo/mist.io"});
+	})]}), onComplete : function() {
+		console.log("src/Main.hx:142:","Navbar rendered");
+		var path = window.location.pathname;
+		console.log("src/Main.hx:144:",path);
+		switch(path) {
+		case "/docs":
+			console.log("src/Main.hx:149:","docs");
+			break;
+		case "/guides":
+			console.log("src/Main.hx:147:","guides");
+			break;
+		case "/snippets":
+			console.log("src/Main.hx:153:","snippets");
+			break;
+		case "/templates":
+			console.log("src/Main.hx:155:","templates");
+			break;
+		case "/widgets":
+			console.log("src/Main.hx:151:","widgets");
+			break;
+		}
+	}});
 };
 Math.__name__ = "Math";
 var Reflect = function() { };
@@ -3026,6 +3053,8 @@ var lib_components_Navbar = function(arg) {
 	this.position = arg.position != null ? arg.position : lib_components_NavbarPosition.Top;
 	this.sticky = arg.sticky != null ? arg.sticky : true;
 	this.offset = arg.offset != null ? arg.offset : 0;
+	this.onComplete = arg.onComplete != null ? arg.onComplete : function() {
+	};
 	this.color = arg.color;
 	this.border = arg.border;
 	this.padding = arg.padding;
@@ -3055,12 +3084,12 @@ lib_components_Navbar.prototype = {
 		if(this.height != null) {
 			navbar.style.height = Std.string(this.height) + "px";
 		}
+		this.onComplete();
 		return navbar;
 	}
 	,__class__: lib_components_Navbar
 };
 var lib_components_Page = function(arg) {
-	this.navbar = lib_core_GlobalState.instance.getNavbar();
 	this.title = "NOT IMPLEMENTED";
 	this.route = arg.route;
 	this.title = arg.title;
@@ -3396,12 +3425,6 @@ lib_core_GlobalState.prototype = {
 			}
 		}
 		return null;
-	}
-	,setNavbar: function(navbar) {
-		this.navbar = navbar;
-	}
-	,getNavbar: function() {
-		return this.navbar;
 	}
 	,__class__: lib_core_GlobalState
 };

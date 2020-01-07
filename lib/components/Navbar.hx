@@ -57,6 +57,7 @@ class Navbar implements Widget {
     var position: NavbarPosition;
     var sticky: Bool;
     var offset: Int;
+    var onComplete: haxe.Constraints.Function;
 
     public var color: Color;
     public var border: Border;
@@ -71,6 +72,7 @@ class Navbar implements Widget {
         ?position: NavbarPosition,
         ?sticky: Bool,
         ?offset: Int,
+        ?onComplete: haxe.Constraints.Function,
 
         ?color: Color,
         ?border: Border,
@@ -84,6 +86,7 @@ class Navbar implements Widget {
         this.position = arg.position != null ? arg.position : NavbarPosition.Top;
         this.sticky = arg.sticky != null ? arg.sticky : true;
         this.offset = arg.offset != null ? arg.offset : 0;
+        this.onComplete = arg.onComplete != null ? arg.onComplete : function(){};
 
         this.color = arg.color;
         this.border = arg.border;
@@ -95,20 +98,8 @@ class Navbar implements Widget {
 
     public function render(): Node {
         var navbar = Browser.document.createDivElement();
-        /*
-        row.style.display = "grid";
-        row.classList.add("row");
-        row.style.gridAutoFlow = "column";
-        new StyleManager().addStyleToDiv({size: size, widget: row, style: style, padding: padding, alignment: alignment});
 
-        for(child in children) {
-            var rowCell = Browser.document.createDivElement();
-            rowCell.classList.add("row-cell");
-            rowCell.appendChild(child.render());
-            new StyleManager().addStyleToDiv({size: cellSize, widget: rowCell, style: cellStyle, padding: cellPadding, margin: margin});
-            row.appendChild(rowCell);
-        }
-        */
+        
 
         new StyleManager().addStyleToDiv({widget: navbar, color: color, border: border, padding: padding, margin: margin, size: size});
         navbar.appendChild(child.render());
@@ -129,8 +120,7 @@ class Navbar implements Widget {
         if(height != null) {
             navbar.style.height = Std.string(height) + "px";
         }
-        
+        onComplete();
         return navbar;
-
     }
 }

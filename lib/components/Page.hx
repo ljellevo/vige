@@ -15,7 +15,7 @@ import lib.utils.Size;
 class Page implements Widget{
     var route: String;
     var title: String = "NOT IMPLEMENTED";
-    var navbar: Widget = GlobalState.instance.getNavbar();
+    var navbar: Widget;
     var child: Widget;
 
 
@@ -40,7 +40,7 @@ class Page implements Widget{
     }) {
         this.route = arg.route;
         this.title = arg.title;
-        this.navbar = arg.navbar;
+        this.navbar =  arg.navbar;
         this.child = arg.child;
 
         this.color = arg.color;

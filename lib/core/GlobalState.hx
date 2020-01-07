@@ -50,13 +50,5 @@ class GlobalState {
         }
         return null;
     }
-
-    public function setNavbar(navbar: Widget) {
-        this.navbar = navbar;
-    }
-
-    public function getNavbar(): Widget {
-        return navbar;
-    }
     
 }
