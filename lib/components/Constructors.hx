@@ -19,7 +19,10 @@ class Constructors {
         row.push(arg.elementBuilder(i));
       }
     }
-    rows.push(new Row({children: row}));
+    if(row.length != 0) {
+        rows.push(new Row({children: row}));
+    }
+    
     return rows;
   }
 }

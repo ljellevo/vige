@@ -1,3 +1,4 @@
+package pages;
 
 import js.html.ErrorEvent;
 import js.html.Event;

@@ -1,3 +1,4 @@
+package pages;
 
 import js.Browser;
 import lib.utils.Margin;
@@ -38,6 +39,7 @@ class HomePage  extends DynamicComponent {
         navbar: new CustomNavbar().navbarComponent(),
         route: "/",
         child: new Column({
+          margin: Margin.fromTRBL(-60.0, 0.0, 0.0, 0.0),
           children: [
             new Container({
               color: new Color({backgroundColor: Colors.fromString("#fafafa")}),

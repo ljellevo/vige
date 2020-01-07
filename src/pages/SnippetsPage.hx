@@ -1,4 +1,6 @@
+package pages;
 
+import Main.CustomNavbar;
 import lib.support.Widget;
 import lib.components.Text;
 import lib.components.Page;
@@ -11,6 +13,7 @@ class SnippetsPage extends DynamicComponent {
 
   override public function component(): Page {
     page = new Page({
+      navbar: new CustomNavbar().navbarComponent(),
       route: "/snippets",
       child: new Text("Snippets Page")
     });

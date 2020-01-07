@@ -2,9 +2,9 @@ package lib.utils;
 
 class Size {
     var height: Float;
-    var heightType: String;
+    var heightType: String = "";
     var width: Float;
-    var widthType: String;
+    var widthType: String = "";
 
     public function new(arg: {
         ?height: Float,
@@ -13,9 +13,9 @@ class Size {
         ?widthType: String
     }) {
         this.height = arg.height != null ? arg.height : Math.NEGATIVE_INFINITY;
-        this.heightType = arg.heightType != "" ? arg.heightType : "px";
+        this.heightType = arg.heightType != null || arg.heightType != "" ? arg.heightType : "px";
         this.width = arg.width != null ? arg.width : Math.NEGATIVE_INFINITY;
-        this.widthType = arg.widthType != "" ? arg.widthType : "px";
+        this.widthType = arg.widthType != null || arg.widthType != "" ? arg.widthType : "px";
     }
 
     public function getHeight(): String {

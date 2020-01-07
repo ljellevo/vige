@@ -1,3 +1,5 @@
+package pages;
+
 import lib.components.Column;
 import lib.components.Row;
 import com.akifox.asynchttp.HttpResponse;

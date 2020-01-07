@@ -1,37 +1,22 @@
 
-import js.html.Navigator;
+import pages.*;
+import components.*;
 import lib.utils.Border;
-import js.Browser;
 import lib.utils.Margin;
-import js.html.ErrorEvent;
-import js.html.Event;
-import js.html.CloseEvent;
-import js.html.MessageEvent;
-import com.akifox.asynchttp.HttpResponse;
-import lib.support.Widget;
-import lib.utils.Padding;
 import lib.utils.Size;
 import lib.utils.Colors;
 import lib.utils.Color;
 
-import lib.components.Request;
-import lib.components.Stream;
-import lib.components.Button;
-import lib.components.Page;
+
 import lib.components.Text;
-import lib.components.Column;
 import lib.components.Row;
-import lib.components.Center;
 import lib.components.Container;
 import lib.components.Image;
-import lib.components.Navbar;
 
-import lib.core.Navigate;
 import lib.core.DynamicComponent;
 
 import lib.components.Navbar;
 import lib.support.Widget;
-import lib.core.GlobalState;
 import js.Browser;
 
 import lib.core.Body;
@@ -53,7 +38,8 @@ class Main {
       new SnippetsPage(),
       new TemplatesPage(),
       new SocketsPage(),
-      new DatabasePage()
+      new DatabasePage(),
+      new WidgetCategoryPage()
     ];
 
     Navigate.to({url: Browser.location.pathname, main: true});
@@ -77,14 +63,19 @@ class CustomNavbar extends DynamicComponent {
     function getButtonContents(text: String, src: String): Array<Widget>{
       var widgets: Array<Widget> = [];
       if(src != null && src != "") {
-
-        widgets = [
-          new Container({color: new Color({color: Colors.BLACK}), child: new Image({src: src, height: 15})}),
-          new Container({size: new Size({width: 20, widthType: "px"})}),
-         
-        ];
+        if(url == "/") {
+          widgets.push(new Container({color: new Color({color: Colors.BLACK}), child: new Image({src: src, height: 25})}));
+        } else {
+          widgets.push(new Container({color: new Color({color: Colors.BLACK}), child: new Image({src: src, height: 15})}));
+        }  
       }
-      widgets.push(new Text(text, {textSize: 12, color: new Color({color: Colors.fromString("#2e3440")})}));
+      
+      if(text != null && text != "") {
+        if(src != null && src != "") {
+          widgets.push(new Container({size: new Size({width: 20, widthType: "px"})}));
+        }
+        widgets.push(new Text(text, {textSize: 12, color: new Color({color: Colors.fromString("#2e3440")})}));
+      }
       return widgets;
     }
 
@@ -94,7 +85,6 @@ class CustomNavbar extends DynamicComponent {
         return new Border({style: BorderStyle.Solid, width: 5, color: Colors.fromString("#2e3440"), sides: BorderSides.Bottom});
       }
       return null;
-      
     }
 
     return new HomeButton({
@@ -111,11 +101,9 @@ class CustomNavbar extends DynamicComponent {
         }
         
         Navigate.to({url: url});
-        //setState(this, function(){});
       }
     });
   }
-
 
   public function navbarComponent(): Navbar {
     var navbar = new Navbar({
@@ -125,9 +113,11 @@ class CustomNavbar extends DynamicComponent {
       child: new Row({
         margin: Margin.fromTRBL(10, 50, 10, 50),
         children: [
+          homepageButton(null, "./assets/logo-verbose.png", "/"),
           homepageButton("Quick-start", "./assets/chevron-right-solid.svg", "/guides"),
           homepageButton("Docs", "./assets/book-solid.svg", "/docs"),
           homepageButton("Widgets", "./assets/book-open.svg",  "/widgets"),
+          homepageButton("Widgets", "./assets/book-open.svg",  "/widgets/category"),
           homepageButton("Snippets", "./assets/code-solid.svg", "/snippets"),
           homepageButton("Templates", "./assets/template.svg", "/templates"),
           homepageButton("Codebase", "./assets/github.svg", "https://github.com/ljellevo/mist.io"),

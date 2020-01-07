@@ -1,3 +1,4 @@
+package pages;
 
 import lib.support.Widget;
 import Main.CustomNavbar;

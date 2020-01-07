@@ -1,3 +1,5 @@
+package components;
+
 import lib.components.Button;
 
 class HomeButton extends Button {

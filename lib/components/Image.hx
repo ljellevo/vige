@@ -10,6 +10,7 @@ import lib.utils.Border;
 import lib.utils.Padding;
 import lib.utils.Margin;
 import lib.utils.Size;
+import lib.core.AssetManagement;
 
 
 
@@ -74,7 +75,7 @@ class Image implements Widget {
     public function render():js.html.Node {
         var container = Browser.document.createImageElement();
 
-        container.src = src;
+        container.src = new AssetManagement(src).getAssetPath();
         container.alt = alt;
         if(height == null) {
             container.style.height = "auto";
@@ -104,6 +105,8 @@ class Image implements Widget {
         
         //container.height = Std.int(height);
         //container.width = Std.int(width);
+
+        new StyleManager().addStyleToImage({widget: container, color: color, border: border, padding: padding, margin: margin, size: size});
 
         return container;
 

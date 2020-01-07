@@ -114,7 +114,7 @@ class Border {
     }
 
     public function getCornerRadius(): String {
-        return cornerRadius.getCornerRadius() + "px";
+        return cornerRadius.getCornerRadius();
     }
 
     public function getSides(): BorderSides {

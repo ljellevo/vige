@@ -51,7 +51,7 @@ class Button implements Widget {
         button.style.border = "none";
 
         //castButton.style.padding = "8px 22px";
-        button.style.textAlign = "center";
+        button.style.textAlign = "left";
         button.style.textDecoration = "none";
         button.style.display = "inline-block";
         //castButton.style.fontSize = "16px";

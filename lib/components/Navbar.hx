@@ -110,6 +110,7 @@ class Navbar implements Widget {
         } else {
             navbar.style.position = "fixed";
         }
+        //navbar.style.position = "absolute";
         if(position == NavbarPosition.Top){
             navbar.style.top = Std.string(offset) + "px";
         } else {
@@ -120,6 +121,7 @@ class Navbar implements Widget {
         if(height != null) {
             navbar.style.height = Std.string(height) + "px";
         }
+        navbar.style.zIndex = "1000";
         onComplete();
         return navbar;
     }

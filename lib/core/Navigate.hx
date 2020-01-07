@@ -23,6 +23,8 @@ class Navigate {
             }
         }
 
+        trace("navigating");
+
 
 
         GlobalState.instance.closeAllStreams();
@@ -58,6 +60,7 @@ class Navigate {
 
         for(route in routes) {
             if (route.component().getRoute() == currentURL) {
+                trace("Found route");
                 Browser.document.body.appendChild(route.component().render());
                 route.init();
                 return;
