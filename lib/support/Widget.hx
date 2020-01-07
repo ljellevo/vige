@@ -12,5 +12,6 @@ interface Widget {
     var padding: Padding;
     var margin: Margin;
     var size: Size;
+    function init(): Void;
     public function render():js.html.Node;
 }

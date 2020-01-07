@@ -95,18 +95,18 @@ class Navbar implements Widget {
         this.size = arg.size;
     }
 
+    public function init(){}
+
 
     public function render(): Node {
-        var navbar = Browser.document.createDivElement();
-
-        
+        var navbar = Browser.document.createDivElement();        
 
         new StyleManager().addStyleToDiv({widget: navbar, color: color, border: border, padding: padding, margin: margin, size: size});
         navbar.appendChild(child.render());
         navbar.style.overflow = "hidden";
         if(sticky){
             navbar.style.position = "sticky";
-            navbar.style.position = "-webkit-sticky";
+            //navbar.style.position = "-webkit-sticky";
         } else {
             navbar.style.position = "fixed";
         }

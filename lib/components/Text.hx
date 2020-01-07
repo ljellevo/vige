@@ -53,6 +53,8 @@ class Text implements Widget {
         this.textFormat = arg.textFormat != null ? arg.textFormat : TextFormat.p;
     }
 
+    public function init(){}
+
     public function getText(): String {
         return text;
     }

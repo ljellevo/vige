@@ -1,4 +1,6 @@
 
+import js.html.Navigator;
+import lib.utils.Border;
 import js.Browser;
 import lib.utils.Margin;
 import js.html.ErrorEvent;
@@ -44,39 +46,34 @@ class Main {
     body.font("Lato", "100");
     
     Navigate.routes = [
-      new HomePage().component(),
-      new GuidesPage().component(),
-      new DocsPage().component(),
-      new WidgetsPage().component(),
-      new SnippetsPage().component(),
-      new TemplatesPage().component(),
-      new SocketsPage().component(),
-      new DatabasePage().component()
+      new HomePage(),
+      new GuidesPage(),
+      new DocsPage(),
+      new WidgetsPage(),
+      new SnippetsPage(),
+      new TemplatesPage(),
+      new SocketsPage(),
+      new DatabasePage()
     ];
 
     Navigate.to({url: Browser.location.pathname, main: true});
 
     //Need to move to a different class
     Browser.window.addEventListener('popstate', function(e) {
-
       //Browser.window.history.pushState(null, null, Browser.window.location.pathname);
       Navigate.navigationEvent();
     });
-
-    
     body.init();
-    
-
-
   }
 }
 
 
-class CustomNavbar {
+class CustomNavbar extends DynamicComponent {
+
+  public function new(){}
 
   
-  //Set color of buttons
-  private static function homepageButton(text: String, src: String, onClick: haxe.Constraints.Function): Widget{
+  private function homepageButton(text: String, src: String, url: String): Widget{
     function getButtonContents(text: String, src: String): Array<Widget>{
       var widgets: Array<Widget> = [];
       if(src != null && src != "") {
@@ -91,68 +88,53 @@ class CustomNavbar {
       return widgets;
     }
 
+    function determineBorder(): Border {
+      var path = Browser.location.pathname;
+      if(path == url) {
+        return new Border({style: BorderStyle.Solid, width: 5, color: Colors.fromString("#2e3440"), sides: BorderSides.Bottom});
+      }
+      return null;
+      
+    }
+
     return new HomeButton({
       size: new Size({height: 40, heightType: "px"}),
       color: new Color({color: Colors.BLACK, backgroundColor: Colors.fromString("#fafafa")}),
+      border: determineBorder(),
       child: new Row({
         alignment: RowAlignment.Center,
         children: getButtonContents(text, src)
       }), 
-      onClick: onClick
+      onClick: function (e) {
+        if(url == "https://github.com/ljellevo/mist.io") {
+          Navigate.link({url: url});
+        }
+        
+        Navigate.to({url: url});
+        //setState(this, function(){});
+      }
     });
   }
 
 
-  public static function getNavbar(): Widget {
-    return new Navbar({
+  public function navbarComponent(): Navbar {
+    var navbar = new Navbar({
       position: NavbarPosition.Top,
       offset: 0,
       color: new Color({backgroundColor: "#fafafa"}),
       child: new Row({
         margin: Margin.fromTRBL(10, 50, 10, 50),
         children: [
-          homepageButton("Quick-start", "./assets/chevron-right-solid.svg", function(e){
-            Navigate.to({url: "/guides"});
-          }),
-          homepageButton("Docs", "./assets/book-solid.svg", function(e){
-            Navigate.to({url: "/docs"});
-          }),
-          homepageButton("Widgets", "./assets/book-open.svg", function(e){
-            Navigate.to({url: "/widgets"});
-          }),
-          homepageButton("Snippets", "./assets/code-solid.svg", function(e){
-            Navigate.to({url: "/snippets"});
-          }),
-          homepageButton("Templates", "./assets/template.svg", function(e){
-            Navigate.to({url: "/templates"});
-          }),
-          homepageButton("Codebase", "./assets/github.svg", function(e){
-            Navigate.link({url: "https://github.com/ljellevo/mist.io"});
-          }),
+          homepageButton("Quick-start", "./assets/chevron-right-solid.svg", "/guides"),
+          homepageButton("Docs", "./assets/book-solid.svg", "/docs"),
+          homepageButton("Widgets", "./assets/book-open.svg",  "/widgets"),
+          homepageButton("Snippets", "./assets/code-solid.svg", "/snippets"),
+          homepageButton("Templates", "./assets/template.svg", "/templates"),
+          homepageButton("Codebase", "./assets/github.svg", "https://github.com/ljellevo/mist.io"),
         ],
       }),
-      onComplete: function (){
-        trace("Navbar rendered");
-        var path = Browser.location.pathname;
-        trace(path); 
-        switch (path){
-          case "/guides":
-            trace("guides");
-          case "/docs":
-            trace("docs");
-          case "/widgets":
-            trace("widgets");
-          case "/snippets":
-            trace("snippets");
-          case "/templates":
-            trace("templates");
-        }
-      }
+      onComplete: function (){}
     });
+    return navbar;
   }
 }
-
-/*
-
-
-*/

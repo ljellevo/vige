@@ -66,6 +66,8 @@ class Row implements Widget {
         this.size = arg.size;
     }
 
+    public function init(){}
+
 
     public function render(): Node {
         var row = Browser.document.createDivElement();

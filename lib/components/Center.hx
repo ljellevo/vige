@@ -51,6 +51,8 @@ class Center implements Widget {
         this.size = arg.size;
     }
 
+    public function init(){}
+
     public function render() : js.html.Node {
         var parent = Browser.document.createDivElement();
         parent.id = "center";

@@ -63,7 +63,7 @@ class Border {
     var cornerRadius: CornerRadius;
     var sides: BorderSides;
 
-    function new(arg: {
+    public function new(arg: {
         ?style: BorderStyle,
         ?width: Int,
         ?color: Colors,

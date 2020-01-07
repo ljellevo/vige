@@ -41,11 +41,22 @@ class Button implements Widget {
         this.size = arg.size;
     }
 
+    public function init(){}
+
     public function render():js.html.ButtonElement {
         var button = Browser.document.createButtonElement();
         button.appendChild(child.render());
         button.onclick = onClick;
         button.style.cursor = "pointer";
+        button.style.border = "none";
+
+        //castButton.style.padding = "8px 22px";
+        button.style.textAlign = "center";
+        button.style.textDecoration = "none";
+        button.style.display = "inline-block";
+        //castButton.style.fontSize = "16px";
+        //castButton.style.borderRadius = "12px";
+
 
 
         new StyleManager().addStyleToButton({widget: button, color: color, border: border, padding: padding, margin: margin, size: size});

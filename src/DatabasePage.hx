@@ -17,10 +17,30 @@ class DatabasePage extends DynamicComponent {
   
     public function new() {}
 
-    function queryDB(operation){
+    function catalogue(operation){
       trace("Request called");
       new SingleRequest({
         url: "http://localhost:3000/maintenance/database/widgets/catalogue/" + operation,
+        method: "GET",
+        onComplete: function(res: HttpResponse) {
+          trace(res);
+          setState(this, function(){
+            status = res.content;
+          });
+        },
+        onProgress: function() {
+          trace("working");
+          setState(this, function(){
+            status = "Loading";
+          });
+        }
+      }).request();
+    }
+
+    function categories(operation){
+      trace("Request called");
+      new SingleRequest({
+        url: "http://localhost:3000/maintenance/database/widgets/categories/" + operation,
         method: "GET",
         onComplete: function(res: HttpResponse) {
           trace(res);
@@ -53,15 +73,31 @@ class DatabasePage extends DynamicComponent {
               new Row({
                 children: [
                   new Button({
-                    child: new Text("Insert"),
+                    child: new Text("Insert catalogue"),
                     onClick: function(e) {
-                      queryDB("insert");
+                      catalogue("insert");
                     }
                   }),
                   new Button({
-                    child: new Text("Delete"),
+                    child: new Text("Delete catalogue"),
                     onClick: function(e) {
-                      queryDB("delete");
+                      catalogue("delete");
+                    }
+                  })
+                ]
+              }),
+              new Row({
+                children: [
+                  new Button({
+                    child: new Text("Insert categories"),
+                    onClick: function(e) {
+                      categories("insert");
+                    }
+                  }),
+                  new Button({
+                    child: new Text("Delete categories"),
+                    onClick: function(e) {
+                      categories("delete");
                     }
                   })
                 ]

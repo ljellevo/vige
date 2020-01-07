@@ -35,7 +35,7 @@ class HomePage  extends DynamicComponent {
   
     override public function component() : Page {
       page = new Page({
-        navbar:  CustomNavbar.getNavbar(),
+        navbar: new CustomNavbar().navbarComponent(),
         route: "/",
         child: new Column({
           children: [

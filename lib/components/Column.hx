@@ -46,6 +46,8 @@ class Column implements Widget {
         this.size = arg.size;
     }
 
+    public function init(){}
+
 
     public function render(): Node {
         var column = Browser.document.createDivElement();

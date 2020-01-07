@@ -68,6 +68,8 @@ class Image implements Widget {
         this.margin = arg.margin;
         this.size = arg.size;
     }
+
+    public function init(){}
     
     public function render():js.html.Node {
         var container = Browser.document.createImageElement();

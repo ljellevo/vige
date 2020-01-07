@@ -11,7 +11,8 @@ app.use(express.static('bin'));
 
 
 
-const rest = require("./rest")(app);
+const rest = require("./maintenance")(app);
+const api = require("./api")(app);
 
 
   

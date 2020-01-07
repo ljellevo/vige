@@ -1,7 +1,6 @@
 package lib.core;
-import js.Browser;
+
 import lib.components.Page;
-import lib.support.Widget;
 import lib.components.Text;
 
 class DynamicComponent {
@@ -21,9 +20,16 @@ class DynamicComponent {
         // Need to compare both components and identify the changes
     }
 
+
+    @:require
+    public function init(): Void{}
+
+
     @:require
     public function component(): Page{
         return new Page({route: "/", child: new Text("Component function not overwritten")});
     }
+
+
     
 }

@@ -66,6 +66,8 @@ class Stream implements Widget{
         this.onError = arg.onError;
     }
 
+    public function init(){}
+
 
     function replace(container: js.html.DivElement, onProgressNode: js.html.Node, component: Widget): Node {
         container.removeChild(onProgressNode);

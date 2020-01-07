@@ -21,6 +21,8 @@ lib_core_DynamicComponent.prototype = {
 		var newComponent = component.component().render();
 		lib_core_Navigate.updateComponent(component.component().render());
 	}
+	,init: function() {
+	}
 	,component: function() {
 		return new lib_components_Page({ route : "/", child : new lib_components_Text("Component function not overwritten")});
 	}
@@ -34,7 +36,7 @@ var DatabasePage = function() {
 DatabasePage.__name__ = "DatabasePage";
 DatabasePage.__super__ = lib_core_DynamicComponent;
 DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
-	queryDB: function(operation) {
+	catalogue: function(operation) {
 		var _gthis = this;
 		console.log("src/DatabasePage.hx:21:","Request called");
 		new lib_core_SingleRequest({ url : "http://localhost:3000/maintenance/database/widgets/catalogue/" + operation, method : "GET", onComplete : function(res) {
@@ -49,12 +51,31 @@ DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 			});
 		}}).request();
 	}
+	,categories: function(operation) {
+		var _gthis = this;
+		console.log("src/DatabasePage.hx:41:","Request called");
+		new lib_core_SingleRequest({ url : "http://localhost:3000/maintenance/database/widgets/categories/" + operation, method : "GET", onComplete : function(res) {
+			console.log("src/DatabasePage.hx:46:",res);
+			_gthis.setState(_gthis,function() {
+				_gthis.status = res.get_content();
+			});
+		}, onProgress : function() {
+			console.log("src/DatabasePage.hx:52:","working");
+			_gthis.setState(_gthis,function() {
+				_gthis.status = "Loading";
+			});
+		}}).request();
+	}
 	,component: function() {
 		var _gthis = this;
-		this.page = new lib_components_Page({ route : "/database", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Column({ children : [new lib_components_Row({ children : [new lib_components_Text(this.status)]}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Insert"), onClick : function(e) {
-			_gthis.queryDB("insert");
-		}}),new lib_components_Button({ child : new lib_components_Text("Delete"), onClick : function(e1) {
-			_gthis.queryDB("delete");
+		this.page = new lib_components_Page({ route : "/database", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Column({ children : [new lib_components_Row({ children : [new lib_components_Text(this.status)]}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Insert catalogue"), onClick : function(e) {
+			_gthis.catalogue("insert");
+		}}),new lib_components_Button({ child : new lib_components_Text("Delete catalogue"), onClick : function(e1) {
+			_gthis.catalogue("delete");
+		}})]}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Insert categories"), onClick : function(e2) {
+			_gthis.categories("insert");
+		}}),new lib_components_Button({ child : new lib_components_Text("Delete categories"), onClick : function(e3) {
+			_gthis.categories("delete");
 		}})]})]})})});
 		return this.page;
 	}
@@ -68,8 +89,12 @@ DocsPage.__name__ = "DocsPage";
 DocsPage.__super__ = lib_core_DynamicComponent;
 DocsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	component: function() {
-		this.page = new lib_components_Page({ navbar : CustomNavbar.getNavbar(), route : "/docs", child : new lib_components_Text("Docs Page")});
+		console.log("src/DocsPage.hx:14:","Page was re-rendered");
+		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/docs", child : this.textElement()});
 		return this.page;
+	}
+	,textElement: function() {
+		return new lib_components_Text("Docs Page");
 	}
 	,__class__: DocsPage
 });
@@ -128,11 +153,17 @@ var lib_components_Button = function(arg) {
 lib_components_Button.__name__ = "lib.components.Button";
 lib_components_Button.__interfaces__ = [lib_support_Widget];
 lib_components_Button.prototype = {
-	render: function() {
+	init: function() {
+	}
+	,render: function() {
 		var button = window.document.createElement("button");
 		button.appendChild(this.child.render());
 		button.onclick = this.onClick;
 		button.style.cursor = "pointer";
+		button.style.border = "none";
+		button.style.textAlign = "center";
+		button.style.textDecoration = "none";
+		button.style.display = "inline-block";
 		new lib_support_StyleManager().addStyleToButton({ widget : button, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
 		return button;
 	}
@@ -147,19 +178,6 @@ HomeButton.prototype = $extend(lib_components_Button.prototype,{
 	render: function() {
 		var button = new lib_components_Button({ child : this.child, onClick : this.onClick, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
 		var castButton = button.render();
-		castButton.style.border = "none";
-		castButton.style.padding = "8px 22px";
-		castButton.style.textAlign = "center";
-		castButton.style.textDecoration = "none";
-		castButton.style.display = "inline-block";
-		castButton.style.fontSize = "16px";
-		castButton.style.borderRadius = "12px";
-		castButton.onmouseenter = function(e) {
-			castButton.style.borderRadius = "16px";
-		};
-		castButton.onmouseleave = function(e1) {
-			castButton.style.borderRadius = "12px";
-		};
 		return castButton;
 	}
 	,__class__: HomeButton
@@ -171,7 +189,7 @@ HomePage.__name__ = "HomePage";
 HomePage.__super__ = lib_core_DynamicComponent;
 HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	component: function() {
-		var tmp = CustomNavbar.getNavbar();
+		var tmp = new CustomNavbar().navbarComponent();
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		var tmp1 = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ textSize : 88}),new lib_components_Text("The declarative web-framework")]})})});
 		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
@@ -268,73 +286,54 @@ Main.__name__ = "Main";
 Main.main = function() {
 	var body = new lib_core_Body();
 	body.font("Lato","100");
-	lib_core_Navigate.routes = [new HomePage().component(),new GuidesPage().component(),new DocsPage().component(),new WidgetsPage().component(),new SnippetsPage().component(),new TemplatesPage().component(),new SocketsPage().component(),new DatabasePage().component()];
+	lib_core_Navigate.routes = [new HomePage(),new GuidesPage(),new DocsPage(),new WidgetsPage(),new SnippetsPage(),new TemplatesPage(),new SocketsPage(),new DatabasePage()];
 	lib_core_Navigate.to({ url : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
 		lib_core_Navigate.navigationEvent();
 	});
 	body.init();
 };
-var CustomNavbarPages = $hxEnums["CustomNavbarPages"] = { __ename__ : true, __constructs__ : ["Guides","Docs","Widgets","Snippets","Templates"]
-	,Guides: {_hx_index:0,__enum__:"CustomNavbarPages",toString:$estr}
-	,Docs: {_hx_index:1,__enum__:"CustomNavbarPages",toString:$estr}
-	,Widgets: {_hx_index:2,__enum__:"CustomNavbarPages",toString:$estr}
-	,Snippets: {_hx_index:3,__enum__:"CustomNavbarPages",toString:$estr}
-	,Templates: {_hx_index:4,__enum__:"CustomNavbarPages",toString:$estr}
+var CustomNavbar = function() {
+	lib_core_DynamicComponent.call(this);
 };
-var CustomNavbar = function() { };
 CustomNavbar.__name__ = "CustomNavbar";
-CustomNavbar.homepageButton = function(text,src,onClick) {
-	var getButtonContents = function(text1,src1) {
-		var widgets = [];
-		if(src1 != null && src1 != "") {
-			widgets = [new lib_components_Container({ color : new lib_utils_Color({ color : -16777216}), child : new lib_components_Image({ src : src1, height : 15})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})})];
-		}
-		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		widgets.push(new lib_components_Text(text1,{ textSize : 12, color : new lib_utils_Color({ color : this1})}));
-		return widgets;
-	};
-	var tmp = new lib_utils_Size({ height : 40, heightType : "px"});
-	var this11 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-	return new HomeButton({ size : tmp, color : new lib_utils_Color({ color : -16777216, backgroundColor : this11}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : getButtonContents(text,src)}), onClick : onClick});
-};
-CustomNavbar.getNavbar = function() {
-	var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-	return new lib_components_Navbar({ position : lib_components_NavbarPosition.Top, offset : 0, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Row({ margin : lib_utils_Margin.fromTRBL(10,50,10,50), children : [CustomNavbar.homepageButton("Quick-start","./assets/chevron-right-solid.svg",function(e) {
-		lib_core_Navigate.to({ url : "/guides"});
-	}),CustomNavbar.homepageButton("Docs","./assets/book-solid.svg",function(e1) {
-		lib_core_Navigate.to({ url : "/docs"});
-	}),CustomNavbar.homepageButton("Widgets","./assets/book-open.svg",function(e2) {
-		lib_core_Navigate.to({ url : "/widgets"});
-	}),CustomNavbar.homepageButton("Snippets","./assets/code-solid.svg",function(e3) {
-		lib_core_Navigate.to({ url : "/snippets"});
-	}),CustomNavbar.homepageButton("Templates","./assets/template.svg",function(e4) {
-		lib_core_Navigate.to({ url : "/templates"});
-	}),CustomNavbar.homepageButton("Codebase","./assets/github.svg",function(e5) {
-		lib_core_Navigate.link({ url : "https://github.com/ljellevo/mist.io"});
-	})]}), onComplete : function() {
-		console.log("src/Main.hx:142:","Navbar rendered");
-		var path = window.location.pathname;
-		console.log("src/Main.hx:144:",path);
-		switch(path) {
-		case "/docs":
-			console.log("src/Main.hx:149:","docs");
-			break;
-		case "/guides":
-			console.log("src/Main.hx:147:","guides");
-			break;
-		case "/snippets":
-			console.log("src/Main.hx:153:","snippets");
-			break;
-		case "/templates":
-			console.log("src/Main.hx:155:","templates");
-			break;
-		case "/widgets":
-			console.log("src/Main.hx:151:","widgets");
-			break;
-		}
-	}});
-};
+CustomNavbar.__super__ = lib_core_DynamicComponent;
+CustomNavbar.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	homepageButton: function(text,src,url) {
+		var getButtonContents = function(text1,src1) {
+			var widgets = [];
+			if(src1 != null && src1 != "") {
+				widgets = [new lib_components_Container({ color : new lib_utils_Color({ color : -16777216}), child : new lib_components_Image({ src : src1, height : 15})}),new lib_components_Container({ size : new lib_utils_Size({ width : 20, widthType : "px"})})];
+			}
+			var this1 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+			widgets.push(new lib_components_Text(text1,{ textSize : 12, color : new lib_utils_Color({ color : this1})}));
+			return widgets;
+		};
+		var determineBorder = function() {
+			var path = window.location.pathname;
+			if(path == url) {
+				var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+				return new lib_utils_Border({ style : lib_utils_BorderStyle.Solid, width : 5, color : this11, sides : lib_utils_BorderSides.Bottom});
+			}
+			return null;
+		};
+		var tmp = new lib_utils_Size({ height : 40, heightType : "px"});
+		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		return new HomeButton({ size : tmp, color : new lib_utils_Color({ color : -16777216, backgroundColor : this12}), border : determineBorder(), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : getButtonContents(text,src)}), onClick : function(e) {
+			if(url == "https://github.com/ljellevo/mist.io") {
+				lib_core_Navigate.link({ url : url});
+			}
+			lib_core_Navigate.to({ url : url});
+		}});
+	}
+	,navbarComponent: function() {
+		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var navbar = new lib_components_Navbar({ position : lib_components_NavbarPosition.Top, offset : 0, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Row({ margin : lib_utils_Margin.fromTRBL(10,50,10,50), children : [this.homepageButton("Quick-start","./assets/chevron-right-solid.svg","/guides"),this.homepageButton("Docs","./assets/book-solid.svg","/docs"),this.homepageButton("Widgets","./assets/book-open.svg","/widgets"),this.homepageButton("Snippets","./assets/code-solid.svg","/snippets"),this.homepageButton("Templates","./assets/template.svg","/templates"),this.homepageButton("Codebase","./assets/github.svg","https://github.com/ljellevo/mist.io")]}), onComplete : function() {
+		}});
+		return navbar;
+	}
+	,__class__: CustomNavbar
+});
 Math.__name__ = "Math";
 var Reflect = function() { };
 Reflect.__name__ = "Reflect";
@@ -568,8 +567,36 @@ var WidgetsPage = function() {
 WidgetsPage.__name__ = "WidgetsPage";
 WidgetsPage.__super__ = lib_core_DynamicComponent;
 WidgetsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
-	component: function() {
-		this.page = new lib_components_Page({ route : "/widgets", child : new lib_components_Text("Widgets Page")});
+	init: function() {
+		lib_core_DynamicComponent.prototype.init.call(this);
+		this.getCategories();
+	}
+	,getCategories: function() {
+		var _gthis = this;
+		new lib_core_SingleRequest({ url : "http://localhost:3000/widgets/categories/", method : "GET", onComplete : function(res) {
+			console.log("src/WidgetsPage.hx:36:",res);
+			_gthis.setState(_gthis,function() {
+				var result = JSON.parse(res.get_content());
+				var _g = 0;
+				var _g1 = result.length;
+				while(_g < _g1) {
+					var i = _g++;
+					_gthis.data.push(new classes_Catagory(result[i].title,result[i].desc));
+				}
+			});
+		}, onProgress : function() {
+			console.log("src/WidgetsPage.hx:45:","working");
+			_gthis.setState(_gthis,function() {
+				_gthis.data = [];
+			});
+		}}).request();
+	}
+	,component: function() {
+		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/widgets", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : lib_components_Constructors.constructRows({ data : this.data, elementsInEachRow : 3, elementBuilder : function(e) {
+			return new lib_components_Text("Text");
+		}, rowBuilder : function(children) {
+			return new lib_components_Row({ children : children});
+		}})})})});
 		return this.page;
 	}
 	,__class__: WidgetsPage
@@ -718,6 +745,20 @@ Xml.prototype = {
 		return haxe_xml_Printer.print(this);
 	}
 	,__class__: Xml
+};
+var classes_Catagory = function(title,desc) {
+	this.title = title;
+	this.desc = desc;
+};
+classes_Catagory.__name__ = "classes.Catagory";
+classes_Catagory.prototype = {
+	getTitle: function() {
+		return this.title;
+	}
+	,getDesc: function() {
+		return this.desc;
+	}
+	,__class__: classes_Catagory
 };
 var com_akifox_asynchttp__$AsyncHttp_HttpTransferMode = $hxEnums["com.akifox.asynchttp._AsyncHttp.HttpTransferMode"] = { __ename__ : true, __constructs__ : ["UNDEFINED","FIXED","CHUNKED","NO_CONTENT"]
 	,UNDEFINED: {_hx_index:0,__enum__:"com.akifox.asynchttp._AsyncHttp.HttpTransferMode",toString:$estr}
@@ -2883,7 +2924,9 @@ var lib_components_Center = function(arg) {
 lib_components_Center.__name__ = "lib.components.Center";
 lib_components_Center.__interfaces__ = [lib_support_Widget];
 lib_components_Center.prototype = {
-	render: function() {
+	init: function() {
+	}
+	,render: function() {
 		var parent = window.document.createElement("div");
 		parent.id = "center";
 		var element = window.document.createElement("div");
@@ -2931,7 +2974,9 @@ var lib_components_Collection = function(arg) {
 lib_components_Collection.__name__ = "lib.components.Collection";
 lib_components_Collection.__interfaces__ = [lib_support_Widget];
 lib_components_Collection.prototype = {
-	build: function(callback) {
+	init: function() {
+	}
+	,build: function(callback) {
 		var widgets = [];
 		var _g = 0;
 		var _g1 = this.count;
@@ -2963,7 +3008,9 @@ var lib_components_Column = function(arg) {
 lib_components_Column.__name__ = "lib.components.Column";
 lib_components_Column.__interfaces__ = [lib_support_Widget];
 lib_components_Column.prototype = {
-	render: function() {
+	init: function() {
+	}
+	,render: function() {
 		var column = window.document.createElement("div");
 		column.style.display = "grid";
 		column.style.boxSizing = "border-box";
@@ -2980,6 +3027,27 @@ lib_components_Column.prototype = {
 	}
 	,__class__: lib_components_Column
 };
+var lib_components_Constructors = function() { };
+lib_components_Constructors.__name__ = "lib.components.Constructors";
+lib_components_Constructors.constructRows = function(arg) {
+	var countRows = arg.data.length % arg.elementsInEachRow;
+	var rows = [];
+	var row = [];
+	var _g = 0;
+	var _g1 = arg.data.length;
+	while(_g < _g1) {
+		var i = _g++;
+		if(i != 0 && i % countRows == 0) {
+			row.push(arg.elementBuilder());
+			rows.push(arg.rowBuilder(row));
+			row = [];
+		} else {
+			row.push(arg.elementBuilder());
+		}
+	}
+	rows.push(new lib_components_Row({ children : row}));
+	return rows;
+};
 var lib_components_Container = function(arg) {
 	this.child = arg.child;
 	this.color = arg.color;
@@ -2991,7 +3059,9 @@ var lib_components_Container = function(arg) {
 lib_components_Container.__name__ = "lib.components.Container";
 lib_components_Container.__interfaces__ = [lib_support_Widget];
 lib_components_Container.prototype = {
-	render: function() {
+	init: function() {
+	}
+	,render: function() {
 		var container = window.document.createElement("div");
 		container.classList.add("container");
 		if(this.child != null) {
@@ -3018,7 +3088,9 @@ var lib_components_Image = function(arg) {
 lib_components_Image.__name__ = "lib.components.Image";
 lib_components_Image.__interfaces__ = [lib_support_Widget];
 lib_components_Image.prototype = {
-	render: function() {
+	init: function() {
+	}
+	,render: function() {
 		var container = window.document.createElement("img");
 		container.src = this.src;
 		container.alt = this.alt;
@@ -3064,14 +3136,15 @@ var lib_components_Navbar = function(arg) {
 lib_components_Navbar.__name__ = "lib.components.Navbar";
 lib_components_Navbar.__interfaces__ = [lib_support_Widget];
 lib_components_Navbar.prototype = {
-	render: function() {
+	init: function() {
+	}
+	,render: function() {
 		var navbar = window.document.createElement("div");
 		new lib_support_StyleManager().addStyleToDiv({ widget : navbar, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
 		navbar.appendChild(this.child.render());
 		navbar.style.overflow = "hidden";
 		if(this.sticky) {
 			navbar.style.position = "sticky";
-			navbar.style.position = "-webkit-sticky";
 		} else {
 			navbar.style.position = "fixed";
 		}
@@ -3104,7 +3177,9 @@ var lib_components_Page = function(arg) {
 lib_components_Page.__name__ = "lib.components.Page";
 lib_components_Page.__interfaces__ = [lib_support_Widget];
 lib_components_Page.prototype = {
-	getRoute: function() {
+	init: function() {
+	}
+	,getRoute: function() {
 		return this.route;
 	}
 	,render: function() {
@@ -3133,7 +3208,9 @@ var lib_components_Request = function(arg) {
 lib_components_Request.__name__ = "lib.components.Request";
 lib_components_Request.__interfaces__ = [lib_support_Widget];
 lib_components_Request.prototype = {
-	replace: function(container,onProgressNode,component) {
+	init: function() {
+	}
+	,replace: function(container,onProgressNode,component) {
 		container.removeChild(onProgressNode);
 		container.appendChild(component.render());
 	}
@@ -3185,7 +3262,9 @@ var lib_components_Row = function(arg) {
 lib_components_Row.__name__ = "lib.components.Row";
 lib_components_Row.__interfaces__ = [lib_support_Widget];
 lib_components_Row.prototype = {
-	render: function() {
+	init: function() {
+	}
+	,render: function() {
 		var row = window.document.createElement("div");
 		row.style.display = "grid";
 		row.classList.add("row");
@@ -3225,7 +3304,9 @@ var lib_components_Stream = function(page,arg) {
 lib_components_Stream.__name__ = "lib.components.Stream";
 lib_components_Stream.__interfaces__ = [lib_support_Widget];
 lib_components_Stream.prototype = {
-	replace: function(container,onProgressNode,component) {
+	init: function() {
+	}
+	,replace: function(container,onProgressNode,component) {
 		container.removeChild(onProgressNode);
 		return container.appendChild(component.render());
 	}
@@ -3236,7 +3317,7 @@ lib_components_Stream.prototype = {
 		var lastComponent1 = container.appendChild(lastComponent);
 		var streamConnection = new lib_support_StreamConnection(this.url,window.location.pathname);
 		streamConnection.getSocket().onopen = function(res) {
-			console.log("lib/components/Stream.hx:82:",res);
+			console.log("lib/components/Stream.hx:84:",res);
 			lib_core_GlobalState.instance.openStream(streamConnection);
 			var component = _gthis.onOpen();
 			lastComponent1 = _gthis.replace(container,lastComponent1,component);
@@ -3246,7 +3327,7 @@ lib_components_Stream.prototype = {
 			lastComponent1 = _gthis.replace(container,lastComponent1,component1);
 		};
 		streamConnection.getSocket().onclose = function(res1) {
-			console.log("lib/components/Stream.hx:94:",res1);
+			console.log("lib/components/Stream.hx:96:",res1);
 			var component2 = _gthis.onClose();
 			lastComponent1 = _gthis.replace(container,lastComponent1,component2);
 		};
@@ -3283,7 +3364,9 @@ var lib_components_Text = function(text,arg) {
 lib_components_Text.__name__ = "lib.components.Text";
 lib_components_Text.__interfaces__ = [lib_support_Widget];
 lib_components_Text.prototype = {
-	getText: function() {
+	init: function() {
+	}
+	,getText: function() {
 		return this.text;
 	}
 	,render: function() {
@@ -3436,6 +3519,9 @@ lib_core_Navigate.to = function(arg) {
 	if(arg.main == null) {
 		arg.main = false;
 	}
+	if(arg.hardRefresh == null) {
+		arg.hardRefresh = false;
+	}
 	if(arg.param != null && arg.param.length > 0) {
 		url += "?";
 		var _g = 0;
@@ -3451,6 +3537,9 @@ lib_core_Navigate.to = function(arg) {
 	lib_core_GlobalState.instance.closeAllStreams();
 	if(!arg.main) {
 		window.history.pushState(null,"Index",url);
+		if(arg.hardRefresh) {
+			window.location.reload();
+		}
 	}
 	lib_core_Navigate.setComponent(true);
 };
@@ -3468,14 +3557,15 @@ lib_core_Navigate.setComponent = function(newHistoryElement) {
 	while(_g < _g1.length) {
 		var route = _g1[_g];
 		++_g;
-		if(route.getRoute() == currentURL) {
-			window.document.body.appendChild(route.render());
+		if(route.component().getRoute() == currentURL) {
+			window.document.body.appendChild(route.component().render());
+			route.init();
 			return;
 		}
 	}
 };
 lib_core_Navigate.navigationEvent = function() {
-	console.log("lib/core/Navigate.hx:69:","Click");
+	console.log("lib/core/Navigate.hx:73:","Click");
 	lib_core_GlobalState.instance.closeAllStreams();
 	lib_core_Navigate.setComponent(false);
 };

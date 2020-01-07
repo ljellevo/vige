@@ -50,6 +50,10 @@ class Page implements Widget{
         this.size = arg.size;
     }
 
+    public function init(){}
+
+
+
     public function getRoute(): String {
         return route;
     }
@@ -59,7 +63,7 @@ class Page implements Widget{
         var element = Browser.document.createDivElement();
         element.id = "page";
         navbar != null ? element.appendChild(navbar.render()) : null;
-
+        //element.appendChild(navbar.render());
         element.appendChild(child.render());
         
         new StyleManager().addStyleToDiv({widget: element, color: color, border: border, padding: padding, margin: margin, size: size});

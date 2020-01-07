@@ -15,6 +15,7 @@ class HomeButton extends Button {
 
         var castButton = button.render();
 
+        /*
         castButton.style.border = "none";
 
         castButton.style.padding = "8px 22px";
@@ -30,6 +31,7 @@ class HomeButton extends Button {
         castButton.onmouseleave = function (e) {
             castButton.style.borderRadius = "12px";
         }
+        */
         return castButton;
     }
 }

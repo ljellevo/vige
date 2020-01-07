@@ -42,6 +42,8 @@ class Container implements Widget {
         this.margin = arg.margin;
         this.size = arg.size != null ? arg.size : new Size({height: 100, heightType: "%", width: 100, widthType: "%"});
     }
+
+    public function init(){}
     
     public function render():js.html.Node {
         var container = Browser.document.createDivElement();

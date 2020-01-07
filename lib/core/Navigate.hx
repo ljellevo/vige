@@ -3,17 +3,17 @@ package lib.core;
 import js.html.Window;
 import lib.components.Page;
 import js.Browser;
-import lib.support.Widget;
 
 class Navigate {
     
-    public static var routes: Array<Page> = [];
+    public static var routes: Array<DynamicComponent> = [];
     
     public function new() { }
 
-    public static function to(arg: {url: String, ?param: Array<{param: String, data: String}>, ?main: Bool}) {
+    public static function to(arg: {url: String, ?param: Array<{param: String, data: String}>, ?main: Bool, ?hardRefresh: Bool}) {
         var url = arg.url;
         if (arg.main == null) arg.main = false;
+        if (arg.hardRefresh == null) arg.hardRefresh = false;
         if (arg.param != null && arg.param.length > 0) {
             url += "?";
 
@@ -28,8 +28,11 @@ class Navigate {
         GlobalState.instance.closeAllStreams();
         
         if (!arg.main) {
-            Browser.window.history.pushState(null, "Index", url);
             
+            Browser.window.history.pushState(null, "Index", url);
+            if(arg.hardRefresh){
+                Browser.window.location.reload();
+            }
         }
         
         setComponent(true); 
@@ -54,8 +57,9 @@ class Navigate {
         
 
         for(route in routes) {
-            if (route.getRoute() == currentURL) {
-                Browser.document.body.appendChild(route.render());
+            if (route.component().getRoute() == currentURL) {
+                Browser.document.body.appendChild(route.component().render());
+                route.init();
                 return;
             }
         }

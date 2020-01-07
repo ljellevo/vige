@@ -55,6 +55,8 @@ class Collection implements Widget {
         this.size = arg.size;
     }
 
+    public function init(){}
+
     public function build(callback: haxe.Constraints.Function): Widget {
         var widgets: Array<Widget> = [];
         for(i in 0...count) {

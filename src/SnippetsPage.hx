@@ -1,4 +1,5 @@
 
+import lib.support.Widget;
 import lib.components.Text;
 import lib.components.Page;
 import lib.core.DynamicComponent;
