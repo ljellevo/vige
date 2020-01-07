@@ -13,14 +13,16 @@ app.use(express.json());
 
 app.use(express.static('bin'));
 */
+//app.use("/", express.static('bin'));
 app.use("/", express.static('bin'));
+//app.use(express.static(path.join(__dirname, '/../bin'), { index : false }))
 
 //app.use("/widgets", express.static('bin'));
 //app.use(express.static(path.join(__dirname, '/../bin')));
 
 
 const rest = require("./maintenance")(app);
-const api = require("./api")(app); 
+const api = require("./api")(app);  
 
 
 
@@ -47,9 +49,13 @@ app.use("/*", function(req, res) {
     //resp.sendFile("/../bin/index.html");
     res.sendFile(path.resolve(__dirname + '/../bin/index.html')); 
 });
-*/
 
-app.get("*", function(req, res, next){
+app.get('*', function (request, response) {
+    response.sendFile(path.resolve(__dirname, 'index.html'));
+  });
+  */
+
+app.get("/*", function(req, res, next){
   //res.redirect("/");
   console.log("page was requested"); 
   console.log(path.resolve(__dirname + '/../bin/index.html'));
