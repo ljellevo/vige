@@ -11,7 +11,67 @@ module.exports = function(app) {
       database.query(function(client) {
         const collection = client.db("static").collection("catalogue");
         collection.insertMany([
-          {"title": "Page", "desc": "test"}
+          {
+            "name": "Container", 
+            "desc": "A container with children. Container is equivalent with a <div> html tag.",
+            "category": "layout",
+            "arguments" : [
+              {
+                "name": "size",
+                "req": false
+              },
+              {
+                "name": "style",
+                "req": false
+              },
+              {
+                "name": "child",
+                "req": true
+              },
+            ],
+            "returns": "Container object with nested children.",
+            "example": {
+              "desc": "Creates a container with a button.",
+              "code": "/Link to github gist"
+            }
+          },
+          {
+            "name": "Column", 
+            "desc": "A vertical layout format where child widgets are layed out under each other. This widget compiles to a HTML <div> tag, with CSS Grid property.",
+            "category": "layout",
+            "arguments" : [
+              {
+                "name": "children",
+                "req": true
+              },
+              {
+                "name": "style",
+                "req": false
+              },
+              {
+                "name": "cellStyle",
+                "req": false
+              },
+              {
+                "name": "size",
+                "req": false
+              },
+              {
+                "name": "cellSize",
+                "req": false
+              },
+              {
+                "name": "padding",
+                "req": false
+              },
+            ],
+            "returns": "Container object with nested children.",
+            "example": {
+              "desc": "Lays out two text elements and a button in a vertical layout.",
+              "code": "/Link to github gist"
+            }
+          },
+          
         ])
         res.send("Catalogue was " + operation + "ed");
       });
@@ -63,7 +123,13 @@ module.exports = function(app) {
                 "type": "text",
                 "format": "paragraph",
                 "title": "",
-                "content": "This guide will take you through how to create a project"
+                "content": "This guide will take you through how to create a project."
+              },
+              {
+                "type": "break",
+                "format": "",
+                "title": "",
+                "content": "50"
               },
               {
                 "type": "text",
@@ -73,9 +139,39 @@ module.exports = function(app) {
               },
               {
                 "type": "text",
+                "format": "paragraph",
+                "title": "",
+                "content": "First step is to download MIST.IO. This can be done in multiple ways. \nIt's recomended to download the CLI, through the CLI all necessary components will be installed. "
+              },
+              {
+                "type": "button",
                 "format": "link",
-                "title": "Click here to download MIST.IO",
+                "title": "Download CLI",
                 "content": "/download"
+              },
+              {
+                "type": "text",
+                "format": "paragraph",
+                "title": "",
+                "content": "If you don't want the CLI you can downlaod the library directly through haxelib"
+              },
+              {
+                "type": "text",
+                "format": "code",
+                "title": "",
+                "content": " - haxelib install mist"
+              },
+              {
+                "type": "text",
+                "format": "paragraph",
+                "title": "",
+                "content": "It's also possible to download the sourcecode from GitHub"
+              },
+              {
+                "type": "button",
+                "format": "link/external",
+                "title": "Click here to download MIST.IO",
+                "content": "https://github.com/ljellevo/mist.io"
               },
             ], 
           },

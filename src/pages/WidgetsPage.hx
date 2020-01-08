@@ -44,7 +44,7 @@ class WidgetsPage extends DynamicComponent {
 
   function getCategories() {
     new SingleRequest({
-      url: "http://localhost:3000/api/widgets/categories",
+      url: "http://localhost:3000/api/widgets",
       method: "GET",
       onComplete: function(res: HttpResponse) {
         trace(res);
@@ -106,7 +106,7 @@ class WidgetsPage extends DynamicComponent {
                 
                 }),
                 onClick: function (e) {
-                    Navigate.to({url: "/widgets/:" + data[i].getTitle().toLowerCase()/*, param: [{param: "category", data: data[i].getTitle().toLowerCase()}]*/});
+                    Navigate.to({url: "/widgets/" + data[i].getTitle().toLowerCase()/*, param: [{param: "category", data: data[i].getTitle().toLowerCase()}]*/});
                 },
                 border: new Border({style: BorderStyle.Solid, width: 3, color: Colors.fromString("#2e3440"), cornerRadius: CornerRadius.all(20.0)})
               });

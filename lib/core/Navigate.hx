@@ -2,6 +2,10 @@ package lib.core;
 
 import js.Browser;
 
+/**
+  Need to implement 404
+**/
+
 class Navigate {
     
   public static var routes: Array<DynamicComponent> = [];
@@ -22,9 +26,6 @@ class Navigate {
       }
     }
 
-
-
-
     GlobalState.instance.closeAllStreams();
     var correctPage = matchRoute(url, routes);
       
@@ -37,6 +38,28 @@ class Navigate {
       
     setComponent(true, correctPage); 
   }
+
+  public static function getParameters() : Array<String>{
+    var params = [];
+    var url = Browser.location.pathname;
+    var correctPage = matchRoute(url, routes);
+    var currentRoute = correctPage.component().getRoute();
+    //trace(correctPage.component().getRoute());
+    var routeParts = currentRoute.split("/");
+    var urlParts = url.split("/");
+    routeParts.splice(0, 1);
+    urlParts.splice(0, 1);
+    trace(routeParts);
+    for(i in 0...routeParts.length) {
+      if(routeParts[i].indexOf(":") > -1) {
+        params.push(urlParts[i]);
+      }
+    }
+    trace(params);
+    return params;
+  }
+
+
 
   public static function link(arg: {url: String}) {
     Browser.window.history.pushState(null, "Index", Browser.location.pathname);
@@ -56,21 +79,6 @@ class Navigate {
 
     Browser.document.body.appendChild(page.component().render());
     page.init();
-
-    /*
-    
-    Browser.document.body.appendChild(correctPage.component().render());
-    correctPage.init();
-    
-    for(route in routes) {
-      if (route.component().getRoute() == currentURL) {
-        trace("Found route");
-        Browser.document.body.appendChild(route.component().render());
-        route.init();
-        return;
-      }
-    }
-    */
   }
 
   private static function matchRoute(url: String, routes: Array<DynamicComponent>): DynamicComponent {

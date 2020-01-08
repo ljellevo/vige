@@ -5,8 +5,9 @@ module.exports = function(app) {
 
 
   
-  app.get('/api/widgets/categories', function(req, res){
+  app.get('/api/widgets', function(req, res){
     var database = new Database();
+    console.log("Getting widgets")
     database.query(function(client) {
       const collection = client.db("static").collection("categories");
       collection.find({}).toArray(function(err, result) {
@@ -16,6 +17,35 @@ module.exports = function(app) {
       })
     });
   });
+
+
+  app.get('/api/widgets/:category', function(req, res){
+
+    var category = req.params.category
+    console.log(category);
+    var database = new Database();
+    database.query(function(client) {
+      const collection = client.db("static").collection("catalogue");
+      collection.find({category: category}).toArray(function(err, result) {
+        if(err) console.log(err);
+        console.log(result);
+        res.send(result);
+      })
+    });
+    /*
+    var database = new Database();
+    database.query(function(client) {
+      const collection = client.db("static").collection("categories");
+      collection.find({}).toArray(function(err, result) {
+        if(err) console.log(err);
+        //console.log(result);
+        res.send(result);
+      })
+    });
+    */
+  });
+
+
 
   app.get('/api/guides', function(req, res){
     var database = new Database();

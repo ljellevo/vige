@@ -27,6 +27,7 @@ class Text implements Widget {
     var textSize = -1;
     var text: String = "";
     var textFormat: TextFormat;
+    var font: String;
 
     public var color: Color;
     public var border: Border;
@@ -34,9 +35,11 @@ class Text implements Widget {
     public var margin: Margin;
     public var size: Size;
 
+
     public function new(text: String, ?arg: {
         ?textFormat: TextFormat,
         ?textSize: Int,
+        ?font: String,
         
         ?color: Color,
         ?border: Border,
@@ -48,6 +51,7 @@ class Text implements Widget {
         if(arg == null) {
             arg = {textSize: -1, color: new Color({}), textFormat: TextFormat.p}
         }
+        this.font = arg.font;
         this.textSize = arg.textSize != null ? arg.textSize : -1;
         this.color = arg.color != null ? arg.color : new Color({});
         this.textFormat = arg.textFormat != null ? arg.textFormat : TextFormat.p;
@@ -122,6 +126,10 @@ class Text implements Widget {
         //var element = Browser.document.createParagraphElement();
         if(textSize > -1) {
             element.style.fontSize = Std.string(textSize);
+        }
+
+        if(font != null) {
+            element.style.fontFamily = font;
         }
         
         element.style.color = color.getColor();
