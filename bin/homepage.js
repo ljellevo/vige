@@ -81,8 +81,8 @@ var Main = function() { };
 Main.__name__ = "Main";
 Main.main = function() {
 	var body = new lib_core_Body();
-	body.font("Lato","100");
-	lib_core_Navigate.routes = [new pages_HomePage(),new pages_GuidesPage(),new pages_DocsPage(),new pages_WidgetsPage(),new pages_SnippetsPage(),new pages_TemplatesPage(),new pages_SocketsPage(),new pages_DatabasePage(),new pages_WidgetCategoryPage()];
+	body.font("Arial","400");
+	lib_core_Navigate.routes = [new pages_HomePage(),new pages_GuidesPage(),new pages_DocsPage(),new pages_WidgetsPage(),new pages_SnippetsPage(),new pages_TemplatesPage(),new pages_SocketsPage(),new pages_DatabasePage(),new pages_WidgetCategoryPage(),new pages_SpecificGuidePage()];
 	lib_core_Navigate.to({ url : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
 		lib_core_Navigate.navigationEvent();
@@ -154,7 +154,7 @@ CustomNavbar.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	}
 	,navbarComponent: function() {
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var navbar = new lib_components_Navbar({ position : lib_components_NavbarPosition.Top, offset : 0, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Row({ margin : lib_utils_Margin.fromTRBL(10,50,10,50), children : [this.homepageButton(null,"./assets/logo-verbose.png","/"),this.homepageButton("Quick-start","./assets/chevron-right-solid.svg","/guides"),this.homepageButton("Docs","./assets/book-solid.svg","/docs"),this.homepageButton("Widgets","./assets/book-open.svg","/widgets"),this.homepageButton("Widgets","./assets/book-open.svg","/widgets/category"),this.homepageButton("Snippets","./assets/code-solid.svg","/snippets"),this.homepageButton("Templates","./assets/template.svg","/templates"),this.homepageButton("Codebase","./assets/github.svg","https://github.com/ljellevo/mist.io")]}), onComplete : function() {
+		var navbar = new lib_components_Navbar({ position : lib_components_NavbarPosition.Top, offset : 0, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Row({ margin : lib_utils_Margin.fromTRBL(10,50,10,50), children : [this.homepageButton(null,"./assets/logo-simple.png","/"),this.homepageButton("Quick-start","./assets/chevron-right-solid.svg","/guides"),this.homepageButton("Docs","./assets/book-solid.svg","/docs"),this.homepageButton("Widgets","./assets/book-open.svg","/widgets"),this.homepageButton("Snippets","./assets/code-solid.svg","/snippets"),this.homepageButton("Templates","./assets/template.svg","/templates"),this.homepageButton("Codebase","./assets/github.svg","https://github.com/ljellevo/mist.io")]}), onComplete : function() {
 		}});
 		return navbar;
 	}
@@ -489,6 +489,50 @@ classes_Catagory.prototype = {
 		return this.desc;
 	}
 	,__class__: classes_Catagory
+};
+var classes_Guide = function(_id,title,desc,steps) {
+	this._id = _id;
+	this.title = title;
+	this.desc = desc;
+	this.steps = steps;
+};
+classes_Guide.__name__ = "classes.Guide";
+classes_Guide.prototype = {
+	getId: function() {
+		return this._id;
+	}
+	,getTitle: function() {
+		return this.title;
+	}
+	,getDesc: function() {
+		return this.desc;
+	}
+	,getSteps: function() {
+		return this.steps;
+	}
+	,__class__: classes_Guide
+};
+var classes_Step = function(type,format,title,content) {
+	this.type = type;
+	this.format = format;
+	this.title = title;
+	this.content = content;
+};
+classes_Step.__name__ = "classes.Step";
+classes_Step.prototype = {
+	getType: function() {
+		return this.type;
+	}
+	,getFormat: function() {
+		return this.format;
+	}
+	,getTitle: function() {
+		return this.title;
+	}
+	,getContent: function() {
+		return this.content;
+	}
+	,__class__: classes_Step
 };
 var com_akifox_asynchttp__$AsyncHttp_HttpTransferMode = $hxEnums["com.akifox.asynchttp._AsyncHttp.HttpTransferMode"] = { __ename__ : true, __constructs__ : ["UNDEFINED","FIXED","CHUNKED","NO_CONTENT"]
 	,UNDEFINED: {_hx_index:0,__enum__:"com.akifox.asynchttp._AsyncHttp.HttpTransferMode",toString:$estr}
@@ -2809,6 +2853,9 @@ lib_components_Column.prototype = {
 var lib_components_Constructors = function() { };
 lib_components_Constructors.__name__ = "lib.components.Constructors";
 lib_components_Constructors.constructRows = function(arg) {
+	if(arg.data == null) {
+		return [new lib_components_Row({ children : [new lib_components_Container({ })]})];
+	}
 	var countRows = arg.data.length % arg.elementsInEachRow;
 	var rows = [];
 	var row = [];
@@ -2816,7 +2863,7 @@ lib_components_Constructors.constructRows = function(arg) {
 	var _g1 = arg.data.length;
 	while(_g < _g1) {
 		var i = _g++;
-		if(i != 0 && i % countRows == 0) {
+		if(i != 0 && i % countRows == 0 || arg.elementsInEachRow == 1) {
 			row.push(arg.elementBuilder(i));
 			rows.push(arg.rowBuilder(row));
 			row = [];
@@ -2845,6 +2892,7 @@ lib_components_Container.prototype = {
 	,render: function() {
 		var container = window.document.createElement("div");
 		container.classList.add("container");
+		container.style.boxSizing = "border-box";
 		if(this.child != null) {
 			container.appendChild(this.child.render());
 		}
@@ -3343,42 +3391,71 @@ lib_core_Navigate.to = function(arg) {
 			url += arg.param[i].param + "=" + arg.param[i].data;
 		}
 	}
-	console.log("lib/core/Navigate.hx:26:","navigating");
 	lib_core_GlobalState.instance.closeAllStreams();
+	var correctPage = lib_core_Navigate.matchRoute(url,lib_core_Navigate.routes);
 	if(!arg.main) {
 		window.history.pushState(null,"Index",url);
 		if(arg.hardRefresh) {
 			window.location.reload();
 		}
 	}
-	lib_core_Navigate.setComponent(true);
+	lib_core_Navigate.setComponent(true,correctPage);
 };
 lib_core_Navigate.link = function(arg) {
 	window.history.pushState(null,"Index",window.location.pathname);
 	window.location.replace(arg.url);
 };
-lib_core_Navigate.setComponent = function(newHistoryElement) {
+lib_core_Navigate.setComponent = function(newHistoryElement,page) {
 	var currentURL = window.location.pathname;
 	if(window.document.querySelector("#page") != null) {
 		window.document.querySelector("#page").remove();
 	}
+	window.document.body.appendChild(page.component().render());
+	page.init();
+};
+lib_core_Navigate.matchRoute = function(url,routes) {
+	var urlParts = url.split("/");
+	urlParts.splice(0,1);
 	var _g = 0;
-	var _g1 = lib_core_Navigate.routes;
-	while(_g < _g1.length) {
-		var route = _g1[_g];
-		++_g;
-		if(route.component().getRoute() == currentURL) {
-			console.log("lib/core/Navigate.hx:63:","Found route");
-			window.document.body.appendChild(route.component().render());
-			route.init();
-			return;
+	var _g1 = routes.length;
+	while(_g < _g1) {
+		var i = _g++;
+		var route = routes[i].component().getRoute().split("/");
+		route.splice(0,1);
+		var match = true;
+		if(route.length == urlParts.length) {
+			var _g2 = 0;
+			var _g11 = urlParts.length;
+			while(_g2 < _g11) {
+				var j = _g2++;
+				if(route[j].indexOf(":") == -1) {
+					if(route[j] != urlParts[j]) {
+						match = false;
+					}
+				}
+			}
+		} else {
+			match = false;
+		}
+		if(match) {
+			return routes[i];
 		}
 	}
+	var _g21 = 0;
+	while(_g21 < routes.length) {
+		var route1 = routes[_g21];
+		++_g21;
+		if(route1.component().getRoute() == "/") {
+			return route1;
+		}
+	}
+	return lib_core_Navigate.fourOFour;
 };
 lib_core_Navigate.navigationEvent = function() {
-	console.log("lib/core/Navigate.hx:76:","Click");
 	lib_core_GlobalState.instance.closeAllStreams();
-	lib_core_Navigate.setComponent(false);
+	var url = window.location.pathname;
+	var correctPage = lib_core_Navigate.matchRoute(window.location.pathname,lib_core_Navigate.routes);
+	lib_core_Navigate.setComponent(false,correctPage);
 };
 lib_core_Navigate.updateComponent = function(component) {
 	if(window.document.querySelector("#page") != null) {
@@ -3909,6 +3986,21 @@ pages_DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 			});
 		}}).request();
 	}
+	,quickStartGuides: function(operation) {
+		var _gthis = this;
+		console.log("src/pages/DatabasePage.hx:63:","Request called");
+		new lib_core_SingleRequest({ url : "http://localhost:3000/maintenance/database/guides/" + operation, method : "GET", onComplete : function(res) {
+			console.log("src/pages/DatabasePage.hx:68:",res);
+			_gthis.setState(_gthis,function() {
+				_gthis.status = res.get_content();
+			});
+		}, onProgress : function() {
+			console.log("src/pages/DatabasePage.hx:74:","working");
+			_gthis.setState(_gthis,function() {
+				_gthis.status = "Loading";
+			});
+		}}).request();
+	}
 	,component: function() {
 		var _gthis = this;
 		this.page = new lib_components_Page({ route : "/database", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Column({ children : [new lib_components_Row({ children : [new lib_components_Text(this.status)]}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Insert catalogue"), onClick : function(e) {
@@ -3919,6 +4011,10 @@ pages_DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 			_gthis.categories("insert");
 		}}),new lib_components_Button({ child : new lib_components_Text("Delete categories"), onClick : function(e3) {
 			_gthis.categories("delete");
+		}})]}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Insert Quick-Start Guides"), onClick : function(e4) {
+			_gthis.quickStartGuides("insert");
+		}}),new lib_components_Button({ child : new lib_components_Text("Delete Quick-Start Guides"), onClick : function(e5) {
+			_gthis.quickStartGuides("delete");
 		}})]})]})})});
 		return this.page;
 	}
@@ -3942,14 +4038,85 @@ pages_DocsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	,__class__: pages_DocsPage
 });
 var pages_GuidesPage = function() {
+	var _g = new haxe_ds_StringMap();
+	if(__map_reserved["Layout"] != null) {
+		_g.setReserved("Layout","./assets/layout-grid.svg");
+	} else {
+		_g.h["Layout"] = "./assets/layout-grid.svg";
+	}
+	if(__map_reserved["Functionality"] != null) {
+		_g.setReserved("Functionality","./assets/functionality.svg");
+	} else {
+		_g.h["Functionality"] = "./assets/functionality.svg";
+	}
+	if(__map_reserved["Customization"] != null) {
+		_g.setReserved("Customization","./assets/swatchbook.svg");
+	} else {
+		_g.h["Customization"] = "./assets/swatchbook.svg";
+	}
+	if(__map_reserved["Components"] != null) {
+		_g.setReserved("Components","./assets/puzzle.svg");
+	} else {
+		_g.h["Components"] = "./assets/puzzle.svg";
+	}
+	if(__map_reserved["Utilities"] != null) {
+		_g.setReserved("Utilities","./assets/tools.svg");
+	} else {
+		_g.h["Utilities"] = "./assets/tools.svg";
+	}
+	this.images = _g;
 	this.data = [];
 	lib_core_DynamicComponent.call(this);
 };
 pages_GuidesPage.__name__ = "pages.GuidesPage";
 pages_GuidesPage.__super__ = lib_core_DynamicComponent;
 pages_GuidesPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
-	component: function() {
-		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/guides", child : new lib_components_Text("Guides Page")});
+	init: function() {
+		lib_core_DynamicComponent.prototype.init.call(this);
+		this.getGuides();
+	}
+	,getGuides: function() {
+		var _gthis = this;
+		new lib_core_SingleRequest({ url : "http://localhost:3000/api/guides", method : "GET", onComplete : function(res) {
+			console.log("src/pages/GuidesPage.hx:88:",res);
+			_gthis.setState(_gthis,function() {
+				var result = JSON.parse(res.get_content());
+				console.log("src/pages/GuidesPage.hx:91:",result);
+				var _g = 0;
+				var _g1 = result.length;
+				while(_g < _g1) {
+					var i = _g++;
+					_gthis.data.push(result[i]);
+				}
+			});
+		}, onProgress : function() {
+			console.log("src/pages/GuidesPage.hx:98:","working");
+			_gthis.setState(_gthis,function() {
+				_gthis.data = [];
+			});
+		}}).request();
+	}
+	,component: function() {
+		var _gthis = this;
+		var tmp = new CustomNavbar().navbarComponent();
+		var tmp1 = lib_utils_Margin.fromTRBL(-60.0,0.0,0.0,0.0);
+		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		this.page = new lib_components_Page({ navbar : tmp, route : "/guides", child : new lib_components_Center({ margin : tmp1, alignment : lib_components_CenterAlignment.Both, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Column({ size : new lib_utils_Size({ height : 60, heightType : "vh", width : 80, widthType : "%"}), children : lib_components_Constructors.constructRows({ data : this.data, elementsInEachRow : 3, elementBuilder : function(i) {
+			var this11 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+			var tmp2 = new lib_utils_Color({ backgroundColor : this11});
+			var tmp3 = lib_utils_Padding.all(10);
+			var tmp4 = new lib_utils_Size({ height : 150, heightType : "px", width : 300, widthType : "px"});
+			var this12 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+			var tmp5 = new lib_components_Text(_gthis.data[i].title,{ textSize : 20, color : new lib_utils_Color({ color : this12})});
+			var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+			var tmp6 = new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [new lib_components_Column({ children : [tmp5,new lib_components_Text(_gthis.data[i].desc,{ color : new lib_utils_Color({ color : this13})})]})]})});
+			var this14 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+			return new lib_components_Button({ color : tmp2, padding : tmp3, size : tmp4, child : tmp6, onClick : function(e) {
+				lib_core_Navigate.to({ url : "/guides/" + _gthis.data[i]._id});
+			}, border : new lib_utils_Border({ style : lib_utils_BorderStyle.Solid, width : 3, color : this14, cornerRadius : lib_utils_CornerRadius.all(20.0)})});
+		}, rowBuilder : function(children) {
+			return new lib_components_Row({ children : children});
+		}})})})});
 		return this.page;
 	}
 	,__class__: pages_GuidesPage
@@ -3964,23 +4131,31 @@ pages_HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var tmp = new CustomNavbar().navbarComponent();
 		var tmp1 = lib_utils_Margin.fromTRBL(-60.0,0.0,0.0,0.0);
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp2 = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("MIST.IO",{ textSize : 88}),new lib_components_Text("The declarative web-framework")]})})});
+		var tmp2 = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Image({ src : "./assets/logo-verbose.png", height : 120}),new lib_components_Text("The declarative web-framework")]})})});
 		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp3 = new lib_components_Container({ child : new lib_components_Column({ color : new lib_utils_Color({ backgroundColor : this11}), size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, cellSize : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), children : [new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100, minWidth : 20})]})}),new lib_components_Container({ child : new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), cellPadding : lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0), alignment : lib_components_RowAlignment.Left, children : [new lib_components_Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.",{ color : new lib_utils_Color({ color : -1})})]})})]})]})});
-		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp4 = new lib_utils_Color({ backgroundColor : this12});
+		var tmp3 = new lib_utils_Color({ backgroundColor : this11});
+		var tmp4 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 		var tmp5 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp6 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp6 = new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100, minWidth : 20})]})});
 		var tmp7 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp8 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
-		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp9 = new lib_components_Container({ child : new lib_components_Column({ color : tmp4, size : tmp5, children : [new lib_components_Row({ cellSize : tmp6, alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ size : tmp7, cellPadding : tmp8, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ color : new lib_utils_Color({ color : this13})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100, minWidth : 20})]})})]})]})});
-		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
-		var tmp10 = new lib_utils_Color({ backgroundColor : this14});
-		var tmp11 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
-		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ margin : tmp1, children : [tmp2,tmp3,tmp9,new lib_components_Container({ color : tmp10, size : tmp11, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ color : new lib_utils_Color({ color : this15})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
-			console.log("src/pages/HomePage.hx:148:",res.get_content());
+		var tmp8 = lib_utils_Padding.fromTRBL(0.0,50.0,0.0,50.0);
+		var tmp9 = new lib_utils_Size({ height : 300, heightType : "px", width : 500, widthType : "px"});
+		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp10 = new lib_components_Container({ child : new lib_components_Column({ color : tmp3, size : tmp4, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, cellSize : tmp5, children : [tmp6,new lib_components_Container({ size : tmp7, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Vertical, child : new lib_components_Container({ padding : tmp8, size : tmp9, child : new lib_components_Text("MIST.IO is a modern and feature rich webframework that does things a bit different. \n\n\n                            Write your website in the new popular declarative way. This makes your code easy toread, change and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n\n                            MIST utilizes the amazing Haxe language to compile your staticly typed code into an efficent single page JavaScript application.",{ color : new lib_utils_Color({ color : this12})})})})})]})]})});
+		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp11 = new lib_utils_Color({ backgroundColor : this13});
+		var tmp12 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp13 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp14 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp15 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
+		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp16 = new lib_components_Container({ child : new lib_components_Column({ color : tmp11, size : tmp12, children : [new lib_components_Row({ cellSize : tmp13, alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ size : tmp14, cellPadding : tmp15, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ color : new lib_utils_Color({ color : this14})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100, minWidth : 20})]})})]})]})});
+		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
+		var tmp17 = new lib_utils_Color({ backgroundColor : this15});
+		var tmp18 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
+		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ margin : tmp1, children : [tmp2,tmp10,tmp16,new lib_components_Container({ color : tmp17, size : tmp18, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ color : new lib_utils_Color({ color : this16})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
+			console.log("src/pages/HomePage.hx:153:",res.get_content());
 			return new lib_components_Text("Single request: " + Std.string(res.get_content()));
 		}, onProgress : function() {
 			return new lib_components_Text("Loading");
@@ -3991,7 +4166,7 @@ pages_HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		}, onOpen : function(res2) {
 			return new lib_components_Text("Connection opened");
 		}, onMessage : function(res3) {
-			console.log("src/pages/HomePage.hx:171:","Message recieved (Homepage)");
+			console.log("src/pages/HomePage.hx:176:","Message recieved (Homepage)");
 			return new lib_components_Text("WebSocket on homepage: " + Std.string(res3.data));
 		}, onClose : function(res4) {
 			return new lib_components_Text("Connection closed");
@@ -4048,6 +4223,89 @@ pages_SocketsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	}
 	,__class__: pages_SocketsPage
 });
+var pages_SpecificGuidePage = function() {
+	var _g = new haxe_ds_StringMap();
+	if(__map_reserved["Layout"] != null) {
+		_g.setReserved("Layout","./assets/layout-grid.svg");
+	} else {
+		_g.h["Layout"] = "./assets/layout-grid.svg";
+	}
+	if(__map_reserved["Functionality"] != null) {
+		_g.setReserved("Functionality","./assets/functionality.svg");
+	} else {
+		_g.h["Functionality"] = "./assets/functionality.svg";
+	}
+	if(__map_reserved["Customization"] != null) {
+		_g.setReserved("Customization","./assets/swatchbook.svg");
+	} else {
+		_g.h["Customization"] = "./assets/swatchbook.svg";
+	}
+	if(__map_reserved["Components"] != null) {
+		_g.setReserved("Components","./assets/puzzle.svg");
+	} else {
+		_g.h["Components"] = "./assets/puzzle.svg";
+	}
+	if(__map_reserved["Utilities"] != null) {
+		_g.setReserved("Utilities","./assets/tools.svg");
+	} else {
+		_g.h["Utilities"] = "./assets/tools.svg";
+	}
+	this.images = _g;
+	this.data = null;
+	lib_core_DynamicComponent.call(this);
+};
+pages_SpecificGuidePage.__name__ = "pages.SpecificGuidePage";
+pages_SpecificGuidePage.__super__ = lib_core_DynamicComponent;
+pages_SpecificGuidePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	init: function() {
+		lib_core_DynamicComponent.prototype.init.call(this);
+		this.getGuides();
+	}
+	,getGuides: function() {
+		var _gthis = this;
+		new lib_core_SingleRequest({ url : "http://localhost:3000/api/guides/5e15da7b8772f062a495c3a8", method : "GET", onComplete : function(res) {
+			console.log("src/pages/SpecificGuidePage.hx:55:",res);
+			_gthis.setState(_gthis,function() {
+				var result = JSON.parse(res.get_content());
+				console.log("src/pages/SpecificGuidePage.hx:58:",result);
+				var steps = result.steps;
+				var stepsObject = [];
+				var _g = 0;
+				var _g1 = steps.length;
+				while(_g < _g1) {
+					var j = _g++;
+					stepsObject.push(new classes_Step(steps[j].type,steps[j].format,steps[j].title,steps[j].content));
+				}
+				console.log("src/pages/SpecificGuidePage.hx:65:",stepsObject);
+				_gthis.data = new classes_Guide(result._id,result.title,result.desc,stepsObject);
+				console.log("src/pages/SpecificGuidePage.hx:67:",_gthis.data);
+			});
+		}, onProgress : function() {
+			console.log("src/pages/SpecificGuidePage.hx:71:","working");
+			_gthis.setState(_gthis,function() {
+				_gthis.data = null;
+			});
+		}}).request();
+	}
+	,determineCorrectWidget: function(i) {
+		return new lib_components_Container({ size : new lib_utils_Size({ height : 100, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Text(this.data.getSteps()[i].getContent())});
+	}
+	,component: function() {
+		var _gthis = this;
+		var tmp = new CustomNavbar().navbarComponent();
+		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp1 = new lib_utils_Color({ backgroundColor : this1});
+		var tmp2 = new lib_utils_Size({ height : 5, heightType : "px", width : 60, widthType : "%"});
+		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		this.page = new lib_components_Page({ navbar : tmp, route : "/guides/:id", child : new lib_components_Container({ color : tmp1, child : new lib_components_Column({ children : [new lib_components_Container({ size : tmp2, color : new lib_utils_Color({ backgroundColor : this11})}),new lib_components_Container({ padding : lib_utils_Padding.fromTRBL(20.0,0.0,0.0,20.0), child : new lib_components_Column({ children : [new lib_components_Text(this.data != null ? this.data.getTitle() : "",{ textSize : 40}),new lib_components_Column({ padding : lib_utils_Padding.fromTRBL(10.0,0.0,0.0,0.0), children : lib_components_Constructors.constructRows({ data : this.data != null ? this.data.getSteps() : null, elementsInEachRow : 1, elementBuilder : function(i) {
+			return _gthis.determineCorrectWidget(i);
+		}, rowBuilder : function(children) {
+			return new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : children});
+		}})})]})})]})})});
+		return this.page;
+	}
+	,__class__: pages_SpecificGuidePage
+});
 var pages_TemplatesPage = function() {
 	this.data = [];
 	lib_core_DynamicComponent.call(this);
@@ -4102,7 +4360,7 @@ pages_WidgetCategoryPage.prototype = $extend(lib_core_DynamicComponent.prototype
 	,getCategories: function() {
 		var _gthis = this;
 		new lib_core_SingleRequest({ url : "http://localhost:3000/widgets/categories/", method : "GET", onComplete : function(res) {
-			console.log("src/pages/WidgetCategoryPage.hx:52:",res);
+			console.log("src/pages/WidgetCategoryPage.hx:51:",res);
 			_gthis.setState(_gthis,function() {
 				var result = JSON.parse(res.get_content());
 				var _g = 0;
@@ -4113,14 +4371,14 @@ pages_WidgetCategoryPage.prototype = $extend(lib_core_DynamicComponent.prototype
 				}
 			});
 		}, onProgress : function() {
-			console.log("src/pages/WidgetCategoryPage.hx:61:","working");
+			console.log("src/pages/WidgetCategoryPage.hx:60:","working");
 			_gthis.setState(_gthis,function() {
 				_gthis.data = [];
 			});
 		}}).request();
 	}
 	,component: function() {
-		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/widgets/category", child : new lib_components_Text("Page")});
+		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/widgets/:category", child : new lib_components_Text("Widget category")});
 		return this.page;
 	}
 	,__class__: pages_WidgetCategoryPage
@@ -4165,8 +4423,8 @@ pages_WidgetsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	}
 	,getCategories: function() {
 		var _gthis = this;
-		new lib_core_SingleRequest({ url : "http://localhost:3000/api/widgets/categories/", method : "GET", onComplete : function(res) {
-			console.log("src/pages/WidgetsPage.hx:51:",res);
+		new lib_core_SingleRequest({ url : "http://localhost:3000/api/widgets/categories", method : "GET", onComplete : function(res) {
+			console.log("src/pages/WidgetsPage.hx:50:",res);
 			_gthis.setState(_gthis,function() {
 				var result = JSON.parse(res.get_content());
 				var _g = 0;
@@ -4177,7 +4435,7 @@ pages_WidgetsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 				}
 			});
 		}, onProgress : function() {
-			console.log("src/pages/WidgetsPage.hx:60:","working");
+			console.log("src/pages/WidgetsPage.hx:59:","working");
 			_gthis.setState(_gthis,function() {
 				_gthis.data = [];
 			});
@@ -4189,22 +4447,24 @@ pages_WidgetsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var tmp1 = lib_utils_Margin.fromTRBL(-60.0,0.0,0.0,0.0);
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		this.page = new lib_components_Page({ navbar : tmp, route : "/widgets", child : new lib_components_Center({ margin : tmp1, alignment : lib_components_CenterAlignment.Both, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Column({ size : new lib_utils_Size({ height : 60, heightType : "vh", width : 80, widthType : "%"}), children : lib_components_Constructors.constructRows({ data : this.data, elementsInEachRow : 3, elementBuilder : function(i) {
-			var tmp2 = lib_utils_Padding.all(10);
-			var tmp3 = new lib_utils_Size({ height : 150, heightType : "px", width : 300, widthType : "px"});
-			var this11 = _gthis.images;
+			var this11 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+			var tmp2 = new lib_utils_Color({ backgroundColor : this11});
+			var tmp3 = lib_utils_Padding.all(10);
+			var tmp4 = new lib_utils_Size({ height : 150, heightType : "px", width : 300, widthType : "px"});
+			var this12 = _gthis.images;
 			var key = _gthis.data[i].getTitle();
-			var _this = this11;
-			var tmp4 = new lib_components_Image({ src : __map_reserved[key] != null ? _this.getReserved(key) : _this.h[key], alt : "Layout", height : 40, padding : lib_utils_Padding.fromTRBL(0,20,0,10)});
-			var tmp5 = _gthis.data[i].getTitle();
-			var this12 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-			var tmp6 = new lib_components_Text(tmp5,{ textSize : 20, color : new lib_utils_Color({ color : this12})});
-			var tmp7 = _gthis.data[i].getDesc();
+			var _this = this12;
+			var tmp5 = new lib_components_Image({ src : __map_reserved[key] != null ? _this.getReserved(key) : _this.h[key], alt : "Layout", height : 40, padding : lib_utils_Padding.fromTRBL(0,20,0,10)});
+			var tmp6 = _gthis.data[i].getTitle();
 			var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-			var tmp8 = new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [tmp4,new lib_components_Column({ children : [tmp6,new lib_components_Text(tmp7,{ color : new lib_utils_Color({ color : this13})})]})]})});
+			var tmp7 = new lib_components_Text(tmp6,{ textSize : 20, color : new lib_utils_Color({ color : this13})});
+			var tmp8 = _gthis.data[i].getDesc();
 			var this14 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-			return new lib_components_Button({ padding : tmp2, size : tmp3, child : tmp8, onClick : function(e) {
-				lib_core_Navigate.to({ url : "/widgets/category"});
-			}, border : new lib_utils_Border({ style : lib_utils_BorderStyle.Solid, width : 3, color : this14, cornerRadius : lib_utils_CornerRadius.all(20.0)})});
+			var tmp9 = new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : [tmp5,new lib_components_Column({ children : [tmp7,new lib_components_Text(tmp8,{ color : new lib_utils_Color({ color : this14})})]})]})});
+			var this15 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+			return new lib_components_Button({ color : tmp2, padding : tmp3, size : tmp4, child : tmp9, onClick : function(e) {
+				lib_core_Navigate.to({ url : "/widgets/:" + _gthis.data[i].getTitle().toLowerCase()});
+			}, border : new lib_utils_Border({ style : lib_utils_BorderStyle.Solid, width : 3, color : this15, cornerRadius : lib_utils_CornerRadius.all(20.0)})});
 		}, rowBuilder : function(children) {
 			return new lib_components_Row({ children : children});
 		}})})})});

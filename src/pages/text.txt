@@ -1,0 +1,12 @@
+MIST.IO is a modern and feature rich webframework that does things a bit different. 
+
+Write your website in the new popular declarative way. This makes your code easy to
+read, change and maintain. Constrct your webiste by combining widgets in the library, 
+it's also possible to extend and customize these widgets for a more personal touch.
+
+MIST utilizes the amazing Haxe language to compile your staticly typed code into an 
+efficent single page JavaScript application.
+
+
+
+

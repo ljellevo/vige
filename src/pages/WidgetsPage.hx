@@ -1,6 +1,5 @@
 package pages;
 
-import util.CategoryStruct;
 import lib.core.Navigate;
 import lib.components.Button;
 import lib.utils.Padding;
@@ -82,6 +81,7 @@ class WidgetsPage extends DynamicComponent {
             elementsInEachRow: 3, 
             elementBuilder: function(i) {
               return new Button({
+                color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
                 padding: Padding.all(10),
                 size: new Size({height: 150, heightType: "px", width: 300, widthType: "px"}),
                 child: new Center({
@@ -106,7 +106,7 @@ class WidgetsPage extends DynamicComponent {
                 
                 }),
                 onClick: function (e) {
-                    Navigate.to({url: "/widgets/category"/*, param: [{param: "category", data: data[i].getTitle().toLowerCase()}]*/});
+                    Navigate.to({url: "/widgets/:" + data[i].getTitle().toLowerCase()/*, param: [{param: "category", data: data[i].getTitle().toLowerCase()}]*/});
                 },
                 border: new Border({style: BorderStyle.Solid, width: 3, color: Colors.fromString("#2e3440"), cornerRadius: CornerRadius.all(20.0)})
               });

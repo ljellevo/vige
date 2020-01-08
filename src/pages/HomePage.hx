@@ -48,7 +48,8 @@ class HomePage  extends DynamicComponent {
                 alignment: CenterAlignment.Both,
                 child: new Column({
                   children: [
-                    new Text("MIST.IO", {textSize: 88}),
+                    //new Text("MIST.IO", {textSize: 88}),
+                    new Image({src: "./assets/logo-verbose.png", height: 120}),
                     new Text("The declarative web-framework")
                   ]
                 }),
@@ -78,13 +79,17 @@ class HomePage  extends DynamicComponent {
                         })
                       }),
                       new Container({
-                        child: new Row({
-                          size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
-                          cellPadding: Padding.fromTRBL(0.0, 0.0, 0.0, 20.0),
-                          alignment: RowAlignment.Left,
-                          children: [
-                            new Text("With it's declarative syntax and nested structure,\nMIST makes it easy to create a website.", {color: new Color({color: Colors.WHITE})}),
-                          ]
+                        size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
+                        
+                        child: new Center({
+                          alignment: CenterAlignment.Vertical,
+                          child: new Container({
+                            padding: Padding.fromTRBL(0.0, 50.0, 0.0, 50.0),
+                            size: new Size({height: 300, heightType: "px", width: 500, widthType: "px"}),
+                            child: new Text("MIST.IO is a modern and feature rich webframework that does things a bit different. \n\n
+                            Write your website in the new popular declarative way. This makes your code easy toread, change and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n
+                            MIST utilizes the amazing Haxe language to compile your staticly typed code into an efficent single page JavaScript application.", {color: new Color({color: Colors.fromString("#fafafa")})}),
+                          })
                         })
                       }),
                     ]

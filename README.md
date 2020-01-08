@@ -14,3 +14,9 @@ Features:
 - Widget Library (work in progress)
 - Animation Library (missing)
 - Drawing Library (missing)
+
+
+Other related project:
+- Website
+- CLI
+- VSCode Extention

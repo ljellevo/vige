@@ -1,5 +1,10 @@
 package classes;
 
+typedef CategoryStruct = {
+  var title: String;
+  var desc: String;
+}
+
 class Catagory {
 
     var title: String;

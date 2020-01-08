@@ -58,6 +58,26 @@ class DatabasePage extends DynamicComponent {
         }
       }).request();
     }
+
+    function quickStartGuides(operation){
+      trace("Request called");
+      new SingleRequest({
+        url: "http://localhost:3000/maintenance/database/guides/" + operation,
+        method: "GET",
+        onComplete: function(res: HttpResponse) {
+          trace(res);
+          setState(this, function(){
+            status = res.content;
+          });
+        },
+        onProgress: function() {
+          trace("working");
+          setState(this, function(){
+            status = "Loading";
+          });
+        }
+      }).request();
+    }
   
   
     override public function component(): Page {
@@ -100,6 +120,22 @@ class DatabasePage extends DynamicComponent {
                     child: new Text("Delete categories"),
                     onClick: function(e) {
                       categories("delete");
+                    }
+                  })
+                ]
+              }),
+              new Row({
+                children: [
+                  new Button({
+                    child: new Text("Insert Quick-Start Guides"),
+                    onClick: function(e) {
+                      quickStartGuides("insert");
+                    }
+                  }),
+                  new Button({
+                    child: new Text("Delete Quick-Start Guides"),
+                    onClick: function(e) {
+                      quickStartGuides("delete");
                     }
                   })
                 ]

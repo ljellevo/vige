@@ -1,6 +1,5 @@
 package pages;
 
-import util.CategoryStruct;
 import lib.components.Button;
 import lib.utils.Padding;
 import lib.components.Image;
@@ -126,8 +125,8 @@ class WidgetCategoryPage extends DynamicComponent {
 
     page = new Page({
       navbar: new CustomNavbar().navbarComponent(),
-      route: "/widgets/category",
-      child: new Text("Page")
+      route: "/widgets/:category",
+      child: new Text("Widget category")
     });
 
     return page;

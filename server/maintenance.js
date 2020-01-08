@@ -48,6 +48,73 @@ module.exports = function(app) {
     }
   });
 
+  app.get('/maintenance/database/guides/:operation', function(req, res){
+    var operation = req.params.operation;
+    var database = new Database();
+    if(operation == "insert") {
+      database.query(function(client) {
+        const collection = client.db("static").collection("quick-start-guides");
+        collection.insertMany([
+          {
+            "title": "Creating a new project", 
+            "desc": "Simple guide to show how to create a project",
+            "steps": [
+              {
+                "type": "text",
+                "format": "paragraph",
+                "title": "",
+                "content": "This guide will take you through how to create a project"
+              },
+              {
+                "type": "text",
+                "format": "header",
+                "title": "",
+                "content": "Downloading MIST.IO"
+              },
+              {
+                "type": "text",
+                "format": "link",
+                "title": "Click here to download MIST.IO",
+                "content": "/download"
+              },
+            ], 
+          },
+          {
+            "title": "Creating a simple page", 
+            "desc": "How to create a simple page",
+            "steps": [
+              {
+                "type": "text",
+                "format": "paragraph",
+                "title": "",
+                "content": "This is how to create a simple page"
+              },
+              {
+                "type": "text",
+                "format": "header",
+                "title": "",
+                "content": "Create a dynamic component"
+              },
+              {
+                "type": "button",
+                "format": "link",
+                "title": "Click me to go to home page",
+                "content": "/"
+              },
+            ], 
+          },
+        ]);
+        res.send("Categories was " + operation + "ed");
+      });
+    } else if(operation == "delete") {
+      database.query(function(client) {
+        const collection = client.db("static").collection("quick-start-guides");
+        collection.deleteMany({})
+        res.send("Categories was " + operation + "d");
+      });
+    }
+  });
+
   app.get('/test', function(req, res){
     res.send("Single response");
   });

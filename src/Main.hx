@@ -28,7 +28,8 @@ import lib.core.Navigate;
 class Main {
   static function main() {
     var body = new Body();
-    body.font("Lato", "100");
+    //body.font("Lato", "100");
+    body.font("Arial", "400");
     
     Navigate.routes = [
       new HomePage(),
@@ -39,7 +40,8 @@ class Main {
       new TemplatesPage(),
       new SocketsPage(),
       new DatabasePage(),
-      new WidgetCategoryPage()
+      new WidgetCategoryPage(),
+      new SpecificGuidePage()
     ];
 
     Navigate.to({url: Browser.location.pathname, main: true});
@@ -113,11 +115,10 @@ class CustomNavbar extends DynamicComponent {
       child: new Row({
         margin: Margin.fromTRBL(10, 50, 10, 50),
         children: [
-          homepageButton(null, "./assets/logo-verbose.png", "/"),
+          homepageButton(null, "./assets/logo-simple.png", "/"),
           homepageButton("Quick-start", "./assets/chevron-right-solid.svg", "/guides"),
           homepageButton("Docs", "./assets/book-solid.svg", "/docs"),
           homepageButton("Widgets", "./assets/book-open.svg",  "/widgets"),
-          homepageButton("Widgets", "./assets/book-open.svg",  "/widgets/category"),
           homepageButton("Snippets", "./assets/code-solid.svg", "/snippets"),
           homepageButton("Templates", "./assets/template.svg", "/templates"),
           homepageButton("Codebase", "./assets/github.svg", "https://github.com/ljellevo/mist.io"),

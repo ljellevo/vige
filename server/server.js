@@ -1,41 +1,31 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-
 var sockets = require("./websockets")(app);
 var path = require('path');
 
 
-app.use(express.static('bin'));
-
+//Middleware
 app.use(cors())
 app.use(express.json());
-
-//app.use("*", express.static(path.join(__dirname, '/../bin/index.html')));
-
+app.use(express.static('bin'));
 
 
-
-
-
-//app.use("/", express.static('bin'));
-//app.use(express.static(path.join(__dirname, '/../bin')))
-//app.use("/", express.static('bin'));
-//app.use(express.static(path.join(__dirname, '/../bin'), { index : false }))
-
-//app.use("/widgets", express.static('bin'));
-//app.use(express.static(path.join(__dirname, '/../bin')));
-
-
+//Developer routes for quick data load/removal
 const rest = require("./maintenance")(app);
+
+
+//Backend routes for data retriveal/upload
 const api = require("./api")(app);  
-/*
-app.get('*', function (req, res) {
+
+
+//Page routings
+app.get('/widgets/*', function (req, res) {
+  console.log("Widget category was requested")
   res.sendFile(path.resolve(__dirname, '../bin/index.html'))
 });
-*/
 
-app.get('/widgets/category', function (req, res) {
+app.get('/guides/*', function (req, res) {
   console.log("Widget category was requested")
   res.sendFile(path.resolve(__dirname, '../bin/index.html'))
 });
@@ -43,73 +33,6 @@ app.get('/widgets/category', function (req, res) {
 app.get('/*', function (req, res) {
   res.sendFile(path.resolve(__dirname, '../bin/index.html'))
 });
-
-
-/*
-app.get('/widgets/:category', function(req, res, next){
-    console.log("query");
-    //res.send("From server")
-    res.sendFile(path.resolve(__dirname + '/../bin/index.html')); 
-    //res.render(path.resolve(__dirname + '/../bin/index.html'));
-    next()
-});
-*/
-/*
-app.get('/widgets/category', function(req, res, next){
-  console.log("query");
-  console.log("specific page was requested");
-  console.log(path.resolve(__dirname + '/../bin'));
-  //res.send("From server")
-  res.sendFile(path.resolve(__dirname + '/../bin/index.html'));
-  //res.render(path.resolve(__dirname + '/../bin/index.html'));
-});
-
-app.use("/*", function(req, res) {
-    //resp.sendFile("/../bin/index.html");
-    res.sendFile(path.resolve(__dirname + '/../bin/index.html')); 
-});
-
-app.get('*', function (request, response) {
-    response.sendFile(path.resolve(__dirname, 'index.html'));
-  });
-  */
-
-  /*
-app.get("/*", function(req, res, next){
-  //res.redirect("/");
-  console.log("page was requested"); 
-  console.log(path.resolve(__dirname + '/../bin/index.html'));
-  //app.use(express.static('bin'));
-  res.sendFile(path.resolve(__dirname + '/../bin/index.html')); 
-  //res.sendFile(path.join(__dirname, '../bin', 'index.html'));
-  
- //res.render(path.resolve(__dirname + '/../bin/index.html'));
-});  
-*/
-
-
-//https://medium.com/@lowewenzel/serving-express-with-a-react-single-page-app-within-the-same-application-c168f1c44201
- 
-
-/*
-app.get('*', function(req, res, next){
-  //app.use(express.static('bin'));
-  console.log("Static was not served, serving specific"); 
-  res.sendFile(path.resolve(__dirname + '/../bin/index.html')); 
-
-  //res.render(path.resolve(__dirname + '/../bin/index.html'));
-  //res.render('index', {title: "index.html"});
- 
-  
-}); 
-*/
-
-
-
-
-
-
-
 
 
 
