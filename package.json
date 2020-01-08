@@ -22,6 +22,7 @@
   "homepage": "https://github.com/ljellevo/mist.io#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "consolidate": "^0.15.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-ws": "^4.0.0",
@@ -29,6 +30,7 @@
     "live-server": "^1.2.1",
     "mongodb": "^3.4.1",
     "nodemon": "^1.19.1",
+    "swig-templates": "^2.0.3",
     "ws": "^7.2.1"
   }
 }

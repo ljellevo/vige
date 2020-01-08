@@ -4,9 +4,9 @@ module.exports = function(app) {
 
 
   
-  app.get('/widgets/categories', function(req, res){
+  app.get('/api/widgets/categories', function(req, res){
     var database = new Database();
-
+    console.log("API was requested");
     database.query(function(client) {
       const collection = client.db("static").collection("categories");
       collection.find({}).toArray(function(err, result) {

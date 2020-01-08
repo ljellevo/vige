@@ -45,7 +45,7 @@ class WidgetsPage extends DynamicComponent {
 
   function getCategories() {
     new SingleRequest({
-      url: "http://localhost:3000/widgets/categories/",
+      url: "http://localhost:3000/api/widgets/categories",
       method: "GET",
       onComplete: function(res: HttpResponse) {
         trace(res);

@@ -5,16 +5,22 @@ const app = express();
 var sockets = require("./websockets")(app);
 var path = require('path');
 
-app.use(cors())
-app.use(express.json());
-//app.use("*", express.static(path.join(__dirname, '/../bin/index.html')));
-
-/*
 
 app.use(express.static('bin'));
-*/
+
+app.use(cors())
+app.use(express.json());
+
+//app.use("*", express.static(path.join(__dirname, '/../bin/index.html')));
+
+
+
+
+
+
 //app.use("/", express.static('bin'));
-app.use("/", express.static('bin'));
+//app.use(express.static(path.join(__dirname, '/../bin')))
+//app.use("/", express.static('bin'));
 //app.use(express.static(path.join(__dirname, '/../bin'), { index : false }))
 
 //app.use("/widgets", express.static('bin'));
@@ -23,7 +29,20 @@ app.use("/", express.static('bin'));
 
 const rest = require("./maintenance")(app);
 const api = require("./api")(app);  
+/*
+app.get('*', function (req, res) {
+  res.sendFile(path.resolve(__dirname, '../bin/index.html'))
+});
+*/
 
+app.get('/widgets/category', function (req, res) {
+  console.log("Widget category was requested")
+  res.sendFile(path.resolve(__dirname, '../bin/index.html'))
+});
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.resolve(__dirname, '../bin/index.html'))
+});
 
 
 /*
@@ -55,6 +74,7 @@ app.get('*', function (request, response) {
   });
   */
 
+  /*
 app.get("/*", function(req, res, next){
   //res.redirect("/");
   console.log("page was requested"); 
@@ -64,20 +84,26 @@ app.get("/*", function(req, res, next){
   //res.sendFile(path.join(__dirname, '../bin', 'index.html'));
   
  //res.render(path.resolve(__dirname + '/../bin/index.html'));
-}); 
+});  
+*/
 
 
 //https://medium.com/@lowewenzel/serving-express-with-a-react-single-page-app-within-the-same-application-c168f1c44201
  
 
 /*
-app.get('/*', function(req, res, next){
+app.get('*', function(req, res, next){
   //app.use(express.static('bin'));
-  //res.sendFile(path.resolve(__dirname + '/../bin/index.html')); 
+  console.log("Static was not served, serving specific"); 
+  res.sendFile(path.resolve(__dirname + '/../bin/index.html')); 
+
+  //res.render(path.resolve(__dirname + '/../bin/index.html'));
+  //res.render('index', {title: "index.html"});
+ 
   
- //res.render(path.resolve(__dirname + '/../bin/index.html'));
-});
+}); 
 */
+
 
 
 
