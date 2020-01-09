@@ -178,7 +178,7 @@ class WidgetsPage extends DynamicComponent {
                   ]
                 }),
                 onClick: function (e) {
-                    Navigate.to({url: "/widgets/" + data[i].name.toLowerCase()/*, param: [{param: "category", data: data[i].getTitle().toLowerCase()}]*/});
+                    Navigate.to({url: "/widgets/" + Navigate.getParameters()[0] + "/"  + data[i].name.toLowerCase()/*, param: [{param: "category", data: data[i].getTitle().toLowerCase()}]*/});
                 },
                 border: new Border({style: BorderStyle.Solid, width: 3, color: Colors.fromString("#2e3440"), cornerRadius: CornerRadius.all(20.0)})
               });

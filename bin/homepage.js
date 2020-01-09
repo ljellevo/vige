@@ -82,7 +82,7 @@ Main.__name__ = "Main";
 Main.main = function() {
 	var body = new lib_core_Body();
 	body.font("Arial","400");
-	lib_core_Navigate.routes = [new pages_HomePage(),new pages_GuidesPage(),new pages_GuidePage(),new pages_DocsPage(),new pages_CategoryPage(),new pages_SnippetsPage(),new pages_TemplatesPage(),new pages_SocketsPage(),new pages_DatabasePage(),new pages_WidgetsPage()];
+	lib_core_Navigate.routes = [new pages_HomePage(),new pages_GuidesPage(),new pages_GuidePage(),new pages_DocsPage(),new pages_CategoryPage(),new pages_SnippetsPage(),new pages_TemplatesPage(),new pages_SocketsPage(),new pages_DatabasePage(),new pages_WidgetsPage(),new pages_WidgetPage()];
 	lib_core_Navigate.to({ url : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
 		lib_core_Navigate.navigationEvent();
@@ -574,8 +574,9 @@ classes_ExampleDoc.prototype = {
 	}
 	,__class__: classes_ExampleDoc
 };
-var classes_WidgetDoc = function(name,desc,category,$arguments,returns,example) {
+var classes_WidgetDoc = function(name,shortDesc,desc,category,$arguments,returns,example) {
 	this.name = name;
+	this.shortDesc = shortDesc;
 	this.desc = desc;
 	this.category = category;
 	this.arguments = $arguments;
@@ -586,6 +587,9 @@ classes_WidgetDoc.__name__ = "classes.WidgetDoc";
 classes_WidgetDoc.prototype = {
 	getName: function() {
 		return this.name;
+	}
+	,getShortDesc: function() {
+		return this.shortDesc;
 	}
 	,getDesc: function() {
 		return this.desc;
@@ -4569,6 +4573,87 @@ pages_TemplatesPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	}
 	,__class__: pages_TemplatesPage
 });
+var pages_WidgetPage = function() {
+	var _g = new haxe_ds_StringMap();
+	if(__map_reserved["Layout"] != null) {
+		_g.setReserved("Layout","./assets/layout-grid.svg");
+	} else {
+		_g.h["Layout"] = "./assets/layout-grid.svg";
+	}
+	if(__map_reserved["Functionality"] != null) {
+		_g.setReserved("Functionality","./assets/functionality.svg");
+	} else {
+		_g.h["Functionality"] = "./assets/functionality.svg";
+	}
+	if(__map_reserved["Customization"] != null) {
+		_g.setReserved("Customization","./assets/swatchbook.svg");
+	} else {
+		_g.h["Customization"] = "./assets/swatchbook.svg";
+	}
+	if(__map_reserved["Components"] != null) {
+		_g.setReserved("Components","./assets/puzzle.svg");
+	} else {
+		_g.h["Components"] = "./assets/puzzle.svg";
+	}
+	if(__map_reserved["Utilities"] != null) {
+		_g.setReserved("Utilities","./assets/tools.svg");
+	} else {
+		_g.h["Utilities"] = "./assets/tools.svg";
+	}
+	this.images = _g;
+	this.id = "";
+	this.data = null;
+	lib_core_DynamicComponent.call(this);
+};
+pages_WidgetPage.__name__ = "pages.WidgetPage";
+pages_WidgetPage.__super__ = lib_core_DynamicComponent;
+pages_WidgetPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	init: function() {
+		lib_core_DynamicComponent.prototype.init.call(this);
+		this.id = lib_core_Navigate.getParameters()[0];
+		this.getWidgetDoc();
+	}
+	,getWidgetDoc: function() {
+		var _gthis = this;
+		new lib_core_SingleRequest({ url : "http://localhost:3000/api/widgets/" + lib_core_Navigate.getParameters()[0] + "/" + lib_core_Navigate.getParameters()[1], method : "GET", onComplete : function(res) {
+			_gthis.setState(_gthis,function() {
+				var widgetStruct = JSON.parse(res.get_content());
+				var argumentsStruct = widgetStruct.arguments;
+				var exampleStruct = widgetStruct.example;
+				var argumentsDocs = [];
+				var _g = 0;
+				var _g1 = argumentsStruct.length;
+				while(_g < _g1) {
+					var i = _g++;
+					argumentsDocs.push(new classes_ArgumentDoc(argumentsStruct[i].name,argumentsStruct[i].req,argumentsStruct[i].type,argumentsStruct[i].link,argumentsStruct[i].note));
+				}
+				var exampleDocs = [];
+				var _g2 = 0;
+				var _g3 = exampleStruct.length;
+				while(_g2 < _g3) {
+					var i1 = _g2++;
+					exampleDocs.push(new classes_ExampleDoc(exampleStruct[i1].desc,exampleStruct[i1].link));
+				}
+				_gthis.data = new classes_WidgetDoc(widgetStruct.name,widgetStruct.shortDesc,widgetStruct.desc,widgetStruct.category,argumentsDocs,widgetStruct.returns,exampleDocs);
+			});
+		}, onProgress : function() {
+			console.log("src/pages/WidgetPage.hx:106:","working");
+			_gthis.setState(_gthis,function() {
+				_gthis.data = null;
+			});
+		}}).request();
+	}
+	,component: function() {
+		var tmp = new CustomNavbar().navbarComponent();
+		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp1 = new lib_utils_Color({ backgroundColor : this1});
+		var tmp2 = new lib_utils_Size({ height : 5, heightType : "px", width : 60, widthType : "%"});
+		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		this.page = new lib_components_Page({ navbar : tmp, route : "/widgets/:category/:id", child : new lib_components_Container({ color : tmp1, child : new lib_components_Column({ children : [new lib_components_Container({ size : tmp2, color : new lib_utils_Color({ backgroundColor : this11})}),new lib_components_Container({ padding : lib_utils_Padding.fromTRBL(50.0,0.0,0.0,50.0), child : new lib_components_Column({ children : [new lib_components_Container({ child : new lib_components_Text(this.data != null ? this.data.getName() : "",{ textSize : 40}), padding : lib_utils_Padding.fromTRBL(0.0,0.0,20.0,0.0)})]})})]})})});
+		return this.page;
+	}
+	,__class__: pages_WidgetPage
+});
 var pages_WidgetsPage = function() {
 	var _g = new haxe_ds_StringMap();
 	if(__map_reserved["Container"] != null) {
@@ -4672,7 +4757,7 @@ pages_WidgetsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 			var tmp10 = new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, children : [tmp7,new lib_components_Container({ stretch : true, size : tmp8, child : new lib_components_Column({ children : [tmp9,new lib_components_Text(_gthis.data[i].shortDesc,{ color : new lib_utils_Color({ color : this13})})]})})]});
 			var this14 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
 			return new lib_components_Button({ color : tmp2, padding : tmp3, size : tmp4, child : tmp10, onClick : function(e) {
-				lib_core_Navigate.to({ url : "/widgets/" + _gthis.data[i].name.toLowerCase()});
+				lib_core_Navigate.to({ url : "/widgets/" + lib_core_Navigate.getParameters()[0] + "/" + _gthis.data[i].name.toLowerCase()});
 			}, border : new lib_utils_Border({ style : lib_utils_BorderStyle.Solid, width : 3, color : this14, cornerRadius : lib_utils_CornerRadius.all(20.0)})});
 		}, rowBuilder : function(children) {
 			return new lib_components_Row({ children : children});

@@ -46,6 +46,20 @@ module.exports = function(app) {
     */
   });
 
+  app.get('/api/widgets/:category/:name', function(req, res){
+    var name = req.params.name
+    var database = new Database();
+    database.query(function(client) {
+      const collection = client.db("static").collection("catalogue");
+      collection.findOne({name: '/^' + name + '$/i'}, function(err, result){
+
+        if(err) console.log(err);
+        console.log(result);
+        res.send(result);
+      })
+    });
+  });
+
 
 
   app.get('/api/guides', function(req, res){

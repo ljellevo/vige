@@ -6,6 +6,8 @@ typedef ArgumentStruct = {
     var name: String;
     var req: Bool;
     var type: String;
+    var link: String;
+    var note: String;
 }
 
 class ArgumentDoc {
@@ -78,6 +80,7 @@ class ExampleDoc {
 
 typedef WidgetStruct = {
     var name: String;
+    var shortDesc: String;
     var desc: String;
     var category: String;
     var arguments: Array<ArgumentStruct>;
@@ -87,6 +90,7 @@ typedef WidgetStruct = {
 
 class WidgetDoc {
     var name: String;
+    var shortDesc: String;
     var desc: String;
     var category: String;
     var arguments: Array<ArgumentDoc>;
@@ -95,6 +99,7 @@ class WidgetDoc {
     
     public function new(
         name: String,
+        shortDesc: String,
         desc: String,
         category: String,
         arguments: Array<ArgumentDoc>,
@@ -102,6 +107,7 @@ class WidgetDoc {
         example: Array<ExampleDoc>
     ){
         this.name = name;
+        this.shortDesc = shortDesc;
         this.desc = desc;
         this.category = category;
         this.arguments = arguments;
@@ -111,6 +117,10 @@ class WidgetDoc {
 
     public function getName(): String {
         return name;
+    }
+
+    public function getShortDesc(): String {
+        return shortDesc;
     }
 
     public function getDesc(): String {
