@@ -14,6 +14,7 @@ Features:
 - Widget Library (work in progress)
 - Animation Library (missing)
 - Drawing Library (missing)
+- Testing Library (missing)
 
 
 Other related project:
