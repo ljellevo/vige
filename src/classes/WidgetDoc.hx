@@ -54,27 +54,27 @@ class ArgumentDoc {
 
 typedef ExampleStruct = {
     var desc: String;
-    var link: String;
+    var code: String;
 }
 
 class ExampleDoc {
     var desc: String;
-    var link: String;
+    var code: String;
 
     public function new(
         desc: String,
-        link: String
+        code: String
     ){
         this.desc = desc;
-        this.link = link;
+        this.code = code;
     }
 
     public function getDesc(): String {
         return desc;
     }
 
-    public function getLink(): String {
-        return link;
+    public function getCode(): String {
+        return code;
     }
 }
 

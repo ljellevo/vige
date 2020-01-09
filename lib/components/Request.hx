@@ -10,6 +10,7 @@ import lib.utils.Border;
 import lib.utils.Padding;
 import lib.utils.Margin;
 import lib.utils.Size;
+import lib.support.Jsonp;
 
 /**
     new Request({
@@ -32,6 +33,7 @@ import lib.utils.Size;
 
 class Request implements Widget{
     var url: String = "";
+    var jsonp: Bool;
     var method: String;
     var onComplete: haxe.Constraints.Function = null;
     var onProgress: haxe.Constraints.Function = null;
@@ -46,12 +48,14 @@ class Request implements Widget{
     public function new(
     arg: {
         url: String,
+        ?jsonp: Bool,
         ?method: String,
         onComplete: haxe.Constraints.Function,
         onProgress: haxe.Constraints.Function,
         ?onError: haxe.Constraints.Function,
     }){
         this.url = arg.url;
+        this.jsonp = arg.jsonp != null ? arg.jsonp : false;
         this.method = arg.method != null ? arg.method : "GET";
         this.onComplete = arg.onComplete;
         this.onProgress = arg.onProgress;
@@ -65,14 +69,36 @@ class Request implements Widget{
         container.removeChild(onProgressNode);
         container.appendChild(component.render());
     }
+
+    function replaceNode(container: js.html.DivElement, onProgressNode: js.html.Node, component: Widget) {
+        
+      container.removeChild(onProgressNode);
+      container.appendChild(component.render());
+  }
     
     public function render():js.html.Node {
       var container = Browser.document.createDivElement();
-      var progressComponent = onProgress();
-      var onProgressNode = container.appendChild(progressComponent.render());
-      var request = new HttpRequest({
+
+      if(jsonp) {
+        var progressComponent = onProgress();
+        trace(progressComponent.render());
+        var onProgressNode = container.appendChild(progressComponent.render());
+
+        var http = new Jsonp(url);
+        http.onData = function(data) {
+          var component: Widget = onComplete(data);
+          trace(component.render());
+          replaceNode(container, onProgressNode, component);
+        }
+        http.request();
+      } else {
+        var progressComponent = onProgress();
+        var onProgressNode = container.appendChild(progressComponent.render());
+      
+        var request = new HttpRequest({
           url : url,
           method: method,
+          
           callback : function(response:HttpResponse):Void {
             if (response.isOK) {
               var component = onComplete(response);
@@ -86,7 +112,14 @@ class Request implements Widget{
           }  
         });
       
-      request.send();      
+        request.send(); 
+      }
+        
+      
+      
+      
+
+        
       return container;
     }
 }

@@ -51,12 +51,14 @@ module.exports = function(app) {
     var database = new Database();
     database.query(function(client) {
       const collection = client.db("static").collection("catalogue");
-      collection.findOne({name: '/^' + name + '$/i'}, function(err, result){
+     
+      collection.findOne({name:  new RegExp("^" + name + "$", "i") }, function(err, result){
+        
 
         if(err) console.log(err);
         console.log(result);
         res.send(result);
-      })
+      })  
     });
   });
 

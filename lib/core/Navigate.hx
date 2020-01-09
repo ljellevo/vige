@@ -49,13 +49,11 @@ class Navigate {
     var urlParts = url.split("/");
     routeParts.splice(0, 1);
     urlParts.splice(0, 1);
-    trace(routeParts);
     for(i in 0...routeParts.length) {
       if(routeParts[i].indexOf(":") > -1) {
         params.push(urlParts[i]);
       }
     }
-    trace(params);
     return params;
   }
 

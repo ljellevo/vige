@@ -83,10 +83,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "A root object with a child.",
-            "example": {
+            "example": [
+              {
               "desc": "How to initialize a new page",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 0
           },
           {
@@ -139,10 +141,13 @@ module.exports = function(app) {
               },
             ],
             "returns": "Container object with nested children.",
-            "example": {
+            "example": [
+              {
               "desc": "Creates a container with a button.",
               "code": "/Link to github gist"
-            },
+              }
+            ]
+            ,
             "order": 1
           },
           {
@@ -209,10 +214,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Container object with nested children.",
-            "example": {
+            "example": [
+              {
               "desc": "Lays out two text elements and a button in a vertical layout.",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 2
           },
           {
@@ -293,10 +300,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Container object with nested children.",
-            "example": {
+            "example": [
+              {
               "desc": "Lays out two text elements and a button in a horizontal layout.",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 3
           },
           {
@@ -356,10 +365,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Container with centered child",
-            "example": {
+            "example": [
+              {
               "desc": "Examplecode desc",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 4
           },
           {
@@ -440,10 +451,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Positioned object with nested children",
-            "example": {
+            "example": [
+              {
               "desc": "Creates a positioned container with children.",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 5
           },
           
@@ -519,10 +532,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Stylized text object.",
-            "example": {
+            "example": [
+              {
               "desc": "How to create a text object",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 0
           },
           {
@@ -582,10 +597,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "A button widget with onClick callback",
-            "example": {
+            "example": [
+              {
               "desc": "A button which displays an alert when clicked.",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 1
           },
 
@@ -612,10 +629,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "",
-            "example": {
+            "example": [
+              {
               "desc": "",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 0
           },
           {
@@ -647,10 +666,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Object with color",
-            "example": {
+            "example": [
+              {
               "desc": "Example code",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 1
           },
           {
@@ -689,10 +710,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Object with size",
-            "example": {
+            "example": [
+              {
               "desc": "Example code",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 2
           },
           {
@@ -717,10 +740,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Object with padding",
-            "example": {
+            "example": [
+              {
               "desc": "Example code",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 3
           },
           {
@@ -745,10 +770,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Object with margin",
-            "example": {
+            "example": [
+              {
               "desc": "Example code",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 4
           },
           {
@@ -794,10 +821,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Object with border ",
-            "example": {
+            "example": [
+              {
               "desc": "Example code",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 5
           },
 
@@ -887,10 +916,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "",
-            "example": {
+            "example": [
+              {
               "desc": "",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 0
           },
           {
@@ -978,10 +1009,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Image widget",
-            "example": {
+            "example": [
+              {
               "desc": "Example code",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 1
           },
           {
@@ -1034,10 +1067,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "An object where the .build(function(iterator){}) is used to return widgets",
-            "example": {
+            "example": [
+              {
               "desc": "Example Code",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 2
           },
 
@@ -1092,10 +1127,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Stream widget",
-            "example": {
+            "example": [
+              {
               "desc": "Example Code",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 0
           },
           {
@@ -1141,10 +1178,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "A request widget",
-            "example": {
+            "example": [
+              {
               "desc": "Example code",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 1
           },
           {
@@ -1190,10 +1229,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "Returns a SingleRequest object, call .request() on this object to send the request",
-            "example": {
+            "example": [
+              {
               "desc": "Example Code",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 2
           },
           
@@ -1213,10 +1254,12 @@ module.exports = function(app) {
               },
             ],
             "returns": "An array of rows, where each row contains an array of elements",
-            "example": {
+            "example": [
+              {
               "desc": "Example Code",
               "code": "/Link to github gist"
-            },
+              }
+            ],
             "order": 0
           },
         ])

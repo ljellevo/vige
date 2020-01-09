@@ -199,7 +199,7 @@ class GuidePage extends DynamicComponent {
           //padding: Padding.fromTRBL(0.0, 0.0, 0.0, 20.0),
           children: [
             new Container({
-              
+              margin: Margin.fromTRBL(60.0, 0.0, 0.0, 0.0),
               size: new Size({height: 5, heightType: "px", width: 60, widthType: "%"}),
               color: new Color({backgroundColor: Colors.fromString("#2e3440")})
             }),

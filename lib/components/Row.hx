@@ -28,6 +28,7 @@ enum RowAlignment {
 
 /**
     Is documented,, not enum
+    Need updated docs
 **/
 
 class Row implements Widget {
@@ -36,6 +37,7 @@ class Row implements Widget {
     var cellSize: Size;
     var cellPadding: Padding;
     var alignment: RowAlignment;
+    var equalElementWidth: Bool;
 
     public var color: Color;
     public var border: Border;
@@ -46,6 +48,7 @@ class Row implements Widget {
 
     public function new(arg: {
         children: Array<Widget>,
+        ?equalElementWidth: Bool,
         ?cellColor: Color,
         ?cellSize: Size,
         ?cellPadding: Padding,
@@ -59,6 +62,7 @@ class Row implements Widget {
         
     }) {
         this.children = arg.children;
+        this.equalElementWidth = arg.equalElementWidth != null ? arg.equalElementWidth : true;
         this.cellColor = arg.cellColor != null ? arg.cellColor : new Color({});
         this.cellSize = arg.cellSize != null ? arg.cellSize : new Size({});
         this.cellPadding = arg.cellPadding != null ? arg.cellPadding : Padding.all(0.0);
@@ -76,7 +80,12 @@ class Row implements Widget {
 
     public function render(): Node {
         var row = Browser.document.createDivElement();
-        row.style.display = "grid";
+        if(equalElementWidth) {
+            row.style.display = "grid";
+        } else {
+            row.style.display = "inline-grid";
+        }
+        
         //row.style.gridTemplateColumns =  Std.string(children.length) + " auto auto";
         //row.style.gridTemplateRows = "auto 1fr";
         row.classList.add("row");
@@ -84,16 +93,17 @@ class Row implements Widget {
         new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, alignment: alignment});
 
         for(child in children) {
-            
+            /*
             var rowCell = Browser.document.createDivElement();
             rowCell.classList.add("row-cell");
             rowCell.appendChild(child.render());
             new StyleManager().addStyleToDiv({widget: rowCell, color: cellColor, padding: cellPadding, size: cellSize});
             row.appendChild(rowCell);
-            /*
+            */
+            
             var cell = child.render();
             row.appendChild(cell);
-            */
+            
             
         }
         

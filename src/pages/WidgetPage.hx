@@ -1,5 +1,7 @@
 package pages;
 
+import com.akifox.asynchttp.HttpRequest;
+import js.html.Request;
 import classes.WidgetDoc;
 import js.html.Navigator;
 import components.HomeButton;
@@ -29,10 +31,19 @@ import lib.utils.Size;
 import lib.utils.Colors;
 import lib.utils.Border;
 
+import lib.components.HtmlSnippet;
+import lib.components.Script;
+import lib.components.Request;
+
+
 
 /**
   Not done, need to implement param getter from navigator
 **/
+
+typedef GistSnippet = {
+  var div: js.html.Node;
+}
 
 
 class WidgetPage extends DynamicComponent {
@@ -80,12 +91,14 @@ class WidgetPage extends DynamicComponent {
             );
           }
 
+          trace(widgetStruct.example);
+          
           var exampleDocs = [];
           for(i in 0...exampleStruct.length) {
             exampleDocs.push(
               new ExampleDoc(
                 exampleStruct[i].desc, 
-                exampleStruct[i].link
+                exampleStruct[i].code
               )
             );
           }
@@ -100,10 +113,10 @@ class WidgetPage extends DynamicComponent {
               widgetStruct.returns, 
               exampleDocs
             );
+            trace(data.getExample());
         });
       },
       onProgress: function() {
-        trace("working");
         setState(this, function(){
           data = null;
         });
@@ -120,97 +133,124 @@ class WidgetPage extends DynamicComponent {
     Button
     Link
   **/
-  /*
-  function determineCorrectWidget(i): Widget{
+  
+  function determineCorrectArgumentWidget(argument: ArgumentDoc): Widget{
     if(data == null) return null;
+    var child;
 
-    if(data.getSteps()[i].getFormat() == "header") {
-      return new Container({
-        padding: Padding.fromTRBL(20.0, 0.0, 0.0, 0.0),
-        size: new Size({width: 100, widthType: "%"}),
-        child: new Text(data.getSteps()[i].getContent(), {textSize: 25})
-      });
-    } else if(data.getSteps()[i].getFormat() == "paragraph") {
-      return new Container({
-        size: new Size({width: 100, widthType: "%"}),
-        child: new Text(data.getSteps()[i].getContent())
-      });
-    } else if(data.getSteps()[i].getFormat() == "link" && data.getSteps()[i].getType() == "text") {
-      //link
-    }else if(data.getSteps()[i].getType() == "break") {
-      return new Container({
-        
-        size: new Size({height: Std.parseFloat(data.getSteps()[i].getContent()), heightType: "px"}),
-        
-        //font-family: monaco,Consolas,Lucida Console,monospace;
-      });
-      //link
-    } else if(data.getSteps()[i].getFormat() == "image") {
-      //image
-    } else if(data.getSteps()[i].getFormat() == "code") {
-      //code
-      return new Container({
-        padding: Padding.fromTRBL(20.0, 0.0, 20.0, 0.0),
-        margin: Margin.fromTRBL(20.0, 0.0, 20.0, 0.0),
-        
-        size: new Size({width: 500, widthType: "px"}),
-        color: new Color({backgroundColor: Colors.fromString("#F2F2F2")}),
-        child: new Container({
-          padding: Padding.fromTRBL(0.0, 25.0, 0.0, 25.0),
-          child: new Text(data.getSteps()[i].getContent(), {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"})
-        })
-        //font-family: monaco,Consolas,Lucida Console,monospace;
-      });
-    } else if(data.getSteps()[i].getFormat() == "link" && data.getSteps()[i].getType() == "button") {
-      return new Container({
-        padding: Padding.fromTRBL(20.0, 0.0, 20.0, 0.0),
-        size: new Size({width: 100, widthType: "%"}),
-        child: new HomeButton({
-          border: new Border({
-            color: Colors.TRANSPARENT,
-            style: BorderStyle.None,
-            width: 1,
-            cornerRadius: CornerRadius.all(20),
+    if(argument.getReq()){
+      //var text = new Text(" - " + argument.getName() + " (" + argument.getType() + ")", {textSize: 16, color: new Color({color: Colors.RED}), font: "monaco,Consolas,Lucida Console,monospace"});
+      child = new Row({
+        equalElementWidth: false,
+        alignment: RowAlignment.Left,
+        cellSize: new Size({width: 120, widthType: "px"}),
+        children: [
+          new Container({
+            size: new Size({width: 100, widthType: "px"}),
+            child: new Text(" - " + argument.getName(), {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
           }),
-          color: new Color({backgroundColor: Colors.fromString("#2e3440")}),
-          size: new Size({height: 40, heightType: "px"}),
-          child: new Center({
-            alignment: CenterAlignment.Both,
-            padding: Padding.fromTRBL(0.0, 20.0, 0.0, 20.0),
-            child: new Text(data.getSteps()[i].getTitle(), {textSize: 18, color: new Color({color: Colors.fromString("#fafafa")})})
+          new Container({
+            size: new Size({width: 100, widthType: "px"}),
+            child: new Text("(" + argument.getType() + ")", {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
           }),
-          onClick: function() {
-            Navigate.to({url: data.getSteps()[i].getContent()});
-          }
-        })
+          new Container({
+            child: new Text(" : " + argument.getNote() , {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
+          })
+        ]
       });
-    } else if(data.getSteps()[i].getFormat() == "link/external" && data.getSteps()[i].getType() == "button") {
-      return new Container({
-        padding: Padding.fromTRBL(20.0, 0.0, 20.0, 0.0),
-        size: new Size({width: 100, widthType: "%"}),
-        child: new HomeButton({
-          border: new Border({
-            color: Colors.TRANSPARENT,
-            style: BorderStyle.None,
-            width: 1,
-            cornerRadius: CornerRadius.all(20),
+    } else {
+      //child = new Text(" - " + argument.getName() + " (" + argument.getType() + ")", {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"});
+      child = new Row({
+        alignment: RowAlignment.Left,
+        equalElementWidth: false,
+        //cellSize: new Size({width: 120, widthType: "px"}),
+        children: [
+          new Container({
+            size: new Size({width: 100, widthType: "px"}),
+            child: new Text(" - " + argument.getName(), {textSize: 16, color: new Color({color: Colors.fromString("#808080")}), font: "monaco,Consolas,Lucida Console,monospace"}),
           }),
-          color: new Color({backgroundColor: Colors.fromString("#2e3440")}),
-          size: new Size({height: 40, heightType: "px"}),
-          child: new Center({
-            alignment: CenterAlignment.Both,
-            padding: Padding.fromTRBL(0.0, 20.0, 0.0, 20.0),
-            child: new Text(data.getSteps()[i].getTitle(), {textSize: 18, color: new Color({color: Colors.fromString("#fafafa")})})
+          new Container({
+            size: new Size({width: 100, widthType: "px"}),
+            child: new Text("(" + argument.getType() + ")", {textSize: 16, color: new Color({color: Colors.fromString("#808080")}), font: "monaco,Consolas,Lucida Console,monospace"}),
           }),
-          onClick: function() {
-            Navigate.link({url: data.getSteps()[i].getContent()});
-          }
-        })
+          new Container({
+            child: new Text(" : " + argument.getNote() , {textSize: 16, color: new Color({color: Colors.fromString("#808080")}), font: "monaco,Consolas,Lucida Console,monospace"}),
+          }),
+          
+        ]
       });
     }
-    return new Container({});
+
+    //if(data[i].d)
+
+    return new Container({
+      padding: Padding.fromTRBL(0.0, 25.0, 0.0, 25.0),
+      child: child
+    });
+
+     
+    
   }
-  */
+
+
+
+  function determineCorrectExampleWidget(example: ExampleDoc): Widget{
+    trace("Running");
+    if(data == null) return null;
+    var child;
+    
+
+    child = new Row({
+      equalElementWidth: false,
+      alignment: RowAlignment.Left,
+      cellSize: new Size({width: 120, widthType: "px"}),
+      children: [
+        new Container({
+          size: new Size({width: 100, widthType: "px"}),
+          child: new Text(" - " + example.getDesc(), {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
+        }),
+        
+        new Container({
+          size: new Size({width: 100, widthType: "px"}),
+          child: new Request({
+            jsonp: true,
+            url: "https://gist.github.com/ljellevo/7cbac37d851ce59a45ca45ce6c01fefd.json",
+            //type: "jsonp",
+            onComplete: function(response: Dynamic) {
+              var res: GistSnippet = response;
+
+              return new HtmlSnippet({
+                snippet: res.div,
+              });
+            },
+            onProgress: function() {
+              return new Text("loading gist");
+            }
+
+          })
+        }),
+        //<script src="https://gist.github.com/ljellevo/7cbac37d851ce59a45ca45ce6c01fefd.js"></script>
+       //<iframe src="data:text/html;charset=utf-8,%3Cbody%3E%3Cscript%20src%3D%22https%3A%2F%2Fgist.github.com%2Fljellevo%2F7cbac37d851ce59a45ca45ce6c01fefd.js%22%3E%3C%2Fscript%3E%3C%2Fbody%3E">
+
+       /*
+       new Script({
+            src: "https://gist.github.com/ljellevo/7cbac37d851ce59a45ca45ce6c01fefd.js",
+            //src: "data:text/html;charset=utf-8,%3Cbody%3E%3Cscript%20src%3D%22https%3A%2F%2Fgist.github.com%2Fljellevo%2F7cbac37d851ce59a45ca45ce6c01fefd.js%22%3E%3C%2Fscript%3E%3C%2Fbody%3E"
+          }),
+
+       */
+      ]
+    });
+    
+
+    //if(data[i].d)
+
+    return new Container({
+      padding: Padding.fromTRBL(0.0, 25.0, 0.0, 25.0),
+      child: child
+    });
+  }
+  
 
   
 
@@ -221,47 +261,91 @@ class WidgetPage extends DynamicComponent {
       navbar: new CustomNavbar().navbarComponent(),
       route: "/widgets/:category/:id",
       child: new Container({
+        margin: Margin.fromTRBL(-60.0, 0.0, 0.0, 0.0),
         color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
         child: new Column({
           //padding: Padding.fromTRBL(0.0, 0.0, 0.0, 20.0),
           children: [
             new Container({
-              
+              margin: Margin.fromTRBL(60.0, 0.0, 0.0, 0.0),
               size: new Size({height: 5, heightType: "px", width: 60, widthType: "%"}),
               color: new Color({backgroundColor: Colors.fromString("#2e3440")})
             }),
             //padding: Padding.fromTRBL(0.0, 0.0, 20.0, 20.0),
             new Container({
-              padding: Padding.fromTRBL(50.0, 0.0, 0.0, 50.0),
+              padding: Padding.fromTRBL(50.0, 50.0, 0.0, 50.0),
               child: new Column({
                 children: [
                   //padding: Padding.fromTRBL(0.0, 0.0, 20.0, 0.0),
                   //new Text(data != null? data.getTitle() : "", {textSize: 40,}),
                   new Container({
-                    child: new Text(data != null? data.getName() : "", {textSize: 40,}),
-                    padding: Padding.fromTRBL(0.0, 0.0, 20.0, 0.0),
-                  }),
-                  /*
-                  new Column({
+                    child: new Text(data != null? data.getName() : "", {textSize: 40, color: new Color({color: Colors.fromString("#2e3440")})}),
                     padding: Padding.fromTRBL(0.0, 0.0, 0.0, 0.0),
-                    children: Constructors.constructRows({
-                      data: data != null ? data.getSteps() : null,
-                      elementsInEachRow: 1,
-                      elementBuilder: function(i) {
-                        //Each element
-                        return determineCorrectWidget(i);
-                      },
-                      rowBuilder: function(children) {
-                        //Each row
-                        return new Row({
-                          
-                          alignment: RowAlignment.Stretch,
-                          children: children,
-                        });
-                      }
+                  }),
+                  new Container({
+                    child: new Text(data != null? " - " + data.getCategory() + " - ": "", {color: new Color({color: Colors.fromString("#808080")})}),
+                    padding: Padding.fromTRBL(0.0, 0.0, 0.0, 20.0),
+                  }),
+                  new Container({
+                    child: new Text(data != null? data.getDesc() : "", {color: new Color({color: Colors.fromString("#2e3440")})}),
+                    padding: Padding.fromTRBL(20.0, 0.0, 20.0, 0.0),
+                  }),
+                  
+                  
+                  new Container({
+                    padding: Padding.fromTRBL(20.0, 0.0, 20.0, 0.0),
+                    margin: Margin.fromTRBL(20.0, 0.0, 20.0, 0.0),
+                    
+                    size: new Size({width: 700, widthType: "px"}),
+                    color: new Color({backgroundColor: Colors.fromString("#F2F2F2")}),
+                    child: new Column({
+                      padding: Padding.fromTRBL(0.0, 0.0, 0.0, 0.0),
+                      children: Constructors.constructRows({
+                        data: data != null ? data.getArguments() : null,
+                        elementsInEachRow: 1,
+                        elementBuilder: function(i) {
+                          //Each element
+                          return determineCorrectArgumentWidget(data.getArguments()[i]);
+                        },
+                        rowBuilder: function(children) {
+                          //Each row
+                          return new Row({
+                            
+                            alignment: RowAlignment.Stretch,
+                            children: children,
+                          });
+                        }
+                      })
                     })
+                    //font-family: monaco,Consolas,Lucida Console,monospace;
+                  }),
+                  new Container({
+                    padding: Padding.fromTRBL(20.0, 0.0, 20.0, 0.0),
+                    margin: Margin.fromTRBL(20.0, 0.0, 20.0, 0.0),
+                    
+                    size: new Size({width: 700, widthType: "px"}),
+                    color: new Color({backgroundColor: Colors.fromString("#F2F2F2")}),
+                    child: new Column({
+                      padding: Padding.fromTRBL(0.0, 0.0, 0.0, 0.0),
+                      children: Constructors.constructRows({
+                        data: data != null ? data.getExample() : null,
+                        elementsInEachRow: 1,
+                        elementBuilder: function(i) {
+                          //Each element
+                          return determineCorrectExampleWidget(data.getExample()[i]);
+                        },
+                        rowBuilder: function(children) {
+                          //Each row
+                          return new Row({
+                            
+                            alignment: RowAlignment.Stretch,
+                            children: children,
+                          });
+                        }
+                      })
+                    })
+                    //font-family: monaco,Consolas,Lucida Console,monospace;
                   })
-                  */
                 ]
               })
             }),
