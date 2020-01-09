@@ -34,6 +34,10 @@ new Stream(page, {
 })
 **/
 
+/**
+    Is documented
+**/
+
 class Stream implements Widget{
     var url: String = "";
     var page: Page = null;

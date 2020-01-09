@@ -10,6 +10,10 @@ import lib.utils.Padding;
 import lib.utils.Margin;
 import lib.utils.Size;
 
+/**
+    Is documented
+**/
+
 class Button implements Widget {
     var child: Widget = null;
     

@@ -1,0 +1,83 @@
+[
+
+{
+  "name": "",
+  "shortDesc": "", 
+  "desc": "",
+  "category": "customization",
+  "arguments" : [
+    {
+      "name": "",
+      "req": true,
+      "type": "",
+      "link": "",
+      "note": ""
+    }
+  ],
+  "returns": "",
+  "example": {
+    "desc": "",
+    "code": "/Link to github gist"
+  },
+  "order": -1
+},
+
+
+
+{
+  "name": "",
+  "shortDesc": "", 
+  "desc": "",
+  "category": "customization",
+  "arguments" : [
+    {
+      "name": "",
+      "req": true,
+      "type": "",
+      "link": "",
+      "note": ""
+    },
+    {
+      "name": "color",
+      "req": false,
+      "type": "Color",
+      "link": "/widgets/customization/color",
+      "note": ""
+    },
+    {
+      "name": "border",
+      "req": false,
+      "type": "Border",
+      "link": "/widgets/customization/border",
+      "note": ""
+    },
+    {
+      "name": "padding",
+      "req": false,
+      "type": "Padding",
+      "link": "/widgets/customization/padding",
+      "note": ""
+    },
+    {
+      "name": "margin",
+      "req": false,
+      "type": "Margin",
+      "link": "/widgets/customization/margin",
+      "note": ""
+    },
+    {
+      "name": "size",
+      "req": false,
+      "type": "Size",
+      "link": "/widgets/customization/size",
+      "note": ""
+    }
+  ],
+  "returns": "",
+  "example": {
+    "desc": "",
+    "code": "/Link to github gist"
+  },
+  "order": -1
+}
+]

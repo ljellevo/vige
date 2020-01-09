@@ -26,6 +26,10 @@ import lib.utils.Size;
     }),
 **/
 
+/**
+    Is documented
+**/
+
 class Request implements Widget{
     var url: String = "";
     var method: String;

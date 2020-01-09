@@ -27,6 +27,11 @@ new Image({
 })
 **/
 
+/**
+    Is documented
+**/
+
+
 class Image implements Widget {
 
     var src: String;

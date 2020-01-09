@@ -1,0 +1,218 @@
+[
+{
+    "name": "Container", 
+    "shortDesc": "A simple container",
+    "desc": "A container with children. Container is equivalent with a <div> html tag.",
+    "category": "layout",
+    "arguments" : [
+      {
+        "name": "size",
+        "req": false
+      },
+      {
+        "name": "style",
+        "req": false
+      },
+      {
+        "name": "child",
+        "req": true
+      }
+    ],
+    "returns": "Container object with nested children.",
+    "example": {
+      "desc": "Creates a container with a button.",
+      "code": "/Link to github gist"
+    },
+    "order": 1
+  },
+  {
+    "name": "Column",
+    "shortDesc": "Structures children vertically", 
+    "desc": "A vertical layout format where child widgets are layed out under each other. This widget compiles to a HTML <div> tag, with CSS Grid property.",
+    "category": "layout",
+    "arguments" : [
+      {
+        "name": "children",
+        "req": true
+      },
+      {
+        "name": "style",
+        "req": false
+      },
+      {
+        "name": "cellStyle",
+        "req": false
+      },
+      {
+        "name": "size",
+        "req": false
+      },
+      {
+        "name": "cellSize",
+        "req": false
+      },
+      {
+        "name": "padding",
+        "req": false
+      }
+    ],
+    "returns": "Container object with nested children.",
+    "example": {
+      "desc": "Lays out two text elements and a button in a vertical layout.",
+      "code": "/Link to github gist"
+    },
+    "order": 2
+  },
+  {
+    "name": "Page",
+    "shortDesc": "Root of a page", 
+    "desc": "A core component used to define a page for the website. Each page should consist of a Page component as root. This component is used to handle routing.",
+    "category": "layout",
+    "arguments" : [
+      {
+        "name": "route",
+        "req": true
+      },
+      {
+        "name": "title",
+        "req": false
+      },
+      {
+        "name": "navbar",
+        "req": false
+      },
+      {
+        "name": "child",
+        "req": true
+      },
+      {
+        "name": "style",
+        "req": false
+      },
+      {
+        "name": "size",
+        "req": false
+      }
+    ],
+    "returns": "A root object with a child.",
+    "example": {
+      "desc": "Each page in the website should consist of this component as the root. Using as root for application is best practice.",
+      "code": "/Link to github gist"
+    },
+    "order": 0
+  },
+  {
+    "name": "Positioned",
+    "shortDesc": "Positions children in a spesific location", 
+    "desc": "A container with children. This container is positioned within parent. \n\nMust have one horizontal and one vertical value to position correctly.",
+    "category": "layout",
+    "arguments" : [
+      {
+        "name": "size",
+        "req": false
+      },
+      {
+        "name": "style",
+        "req": false
+      },
+      {
+        "name": "top",
+        "req": false
+      },
+      {
+        "name": "right",
+        "req": false
+      },
+      {
+        "name": "bottom",
+        "req": false
+      },
+      {
+        "name": "left",
+        "req": false
+      },
+      {
+        "name": "child",
+        "req": true
+      }
+    ],
+    "returns": "Positioned object with nested children",
+    "example": {
+      "desc": "Creates a positioned container with children.",
+      "code": "/Link to github gist"
+    },
+    "order": 5
+  },
+  {
+    "name": "Row",
+    "shortDesc": "Structures children horizontally", 
+    "desc": "A horizontal layout format where child widgets are layed out next to each other. This widget compiles to a HTML <div> tag, with CSS Grid property.",
+    "category": "layout",
+    "arguments" : [
+      {
+        "name": "children",
+        "req": true
+      },
+      {
+        "name": "style",
+        "req": false
+      },
+      {
+        "name": "cellStyle",
+        "req": false
+      },
+      {
+        "name": "size",
+        "req": false
+      },
+      {
+        "name": "cellSize",
+        "req": false
+      },
+      {
+        "name": "padding",
+        "req": false
+      }
+    ],
+    "returns": "Container object with nested children.",
+    "example": {
+      "desc": "Lays out two text elements and a button in a horizontal layout.",
+      "code": "/Link to github gist"
+    },
+    "order": 3
+  },
+  {
+    "name": "Centered",
+    "shortDesc": "Center child in parent", 
+    "desc": "A widget that centers the children based on the alignment property",
+    "category": "layout",
+    "arguments" : [
+      {
+        "name": "children",
+        "req": true
+      },
+      {
+        "name": "alignment",
+        "req": true
+      },
+      {
+        "name": "style",
+        "req": false
+      },
+      {
+        "name": "size",
+        "req": false
+      },
+      {
+        "name": "padding",
+        "req": false
+      }
+    ],
+    "returns": "Widget",
+    "example": {
+      "desc": "Description of code snippet.",
+      "code": "/Link to github gist"
+    },
+    "order": 4
+  }
+]

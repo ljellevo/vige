@@ -29,6 +29,7 @@ module.exports = function(app) {
       collection.find({category: category}).toArray(function(err, result) {
         if(err) console.log(err);
         console.log(result);
+        //Need to sort them by order
         res.send(result);
       })
     });

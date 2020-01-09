@@ -13,7 +13,11 @@ import lib.utils.Size;
 
 /**
 Not done
-Needs documentation
+
+**/
+
+/**
+    Is documented
 **/
 
 class Positioned implements Widget {
@@ -54,6 +58,8 @@ class Positioned implements Widget {
         this.margin = arg.margin;
         this.size = arg.size;
     }
+
+    public function init(){}
     
     public function render():js.html.Node {
         var parent = Browser.document.createDivElement();

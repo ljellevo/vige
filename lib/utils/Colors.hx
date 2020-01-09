@@ -1,5 +1,10 @@
 package lib.utils;
 
+/**
+    Is documented
+**/
+
+
 
 
  /* ARGB color type based on a 32-bit integer.

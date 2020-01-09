@@ -51,6 +51,10 @@ to show user if they are at a certain route.
 
 */
 
+/**
+    Is documented
+**/
+
 class Navbar implements Widget {
     var child: Widget;
     var height: Int;

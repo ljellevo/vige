@@ -5,7 +5,7 @@ typedef CategoryStruct = {
   var desc: String;
 }
 
-class Catagory {
+class Category {
 
     var title: String;
     var desc: String;

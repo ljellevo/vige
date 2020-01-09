@@ -66,6 +66,7 @@ class HomePage  extends DynamicComponent {
                     cellSize: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                     children: [
                       new Container({
+                        size: new Size({height: 80, heightType: "%"}),
                         child: new Row({
                           cellPadding: Padding.fromTRBL(80.0, 0.0, 80.0, 0.0),
                           alignment: RowAlignment.Center,
@@ -80,11 +81,10 @@ class HomePage  extends DynamicComponent {
                       }),
                       new Container({
                         size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
-                        
+                        padding: Padding.fromTRBL(80.0, 0.0, 80.0, 0.0),
                         child: new Center({
                           alignment: CenterAlignment.Vertical,
                           child: new Container({
-                            padding: Padding.fromTRBL(0.0, 50.0, 0.0, 50.0),
                             size: new Size({height: 300, heightType: "px", width: 500, widthType: "px"}),
                             child: new Text("MIST.IO is a modern and feature rich webframework that does things a bit different. \n\n
                             Write your website in the new popular declarative way. This makes your code easy toread, change and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n

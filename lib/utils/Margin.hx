@@ -1,5 +1,10 @@
 package lib.utils;
 
+/**
+    Is documented
+**/
+
+
 class Margin {
     var top: Float;
     var right: Float;

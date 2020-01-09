@@ -23,6 +23,10 @@ enum TextFormat {
     pre;
 }
 
+/**
+    Is documented, not enum
+**/
+
 class Text implements Widget {
     var textSize = -1;
     var text: String = "";

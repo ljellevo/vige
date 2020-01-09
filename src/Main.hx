@@ -34,14 +34,15 @@ class Main {
     Navigate.routes = [
       new HomePage(),
       new GuidesPage(),
+      new GuidePage(),
       new DocsPage(),
-      new WidgetsPage(),
+      new CategoryPage(),
       new SnippetsPage(),
       new TemplatesPage(),
       new SocketsPage(),
       new DatabasePage(),
-      new WidgetCategoryPage(),
-      new SpecificGuidePage()
+      new WidgetsPage(),
+
     ];
 
     Navigate.to({url: Browser.location.pathname, main: true});

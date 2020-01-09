@@ -2,6 +2,9 @@ package lib.utils;
 
 import lib.utils.Colors;
 
+/**
+    Is documented
+**/
 
 enum BorderStyle {
     Dotted;
@@ -64,9 +67,9 @@ class Border {
     var sides: BorderSides;
 
     public function new(arg: {
-        ?style: BorderStyle,
-        ?width: Int,
-        ?color: Colors,
+        style: BorderStyle,
+        width: Int,
+        color: Colors,
         ?cornerRadius: CornerRadius,
         ?sides: BorderSides
         

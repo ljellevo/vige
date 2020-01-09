@@ -12,6 +12,10 @@ import lib.utils.Padding;
 import lib.utils.Margin;
 import lib.utils.Size;
 
+/**
+    Is documented
+**/
+
 class Page implements Widget{
     var route: String;
     var title: String = "NOT IMPLEMENTED";

@@ -1,5 +1,10 @@
 package lib.utils;
 
+/**
+    Is documented
+**/
+
+
 class Size {
     var height: Float;
     var heightType: String = "";

@@ -1,5 +1,9 @@
 package lib.core;
 
+/**
+    Is documented
+**/
+
 import com.akifox.asynchttp.HttpResponse;
 import com.akifox.asynchttp.HttpRequest;
 import js.Browser;

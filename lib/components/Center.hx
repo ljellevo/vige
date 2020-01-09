@@ -18,6 +18,10 @@ enum CenterAlignment {
     Both;
 }
 
+/**
+    Is documented, not enum
+**/
+
 
 class Center implements Widget {
     var child: Widget;

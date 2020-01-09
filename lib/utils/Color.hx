@@ -2,6 +2,10 @@ package lib.utils;
 
 import lib.utils.Colors;
 
+/**
+    Is documented
+**/
+
 class Color {
     var color: Colors;
     var backgroundColor: Colors;

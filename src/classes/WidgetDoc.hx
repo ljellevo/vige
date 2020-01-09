@@ -5,18 +5,28 @@ package classes;
 typedef ArgumentStruct = {
     var name: String;
     var req: Bool;
+    var type: String;
 }
 
 class ArgumentDoc {
     var name: String;
     var req: Bool;
+    var type: String;
+    var link: String;
+    var note: String;
 
     public function new(
         name: String,
-        req: Bool
+        req: Bool,
+        type: String,
+        link: String,
+        note: String
     ){
        this.name = name;
        this.req = req; 
+       this.type = type;
+       this.link = link;
+       this.note = note;
     }
 
     public function getName(): String {
@@ -25,6 +35,18 @@ class ArgumentDoc {
 
     public function getReq(): Bool {
         return req;
+    }
+
+    public function getType(): String {
+        return type;
+    }
+
+    public function getLink(): String {
+        return link;
+    }
+
+    public function getNote(): String {
+        return note;
     }
 }
 

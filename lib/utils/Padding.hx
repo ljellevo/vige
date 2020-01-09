@@ -1,5 +1,10 @@
 package lib.utils;
 
+/**
+    Is documented
+**/
+
+
 class Padding {
     var top: Float;
     var right: Float;

@@ -12,6 +12,10 @@ import lib.utils.Padding;
 import lib.utils.Margin;
 import lib.utils.Size;
 
+/**
+    Is documented
+**/
+
 class Column implements Widget {
     var children: Array<Widget> = null;
     var cellColor: Color;

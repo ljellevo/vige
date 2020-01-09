@@ -15,9 +15,13 @@ import lib.utils.Size;
 /**
 Not done
 **/
+/**
+    Is documented
+**/
 
 class Container implements Widget {
     var child: Widget;
+    var stretch: Bool;
 
     public var color: Color;
     public var border: Border;
@@ -27,6 +31,7 @@ class Container implements Widget {
 
     public function new(arg: {
         ?child: Widget,
+        ?stretch: Bool,
 
         ?color: Color,
         ?border: Border,
@@ -35,6 +40,7 @@ class Container implements Widget {
         ?size: Size, 
     }) {
         this.child = arg.child;
+        this.stretch = arg.stretch;
 
         this.color = arg.color;
         this.border = arg.border;
@@ -52,6 +58,12 @@ class Container implements Widget {
         if(child != null) {
              container.appendChild(child.render());
         }
+
+        /*
+        if(stretch) {
+            container.style.alignItems = "stretch";
+        }
+        */
         
        
         new StyleManager().addStyleToDiv({widget: container, color: color, border: border, padding: padding, margin: margin, size: size});
