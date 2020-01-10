@@ -10,6 +10,11 @@ import lib.utils.Padding;
 import lib.utils.Margin;
 import lib.utils.Size;
 
+
+/**
+  Needs to unload css when navigation is done
+**/
+
 typedef GistSnippet = {
   var div: String;
   var stylesheet: String;
