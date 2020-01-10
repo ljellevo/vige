@@ -20,7 +20,7 @@ Not done
 **/
 
 class HtmlSnippet implements Widget {
-    var snippet: js.html.Node;
+    var snippet: String;
 
     public var color: Color;
     public var border: Border;
@@ -29,7 +29,7 @@ class HtmlSnippet implements Widget {
     public var size: Size;
 
     public function new(arg: {
-        snippet: js.html.Node,
+        snippet: String,
     }) {
         this.snippet = arg.snippet;
     }
@@ -37,6 +37,8 @@ class HtmlSnippet implements Widget {
     public function init(){}
     
     public function render():js.html.Node {
-        return snippet;
+        var container = Browser.document.createDivElement();
+        container.innerHTML = snippet;
+        return container;
     }
 }

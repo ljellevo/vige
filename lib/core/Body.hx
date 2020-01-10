@@ -26,6 +26,13 @@ class Body {
         //style.fontSize = "48";
     }
 
+    public function setHeader(stylesheetUrl: String) {
+        //font-family: 'Quicksand', sans-serif;
+        var element = '<link href="' + stylesheetUrl + '", rel="stylesheet">';
+        var style = Browser.document.head.innerHTML += element;
+        
+    }
+
 
     public function render(widget: js.html.Node) {
         Browser.document.body.appendChild(widget);

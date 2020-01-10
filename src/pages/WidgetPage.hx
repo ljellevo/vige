@@ -35,15 +35,14 @@ import lib.components.HtmlSnippet;
 import lib.components.Script;
 import lib.components.Request;
 
+import templates.GistLoader;
+
 
 
 /**
   Not done, need to implement param getter from navigator
 **/
 
-typedef GistSnippet = {
-  var div: js.html.Node;
-}
 
 
 class WidgetPage extends DynamicComponent {
@@ -219,8 +218,14 @@ class WidgetPage extends DynamicComponent {
             onComplete: function(response: Dynamic) {
               var res: GistSnippet = response;
 
+              /*
               return new HtmlSnippet({
                 snippet: res.div,
+              });
+              */
+              return new GistLoader({
+                content: res.div,
+                css: res.stylesheet
               });
             },
             onProgress: function() {

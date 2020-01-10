@@ -75,7 +75,16 @@ class Jsonp {
     // Setup handler
     Reflect.setField(window, name, function(data) {
       if (onData != null) onData(data);
+      //Need to look for script to delete properly
       document.getElementsByTagName('head')[0].removeChild(script);
+      
+      
+      /*
+      for(element in  document.getElementsByTagName('head')){
+        //Check is element is script
+      }
+      */
+      
       script = null;
       Reflect.deleteField(window, name);
     });

@@ -22,3 +22,28 @@ Other related project:
 - Website
 - CLI
 - VSCode Extention
+
+
+
+## Installguide
+Install Haxe from www.haxe.org.
+
+Install and configure haxelib.
+
+Clone code and run haxelib install in project folder to download dependencies.
+
+Run npm install to get node packages.
+
+Open project in VSCode and install haxe extention.
+
+Run npm start to fire up webserver.
+
+Compile project by clicking ctrl + shift + B and select build.hxml.
+
+Navigate to localhost:3000.
+
+Webserver will not be able to fetch data from db without credentials.
+
+
+
+
