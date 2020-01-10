@@ -20,18 +20,15 @@ class DatabasePage extends DynamicComponent {
     public function new() {}
 
     function catalogue(operation){
-      trace("Request called");
       new SingleRequest({
         url: "http://localhost:3000/maintenance/database/widgets/catalogue/" + operation,
         method: "GET",
         onComplete: function(res: HttpResponse) {
-          trace(res);
           setState(this, function(){
             status = res.content;
           });
         },
         onProgress: function() {
-          trace("working");
           setState(this, function(){
             status = "Loading";
           });
@@ -40,18 +37,15 @@ class DatabasePage extends DynamicComponent {
     }
 
     function categories(operation){
-      trace("Request called");
       new SingleRequest({
         url: "http://localhost:3000/maintenance/database/widgets/categories/" + operation,
         method: "GET",
         onComplete: function(res: HttpResponse) {
-          trace(res);
           setState(this, function(){
             status = res.content;
           });
         },
         onProgress: function() {
-          trace("working");
           setState(this, function(){
             status = "Loading";
           });
@@ -60,18 +54,15 @@ class DatabasePage extends DynamicComponent {
     }
 
     function quickStartGuides(operation){
-      trace("Request called");
       new SingleRequest({
         url: "http://localhost:3000/maintenance/database/guides/" + operation,
         method: "GET",
         onComplete: function(res: HttpResponse) {
-          trace(res);
           setState(this, function(){
             status = res.content;
           });
         },
         onProgress: function() {
-          trace("working");
           setState(this, function(){
             status = "Loading";
           });

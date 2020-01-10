@@ -150,7 +150,6 @@ class HomePage  extends DynamicComponent {
                       child: new Request({
                         url: "http://localhost:3000/test",
                         onComplete: function(res: HttpResponse) {
-                          trace(res.content);
                           return new Text("Single request: " + res.content);
                         },
                         onProgress: function() {
@@ -173,7 +172,6 @@ class HomePage  extends DynamicComponent {
                           return new Text("Connection opened");
                         },
                         onMessage: function(res: MessageEvent) {
-                          trace("Message recieved (Homepage)");
                           return new Text("WebSocket on homepage: " + res.data);
                         },
                         onClose: function(res: CloseEvent) {

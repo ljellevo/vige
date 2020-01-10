@@ -85,7 +85,6 @@ class Stream implements Widget{
         //var socket = new WebSocket(url);
         var streamConnection = new StreamConnection(url, Browser.location.pathname);
         streamConnection.getSocket().onopen = function (res) {
-            trace(res);
             GlobalState.instance.openStream(streamConnection);
             var component = onOpen();
             lastComponent = replace(container, lastComponent, component);
@@ -97,7 +96,6 @@ class Stream implements Widget{
         }
 
         streamConnection.getSocket().onclose = function (res) {
-            trace(res);
             var component = onClose();
             lastComponent = replace(container, lastComponent, component);
         }

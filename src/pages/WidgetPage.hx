@@ -88,10 +88,7 @@ class WidgetPage extends DynamicComponent {
                 argumentsStruct[i].note
               )
             );
-          }
-
-          trace(widgetStruct.example);
-          
+          }          
           var exampleDocs = [];
           for(i in 0...exampleStruct.length) {
             exampleDocs.push(
@@ -112,7 +109,6 @@ class WidgetPage extends DynamicComponent {
               widgetStruct.returns, 
               exampleDocs
             );
-            trace(data.getExample());
         });
       },
       onProgress: function() {
@@ -138,7 +134,6 @@ class WidgetPage extends DynamicComponent {
     var child;
 
     if(argument.getReq()){
-      //var text = new Text(" - " + argument.getName() + " (" + argument.getType() + ")", {textSize: 16, color: new Color({color: Colors.RED}), font: "monaco,Consolas,Lucida Console,monospace"});
       child = new Row({
         equalElementWidth: false,
         alignment: RowAlignment.Left,
@@ -158,11 +153,9 @@ class WidgetPage extends DynamicComponent {
         ]
       });
     } else {
-      //child = new Text(" - " + argument.getName() + " (" + argument.getType() + ")", {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"});
       child = new Row({
         alignment: RowAlignment.Left,
         equalElementWidth: false,
-        //cellSize: new Size({width: 120, widthType: "px"}),
         children: [
           new Container({
             size: new Size({width: 100, widthType: "px"}),
@@ -175,7 +168,6 @@ class WidgetPage extends DynamicComponent {
           new Container({
             child: new Text(" : " + argument.getNote() , {textSize: 16, color: new Color({color: Colors.fromString("#808080")}), font: "monaco,Consolas,Lucida Console,monospace"}),
           }),
-          
         ]
       });
     }
@@ -194,11 +186,8 @@ class WidgetPage extends DynamicComponent {
 
 
   function determineCorrectExampleWidget(example: ExampleDoc): Widget{
-    trace("Running");
     if(data == null) return null;
     var child;
-    
-
     child = new Row({
       equalElementWidth: false,
       alignment: RowAlignment.Left,
@@ -208,21 +197,13 @@ class WidgetPage extends DynamicComponent {
           size: new Size({width: 100, widthType: "px"}),
           child: new Text(" - " + example.getDesc(), {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
         }),
-        
         new Container({
           size: new Size({width: 100, widthType: "px"}),
           child: new Request({
             jsonp: true,
             url: "https://gist.github.com/ljellevo/7cbac37d851ce59a45ca45ce6c01fefd.json",
-            //type: "jsonp",
             onComplete: function(response: Dynamic) {
               var res: GistSnippet = response;
-
-              /*
-              return new HtmlSnippet({
-                snippet: res.div,
-              });
-              */
               return new GistLoader({
                 content: res.div,
                 css: res.stylesheet
@@ -231,7 +212,6 @@ class WidgetPage extends DynamicComponent {
             onProgress: function() {
               return new Text("loading gist");
             }
-
           })
         }),
         //<script src="https://gist.github.com/ljellevo/7cbac37d851ce59a45ca45ce6c01fefd.js"></script>

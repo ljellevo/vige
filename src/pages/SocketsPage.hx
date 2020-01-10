@@ -34,13 +34,11 @@ class SocketsPage extends DynamicComponent {
               return new Text("Connection open");
             },
             onMessage: function(res: MessageEvent) {
-              trace("Message recieved");
               data.push(res.data);
               
               return new Collection({
                 count: data.length,
               }).build(function(iterator) {
-                trace("Building");
                 return new Text(data[iterator]);
               });
             },

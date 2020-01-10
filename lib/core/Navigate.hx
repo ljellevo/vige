@@ -44,7 +44,6 @@ class Navigate {
     var url = Browser.location.pathname;
     var correctPage = matchRoute(url, routes);
     var currentRoute = correctPage.component().getRoute();
-    //trace(correctPage.component().getRoute());
     var routeParts = currentRoute.split("/");
     var urlParts = url.split("/");
     routeParts.splice(0, 1);

@@ -101,7 +101,6 @@ class WidgetsPage extends DynamicComponent {
         });
       },
       onProgress: function() {
-        trace("working");
         setState(this, function(){
           data = null;
         });
@@ -121,7 +120,6 @@ class WidgetsPage extends DynamicComponent {
         });
       },
       onProgress: function() {
-        trace("working");
         setState(this, function(){
           data = null;
         });

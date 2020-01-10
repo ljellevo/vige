@@ -12,7 +12,6 @@ class DocsPage extends DynamicComponent {
   public function new() {}
 
   override public function component(): Page {
-    trace("Page was re-rendered");
     page = new Page({
       navbar: new CustomNavbar().navbarComponent(),
       route: "/docs",

@@ -103,7 +103,6 @@ class CustomNavbar extends DynamicComponent {
         if(url == "https://github.com/ljellevo/mist.io") {
           Navigate.link({url: url});
         }
-        
         Navigate.to({url: url});
       }
     });

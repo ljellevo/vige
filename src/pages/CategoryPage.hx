@@ -48,7 +48,6 @@ class CategoryPage extends DynamicComponent {
       url: "http://localhost:3000/api/widgets",
       method: "GET",
       onComplete: function(res: HttpResponse) {
-        trace(res);
         setState(this, function(){
           var result: Array<CategoryStruct> = haxe.Json.parse(res.content);
           for(i in 0...result.length) {
@@ -57,7 +56,6 @@ class CategoryPage extends DynamicComponent {
         });
       },
       onProgress: function() {
-        trace("working");
         setState(this, function(){
           data = [];
         });

@@ -1,4 +1,5 @@
 package lib.support;
+import js.html.Console;
 import js.Browser.window;
 import js.Browser.document;
 
@@ -71,20 +72,19 @@ class Jsonp {
     var script = document.createScriptElement();
     script.type = 'text/javascript';
     script.src = url;
+    script.id = "jsonp";
 
     // Setup handler
     Reflect.setField(window, name, function(data) {
       if (onData != null) onData(data);
       //Need to look for script to delete properly
-      document.getElementsByTagName('head')[0].removeChild(script);
-      
-      
-      /*
-      for(element in  document.getElementsByTagName('head')){
-        //Check is element is script
+
+      var headerNodes = document.getElementsByTagName('head')[0].getElementsByTagName('script');
+      for(i in 0...headerNodes.length) {
+        if(headerNodes[i] != null && headerNodes[i].id == "jsonp"){
+          document.getElementsByTagName('head')[0].getElementsByTagName('script')[i].remove();
+        }
       }
-      */
-      
       script = null;
       Reflect.deleteField(window, name);
     });

@@ -61,23 +61,18 @@ class GuidePage extends DynamicComponent {
       url: "http://localhost:3000/api/guides/" + id,
       method: "GET",
       onComplete: function(res: HttpResponse) {
-        trace(res);
         setState(this, function(){
           var result: GuideStruct = haxe.Json.parse(res.content);
-          trace(result);
           var steps: Array<StepStruct> = result.steps;
           
           var stepsObject = [];
           for(j in 0...steps.length) {
             stepsObject.push(new Step(steps[j].type, steps[j].format, steps[j].title, steps[j].content));
           }
-          trace(stepsObject);
           data = new Guide(result._id, result.title, result.desc, stepsObject);
-          trace(data);
         });
       },
       onProgress: function() {
-        trace("working");
         setState(this, function(){
           data = null;
         });

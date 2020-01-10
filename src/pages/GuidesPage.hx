@@ -53,10 +53,8 @@ class GuidesPage extends DynamicComponent {
       url: "http://localhost:3000/api/guides",
       method: "GET",
       onComplete: function(res: HttpResponse) {
-        trace(res);
         setState(this, function(){
           var result: Array<GuideStruct> = haxe.Json.parse(res.content);
-          trace(result);
           for(i in 0...result.length) {
             var steps = result[i].steps;
             var stepsObject = [];
@@ -68,7 +66,6 @@ class GuidesPage extends DynamicComponent {
         });
       },
       onProgress: function() {
-        trace("working");
         setState(this, function(){
           data = [];
         });
@@ -85,17 +82,14 @@ class GuidesPage extends DynamicComponent {
       url: "http://localhost:3000/api/guides",
       method: "GET",
       onComplete: function(res: HttpResponse) {
-        trace(res);
         setState(this, function(){
           var result: Array<GuideSummary> = haxe.Json.parse(res.content);
-          trace(result);
           for(i in 0...result.length) {
             data.push(result[i]);
           }
         });
       },
       onProgress: function() {
-        trace("working");
         setState(this, function(){
           data = [];
         });

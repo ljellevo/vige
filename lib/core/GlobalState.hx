@@ -35,7 +35,6 @@ class GlobalState {
     public function isConnectionOpen(url: String): Bool{
         for(i in 0...connections.length) {
             if(connections[i].url.toString() == url){
-                trace("Found request");
                 return true;
             }
         }

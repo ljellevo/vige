@@ -9,22 +9,20 @@ import com.akifox.asynchttp.HttpRequest;
 import js.Browser;
 
 /**
-    new SingleRequest({
-        url: "http://localhost:3000/database/" + operation,
-        method: "GET",
-        onComplete: function(res: HttpResponse) {
-          trace(res);
-          setState(this, function(){
-            status = res.content;
-          });
-        },
-        onProgress: function() {
-          trace("working");
-          setState(this, function(){
-            status = "Loading";
-          });
-        }
-      }).request();
+  new SingleRequest({
+    url: "http://localhost:3000/database/" + operation,
+    method: "GET",
+    onComplete: function(res: HttpResponse) {
+      setState(this, function(){
+        status = res.content;
+      });
+    },
+    onProgress: function() {
+      setState(this, function(){
+        status = "Loading";
+      });
+    }
+  }).request();
 **/
 
 class SingleRequest {

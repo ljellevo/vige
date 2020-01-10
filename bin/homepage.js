@@ -3158,13 +3158,11 @@ lib_components_Request.prototype = {
 		var container = window.document.createElement("div");
 		if(this.jsonp) {
 			var progressComponent = this.onProgress();
-			console.log("lib/components/Request.hx:84:",progressComponent.render());
 			var onProgressNode = progressComponent.render();
 			var onProgressNode1 = container.appendChild(onProgressNode);
 			var http = new lib_support_Jsonp(this.url);
 			http.onData = function(data) {
 				var component = _gthis.onComplete(data);
-				console.log("lib/components/Request.hx:90:",component.render());
 				_gthis.replaceNode(container,onProgressNode1,component);
 			};
 			http.request();
@@ -3287,7 +3285,6 @@ lib_components_Stream.prototype = {
 		var lastComponent1 = container.appendChild(lastComponent);
 		var streamConnection = new lib_support_StreamConnection(this.url,window.location.pathname);
 		streamConnection.getSocket().onopen = function(res) {
-			console.log("lib/components/Stream.hx:88:",res);
 			lib_core_GlobalState.instance.openStream(streamConnection);
 			var component = _gthis.onOpen();
 			lastComponent1 = _gthis.replace(container,lastComponent1,component);
@@ -3297,7 +3294,6 @@ lib_components_Stream.prototype = {
 			lastComponent1 = _gthis.replace(container,lastComponent1,component1);
 		};
 		streamConnection.getSocket().onclose = function(res1) {
-			console.log("lib/components/Stream.hx:100:",res1);
 			var component2 = _gthis.onClose();
 			lastComponent1 = _gthis.replace(container,lastComponent1,component2);
 		};
@@ -3497,7 +3493,6 @@ lib_core_GlobalState.prototype = {
 		while(_g < _g1) {
 			var i = _g++;
 			if(this.connections[i].get_url().toString() == url) {
-				console.log("lib/core/GlobalState.hx:38:","Found request");
 				return true;
 			}
 		}
@@ -3686,11 +3681,20 @@ lib_support_Jsonp.prototype = {
 		var script = window.document.createElement("script");
 		script.type = "text/javascript";
 		script.src = this.url;
+		script.id = "jsonp";
 		window[name] = function(data) {
 			if(_gthis.onData != null) {
 				_gthis.onData(data);
 			}
-			window.document.getElementsByTagName("head")[0].removeChild(script);
+			var headerNodes = window.document.getElementsByTagName("head")[0].getElementsByTagName("script");
+			var _g = 0;
+			var _g1 = headerNodes.length;
+			while(_g < _g1) {
+				var i = _g++;
+				if(headerNodes[i] != null && headerNodes[i].id == "jsonp") {
+					window.document.getElementsByTagName("head")[0].getElementsByTagName("script")[i].remove();
+				}
+			}
 			script = null;
 			Reflect.deleteField(window,name);
 		};
@@ -4280,7 +4284,6 @@ pages_CategoryPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	,getCategories: function() {
 		var _gthis = this;
 		new lib_core_SingleRequest({ url : "http://localhost:3000/api/widgets", method : "GET", onComplete : function(res) {
-			console.log("src/pages/CategoryPage.hx:51:",res);
 			_gthis.setState(_gthis,function() {
 				var result = JSON.parse(res.get_content());
 				var _g = 0;
@@ -4291,7 +4294,6 @@ pages_CategoryPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 				}
 			});
 		}, onProgress : function() {
-			console.log("src/pages/CategoryPage.hx:60:","working");
 			_gthis.setState(_gthis,function() {
 				_gthis.data = [];
 			});
@@ -4339,14 +4341,11 @@ pages_DatabasePage.__super__ = lib_core_DynamicComponent;
 pages_DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	catalogue: function(operation) {
 		var _gthis = this;
-		console.log("src/pages/DatabasePage.hx:23:","Request called");
 		new lib_core_SingleRequest({ url : "http://localhost:3000/maintenance/database/widgets/catalogue/" + operation, method : "GET", onComplete : function(res) {
-			console.log("src/pages/DatabasePage.hx:28:",res);
 			_gthis.setState(_gthis,function() {
 				_gthis.status = res.get_content();
 			});
 		}, onProgress : function() {
-			console.log("src/pages/DatabasePage.hx:34:","working");
 			_gthis.setState(_gthis,function() {
 				_gthis.status = "Loading";
 			});
@@ -4354,14 +4353,11 @@ pages_DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	}
 	,categories: function(operation) {
 		var _gthis = this;
-		console.log("src/pages/DatabasePage.hx:43:","Request called");
 		new lib_core_SingleRequest({ url : "http://localhost:3000/maintenance/database/widgets/categories/" + operation, method : "GET", onComplete : function(res) {
-			console.log("src/pages/DatabasePage.hx:48:",res);
 			_gthis.setState(_gthis,function() {
 				_gthis.status = res.get_content();
 			});
 		}, onProgress : function() {
-			console.log("src/pages/DatabasePage.hx:54:","working");
 			_gthis.setState(_gthis,function() {
 				_gthis.status = "Loading";
 			});
@@ -4369,14 +4365,11 @@ pages_DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	}
 	,quickStartGuides: function(operation) {
 		var _gthis = this;
-		console.log("src/pages/DatabasePage.hx:63:","Request called");
 		new lib_core_SingleRequest({ url : "http://localhost:3000/maintenance/database/guides/" + operation, method : "GET", onComplete : function(res) {
-			console.log("src/pages/DatabasePage.hx:68:",res);
 			_gthis.setState(_gthis,function() {
 				_gthis.status = res.get_content();
 			});
 		}, onProgress : function() {
-			console.log("src/pages/DatabasePage.hx:74:","working");
 			_gthis.setState(_gthis,function() {
 				_gthis.status = "Loading";
 			});
@@ -4409,7 +4402,6 @@ pages_DocsPage.__name__ = "pages.DocsPage";
 pages_DocsPage.__super__ = lib_core_DynamicComponent;
 pages_DocsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	component: function() {
-		console.log("src/pages/DocsPage.hx:15:","Page was re-rendered");
 		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/docs", child : this.textElement()});
 		return this.page;
 	}
@@ -4461,10 +4453,8 @@ pages_GuidePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	,getGuides: function() {
 		var _gthis = this;
 		new lib_core_SingleRequest({ url : "http://localhost:3000/api/guides/" + this.id, method : "GET", onComplete : function(res) {
-			console.log("src/pages/GuidePage.hx:64:",res);
 			_gthis.setState(_gthis,function() {
 				var result = JSON.parse(res.get_content());
-				console.log("src/pages/GuidePage.hx:67:",result);
 				var steps = result.steps;
 				var stepsObject = [];
 				var _g = 0;
@@ -4473,12 +4463,9 @@ pages_GuidePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 					var j = _g++;
 					stepsObject.push(new classes_Step(steps[j].type,steps[j].format,steps[j].title,steps[j].content));
 				}
-				console.log("src/pages/GuidePage.hx:74:",stepsObject);
 				_gthis.data = new classes_Guide(result._id,result.title,result.desc,stepsObject);
-				console.log("src/pages/GuidePage.hx:76:",_gthis.data);
 			});
 		}, onProgress : function() {
-			console.log("src/pages/GuidePage.hx:80:","working");
 			_gthis.setState(_gthis,function() {
 				_gthis.data = null;
 			});
@@ -4596,10 +4583,8 @@ pages_GuidesPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	,getGuides: function() {
 		var _gthis = this;
 		new lib_core_SingleRequest({ url : "http://localhost:3000/api/guides", method : "GET", onComplete : function(res) {
-			console.log("src/pages/GuidesPage.hx:88:",res);
 			_gthis.setState(_gthis,function() {
 				var result = JSON.parse(res.get_content());
-				console.log("src/pages/GuidesPage.hx:91:",result);
 				var _g = 0;
 				var _g1 = result.length;
 				while(_g < _g1) {
@@ -4608,7 +4593,6 @@ pages_GuidesPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 				}
 			});
 		}, onProgress : function() {
-			console.log("src/pages/GuidesPage.hx:98:","working");
 			_gthis.setState(_gthis,function() {
 				_gthis.data = [];
 			});
@@ -4673,7 +4657,6 @@ pages_HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var tmp18 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
 		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
 		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ margin : tmp1, children : [tmp2,tmp10,tmp16,new lib_components_Container({ color : tmp17, size : tmp18, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ color : new lib_utils_Color({ color : this16})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
-			console.log("src/pages/HomePage.hx:153:",res.get_content());
 			return new lib_components_Text("Single request: " + Std.string(res.get_content()));
 		}, onProgress : function() {
 			return new lib_components_Text("Loading");
@@ -4684,7 +4667,6 @@ pages_HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		}, onOpen : function(res2) {
 			return new lib_components_Text("Connection opened");
 		}, onMessage : function(res3) {
-			console.log("src/pages/HomePage.hx:176:","Message recieved (Homepage)");
 			return new lib_components_Text("WebSocket on homepage: " + Std.string(res3.data));
 		}, onClose : function(res4) {
 			return new lib_components_Text("Connection closed");
@@ -4726,10 +4708,8 @@ pages_SocketsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		}, onOpen : function(res) {
 			return new lib_components_Text("Connection open");
 		}, onMessage : function(res1) {
-			console.log("src/pages/SocketsPage.hx:37:","Message recieved");
 			_gthis.data.push(res1.data);
 			return new lib_components_Collection({ count : _gthis.data.length}).build(function(iterator) {
-				console.log("src/pages/SocketsPage.hx:43:","Building");
 				return new lib_components_Text(_gthis.data[iterator]);
 			});
 		}, onClose : function(res2) {
@@ -4808,7 +4788,6 @@ pages_WidgetPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 					var i = _g++;
 					argumentsDocs.push(new classes_ArgumentDoc(argumentsStruct[i].name,argumentsStruct[i].req,argumentsStruct[i].type,argumentsStruct[i].link,argumentsStruct[i].note));
 				}
-				console.log("src/pages/WidgetPage.hx:93:",widgetStruct.example);
 				var exampleDocs = [];
 				var _g2 = 0;
 				var _g3 = exampleStruct.length;
@@ -4817,7 +4796,6 @@ pages_WidgetPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 					exampleDocs.push(new classes_ExampleDoc(exampleStruct[i1].desc,exampleStruct[i1].code));
 				}
 				_gthis.data = new classes_WidgetDoc(widgetStruct.name,widgetStruct.shortDesc,widgetStruct.desc,widgetStruct.category,argumentsDocs,widgetStruct.returns,exampleDocs);
-				console.log("src/pages/WidgetPage.hx:115:",_gthis.data.getExample());
 			});
 		}, onProgress : function() {
 			_gthis.setState(_gthis,function() {
@@ -4859,7 +4837,6 @@ pages_WidgetPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		return new lib_components_Container({ padding : lib_utils_Padding.fromTRBL(0.0,25.0,0.0,25.0), child : child});
 	}
 	,determineCorrectExampleWidget: function(example) {
-		console.log("src/pages/WidgetPage.hx:197:","Running");
 		if(this.data == null) {
 			return null;
 		}
@@ -4987,7 +4964,6 @@ pages_WidgetsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 				_gthis.data = JSON.parse(tmp);
 			});
 		}, onProgress : function() {
-			console.log("src/pages/WidgetsPage.hx:124:","working");
 			_gthis.setState(_gthis,function() {
 				_gthis.data = null;
 			});

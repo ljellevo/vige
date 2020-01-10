@@ -81,13 +81,11 @@ class Request implements Widget{
 
       if(jsonp) {
         var progressComponent = onProgress();
-        trace(progressComponent.render());
         var onProgressNode = container.appendChild(progressComponent.render());
 
         var http = new Jsonp(url);
         http.onData = function(data) {
           var component: Widget = onComplete(data);
-          trace(component.render());
           replaceNode(container, onProgressNode, component);
         }
         http.request();
