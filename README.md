@@ -16,6 +16,7 @@ Features:
 - Drawing Library (missing)
 - Testing Library (missing)
 - Multi-Screen size support (missing)
+- Smart DOM updating (TODO)
 
 
 Other related project:
