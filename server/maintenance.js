@@ -15,7 +15,8 @@ module.exports = function(app) {
           {
             "name": "Page",
             "shortDesc": "Root widget for pages", 
-            "desc": "A core component used to define a page for the website. Each page should consist of a Page component as root. This component is used to handle routing.",
+            //"desc": "A core component used to define a page for the website. \nEach page should consist of a Page component as root. This component is used to handle routing.",
+            "desc": "A core widget used to define a unique page on the website. \nPage allows you to connect a view to a route, this gives you the ability to navigate to this page by adding the class to the Navigator in main. \nFor page to work it needs to overwrite the page variable contained in DynamicComponent.",
             "category": "layout",
             "arguments" : [
               {
@@ -43,6 +44,13 @@ module.exports = function(app) {
                 "name": "child",
                 "req": false,
                 "type": "Navbar",
+                "link": "",
+                "note": ""
+              },
+              {
+                "name": "",
+                "req": false,
+                "type": "break",
                 "link": "",
                 "note": ""
               },
@@ -85,7 +93,7 @@ module.exports = function(app) {
             "returns": "A root object with a child.",
             "example": [
               {
-              "desc": "How to initialize a new page",
+              "desc": "How to create a new page with a given route:",
               "code": "/Link to github gist"
               }
             ],

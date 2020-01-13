@@ -16,6 +16,27 @@ import lib.utils.Size;
     Is documented
 **/
 
+
+/**
+
+class HomePage  extends DynamicComponent {
+  public function new() {}
+
+  override public function component() : Page {
+    page = new Page({
+      route: "/",
+      title: "Home",
+      navbar: new CustomNavbar().navbarComponent(),
+      color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
+
+      child: ...
+    });
+    return page;
+  }
+}
+
+**/
+
 class Page implements Widget{
     var route: String;
     var title: String = "NOT IMPLEMENTED";

@@ -130,6 +130,7 @@ class WidgetPage extends DynamicComponent {
   **/
   
   function determineCorrectArgumentWidget(argument: ArgumentDoc): Widget{
+    //Need to be changed to Constructor.constructColumns (The one that does not exists)
     if(data == null) return null;
     var child;
 
@@ -140,36 +141,52 @@ class WidgetPage extends DynamicComponent {
         cellSize: new Size({width: 120, widthType: "px"}),
         children: [
           new Container({
-            size: new Size({width: 100, widthType: "px"}),
-            child: new Text(" - " + argument.getName(), {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
+            //size: new Size({width: 100, widthType: "px"}),
+            child: new Text(" - " + argument.getName(), {textSize: 12, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
           }),
           new Container({
-            size: new Size({width: 100, widthType: "px"}),
-            child: new Text("(" + argument.getType() + ")", {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
+            //size: new Size({width: 100, widthType: "px"}),
+            child: new Text("(" + argument.getType() + ")", {textSize: 12, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
           }),
           new Container({
-            child: new Text(" : " + argument.getNote() , {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
+            child: new Text(" : " + argument.getNote() , {textSize: 12, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
           })
         ]
       });
     } else {
-      child = new Row({
-        alignment: RowAlignment.Left,
-        equalElementWidth: false,
-        children: [
-          new Container({
-            size: new Size({width: 100, widthType: "px"}),
-            child: new Text(" - " + argument.getName(), {textSize: 16, color: new Color({color: Colors.fromString("#808080")}), font: "monaco,Consolas,Lucida Console,monospace"}),
-          }),
-          new Container({
-            size: new Size({width: 100, widthType: "px"}),
-            child: new Text("(" + argument.getType() + ")", {textSize: 16, color: new Color({color: Colors.fromString("#808080")}), font: "monaco,Consolas,Lucida Console,monospace"}),
-          }),
-          new Container({
-            child: new Text(" : " + argument.getNote() , {textSize: 16, color: new Color({color: Colors.fromString("#808080")}), font: "monaco,Consolas,Lucida Console,monospace"}),
-          }),
-        ]
-      });
+      if(argument.getType() == "break") {
+        child = new Row({
+          alignment: RowAlignment.Left,
+          equalElementWidth: false,
+          children: [
+            new Container({
+              size: new Size({width: 100, widthType: "px", height: 20, heightType: "px"}),
+              margin: Margin.fromTRBL(20.0, 0.0, 0.0, 0.0),
+              child: new Text("Inherited: " , {textSize: 12, color: new Color({color: Colors.fromString("#808080")}), font: "monaco,Consolas,Lucida Console,monospace"}),
+            }),
+            
+          ]
+        });
+      } else {
+        child = new Row({
+          alignment: RowAlignment.Left,
+          equalElementWidth: false,
+          children: [
+            new Container({
+              size: new Size({width: 140, widthType: "px"}),
+              child: new Text(" - " + argument.getName(), {textSize: 12, color: new Color({color: Colors.fromString("#808080")}), font: "monaco,Consolas,Lucida Console,monospace"}),
+            }),
+            new Container({
+              size: new Size({width: 100, widthType: "px"}),
+              child: new Text("(" + argument.getType() + ")", {textSize: 12, color: new Color({color: Colors.fromString("#808080")}), font: "monaco,Consolas,Lucida Console,monospace"}),
+            }),
+            new Container({
+              child: new Text(" : " + argument.getNote() , {textSize: 12, color: new Color({color: Colors.fromString("#808080")}), font: "monaco,Consolas,Lucida Console,monospace"}),
+            }),
+          ]
+        });
+      }
+      
     }
 
     //if(data[i].d)
@@ -188,20 +205,25 @@ class WidgetPage extends DynamicComponent {
   function determineCorrectExampleWidget(example: ExampleDoc): Widget{
     if(data == null) return null;
     var child;
-    child = new Row({
-      equalElementWidth: false,
-      alignment: RowAlignment.Left,
-      cellSize: new Size({width: 120, widthType: "px"}),
+    child = new Column({
+      //equalElementWidth: false,
+      //alignment: RowAlignment.Left,
+      //cellSize: new Size({width: 120, widthType: "px"}),
       children: [
         new Container({
-          size: new Size({width: 100, widthType: "px"}),
-          child: new Text(" - " + example.getDesc(), {textSize: 16, color: new Color({color: Colors.fromString("#272727")}), font: "monaco,Consolas,Lucida Console,monospace"}),
+          size: new Size({width: 100, widthType: "%"}),
+          child: new Text(example.getDesc()),
         }),
         new Container({
-          size: new Size({width: 100, widthType: "px"}),
+          size: new Size({height: 20, heightType: "px"})
+        }),
+        new Container({
+          size: new Size({width: 100, widthType: "%"}),
           child: new Request({
             jsonp: true,
-            url: "https://gist.github.com/ljellevo/7cbac37d851ce59a45ca45ce6c01fefd.json",
+            //url: "https://gist.github.com/ljellevo/7cbac37d851ce59a45ca45ce6c01fefd.json",
+            //url: example.getCode() + ".json",
+            url: "https://gist.github.com/ljellevo/747087508715e07918c232fbff8eff86.json",
             onComplete: function(response: Dynamic) {
               var res: GistSnippet = response;
               return new GistLoader({
@@ -231,7 +253,7 @@ class WidgetPage extends DynamicComponent {
     //if(data[i].d)
 
     return new Container({
-      padding: Padding.fromTRBL(0.0, 25.0, 0.0, 25.0),
+      padding: Padding.fromTRBL(50.0, 0.0, 0.0, 0.0),
       child: child
     });
   }
@@ -243,6 +265,7 @@ class WidgetPage extends DynamicComponent {
 
   override public function component(): Page {
     page = new Page({
+      color: new Color({backgroundColor: Colors.BLUE}),
       navbar: new CustomNavbar().navbarComponent(),
       route: "/widgets/:category/:id",
       child: new Container({
@@ -273,13 +296,13 @@ class WidgetPage extends DynamicComponent {
                   }),
                   new Container({
                     child: new Text(data != null? data.getDesc() : "", {color: new Color({color: Colors.fromString("#2e3440")})}),
-                    padding: Padding.fromTRBL(20.0, 0.0, 20.0, 0.0),
+                    padding: Padding.fromTRBL(25.0, 0.0, 0.0, 0.0),
                   }),
                   
                   
                   new Container({
                     padding: Padding.fromTRBL(20.0, 0.0, 20.0, 0.0),
-                    margin: Margin.fromTRBL(20.0, 0.0, 20.0, 0.0),
+                    margin: Margin.fromTRBL(25.0, 0.0, 20.0, 0.0),
                     
                     size: new Size({width: 700, widthType: "px"}),
                     color: new Color({backgroundColor: Colors.fromString("#F2F2F2")}),
@@ -305,11 +328,11 @@ class WidgetPage extends DynamicComponent {
                     //font-family: monaco,Consolas,Lucida Console,monospace;
                   }),
                   new Container({
-                    padding: Padding.fromTRBL(20.0, 0.0, 20.0, 0.0),
-                    margin: Margin.fromTRBL(20.0, 0.0, 20.0, 0.0),
+                    //padding: Padding.fromTRBL(20.0, 0.0, 20.0, 0.0),
+                    //margin: Margin.fromTRBL(20.0, 0.0, 20.0, 0.0),
                     
                     size: new Size({width: 700, widthType: "px"}),
-                    color: new Color({backgroundColor: Colors.fromString("#F2F2F2")}),
+                    //color: new Color({backgroundColor: Colors.fromString("#F2F2F2")}),
                     child: new Column({
                       padding: Padding.fromTRBL(0.0, 0.0, 0.0, 0.0),
                       children: Constructors.constructRows({
