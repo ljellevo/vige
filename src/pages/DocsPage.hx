@@ -21,6 +21,6 @@ class DocsPage extends DynamicComponent {
   }
 
   public function textElement(): Widget{
-    return new Text("Docs Page");
+    return new Text("Docs Page \n\nHere you can find the API documentation for VIGE");
   }
 }

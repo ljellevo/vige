@@ -14,7 +14,7 @@ class TemplatesPage extends DynamicComponent {
     page = new Page({
       navbar: new CustomNavbar().navbarComponent(),
       route: "/templates",
-      child: new Text("Templates Page")
+      child: new Text("Templates Page \n\nHere you can find community created templates for websites. \n\nGet in the game quickly by only applying light customization to an already solid site")
     });
     return page;
   }

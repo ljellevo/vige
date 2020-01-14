@@ -4166,7 +4166,7 @@ pages_DocsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		return this.page;
 	}
 	,textElement: function() {
-		return new lib_components_Text("Docs Page");
+		return new lib_components_Text("Docs Page \n\nHere you can find the API documentation for VIGE");
 	}
 	,__class__: pages_DocsPage
 });
@@ -4449,7 +4449,7 @@ pages_SnippetsPage.__name__ = "pages.SnippetsPage";
 pages_SnippetsPage.__super__ = lib_core_DynamicComponent;
 pages_SnippetsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	component: function() {
-		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/snippets", child : new lib_components_Text("Snippets Page")});
+		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/snippets", child : new lib_components_Text("Snippets Page \n\nA collection of user created snippets for ease of life. This might be everything from sorting algorithms to http requests\n\nHere you can find custom components created by the community. Either a fancy button look, advanced layout widget or ease-of-life components")});
 		return this.page;
 	}
 	,__class__: pages_SnippetsPage
@@ -4489,7 +4489,7 @@ pages_TemplatesPage.__name__ = "pages.TemplatesPage";
 pages_TemplatesPage.__super__ = lib_core_DynamicComponent;
 pages_TemplatesPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	component: function() {
-		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/templates", child : new lib_components_Text("Templates Page")});
+		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/templates", child : new lib_components_Text("Templates Page \n\nHere you can find community created templates for websites. \n\nGet in the game quickly by only applying light customization to an already solid site")});
 		return this.page;
 	}
 	,__class__: pages_TemplatesPage
