@@ -30,6 +30,7 @@ class Main {
     var body = new Body();
     //body.font("Lato", "100");
     body.font("Arial", "400");
+    body.setGlobalTitle("VIGE");
     
     Navigate.routes = [
       new HomePage(),

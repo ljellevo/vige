@@ -46,8 +46,11 @@ class WidgetsPage extends DynamicComponent {
   var data: Array<WidgetCategoryStruct> = null;//new Guide("", "", "", []);
   var category: String = "";
   var images = [
-    "Container" => "./assets/container.svg",
     "Page" => "./assets/page.svg",
+    "Container" => "./assets/container.svg",
+    "Column" => "./assets/column.svg",
+    "Row" => "./assets/row.svg",
+    "Centered" => "./assets/centered.svg",
     "Positioned" => "./assets/positioned.svg",
     //Functionality
     "Button" => "./assets/functionality.svg",
@@ -69,7 +72,6 @@ class WidgetsPage extends DynamicComponent {
     super.init();
     category = Navigate.getParameters()[0];
     getWidgetsUnderCategory();
-    
   }
 
   

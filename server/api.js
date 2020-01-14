@@ -12,6 +12,15 @@ module.exports = function(app) {
       const collection = client.db("static").collection("categories");
       collection.find({}).toArray(function(err, result) {
         if(err) console.log(err);
+        result.sort(function (a, b) {
+          if (a.order > b.order) {
+              return 1;
+          }
+          if (b.order > a.order) {
+              return -1;
+          }
+          return 0;
+        });
         //console.log(result);
         res.send(result);
       })
@@ -29,6 +38,8 @@ module.exports = function(app) {
       collection.find({category: category}).toArray(function(err, result) {
         if(err) console.log(err);
         console.log(result);
+        
+
         //Need to sort them by order
         res.send(result);
       })

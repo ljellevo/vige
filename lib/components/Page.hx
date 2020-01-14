@@ -86,6 +86,17 @@ class Page implements Widget{
 
     public function render() : Node {
         var element = Browser.document.createDivElement();
+        if(title != null) {
+          var titleElement = Browser.document.createTitleElement();
+          titleElement.text = title;
+
+          var existingTitleElements = Browser.document.head.getElementsByTagName("title");
+          for(i in 0...existingTitleElements.length){
+            Browser.document.head.removeChild(existingTitleElements[i]);
+          }
+          Browser.document.head.appendChild(titleElement);
+        }
+        
         element.id = "page";
         navbar != null ? element.appendChild(navbar.render()) : null;
         //element.appendChild(navbar.render());

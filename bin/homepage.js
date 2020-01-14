@@ -82,6 +82,7 @@ Main.__name__ = "Main";
 Main.main = function() {
 	var body = new lib_core_Body();
 	body.font("Arial","400");
+	body.setGlobalTitle("VIGE");
 	lib_core_Navigate.routes = [new pages_HomePage(),new pages_GuidesPage(),new pages_GuidePage(),new pages_DocsPage(),new pages_CategoryPage(),new pages_SnippetsPage(),new pages_TemplatesPage(),new pages_SocketsPage(),new pages_DatabasePage(),new pages_WidgetsPage(),new pages_WidgetPage()];
 	lib_core_Navigate.to({ url : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
@@ -2850,6 +2851,18 @@ lib_components_Page.prototype = {
 	}
 	,render: function() {
 		var element = window.document.createElement("div");
+		if(this.title != null) {
+			var titleElement = window.document.createElement("title");
+			titleElement.text = this.title;
+			var existingTitleElements = window.document.head.getElementsByTagName("title");
+			var _g = 0;
+			var _g1 = existingTitleElements.length;
+			while(_g < _g1) {
+				var i = _g++;
+				window.document.head.removeChild(existingTitleElements[i]);
+			}
+			window.document.head.appendChild(titleElement);
+		}
 		element.id = "page";
 		if(this.navbar != null) {
 			element.appendChild(this.navbar.render());
@@ -2963,8 +2976,11 @@ lib_components_Row.prototype = {
 		while(_g < _g1.length) {
 			var child = _g1[_g];
 			++_g;
-			var cell = child.render();
-			row.appendChild(cell);
+			var rowCell = window.document.createElement("div");
+			rowCell.classList.add("row-cell");
+			rowCell.appendChild(child.render());
+			new lib_support_StyleManager().addStyleToDiv({ widget : rowCell, color : this.cellColor, padding : this.cellPadding, size : this.cellSize});
+			row.appendChild(rowCell);
 		}
 		return row;
 	}
@@ -3192,6 +3208,18 @@ lib_core_Body.prototype = {
 		var element = "<link href=\"" + stylesheetUrl + "\", rel=\"stylesheet\">";
 		var style = window.document.head;
 		var style1 = style.innerHTML += element;
+	}
+	,setGlobalTitle: function(title) {
+		var titleElement = window.document.createElement("title");
+		titleElement.text = title;
+		var existingTitleElements = window.document.head.getElementsByTagName("title");
+		var _g = 0;
+		var _g1 = existingTitleElements.length;
+		while(_g < _g1) {
+			var i = _g++;
+			window.document.head.removeChild(existingTitleElements[i]);
+		}
+		window.document.head.appendChild(titleElement);
 	}
 	,render: function(widget) {
 		window.document.body.appendChild(widget);
@@ -4365,17 +4393,17 @@ pages_HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var tmp = new CustomNavbar().navbarComponent();
 		var tmp1 = lib_utils_Margin.fromTRBL(-60.0,0.0,0.0,0.0);
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp2 = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Image({ src : "./assets/logo-verbose.png", height : 120}),new lib_components_Text("The declarative web-framework")]})})});
+		var tmp2 = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Image({ src : "./assets/logo-short-text.svg", height : 180})]})})});
 		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
 		var tmp3 = new lib_utils_Color({ backgroundColor : this11});
 		var tmp4 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 		var tmp5 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp6 = new lib_components_Container({ size : new lib_utils_Size({ height : 80, heightType : "%"}), child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100, minWidth : 20})]})});
+		var tmp6 = new lib_components_Container({ padding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code2.png", width : 100, minWidth : 20})]})});
 		var tmp7 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 		var tmp8 = lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0);
 		var tmp9 = new lib_utils_Size({ height : 300, heightType : "px", width : 500, widthType : "px"});
 		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp10 = new lib_components_Container({ child : new lib_components_Column({ color : tmp3, size : tmp4, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Stretch, cellSize : tmp5, children : [tmp6,new lib_components_Container({ size : tmp7, padding : tmp8, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Vertical, child : new lib_components_Container({ size : tmp9, child : new lib_components_Text("MIST.IO is a modern and feature rich webframework that does things a bit different. \n\n\n                            Write your website in the new popular declarative way. This makes your code easy toread, change and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n\n                            MIST utilizes the amazing Haxe language to compile your staticly typed code into an efficent single page JavaScript application.",{ color : new lib_utils_Color({ color : this12})})})})})]})]})});
+		var tmp10 = new lib_components_Container({ child : new lib_components_Column({ color : tmp3, size : tmp4, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Center, cellSize : tmp5, children : [tmp6,new lib_components_Container({ size : tmp7, padding : tmp8, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Vertical, child : new lib_components_Container({ size : tmp9, child : new lib_components_Text("VIGE is a modern and feature rich webframework that does things a bit different. \n\n\n                            Write your website in the new popular declarative way. This makes your code easy toread, change and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n\n                            VIGE utilizes the amazing Haxe language to compile your staticly typed code into an efficent single page JavaScript application.",{ color : new lib_utils_Color({ color : this12})})})})})]})]})});
 		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		var tmp11 = new lib_utils_Color({ backgroundColor : this13});
 		var tmp12 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
@@ -4383,12 +4411,12 @@ pages_HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var tmp14 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 		var tmp15 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
 		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp16 = new lib_components_Container({ child : new lib_components_Column({ color : tmp11, size : tmp12, children : [new lib_components_Row({ cellSize : tmp13, alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ size : tmp14, cellPadding : tmp15, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ color : new lib_utils_Color({ color : this14})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100, minWidth : 20})]})})]})]})});
+		var tmp16 = new lib_components_Container({ child : new lib_components_Column({ color : tmp11, size : tmp12, children : [new lib_components_Row({ cellSize : tmp13, alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ size : tmp14, cellPadding : tmp15, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("VIGE lets you create modern featureful websites\nwithout any hassle.\n\nExpand your VIGE experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ color : new lib_utils_Color({ color : this14})})]})}),new lib_components_Container({ child : new lib_components_Row({ cellPadding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0), alignment : lib_components_RowAlignment.Center, children : [new lib_components_Image({ src : "./assets/code3.png", width : 100, minWidth : 20})]})})]})]})});
 		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
 		var tmp17 = new lib_utils_Color({ backgroundColor : this15});
 		var tmp18 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
 		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ margin : tmp1, children : [tmp2,tmp10,tmp16,new lib_components_Container({ color : tmp17, size : tmp18, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.",{ color : new lib_utils_Color({ color : this16})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
+		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ margin : tmp1, children : [tmp2,tmp10,tmp16,new lib_components_Container({ color : tmp17, size : tmp18, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nVIGE has a robust and flexible API for both single requests and sockets.",{ color : new lib_utils_Color({ color : this16})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
 			return new lib_components_Text("Single request: " + Std.string(res.get_content()));
 		}, onProgress : function() {
 			return new lib_components_Text("Loading");
@@ -4625,15 +4653,30 @@ pages_WidgetPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 });
 var pages_WidgetsPage = function() {
 	var _g = new haxe_ds_StringMap();
+	if(__map_reserved["Page"] != null) {
+		_g.setReserved("Page","./assets/page.svg");
+	} else {
+		_g.h["Page"] = "./assets/page.svg";
+	}
 	if(__map_reserved["Container"] != null) {
 		_g.setReserved("Container","./assets/container.svg");
 	} else {
 		_g.h["Container"] = "./assets/container.svg";
 	}
-	if(__map_reserved["Page"] != null) {
-		_g.setReserved("Page","./assets/page.svg");
+	if(__map_reserved["Column"] != null) {
+		_g.setReserved("Column","./assets/column.svg");
 	} else {
-		_g.h["Page"] = "./assets/page.svg";
+		_g.h["Column"] = "./assets/column.svg";
+	}
+	if(__map_reserved["Row"] != null) {
+		_g.setReserved("Row","./assets/row.svg");
+	} else {
+		_g.h["Row"] = "./assets/row.svg";
+	}
+	if(__map_reserved["Centered"] != null) {
+		_g.setReserved("Centered","./assets/centered.svg");
+	} else {
+		_g.h["Centered"] = "./assets/centered.svg";
 	}
 	if(__map_reserved["Positioned"] != null) {
 		_g.setReserved("Positioned","./assets/positioned.svg");

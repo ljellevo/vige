@@ -34,6 +34,21 @@ class Body {
     }
 
 
+    /**
+      If overwritten then it will not reset back to this value
+    */
+    public function setGlobalTitle(title: String) {
+      var titleElement = Browser.document.createTitleElement();
+      titleElement.text = title;
+
+      var existingTitleElements = Browser.document.head.getElementsByTagName("title");
+      for(i in 0...existingTitleElements.length){
+        Browser.document.head.removeChild(existingTitleElements[i]);
+      }
+      Browser.document.head.appendChild(titleElement);
+    }
+
+
     public function render(widget: js.html.Node) {
         Browser.document.body.appendChild(widget);
     }

@@ -93,17 +93,17 @@ class Row implements Widget {
         new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, alignment: alignment});
 
         for(child in children) {
-            /*
+            
             var rowCell = Browser.document.createDivElement();
             rowCell.classList.add("row-cell");
             rowCell.appendChild(child.render());
             new StyleManager().addStyleToDiv({widget: rowCell, color: cellColor, padding: cellPadding, size: cellSize});
             row.appendChild(rowCell);
-            */
             
+            /*
             var cell = child.render();
             row.appendChild(cell);
-            
+            */
             
         }
         

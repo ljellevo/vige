@@ -49,12 +49,13 @@ class HomePage  extends DynamicComponent {
                 child: new Column({
                   children: [
                     //new Text("MIST.IO", {textSize: 88}),
-                    new Image({src: "./assets/logo-verbose.png", height: 120}),
-                    new Text("The declarative web-framework")
+                    new Image({src: "./assets/logo-short-text.svg", height: 180}),
+                    //new Text("The declarative web-framework", {color: new Color({color: Colors.fromString("#4A4A4A")})})
                   ]
                 }),
               }),
             }),
+
             
             new Container({
               child: new Column({
@@ -62,11 +63,11 @@ class HomePage  extends DynamicComponent {
                 size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                 children: [
                   new Row({
-                    alignment: RowAlignment.Stretch,
+                    alignment: RowAlignment.Center,
                     cellSize: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                     children: [
                       new Container({
-                        size: new Size({height: 80, heightType: "%"}),
+                        padding: Padding.fromTRBL(80.0, 0.0, 80.0, 0.0),
                         child: new Row({
                           cellPadding: Padding.fromTRBL(80.0, 0.0, 80.0, 0.0),
                           alignment: RowAlignment.Center,
@@ -86,9 +87,9 @@ class HomePage  extends DynamicComponent {
                           alignment: CenterAlignment.Vertical,
                           child: new Container({
                             size: new Size({height: 300, heightType: "px", width: 500, widthType: "px"}),
-                            child: new Text("MIST.IO is a modern and feature rich webframework that does things a bit different. \n\n
+                            child: new Text("VIGE is a modern and feature rich webframework that does things a bit different. \n\n
                             Write your website in the new popular declarative way. This makes your code easy toread, change and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n
-                            MIST utilizes the amazing Haxe language to compile your staticly typed code into an efficent single page JavaScript application.", {color: new Color({color: Colors.fromString("#fafafa")})}),
+                            VIGE utilizes the amazing Haxe language to compile your staticly typed code into an efficent single page JavaScript application.", {color: new Color({color: Colors.fromString("#fafafa")})}),
                           })
                         })
                       }),
@@ -113,7 +114,7 @@ class HomePage  extends DynamicComponent {
                           cellPadding: Padding.fromTRBL(0.0, 0.0, 0.0, 20.0),
                           alignment: RowAlignment.Right,
                           children: [
-                            new Text("MIST lets you create modern featureful websites\nwithout any hassle.\n\nExpand your MIST experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase", {color: new Color({color: Colors.fromString("#2e3440")})}),
+                            new Text("VIGE lets you create modern featureful websites\nwithout any hassle.\n\nExpand your VIGE experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase", {color: new Color({color: Colors.fromString("#2e3440")})}),
                           ]
                         })
                       }),
@@ -143,7 +144,7 @@ class HomePage  extends DynamicComponent {
                 alignment: CenterAlignment.Both,
                 child: new Column({
                   children: [
-                    new Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nMIST has a robust and flexible API for both single requests and sockets.", {color: new Color({color: Colors.fromString("#2e3440")})}),
+                    new Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nVIGE has a robust and flexible API for both single requests and sockets.", {color: new Color({color: Colors.fromString("#2e3440")})}),
                     new Container({size: new Size({height: 50, heightType: "px"})}),
                     new Center({
                       alignment: CenterAlignment.Horizontal,
