@@ -55,6 +55,36 @@ class HomePage  extends DynamicComponent {
                 }),
               }),
             }),
+            
+            new Container({
+              color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
+              size: new Size({height: 400, heightType: "px", width: 100, widthType: "%"}),
+              child: new Center({
+                alignment: CenterAlignment.Both,
+                child: new Column({
+                  children: [
+                    new Text("News, releases and stuff being worked at. Also anouncements", {color: new Color({color: Colors.fromString("#2e3440")})}),
+                    new Container({size: new Size({height: 50, heightType: "px"})}),
+                    new Row({
+                      children: [
+                        new Button({
+                          child: new Text("Sockets"),
+                          onClick: function (e) {
+                            Navigate.to({url: "/sockets"});
+                          }
+                        }),
+                        new Button({
+                          child: new Text("Database"),
+                          onClick: function (e) {
+                            Navigate.to({url: "/database"});
+                          }
+                        })
+                      ]
+                    }),
+                  ]
+                })
+              }), 
+            }),
 
             
             new Container({
@@ -67,32 +97,32 @@ class HomePage  extends DynamicComponent {
                     cellSize: new Size({height: 100, heightType: "%", width: 50, widthType: "vw"}),
                     //cellMargin: Margin.fromTRBL(80.0, 80.0, 80.0, 80.0),
                     children: [
-                      
-                      new Center({
-                        alignment: CenterAlignment.Horizontal,
-                        child:  new Container({
-                          size: new Size({height: 900, heightType: "px", width: 100, widthType: "%"}),
-                          padding: Padding.fromTRBL(80.0, 0.0, 80.0, 80.0),
-                          child: new Image({
-                            src: "./assets/code2.png",
-                            //height: 419,
-                            //width: 100
-                          })
-                        }),
-                      }),
-                     
-                      /*
-                      new Image({
-                        src: "./assets/code2.png",
-                        //height: 419,
-                      }),
-                      */
                       new Container({
+                        //color: new Color({backgroundColor: Colors.fromString("#CBDFBD")}),
+                        size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
+                        padding: Padding.fromTRBL(80.0, 80.0, 80.0, 80.0),
+                        child: new Center({
+                          alignment: CenterAlignment.Both,
+                          child: new Container({
+                            //color: new Color({backgroundColor: Colors.fromString("#98b979")}),
+                            size: new Size({height: 100, heightType: "%"}),
+                            child:new Image({
+                              resizeModifier: ResizeModifier.Width,
+                              src: "./assets/code2.png",
+                              minWidth: 400,
+                              maxWidth: 600,
+                            })
+                          })
+                        })
+                      }),
+                      new Container({
+                        color: new Color({backgroundColor: Colors.fromString("#2e3440")}),
                         size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                         padding: Padding.fromTRBL(80.0, 0.0, 80.0, 0.0),
                         child: new Center({
-                          alignment: CenterAlignment.Vertical,
+                          alignment: CenterAlignment.Both,
                           child: new Container({
+                            //color: new Color({backgroundColor: Colors.fromString("#2e3440")}),
                             size: new Size({height: 300, heightType: "px", width: 500, widthType: "px"}),
                             child: new Text("VIGE is a modern and feature rich webframework that does things a bit different. \n\n
                             Write your website in the new popular declarative way. This makes your code easy toread, change and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n
@@ -106,6 +136,7 @@ class HomePage  extends DynamicComponent {
               }),
             }),
             
+            /*
             new Container({
               child: new Column({
                 color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
@@ -140,6 +171,7 @@ class HomePage  extends DynamicComponent {
                         })
                       }),
                       */
+                      /*
                       new Center({
                         alignment: CenterAlignment.Horizontal,
                         child:  new Container({
@@ -157,7 +189,8 @@ class HomePage  extends DynamicComponent {
                 ]
               }),
             }),
-            
+            */
+            /*
             new Container({
               color: new Color({backgroundColor: Colors.fromString("#98b979")}),
               size: new Size({height: 400, heightType: "px", width: 100, widthType: "%"}),
@@ -224,6 +257,60 @@ class HomePage  extends DynamicComponent {
                 })
               }), 
             }),
+            */
+            
+            new Container({
+              color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
+              size: new Size({height: 600, heightType: "px", width: 100, widthType: "%"}),
+              child: new Center({
+                alignment: CenterAlignment.Vertical,
+                child: new Column({
+                  padding: Padding.fromTRBL(0, 20, 0, 20),
+                  size: new Size({width: 100, widthType: "%"}),
+                  children: [
+                    new Center({
+                      alignment: CenterAlignment.Horizontal,
+                      child: new Text("How does VIGE works. Compiling, static serving from server, routing, DOM updates and so on", {color: new Color({color: Colors.fromString("#2e3440")})}),
+
+                    }),
+                    new Column({
+                      children: [
+                        new Row({
+                          size: new Size({height: 100, heightType: "px"}),
+                          children: [
+                            new Text("Staticly typed and compiled with Haxe"),
+                            new Text("Single Page Application and client side routing"),
+                          ]
+                        }),
+                        new Row({
+                          size: new Size({height: 100, heightType: "px"}),
+                          children: [
+                            new Text("Smart DOM updating with cascading updates"),
+                            new Text("Serve site staticly from any webserver"),
+                          ]
+                        })
+                      ]
+                    })
+                  ]
+                })
+              }), 
+            }),
+
+            new Container({
+              color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
+              size: new Size({height: 400, heightType: "px", width: 100, widthType: "%"}),
+              child: new Center({
+                alignment: CenterAlignment.Both,
+                child: new Column({
+                  children: [
+                    new Text("Download VIGE", {color: new Color({color: Colors.fromString("#2e3440")})}),
+                    new Container({size: new Size({height: 50, heightType: "px"})}),
+                  ]
+                })
+              }), 
+            }),
+
+
           ]
         })
       });

@@ -29,6 +29,7 @@ enum RowAlignment {
 /**
     Is documented,, not enum
     Need updated docs
+    Need to have even destribution, fill and so on...
 **/
 
 class Row implements Widget {

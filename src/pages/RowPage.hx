@@ -49,26 +49,6 @@ class RowPage extends DynamicComponent {
         cellSize: new Size({height: 100, heightType: "%", width: 50, widthType: "vw"}),
         //cellMargin: Margin.fromTRBL(80.0, 80.0, 80.0, 80.0),
         children: [
-          /*
-          new Container({
-            color: new Color({backgroundColor: Colors.fromString("#CBDFBD")}),
-            child: new Center({
-              alignment: CenterAlignment.Horizontal,
-              child:  new Container({
-                size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
-                //padding: Padding.fromTRBL(80.0, 0.0, 80.0, 80.0),
-                child: new Container({
-                  size: new Size({height: 100, heightType: "%", width: 60, widthType: "%"}),
-                  child: new Image({
-                    src: "./assets/code2.png",
-                    //height: 419,
-                    //width: 100
-                  })
-                })
-              }),
-            }),
-          }),
-          */
           new Container({
             color: new Color({backgroundColor: Colors.fromString("#CBDFBD")}),
             size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
@@ -77,26 +57,16 @@ class RowPage extends DynamicComponent {
               alignment: CenterAlignment.Both,
               child: new Container({
                 color: new Color({backgroundColor: Colors.fromString("#98b979")}),
-                size: new Size({height: 600, heightType: "px"}),
+                size: new Size({height: 100, heightType: "%"}),
                 child:new Image({
                   resizeModifier: ResizeModifier.Width,
                   src: "./assets/code2.png",
-                  //height: 419,
-                  //width: 100
-                  minWidth: 600,
-                  maxWidth: 800
+                  minWidth: 400,
+                  maxWidth: 600,
                 })
               })
             })
           }),
-          
-         
-          /*
-          new Image({
-            src: "./assets/code2.png",
-            //height: 419,
-          }),
-          */
           new Container({
             color: new Color({backgroundColor: Colors.fromString("#FF5964")}),
             size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),

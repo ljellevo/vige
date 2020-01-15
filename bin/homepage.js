@@ -144,7 +144,7 @@ CustomNavbar.prototype = $extend(lib_core_DynamicComponent.prototype,{
 			}
 			return null;
 		};
-		var tmp = new lib_utils_Size({ height : 40, heightType : "px"});
+		var tmp = new lib_utils_Size({ height : 40, heightType : "px", width : 120, widthType : "px"});
 		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		return new components_HomeButton({ size : tmp, color : new lib_utils_Color({ color : -16777216, backgroundColor : this12}), border : determineBorder(), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, children : getButtonContents(text,src)}), onClick : function(e) {
 			if(url == "https://github.com/ljellevo/mist.io") {
@@ -155,7 +155,7 @@ CustomNavbar.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	}
 	,navbarComponent: function() {
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var navbar = new lib_components_Navbar({ position : lib_components_NavbarPosition.Top, offset : 0, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Row({ margin : lib_utils_Margin.fromTRBL(10,50,10,50), children : [this.homepageButton(null,"./assets/logo-simple.png","/"),this.homepageButton("Quick-start","./assets/chevron-right-solid.svg","/guides"),this.homepageButton("Docs","./assets/book-solid.svg","/docs"),this.homepageButton("Widgets","./assets/book-open.svg","/widgets"),this.homepageButton("Snippets","./assets/code-solid.svg","/snippets"),this.homepageButton("Templates","./assets/template.svg","/templates"),this.homepageButton("Codebase","./assets/github.svg","https://github.com/ljellevo/mist.io")]}), onComplete : function() {
+		var navbar = new lib_components_Navbar({ position : lib_components_NavbarPosition.Top, offset : 0, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Row({ alignment : lib_components_RowAlignment.Center, margin : lib_utils_Margin.fromTRBL(10,50,10,50), children : [this.homepageButton(null,"./assets/logo-simple.png","/"),this.homepageButton("Quick-start","./assets/chevron-right-solid.svg","/guides"),this.homepageButton("Docs","./assets/book-solid.svg","/docs"),this.homepageButton("Widgets","./assets/book-open.svg","/widgets"),this.homepageButton("Snippets","./assets/code-solid.svg","/snippets"),this.homepageButton("Templates","./assets/template.svg","/templates"),this.homepageButton("Codebase","./assets/github.svg","https://github.com/ljellevo/mist.io")]}), onComplete : function() {
 		}});
 		return navbar;
 	}
@@ -4689,49 +4689,39 @@ pages_HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var tmp1 = lib_utils_Margin.fromTRBL(-60.0,0.0,0.0,0.0);
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		var tmp2 = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this1}), size : new lib_utils_Size({ height : 100, heightType : "vh", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Image({ src : "./assets/logo-short-text.svg", height : 180})]})})});
-		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		var tmp3 = new lib_utils_Color({ backgroundColor : this11});
-		var tmp4 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp5 = new lib_utils_Size({ height : 100, heightType : "%", width : 50, widthType : "vw"});
-		var tmp6 = new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Container({ size : new lib_utils_Size({ height : 900, heightType : "px", width : 100, widthType : "%"}), padding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,80.0), child : new lib_components_Image({ src : "./assets/code2.png"})})});
-		var tmp7 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp8 = lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0);
-		var tmp9 = new lib_utils_Size({ height : 300, heightType : "px", width : 500, widthType : "px"});
-		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp10 = new lib_components_Container({ child : new lib_components_Column({ color : tmp3, size : tmp4, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Center, cellSize : tmp5, children : [tmp6,new lib_components_Container({ size : tmp7, padding : tmp8, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Vertical, child : new lib_components_Container({ size : tmp9, child : new lib_components_Text("VIGE is a modern and feature rich webframework that does things a bit different. \n\n\n                            Write your website in the new popular declarative way. This makes your code easy toread, change and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n\n                            VIGE utilizes the amazing Haxe language to compile your staticly typed code into an efficent single page JavaScript application.",{ color : new lib_utils_Color({ color : this12})})})})})]})]})});
-		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp11 = new lib_utils_Color({ backgroundColor : this13});
-		var tmp12 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp13 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp14 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp15 = lib_utils_Padding.fromTRBL(0.0,0.0,0.0,20.0);
-		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp16 = new lib_components_Container({ child : new lib_components_Column({ color : tmp11, size : tmp12, children : [new lib_components_Row({ cellSize : tmp13, alignment : lib_components_RowAlignment.Stretch, children : [new lib_components_Container({ child : new lib_components_Row({ size : tmp14, cellPadding : tmp15, alignment : lib_components_RowAlignment.Right, children : [new lib_components_Text("VIGE lets you create modern featureful websites\nwithout any hassle.\n\nExpand your VIGE experience by\n  - Reading our quick-start guide\n  - Visiting our detailed widget guide\n  - Downloading community created snippets\n  - Browsing website templates\n  - Contributing to the codebase",{ color : new lib_utils_Color({ color : this14})})]})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Container({ size : new lib_utils_Size({ height : 900, heightType : "px", width : 100, widthType : "%"}), padding : lib_utils_Padding.fromTRBL(80.0,0.0,80.0,80.0), child : new lib_components_Image({ src : "./assets/code3.png"})})})]})]})});
-		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
-		var tmp17 = new lib_utils_Color({ backgroundColor : this15});
-		var tmp18 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
-		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ margin : tmp1, children : [tmp2,tmp10,tmp16,new lib_components_Container({ color : tmp17, size : tmp18, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Create a more feature-rich website with asyncronous requests and\nseamless updating of the DOM.\n\nVIGE has a robust and flexible API for both single requests and sockets.",{ color : new lib_utils_Color({ color : this16})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Request({ url : "http://localhost:3000/test", onComplete : function(res) {
-			return new lib_components_Text("Single request: " + Std.string(res.get_content()));
-		}, onProgress : function() {
-			return new lib_components_Text("Loading");
-		}, onError : function(res1) {
-			return new lib_components_Text("Error: " + res1.get_error());
-		}})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Stream(this.page,{ url : "ws://localhost:3001/socket", onStandby : function() {
-			return new lib_components_Text("On standby");
-		}, onOpen : function(res2) {
-			return new lib_components_Text("Connection opened");
-		}, onMessage : function(res3) {
-			return new lib_components_Text("WebSocket on homepage: " + Std.string(res3.data));
-		}, onClose : function(res4) {
-			return new lib_components_Text("Connection closed");
-		}, onError : function(res5) {
-			return new lib_components_Text("Error");
-		}})}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
+		var tmp4 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
+		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp5 = new lib_components_Container({ color : tmp3, size : tmp4, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("News, releases and stuff being worked at. Also anouncements",{ color : new lib_utils_Color({ color : this12})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
 			lib_core_Navigate.to({ url : "/sockets"});
 		}}),new lib_components_Button({ child : new lib_components_Text("Database"), onClick : function(e1) {
 			lib_core_Navigate.to({ url : "/database"});
-		}})]})]})})})]})});
+		}})]})]})})});
+		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp6 = new lib_utils_Color({ backgroundColor : this13});
+		var tmp7 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp8 = new lib_utils_Size({ height : 100, heightType : "%", width : 50, widthType : "vw"});
+		var tmp9 = new lib_components_Container({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), padding : lib_utils_Padding.fromTRBL(80.0,80.0,80.0,80.0), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Container({ size : new lib_utils_Size({ height : 100, heightType : "%"}), child : new lib_components_Image({ resizeModifier : lib_components_ResizeModifier.Width, src : "./assets/code2.png", minWidth : 400, maxWidth : 600})})})});
+		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp10 = new lib_utils_Color({ backgroundColor : this14});
+		var tmp11 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp12 = lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0);
+		var tmp13 = new lib_utils_Size({ height : 300, heightType : "px", width : 500, widthType : "px"});
+		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp14 = new lib_components_Container({ child : new lib_components_Column({ color : tmp6, size : tmp7, children : [new lib_components_Row({ alignment : lib_components_RowAlignment.Center, cellSize : tmp8, children : [tmp9,new lib_components_Container({ color : tmp10, size : tmp11, padding : tmp12, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Container({ size : tmp13, child : new lib_components_Text("VIGE is a modern and feature rich webframework that does things a bit different. \n\n\n                            Write your website in the new popular declarative way. This makes your code easy toread, change and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n\n                            VIGE utilizes the amazing Haxe language to compile your staticly typed code into an efficent single page JavaScript application.",{ color : new lib_utils_Color({ color : this15})})})})})]})]})});
+		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp15 = new lib_utils_Color({ backgroundColor : this16});
+		var tmp16 = new lib_utils_Size({ height : 600, heightType : "px", width : 100, widthType : "%"});
+		var tmp17 = lib_utils_Padding.fromTRBL(0,20,0,20);
+		var tmp18 = new lib_utils_Size({ width : 100, widthType : "%"});
+		var this17 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp19 = new lib_components_Container({ color : tmp15, size : tmp16, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Vertical, child : new lib_components_Column({ padding : tmp17, size : tmp18, children : [new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Text("How does VIGE works. Compiling, static serving from server, routing, DOM updates and so on",{ color : new lib_utils_Color({ color : this17})})}),new lib_components_Column({ children : [new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "px"}), children : [new lib_components_Text("Staticly typed and compiled with Haxe"),new lib_components_Text("Single Page Application and client side routing")]}),new lib_components_Row({ size : new lib_utils_Size({ height : 100, heightType : "px"}), children : [new lib_components_Text("Smart DOM updating with cascading updates"),new lib_components_Text("Serve site staticly from any webserver")]})]})]})})});
+		var this18 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp20 = new lib_utils_Color({ backgroundColor : this18});
+		var tmp21 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
+		var this19 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ margin : tmp1, children : [tmp2,tmp5,tmp14,tmp19,new lib_components_Container({ color : tmp20, size : tmp21, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ children : [new lib_components_Text("Download VIGE",{ color : new lib_utils_Color({ color : this19})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})})]})})})]})});
 		return this.page;
 	}
 	,__class__: pages_HomePage
@@ -4751,7 +4741,7 @@ pages_RowPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var tmp3 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 		var tmp4 = lib_utils_Padding.fromTRBL(80.0,80.0,80.0,80.0);
 		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#98b979",1,null));
-		var tmp5 = new lib_components_Container({ color : tmp2, size : tmp3, padding : tmp4, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this11}), size : new lib_utils_Size({ height : 600, heightType : "px"}), child : new lib_components_Image({ resizeModifier : lib_components_ResizeModifier.Width, src : "./assets/code2.png", minWidth : 600, maxWidth : 800})})})});
+		var tmp5 = new lib_components_Container({ color : tmp2, size : tmp3, padding : tmp4, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this11}), size : new lib_utils_Size({ height : 100, heightType : "%"}), child : new lib_components_Image({ resizeModifier : lib_components_ResizeModifier.Width, src : "./assets/code2.png", minWidth : 400, maxWidth : 600})})})});
 		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#FF5964",1,null));
 		var tmp6 = new lib_utils_Color({ backgroundColor : this12});
 		var tmp7 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});

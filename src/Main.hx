@@ -94,7 +94,7 @@ class CustomNavbar extends DynamicComponent {
     }
 
     return new HomeButton({
-      size: new Size({height: 40, heightType: "px"}),
+      size: new Size({height: 40, heightType: "px", width: 120, widthType: "px"}),
       color: new Color({color: Colors.BLACK, backgroundColor: Colors.fromString("#fafafa")}),
       border: determineBorder(),
       child: new Row({
@@ -116,6 +116,7 @@ class CustomNavbar extends DynamicComponent {
       offset: 0,
       color: new Color({backgroundColor: "#fafafa"}),
       child: new Row({
+        alignment: RowAlignment.Center,
         margin: Margin.fromTRBL(10, 50, 10, 50),
         children: [
           homepageButton(null, "./assets/logo-simple.png", "/"),
