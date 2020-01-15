@@ -45,7 +45,7 @@ class RowPage extends DynamicComponent {
       navbar: new CustomNavbar().navbarComponent(),
       route: "/row",
       child:  new Row({
-        alignment: RowAlignment.Center,
+        mainAxisAlignment: MainAxisAlignment.Center,
         cellSize: new Size({height: 100, heightType: "%", width: 50, widthType: "vw"}),
         //cellMargin: Margin.fromTRBL(80.0, 80.0, 80.0, 80.0),
         children: [

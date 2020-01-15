@@ -140,6 +140,7 @@ class WidgetsPage extends DynamicComponent {
         alignment: CenterAlignment.Both,
         color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
         child: new Column({
+          crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
           size: new Size({height: 60, heightType: "vh", width: 80, widthType: "%"}),
           children: Constructors.constructRows({
             data: data, 
@@ -151,7 +152,8 @@ class WidgetsPage extends DynamicComponent {
                 size: new Size({height: 150, heightType: "px", width: 300, widthType: "px"}),
                 child: new Row({
                     
-                  alignment: RowAlignment.Stretch,
+                  mainAxisAlignment: MainAxisAlignment.Center,
+                  crossAxisAlignment: CrossAxisAlignment.SpaceBetween,
                   children: [
                     
                     
@@ -185,6 +187,7 @@ class WidgetsPage extends DynamicComponent {
             },
             rowBuilder: function(children) {
               return new Row({
+                crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
                 children: children,
               });
             }

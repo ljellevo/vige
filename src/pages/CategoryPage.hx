@@ -74,6 +74,7 @@ class CategoryPage extends DynamicComponent {
         alignment: CenterAlignment.Both,
         color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
         child: new Column({
+          crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
           size: new Size({height: 60, heightType: "vh", width: 80, widthType: "%"}),
           children: Constructors.constructRows({
             data: data, 
@@ -86,16 +87,18 @@ class CategoryPage extends DynamicComponent {
                 child: new Center({
                   alignment: CenterAlignment.Both,
                   child: new Row({
-                    alignment: RowAlignment.Center,
+                    mainAxisAlignment: MainAxisAlignment.Center,
+                    crossAxisAlignment: CrossAxisAlignment.SpaceBetween,
                     children: [
                       new Image({
                         src: images[data[i].getTitle()], 
                         alt: data[i].getTitle(), 
                         height: 40,
-                        padding: Padding.fromTRBL(0, 20, 0, 10)
+                        //padding: Padding.fromTRBL(0, 20, 0, 10)
                       }),
                       new Column({
-                        size: new Size({width: 100, widthType: "%"}),
+                        //crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
+                        //size: new Size({width: 100, widthType: "%"}),
                         children: [
                           new Text(data[i].getTitle(), {textSize: 20,  color: new Color({color: Colors.fromString("#2e3440")})}),
                           new Text(data[i].getDesc(), {color: new Color({color: Colors.fromString("#2e3440")})})
@@ -113,6 +116,8 @@ class CategoryPage extends DynamicComponent {
             },
             rowBuilder: function(children) {
               return new Row({
+                crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
+                
                 children: children,
               });
             }

@@ -12,7 +12,7 @@ import lib.utils.Padding;
 import lib.utils.Margin;
 import lib.utils.Size;
 
-enum RowAlignment {
+enum MainAxisAlignment {
     TopLeft;
     TopCenter;
     TopRight;
@@ -25,11 +25,25 @@ enum RowAlignment {
     Stretch;
 }
 
+enum CrossAxisAlignment {
+  Stretch;
+  Center;
+  FlexStart;
+  FlexEnd;
+  Initial;
+  Inherit;
+  SpacedEvenly;
+  SpaceBetween;
+  SpaceAround;
+}
+
 
 /**
     Is documented,, not enum
     Need updated docs
     Need to have even destribution, fill and so on...
+    https://www.w3schools.com/cssref/css3_pr_align-content.asp
+    https://www.w3schools.com/cssref/css3_pr_justify-content.asp
 **/
 
 class Row implements Widget {
@@ -38,7 +52,8 @@ class Row implements Widget {
     var cellSize: Size;
     var cellPadding: Padding;
     var cellMargin: Margin;
-    var alignment: RowAlignment;
+    var mainAxisAlignment: MainAxisAlignment;
+    var crossAxisAlignment: CrossAxisAlignment;
     var equalElementWidth: Bool;
 
     public var color: Color;
@@ -55,7 +70,8 @@ class Row implements Widget {
         ?cellSize: Size,
         ?cellPadding: Padding,
         ?cellMargin: Margin,
-        ?alignment: RowAlignment,
+        ?mainAxisAlignment: MainAxisAlignment,
+        ?crossAxisAlignment: CrossAxisAlignment,
 
         ?color: Color,
         ?border: Border,
@@ -67,16 +83,17 @@ class Row implements Widget {
         this.children = arg.children;
         this.equalElementWidth = arg.equalElementWidth != null ? arg.equalElementWidth : true;
         this.cellColor = arg.cellColor != null ? arg.cellColor : new Color({});
-        this.cellSize = arg.cellSize != null ? arg.cellSize : new Size({});
+        this.cellSize = arg.cellSize != null ? arg.cellSize : new Size({width: 100, widthType: "%"});
         this.cellPadding = arg.cellPadding;
         this.cellMargin = arg.cellMargin;
-        this.alignment = arg.alignment != null ? arg.alignment : RowAlignment.Center; 
+        this.mainAxisAlignment = arg.mainAxisAlignment != null ? arg.mainAxisAlignment : MainAxisAlignment.Stretch; 
+        this.crossAxisAlignment = arg.crossAxisAlignment != null ? arg.crossAxisAlignment : CrossAxisAlignment.Stretch;
 
         this.color = arg.color;
         this.border = arg.border;
         this.padding = arg.padding;
         this.margin = arg.margin;
-        this.size = arg.size;
+        this.size = arg.size != null ? arg.size : new Size({width: 100, widthType: "%"});
     }
 
     public function init(){}
@@ -94,7 +111,7 @@ class Row implements Widget {
         //row.style.gridTemplateRows = "auto 1fr";
         row.classList.add("row");
         row.style.gridAutoFlow = "column";
-        new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, alignment: alignment});
+        new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Row});
 
         for(child in children) {
             

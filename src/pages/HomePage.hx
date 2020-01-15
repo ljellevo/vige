@@ -49,7 +49,7 @@ class HomePage  extends DynamicComponent {
                 child: new Column({
                   children: [
                     //new Text("MIST.IO", {textSize: 88}),
-                    new Image({src: "./assets/logo-short-text.svg", height: 180}),
+                    new Image({src: "./assets/logo-short-text.png", height: 180}),
                     //new Text("The declarative web-framework", {color: new Color({color: Colors.fromString("#4A4A4A")})})
                   ]
                 }),
@@ -61,11 +61,16 @@ class HomePage  extends DynamicComponent {
               size: new Size({height: 400, heightType: "px", width: 100, widthType: "%"}),
               child: new Center({
                 alignment: CenterAlignment.Both,
+                
                 child: new Column({
+                  //crossAxisAlignment: CrossAxisAlignment.SpaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.Center,
                   children: [
                     new Text("News, releases and stuff being worked at. Also anouncements", {color: new Color({color: Colors.fromString("#2e3440")})}),
                     new Container({size: new Size({height: 50, heightType: "px"})}),
                     new Row({
+                      crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
+                      
                       children: [
                         new Button({
                           child: new Text("Sockets"),
@@ -93,7 +98,8 @@ class HomePage  extends DynamicComponent {
                 size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                 children: [
                   new Row({
-                    alignment: RowAlignment.Center,
+                    //crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
+                    mainAxisAlignment: MainAxisAlignment.Center,
                     cellSize: new Size({height: 100, heightType: "%", width: 50, widthType: "vw"}),
                     //cellMargin: Margin.fromTRBL(80.0, 80.0, 80.0, 80.0),
                     children: [
@@ -258,31 +264,72 @@ class HomePage  extends DynamicComponent {
               }), 
             }),
             */
+            new Container({
+              color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
+              size: new Size({height: 400, heightType: "px", width: 100, widthType: "%"}),
+              child: new Center({
+                alignment: CenterAlignment.Both,
+                child: new Column({
+                  mainAxisAlignment: MainAxisAlignment.Center,
+                  children: [
+                    new Text("It's declarative... But why should I care?", {color: new Color({color: Colors.fromString("#2e3440")})}),
+                    new Container({size: new Size({height: 50, heightType: "px"})}),
+                  ]
+                })
+              }), 
+            }),
             
             new Container({
               color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
               size: new Size({height: 600, heightType: "px", width: 100, widthType: "%"}),
               child: new Center({
-                alignment: CenterAlignment.Vertical,
+                alignment: CenterAlignment.Both,
                 child: new Column({
-                  padding: Padding.fromTRBL(0, 20, 0, 20),
-                  size: new Size({width: 100, widthType: "%"}),
+                  mainAxisAlignment: MainAxisAlignment.Center,
+                  crossAxisAlignment: CrossAxisAlignment.SpaceAround,
+                  //padding: Padding.fromTRBL(0, 20, 0, 20),
+                  size: new Size({width: 70, widthType: "%"}),
                   children: [
+                    new Image({
+                      src: "./assets/VIGE_loves_HAXE.png",
+                      maxWidth: 800,
+                    }),
+                    new Container({
+                      size: new Size({height: 50, heightType: "px"})
+                    }),
                     new Center({
                       alignment: CenterAlignment.Horizontal,
                       child: new Text("How does VIGE works. Compiling, static serving from server, routing, DOM updates and so on", {color: new Color({color: Colors.fromString("#2e3440")})}),
 
                     }),
+                    /*
+                    new Container({
+                      size: new Size({height: 100, heightType: "px"})
+                    }),
+                    */
+                    
+                    /*
                     new Column({
                       children: [
                         new Row({
+                          crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
                           size: new Size({height: 100, heightType: "px"}),
                           children: [
-                            new Text("Staticly typed and compiled with Haxe"),
+                            new Column({
+                              mainAxisAlignment: MainAxisAlignment.Center,
+                              children: [
+                                new Image({
+                                  src: "./assets/haxe-logo.png",
+                                  width: 400
+                                }),
+                                new Text("Staticly typed and compiled with Haxe"),
+                              ]
+                            }),
                             new Text("Single Page Application and client side routing"),
                           ]
                         }),
                         new Row({
+                          crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
                           size: new Size({height: 100, heightType: "px"}),
                           children: [
                             new Text("Smart DOM updating with cascading updates"),
@@ -291,6 +338,7 @@ class HomePage  extends DynamicComponent {
                         })
                       ]
                     })
+                    */
                   ]
                 })
               }), 
@@ -302,6 +350,7 @@ class HomePage  extends DynamicComponent {
               child: new Center({
                 alignment: CenterAlignment.Both,
                 child: new Column({
+                  mainAxisAlignment: MainAxisAlignment.Center,
                   children: [
                     new Text("Download VIGE", {color: new Color({color: Colors.fromString("#2e3440")})}),
                     new Container({size: new Size({height: 50, heightType: "px"})}),
@@ -310,7 +359,25 @@ class HomePage  extends DynamicComponent {
               }), 
             }),
 
-
+            new Container({
+              color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
+              size: new Size({height: 200, heightType: "px", width: 100, widthType: "%"}),
+              child: new Column({
+                mainAxisAlignment: MainAxisAlignment.Center,
+                children: [
+                  new Row({
+                    mainAxisAlignment: MainAxisAlignment.Center,
+                    crossAxisAlignment: CrossAxisAlignment.SpaceAround,
+                    children: [
+                      new Image({
+                        src: "./assets/logo-simple.png",
+                        width: 100
+                      })
+                    ]
+                  }),
+                ]
+              })
+            })
           ]
         })
       });

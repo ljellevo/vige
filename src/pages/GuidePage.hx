@@ -222,7 +222,7 @@ class GuidePage extends DynamicComponent {
                         //Each row
                         return new Row({
                           
-                          alignment: RowAlignment.Stretch,
+                          mainAxisAlignment: MainAxisAlignment.Stretch,
                           children: children,
                         });
                       }

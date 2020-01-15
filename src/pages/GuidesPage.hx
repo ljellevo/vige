@@ -108,6 +108,8 @@ class GuidesPage extends DynamicComponent {
         alignment: CenterAlignment.Both,
         color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
         child: new Column({
+          mainAxisAlignment: MainAxisAlignment.Center,
+          crossAxisAlignment: CrossAxisAlignment.Center,
           size: new Size({height: 60, heightType: "vh", width: 80, widthType: "%"}),
           children: Constructors.constructRows({
             data: data, 
@@ -120,7 +122,7 @@ class GuidesPage extends DynamicComponent {
                 child: new Center({
                   alignment: CenterAlignment.Both,
                   child: new Row({
-                    alignment: RowAlignment.Center,
+                    crossAxisAlignment: CrossAxisAlignment.Center,
                     children: [
                       /*
                       new Image({
@@ -148,6 +150,7 @@ class GuidesPage extends DynamicComponent {
             },
             rowBuilder: function(children) {
               return new Row({
+                crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
                 children: children,
               });
             }

@@ -137,7 +137,7 @@ class WidgetPage extends DynamicComponent {
     if(argument.getReq()){
       child = new Row({
         equalElementWidth: false,
-        alignment: RowAlignment.Left,
+        mainAxisAlignment: MainAxisAlignment.Left,
         cellSize: new Size({width: 120, widthType: "px"}),
         children: [
           new Container({
@@ -156,7 +156,7 @@ class WidgetPage extends DynamicComponent {
     } else {
       if(argument.getType() == "break") {
         child = new Row({
-          alignment: RowAlignment.Left,
+          mainAxisAlignment: MainAxisAlignment.Left,
           equalElementWidth: false,
           children: [
             new Container({
@@ -169,7 +169,7 @@ class WidgetPage extends DynamicComponent {
         });
       } else {
         child = new Row({
-          alignment: RowAlignment.Left,
+          mainAxisAlignment: MainAxisAlignment.Left,
           equalElementWidth: false,
           children: [
             new Container({
@@ -319,7 +319,7 @@ class WidgetPage extends DynamicComponent {
                           //Each row
                           return new Row({
                             
-                            alignment: RowAlignment.Stretch,
+                            mainAxisAlignment: MainAxisAlignment.Stretch,
                             children: children,
                           });
                         }
@@ -346,7 +346,7 @@ class WidgetPage extends DynamicComponent {
                           //Each row
                           return new Row({
                             
-                            alignment: RowAlignment.Stretch,
+                            mainAxisAlignment: MainAxisAlignment.Stretch,
                             children: children,
                           });
                         }

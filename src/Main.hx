@@ -98,7 +98,7 @@ class CustomNavbar extends DynamicComponent {
       color: new Color({color: Colors.BLACK, backgroundColor: Colors.fromString("#fafafa")}),
       border: determineBorder(),
       child: new Row({
-        alignment: RowAlignment.Center,
+        mainAxisAlignment: MainAxisAlignment.Center,
         children: getButtonContents(text, src)
       }), 
       onClick: function (e) {
@@ -116,8 +116,9 @@ class CustomNavbar extends DynamicComponent {
       offset: 0,
       color: new Color({backgroundColor: "#fafafa"}),
       child: new Row({
-        alignment: RowAlignment.Center,
-        margin: Margin.fromTRBL(10, 50, 10, 50),
+        mainAxisAlignment: MainAxisAlignment.Center,
+        crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
+        margin: Margin.fromTRBL(10, 0, 10, 0),
         children: [
           homepageButton(null, "./assets/logo-simple.png", "/"),
           homepageButton("Quick-start", "./assets/chevron-right-solid.svg", "/guides"),
