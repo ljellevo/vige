@@ -28,8 +28,15 @@ new Image({
 **/
 
 /**
-    Is documented
+    Needs resizeModifier documented
 **/
+
+
+enum ResizeModifier {
+    Height;
+    Width;
+    None;
+}
 
 
 class Image implements Widget {
@@ -38,8 +45,11 @@ class Image implements Widget {
     var alt: String;
     var height: Float;
     var minHeight: Float;
+    var maxHeight: Float;
     var width: Float;
     var minWidth: Float;
+    var maxWidth: Float;
+    var resizeModifier: ResizeModifier;
 
     public var color: Color;
     public var border: Border;
@@ -52,8 +62,11 @@ class Image implements Widget {
         ?alt: String,
         ?height: Float,
         ?minHeight: Float,
+        ?maxHeight: Float,
         ?width: Float,
         ?minWidth: Float,
+        ?maxWidth: Float,
+        ?resizeModifier: ResizeModifier,
 
         ?color: Color,
         ?border: Border,
@@ -65,8 +78,11 @@ class Image implements Widget {
         this.alt = arg.alt;
         this.height = arg.height;
         this.minHeight = arg.minHeight;
+        this.maxHeight = arg.maxHeight;
         this.width = arg.width;
         this.minWidth = arg.minWidth;
+        this.maxWidth = arg.maxWidth;
+        this.resizeModifier = arg.resizeModifier != null ? arg.resizeModifier : ResizeModifier.Width;
 
         this.color = arg.color;
         this.border = arg.border;
@@ -82,16 +98,29 @@ class Image implements Widget {
 
         container.src = new AssetManagement(src).getAssetPath();
         container.alt = alt;
-        if(height == null) {
-            container.style.height = "auto";
-        } else {
-            container.style.height = Std.string(height);
+        container.style.display = "block";
+        container.style.objectFit = "contain";
+
+        switch (resizeModifier) {
+            case Height:
+                container.style.height = "100%";
+                container.style.width = "auto";
+            case Width:
+                container.style.height = "auto";
+                container.style.width = "100%";
+            case None:
+                container.style.height = "auto";
+                container.style.width = "auto";
+
         }
 
-        if(width == null) {
-            container.style.width = "auto";
-        } else {
-            container.style.width = Std.string(width) + "%";
+
+        if(height != null){
+            container.style.height = Std.string(height) + "px";
+        }
+
+        if(width != null) {
+            container.style.width = Std.string(width) + "px";
         }
 
         if(minWidth != null) {
@@ -102,30 +131,16 @@ class Image implements Widget {
             container.style.minHeight = Std.string(minHeight) + "px";
         }
 
-        if(color != null) {
-            //container.style.fill = style.getColor();
-            //container.style.backgroundColor = style.getBackgroundColor();
+        if(maxWidth != null) {
+            container.style.maxWidth = Std.string(maxWidth) + "px";
+        }
+
+        if(maxHeight != null) {
+            container.style.maxHeight = Std.string(maxHeight) + "px";
         }
         
-        
-        //container.height = Std.int(height);
-        //container.width = Std.int(width);
-
         new StyleManager().addStyleToImage({widget: container, color: color, border: border, padding: padding, margin: margin, size: size});
 
         return container;
-
-        /*
-        var container = Browser.document.createDivElement();
-        if(child != null) {
-             container.appendChild(child.render());
-        }
-        
-       
-        new StyleManager().addStyleToDiv({size: size, widget: container, style: style, padding: Padding.all(0.0)});
-        //container.style.margin = "auto";
-        
-        return container;
-        */
     }
 }

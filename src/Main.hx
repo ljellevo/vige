@@ -43,7 +43,8 @@ class Main {
       new SocketsPage(),
       new DatabasePage(),
       new WidgetsPage(),
-      new WidgetPage()
+      new WidgetPage(),
+      new RowPage()
 
     ];
 

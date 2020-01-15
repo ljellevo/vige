@@ -64,22 +64,29 @@ class HomePage  extends DynamicComponent {
                 children: [
                   new Row({
                     alignment: RowAlignment.Center,
-                    cellSize: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
+                    cellSize: new Size({height: 100, heightType: "%", width: 50, widthType: "vw"}),
+                    //cellMargin: Margin.fromTRBL(80.0, 80.0, 80.0, 80.0),
                     children: [
-                      new Container({
-                        padding: Padding.fromTRBL(80.0, 0.0, 80.0, 0.0),
-                        child: new Row({
-                          cellPadding: Padding.fromTRBL(80.0, 0.0, 80.0, 0.0),
-                          alignment: RowAlignment.Center,
-                          children: [
-                            new Image({
-                              src: "./assets/code2.png",
-                              width: 100,
-                              minWidth: 20
-                            })
-                          ]
-                        })
+                      
+                      new Center({
+                        alignment: CenterAlignment.Horizontal,
+                        child:  new Container({
+                          size: new Size({height: 900, heightType: "px", width: 100, widthType: "%"}),
+                          padding: Padding.fromTRBL(80.0, 0.0, 80.0, 80.0),
+                          child: new Image({
+                            src: "./assets/code2.png",
+                            //height: 419,
+                            //width: 100
+                          })
+                        }),
                       }),
+                     
+                      /*
+                      new Image({
+                        src: "./assets/code2.png",
+                        //height: 419,
+                      }),
+                      */
                       new Container({
                         size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}),
                         padding: Padding.fromTRBL(80.0, 0.0, 80.0, 0.0),
@@ -118,6 +125,7 @@ class HomePage  extends DynamicComponent {
                           ]
                         })
                       }),
+                      /*
                       new Container({
                         child: new Row({
                           cellPadding: Padding.fromTRBL(80.0, 0.0, 80.0, 0.0),
@@ -130,6 +138,19 @@ class HomePage  extends DynamicComponent {
                             })
                           ]
                         })
+                      }),
+                      */
+                      new Center({
+                        alignment: CenterAlignment.Horizontal,
+                        child:  new Container({
+                          size: new Size({height: 900, heightType: "px", width: 100, widthType: "%"}),
+                          padding: Padding.fromTRBL(80.0, 0.0, 80.0, 80.0),
+                          child: new Image({
+                            src: "./assets/code3.png",
+                            //height: 419,
+                            //width: 100
+                          })
+                        }),
                       }),
                     ]
                   })

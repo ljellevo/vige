@@ -36,6 +36,7 @@ class Row implements Widget {
     var cellColor: Color;
     var cellSize: Size;
     var cellPadding: Padding;
+    var cellMargin: Margin;
     var alignment: RowAlignment;
     var equalElementWidth: Bool;
 
@@ -52,6 +53,7 @@ class Row implements Widget {
         ?cellColor: Color,
         ?cellSize: Size,
         ?cellPadding: Padding,
+        ?cellMargin: Margin,
         ?alignment: RowAlignment,
 
         ?color: Color,
@@ -65,7 +67,8 @@ class Row implements Widget {
         this.equalElementWidth = arg.equalElementWidth != null ? arg.equalElementWidth : true;
         this.cellColor = arg.cellColor != null ? arg.cellColor : new Color({});
         this.cellSize = arg.cellSize != null ? arg.cellSize : new Size({});
-        this.cellPadding = arg.cellPadding != null ? arg.cellPadding : Padding.all(0.0);
+        this.cellPadding = arg.cellPadding;
+        this.cellMargin = arg.cellMargin;
         this.alignment = arg.alignment != null ? arg.alignment : RowAlignment.Center; 
 
         this.color = arg.color;
@@ -96,8 +99,10 @@ class Row implements Widget {
             
             var rowCell = Browser.document.createDivElement();
             rowCell.classList.add("row-cell");
+            rowCell.style.boxSizing = "border-box";
+            
             rowCell.appendChild(child.render());
-            new StyleManager().addStyleToDiv({widget: rowCell, color: cellColor, padding: cellPadding, size: cellSize});
+            new StyleManager().addStyleToDiv({widget: rowCell, color: cellColor, padding: cellPadding, margin: cellMargin, size: cellSize});
             row.appendChild(rowCell);
             
             /*
