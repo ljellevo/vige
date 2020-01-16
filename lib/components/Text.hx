@@ -12,23 +12,32 @@ import lib.utils.Size;
 
 
 enum TextFormat {
-    h1;
-    h2;
-    h3;
-    h4;
-    h5;
-    h6;
-    p;
-    a;
-    pre;
+  h1;
+  h2;
+  h3;
+  h4;
+  h5;
+  h6;
+  p;
+  a;
+  pre;
 }
 
 enum TextAlignment {
-    Left;
-    Right;
-    Center;
-    Justify;
-    Inherit;
+  Left;
+  Right;
+  Center;
+  Justify;
+  Inherit;
+}
+
+
+enum FontStyle {
+  Normal;
+  Italic;
+  Oblique;
+  Initial;
+  Inherit;
 }
 
 
@@ -43,6 +52,7 @@ class Text implements Widget {
     var textFormat: TextFormat;
     var font: String;
     var textAlignment: TextAlignment;
+    var fontStyle: FontStyle;
 
     public var color: Color;
     public var border: Border;
@@ -56,6 +66,7 @@ class Text implements Widget {
         ?textSize: Int,
         ?font: String,
         ?textAlignment: TextAlignment,
+        ?fontStyle: FontStyle,
         
         ?color: Color,
         ?border: Border,
@@ -72,6 +83,7 @@ class Text implements Widget {
         this.color = arg.color != null ? arg.color : new Color({});
         this.textFormat = arg.textFormat != null ? arg.textFormat : TextFormat.p;
         this.textAlignment = arg.textAlignment != null ? arg.textAlignment : TextAlignment.Left;
+        this.fontStyle = arg.fontStyle != null ? arg.fontStyle : FontStyle.Normal;
     }
 
     public function init(){}
@@ -86,74 +98,88 @@ class Text implements Widget {
 
 
         switch (textFormat){
-            case h1:
-                element = Browser.document.createParagraphElement();
-                element.style.display = "block";
-                element.style.fontSize = "2em";
-                element.style.margin = ".67em 0";
-                element.style.fontWeight = "bold";
-            case h2:
-                element = Browser.document.createParagraphElement();
-                element.style.display = "block";
-                element.style.fontSize = "1.5em";
-                element.style.margin = ".83em 0";
-                element.style.fontWeight = "bold";
-            case h3:
-                element = Browser.document.createParagraphElement();
-                element.style.display = "block";
-                element.style.fontSize = "1.17em";
-                element.style.margin = "1em 0";
-                element.style.fontWeight = "bold";
-            case h4:
-                element = Browser.document.createParagraphElement();
-                element.style.display = "block";
-                element.style.fontSize = "1em";
-                element.style.margin = "1.33em 0";
-                element.style.fontWeight = "bold";
-            case h5:
-                element = Browser.document.createParagraphElement();
-                element.style.display = "block";
-                element.style.fontSize = ".83em";
-                element.style.margin = "1.67em 0";
-                element.style.fontWeight = "bold";
-            case h6:
-                element = Browser.document.createParagraphElement();
-                element.style.display = "block";
-                element.style.fontSize = ".67em";
-                element.style.margin = "2.33em 0";
-                element.style.fontWeight = "bold";
-            case p:
-                element = Browser.document.createParagraphElement();
-                element.style.display = "inline";
-                element.style.fontSize = "1em";
-                element.style.margin = "0 0";
-                element.style.fontWeight = "normal";
-            case a:
-                element = Browser.document.createParagraphElement();
-                element.style.display = "inline";
-                element.style.fontSize = "1em";
-                element.style.margin = "0 0";
-                element.style.fontWeight = "normal";
-            case pre:
-                element = Browser.document.createParagraphElement();
-                element.style.display = "inline";
-                element.style.fontSize = "1em";
-                element.style.margin = "0 0";
-                element.style.fontWeight = "normal";
+          case h1:
+            element = Browser.document.createParagraphElement();
+            element.style.display = "block";
+            element.style.fontSize = "2em";
+            element.style.margin = ".67em 0";
+            element.style.fontWeight = "bold";
+          case h2:
+            element = Browser.document.createParagraphElement();
+            element.style.display = "block";
+            element.style.fontSize = "1.5em";
+            element.style.margin = ".83em 0";
+            element.style.fontWeight = "bold";
+          case h3:
+            element = Browser.document.createParagraphElement();
+            element.style.display = "block";
+            element.style.fontSize = "1.17em";
+            element.style.margin = "1em 0";
+            element.style.fontWeight = "bold";
+          case h4:
+            element = Browser.document.createParagraphElement();
+            element.style.display = "block";
+            element.style.fontSize = "1em";
+            element.style.margin = "1.33em 0";
+            element.style.fontWeight = "bold";
+          case h5:
+            element = Browser.document.createParagraphElement();
+            element.style.display = "block";
+            element.style.fontSize = ".83em";
+            element.style.margin = "1.67em 0";
+            element.style.fontWeight = "bold";
+          case h6:
+            element = Browser.document.createParagraphElement();
+            element.style.display = "block";
+            element.style.fontSize = ".67em";
+            element.style.margin = "2.33em 0";
+            element.style.fontWeight = "bold";
+          case p:
+            element = Browser.document.createParagraphElement();
+            element.style.display = "block";
+            element.style.fontSize = "1em";
+            element.style.margin = "0 0";
+            element.style.fontWeight = "normal";
+          case a:
+            element = Browser.document.createParagraphElement();
+            element.style.display = "block";
+            element.style.fontSize = "1em";
+            element.style.margin = "0 0";
+            element.style.fontWeight = "normal";
+          case pre:
+            element = Browser.document.createParagraphElement();
+            element.style.display = "block";
+            element.style.fontSize = "1em";
+            element.style.margin = "0 0";
+            element.style.fontWeight = "normal";
             
         }
 
         switch (textAlignment) {
-            case Left:
-                element.style.textAlign = "left";
-            case Right:
-                element.style.textAlign = "right";
-            case Center:
-                element.style.textAlign = "center";
-            case Justify:
-                element.style.textAlign = "justify";
-            case Inherit:
-                element.style.textAlign = "inherit";
+          case Left:
+            element.style.textAlign = "left";
+          case Right:
+            element.style.textAlign = "right";
+          case Center:
+            element.style.textAlign = "center";
+          case Justify:
+            element.style.textAlign = "justify";
+          case Inherit:
+            element.style.textAlign = "inherit";
+        }
+
+
+        switch (fontStyle) {
+          case Normal:
+            element.style.fontStyle = "normal";
+          case Italic:
+            element.style.fontStyle = "italic";
+          case Oblique:
+            element.style.fontStyle = "oblique";
+          case Initial:
+            element.style.fontStyle = "initial";
+          case Inherit:
+            element.style.fontStyle = "inherit";
         }
         //var element = Browser.document.createParagraphElement();
         if(textSize > -1) {

@@ -131,8 +131,9 @@ class HomePage  extends DynamicComponent {
                             //color: new Color({backgroundColor: Colors.fromString("#2e3440")}),
                             size: new Size({height: 300, heightType: "px", width: 500, widthType: "px"}),
                             child: new Text("VIGE is a modern and feature rich webframework that does things a bit different. \n\n
-                            Write your website in the new popular declarative way. This makes your code easy toread, change and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n
-                            VIGE utilizes the amazing Haxe language to compile your staticly typed code into an efficent single page JavaScript application.", {color: new Color({color: Colors.fromString("#fafafa")})}),
+                            Write your website in the new, popular declarative way. This makes your code easy to read, edit and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n
+                            VIGE utilizes the amazing Haxe language to compile your staticly typed code into an efficent single-page JavaScript application. \n\n\n
+                            So what exactly is declarative programming, and why should I bother?", {color: new Color({color: Colors.fromString("#fafafa")})}),
                           })
                         })
                       }),
@@ -272,8 +273,23 @@ class HomePage  extends DynamicComponent {
                 child: new Column({
                   mainAxisAlignment: MainAxisAlignment.Center,
                   children: [
-                    new Text("It's declarative... But why should I care?", {color: new Color({color: Colors.fromString("#2e3440")})}),
+                    //new Text("All this talk about declarative, but what does it mean?", {color: new Color({color: Colors.fromString("#2e3440")})}),
                     new Container({size: new Size({height: 50, heightType: "px"})}),
+                    new Row({
+                      mainAxisAlignment: MainAxisAlignment.Center,
+                      crossAxisAlignment: CrossAxisAlignment.SpaceAround,
+                      size: new Size({width: 70, widthType: "%"}),
+                      children: [
+                        new Text('"Declarative programming focuses on what the program should accomplish without specifying how the program should achieve the result."', {textAlignment: TextAlignment.Right, fontStyle: FontStyle.Italic, color: new Color({color: Colors.fromString("#adadad")})}),
+                        new Container({size: new Size({width: 40, widthType: "px"})}),
+                        new Image({
+                          src: "./assets/Equal.png",
+                          width: 80
+                        }),
+                        new Container({size: new Size({width: 40, widthType: "px"})}),
+                        new Text("This means for the mere mortals that this framework is designed around the principle that you, as the coder, describes what the website should look like. And we'll handle how it's actually laid out behind the scenes.", {color: new Color({color: Colors.fromString("#2e3440")})}),
+                      ]
+                    }),
                   ]
                 })
               }), 
@@ -299,7 +315,7 @@ class HomePage  extends DynamicComponent {
                     }),
                     new Center({
                       alignment: CenterAlignment.Horizontal,
-                      child: new Text("HAXE is an easy to learn, lightweight, staticly-typed object oriented language that comiles to a variety of languages, with JavaScript being one of them. \n\nVIGE utilizes it's JavaScript API to communicate directly with both the DOM and available browser functions. \n\nEverything possible in JavaScript is possible in HAXE, and thats why we love it.", {textAlignment: TextAlignment.Center, color: new Color({color: Colors.fromString("#2e3440")})}),
+                      child: new Text("HAXE is an easy to learn, lightweight, staticly-typed object oriented language that comiles to a variety of languages, with JavaScript being one of them. \n\nVIGE utilizes it's JavaScript API to communicate directly with both the DOM and available browser functions. \n\nEverything is possible in HAXE, and thats why we love it.", {textAlignment: TextAlignment.Center, color: new Color({color: Colors.fromString("#2e3440")})}),
 
                     }),
 
