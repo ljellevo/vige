@@ -23,6 +23,16 @@ enum TextFormat {
     pre;
 }
 
+enum TextAlignment {
+    Left;
+    Right;
+    Center;
+    Justify;
+    Inherit;
+}
+
+
+
 /**
     Is documented, not enum
 **/
@@ -32,6 +42,7 @@ class Text implements Widget {
     var text: String = "";
     var textFormat: TextFormat;
     var font: String;
+    var textAlignment: TextAlignment;
 
     public var color: Color;
     public var border: Border;
@@ -44,6 +55,7 @@ class Text implements Widget {
         ?textFormat: TextFormat,
         ?textSize: Int,
         ?font: String,
+        ?textAlignment: TextAlignment,
         
         ?color: Color,
         ?border: Border,
@@ -59,6 +71,7 @@ class Text implements Widget {
         this.textSize = arg.textSize != null ? arg.textSize : -1;
         this.color = arg.color != null ? arg.color : new Color({});
         this.textFormat = arg.textFormat != null ? arg.textFormat : TextFormat.p;
+        this.textAlignment = arg.textAlignment != null ? arg.textAlignment : TextAlignment.Left;
     }
 
     public function init(){}
@@ -69,6 +82,8 @@ class Text implements Widget {
 
     public function render() : Node {
         var element;
+
+
 
         switch (textFormat){
             case h1:
@@ -126,6 +141,19 @@ class Text implements Widget {
                 element.style.margin = "0 0";
                 element.style.fontWeight = "normal";
             
+        }
+
+        switch (textAlignment) {
+            case Left:
+                element.style.textAlign = "left";
+            case Right:
+                element.style.textAlign = "right";
+            case Center:
+                element.style.textAlign = "center";
+            case Justify:
+                element.style.textAlign = "justify";
+            case Inherit:
+                element.style.textAlign = "inherit";
         }
         //var element = Browser.document.createParagraphElement();
         if(textSize > -1) {

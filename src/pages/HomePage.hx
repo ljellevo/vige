@@ -299,9 +299,11 @@ class HomePage  extends DynamicComponent {
                     }),
                     new Center({
                       alignment: CenterAlignment.Horizontal,
-                      child: new Text("How does VIGE works. Compiling, static serving from server, routing, DOM updates and so on", {color: new Color({color: Colors.fromString("#2e3440")})}),
+                      child: new Text("HAXE is an easy to learn, lightweight, staticly-typed object oriented language that comiles to a variety of languages, with JavaScript being one of them. \n\nVIGE utilizes it's JavaScript API to communicate directly with both the DOM and available browser functions. \n\nEverything possible in JavaScript is possible in HAXE, and thats why we love it.", {textAlignment: TextAlignment.Center, color: new Color({color: Colors.fromString("#2e3440")})}),
 
                     }),
+
+                    //
                     /*
                     new Container({
                       size: new Size({height: 100, heightType: "px"})
