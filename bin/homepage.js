@@ -7,8 +7,6 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
-var _$Date_Date_$Impl_$ = function() { };
-_$Date_Date_$Impl_$.__name__ = "_Date.Date_Impl_";
 var EReg = function(r,opt) {
 	this.r = new RegExp(r,opt.split("u").join(""));
 };
@@ -85,7 +83,7 @@ Main.main = function() {
 	var body = new lib_core_Body();
 	body.font("Arial","400");
 	body.setGlobalTitle("VIGE");
-	lib_core_Navigate.routes = [new pages_HomePage(),new pages_GuidesPage(),new pages_GuidePage(),new pages_DocsPage(),new pages_CategoryPage(),new pages_SnippetsPage(),new pages_TemplatesPage(),new pages_SocketsPage(),new pages_DatabasePage(),new pages_WidgetsPage(),new pages_WidgetPage(),new pages_RowPage()];
+	lib_core_Navigate.routes = [new pages_HomePage(),new pages_GuidesPage(),new pages_GuidePage(),new pages_DocsPage(),new pages_CategoryPage(),new pages_SnippetsPage(),new pages_TemplatesPage(),new pages_SocketsPage(),new pages_DatabasePage(),new pages_WidgetsPage(),new pages_WidgetPage(),new pages_RowPage(),new pages_NewsPage()];
 	lib_core_Navigate.to({ url : window.location.pathname, main : true});
 	window.addEventListener("popstate",function(e) {
 		lib_core_Navigate.navigationEvent();
@@ -155,9 +153,43 @@ CustomNavbar.prototype = $extend(lib_core_DynamicComponent.prototype,{
 			lib_core_Navigate.to({ url : url});
 		}});
 	}
+	,homepageButtonColored: function(text,src,url) {
+		var getButtonContents = function(text1,src1) {
+			var widgets = [];
+			if(src1 != null && src1 != "") {
+				if(url == "/") {
+					widgets.push(new lib_components_Container({ color : new lib_utils_Color({ color : -16777216}), child : new lib_components_Image({ src : src1, height : 25, width : 25})}));
+				} else {
+					widgets.push(new lib_components_Container({ color : new lib_utils_Color({ color : -16777216}), child : new lib_components_Image({ src : src1, height : 15, width : 30})}));
+				}
+			}
+			if(text1 != null && text1 != "") {
+				var getButtonContents1 = src1 != null && src1 != "";
+				var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+				widgets.push(new lib_components_Text(text1,{ textSize : 12, color : new lib_utils_Color({ color : this1})}));
+			}
+			return widgets;
+		};
+		var determineBorder = function() {
+			var path = window.location.pathname;
+			if(path == url) {
+				var this11 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+				return new lib_utils_Border({ style : lib_utils_BorderStyle.Solid, width : 5, color : this11, sides : lib_utils_BorderSides.Bottom});
+			}
+			return null;
+		};
+		var tmp = new lib_utils_Size({ height : 40, heightType : "px", width : 120, widthType : "px"});
+		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		return new components_HomeButton({ size : tmp, color : new lib_utils_Color({ color : -16777216, backgroundColor : this12}), border : new lib_utils_Border({ color : 0, style : lib_utils_BorderStyle.None, width : 1, cornerRadius : lib_utils_CornerRadius.all(20)}), child : new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : getButtonContents(text,src)}), onClick : function(e) {
+			if(url == "https://github.com/ljellevo/mist.io") {
+				lib_core_Navigate.link({ url : url});
+			}
+			lib_core_Navigate.to({ url : url});
+		}});
+	}
 	,navbarComponent: function() {
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var navbar = new lib_components_Navbar({ position : lib_components_NavbarPosition.Top, offset : 0, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpacedEvenly, margin : lib_utils_Margin.fromTRBL(10,0,10,0), children : [this.homepageButton(null,"./assets/logo-simple.png","/"),this.homepageButton("Quick-start","./assets/chevron-right-solid.svg","/guides"),this.homepageButton("Docs","./assets/book-solid.svg","/docs"),this.homepageButton("Widgets","./assets/book-open.svg","/widgets"),this.homepageButton("Snippets","./assets/code-solid.svg","/snippets"),this.homepageButton("Templates","./assets/template.svg","/templates"),this.homepageButton("Codebase","./assets/github.svg","https://github.com/ljellevo/mist.io")]}), onComplete : function() {
+		var navbar = new lib_components_Navbar({ position : lib_components_NavbarPosition.Top, offset : 0, color : new lib_utils_Color({ backgroundColor : this1}), child : new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpacedEvenly, margin : lib_utils_Margin.fromTRBL(10,0,10,0), children : [this.homepageButton(null,"./assets/logo-simple.png","/"),this.homepageButton("Quick-start","./assets/chevron-right-solid.svg","/guides"),this.homepageButton("Docs","./assets/book-solid.svg","/docs"),this.homepageButton("Widgets","./assets/book-open.svg","/widgets"),this.homepageButton("Snippets","./assets/code-solid.svg","/snippets"),this.homepageButton("Templates","./assets/template.svg","/templates"),this.homepageButton("Codebase","./assets/github.svg","https://github.com/ljellevo/mist.io"),this.homepageButtonColored("Download","./assets/download.svg","/download")]}), onComplete : function() {
 		}});
 		return navbar;
 	}
@@ -2760,6 +2792,9 @@ lib_components_Container.prototype = {
 		if(this.child != null) {
 			container.appendChild(this.child.render());
 		}
+		if(this.size != null) {
+			container.id = this.size.getWidth();
+		}
 		new lib_support_StyleManager().addStyleToDiv({ widget : container, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, overflow : this.overflow});
 		return container;
 	}
@@ -4868,48 +4903,41 @@ pages_HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var tmp26 = new lib_utils_Color({ backgroundColor : this110});
 		var tmp27 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
 		var tmp28 = lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0);
-		var tmp29 = new lib_utils_Size({ height : 300, heightType : "px", width : 500, widthType : "px"});
+		var tmp29 = new lib_utils_Size({ height : 145, heightType : "px", width : 500, widthType : "px"});
 		var this111 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp30 = new lib_components_Container({ child : new lib_components_Column({ color : tmp22, size : tmp23, children : [new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, cellSize : tmp24, children : [tmp25,new lib_components_Container({ color : tmp26, size : tmp27, padding : tmp28, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Container({ size : tmp29, child : new lib_components_Text("VIGE is a modern and feature rich webframework that does things a bit different. \n\n\n                            Write your website in the new, popular declarative way. This makes your code easy to read, edit and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n\n                            VIGE utilizes the amazing Haxe language to compile your staticly typed code into an efficent single-page JavaScript application. \n\n\n\n                            So what exactly is declarative programming, and why should I bother?",{ color : new lib_utils_Color({ color : this111})})})})})]})]})});
+		var tmp30 = new lib_components_Container({ child : new lib_components_Column({ color : tmp22, size : tmp23, children : [new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, cellSize : tmp24, children : [tmp25,new lib_components_Container({ color : tmp26, size : tmp27, padding : tmp28, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Container({ size : tmp29, child : new lib_components_Text("VIGE is a modern and feature rich webframework that does things a bit different. \n\n\n                                            Write your website in the new, popular declarative way. This makes your code easy to read, edit and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n\n",{ color : new lib_utils_Color({ color : this111})})})})})]})]})});
 		var this112 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		var tmp31 = new lib_utils_Color({ backgroundColor : this112});
-		var tmp32 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
-		var tmp33 = new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})});
-		var tmp34 = new lib_utils_Size({ width : 70, widthType : "%"});
-		var this113 = Std.parseInt("0xff" + HxOverrides.substr("#adadad",1,null));
-		var tmp35 = new lib_components_Text("\"Declarative programming focuses on what the program should accomplish without specifying how the program should achieve the result.\"",{ textAlignment : lib_components_TextAlignment.Right, fontStyle : lib_components_FontStyle.Italic, color : new lib_utils_Color({ color : this113})});
-		var tmp36 = new lib_components_Container({ size : new lib_utils_Size({ width : 40, widthType : "px"})});
-		var tmp37 = new lib_components_Image({ src : "./assets/Equal.png", width : 80});
-		var tmp38 = new lib_components_Container({ size : new lib_utils_Size({ width : 40, widthType : "px"})});
-		var this114 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp39 = new lib_components_Container({ color : tmp31, size : tmp32, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [tmp33,new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpaceAround, size : tmp34, children : [tmp35,tmp36,tmp37,tmp38,new lib_components_Text("This means for the mere mortals that this framework is designed around the principle that you, as the coder, describes what the website should look like. And we'll handle all of the HTML, CSS and JavaScript.",{ color : new lib_utils_Color({ color : this114})})]})]})})});
-		var this115 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp40 = new lib_utils_Color({ backgroundColor : this115});
-		var tmp41 = new lib_utils_Size({ height : 600, heightType : "px", width : 100, widthType : "%"});
-		var tmp42 = new lib_utils_Size({ width : 70, widthType : "%"});
-		var tmp43 = new lib_components_Image({ src : "./assets/VIGE_loves_HAXE.png", maxWidth : 800});
-		var tmp44 = new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})});
-		var this116 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp45 = new lib_components_Container({ color : tmp40, size : tmp41, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpaceAround, size : tmp42, children : [tmp43,tmp44,new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Text("HAXE is an easy to learn, lightweight, staticly-typed object oriented language that comiles to a variety of languages, with JavaScript being one of them. \n\nVIGE utilizes it's JavaScript API to communicate directly with both the DOM and available browser functions. \n\nEverything is possible in HAXE, and thats why we love it.",{ textAlignment : lib_components_TextAlignment.Center, color : new lib_utils_Color({ color : this116})})})]})})});
-		var this117 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp46 = new lib_utils_Color({ backgroundColor : this117});
-		var tmp47 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
-		var this118 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp48 = new lib_components_Container({ color : tmp46, size : tmp47, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [new lib_components_Text("Download VIGE",{ color : new lib_utils_Color({ color : this118})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})})]})})});
-		var this119 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp49 = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this119}), size : new lib_utils_Size({ height : 200, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpaceAround, children : [new lib_components_Image({ src : "./assets/logo-simple.png", width : 100})]})]})});
-		var this120 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp50 = new lib_utils_Color({ backgroundColor : this120});
-		var tmp51 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
-		var this121 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ margin : tmp1, children : [tmp2,tmp21,tmp30,tmp39,tmp45,tmp48,tmp49,new lib_components_Container({ color : tmp50, size : tmp51, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [new lib_components_Text("News, releases and stuff being worked at. Also anouncements",{ color : new lib_utils_Color({ color : this121})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Row({ crossAxisAlignment : lib_components_CrossAxisAlignment.SpacedEvenly, children : [new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
+		var tmp32 = new lib_utils_Size({ height : 600, heightType : "px", width : 100, widthType : "%"});
+		var tmp33 = new lib_utils_Size({ width : 70, widthType : "%"});
+		var tmp34 = new lib_components_Image({ src : "./assets/VIGE_loves_HAXE.png", maxWidth : 800});
+		var tmp35 = new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})});
+		var this113 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp36 = new lib_components_Container({ color : tmp31, size : tmp32, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpaceAround, size : tmp33, children : [tmp34,tmp35,new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Text("HAXE is an easy to learn, lightweight, statically typed, object-oriented language that compiles to a variety of languages, with JavaScript being one of them. \n\nVIGE utilizes it's JavaScript API to communicate directly with both the DOM and available browser functions. \n\nEverything is possible in HAXE, and thats why we love it.",{ textAlignment : lib_components_TextAlignment.Center, color : new lib_utils_Color({ color : this113})})})]})})});
+		var this114 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp37 = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this114}), size : new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [new lib_components_Row({ crossAxisAlignment : lib_components_CrossAxisAlignment.SpacedEvenly, children : [new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
 			lib_core_Navigate.to({ url : "/sockets"});
 		}}),new lib_components_Button({ child : new lib_components_Text("Database"), onClick : function(e1) {
 			lib_core_Navigate.to({ url : "/database"});
-		}})]})]})})})]})});
+		}})]})]})})});
+		var this115 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ margin : tmp1, children : [tmp2,tmp21,tmp30,tmp36,tmp37,new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this115}), size : new lib_utils_Size({ height : 200, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpaceAround, children : [new lib_components_Image({ src : "./assets/logo-simple.png", width : 100})]})]})})]})});
 		return this.page;
 	}
 	,__class__: pages_HomePage
+});
+var pages_NewsPage = function() {
+	this.data = [];
+	lib_core_DynamicComponent.call(this);
+};
+pages_NewsPage.__name__ = "pages.NewsPage";
+pages_NewsPage.__super__ = lib_core_DynamicComponent;
+pages_NewsPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
+	component: function() {
+		this.page = new lib_components_Page({ navbar : new CustomNavbar().navbarComponent(), route : "/news", child : new lib_components_Text("News Page")});
+		return this.page;
+	}
+	,__class__: pages_NewsPage
 });
 var pages_RowPage = function() {
 	this.data = [];

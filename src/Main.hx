@@ -44,8 +44,8 @@ class Main {
       new DatabasePage(),
       new WidgetsPage(),
       new WidgetPage(),
-      new RowPage()
-
+      new RowPage(),
+      new NewsPage()
     ];
 
     Navigate.to({url: Browser.location.pathname, main: true});
@@ -110,6 +110,57 @@ class CustomNavbar extends DynamicComponent {
     });
   }
 
+  private function homepageButtonColored(text: String, src: String, url: String): Widget{
+    function getButtonContents(text: String, src: String): Array<Widget>{
+      var widgets: Array<Widget> = [];
+      if(src != null && src != "") {
+        if(url == "/") {
+          widgets.push(new Container({color: new Color({color: Colors.BLACK}), child: new Image({src: src, height: 25, width: 25})}));
+        } else {
+          widgets.push(new Container({color: new Color({color: Colors.BLACK}), child: new Image({src: src, height: 15, width: 30})}));
+        }  
+      }
+      
+      if(text != null && text != "") {
+        if(src != null && src != "") {
+          //widgets.push(new Container({size: new Size({width: 20, widthType: "px"})}));
+        }
+        widgets.push(new Text(text, {textSize: 12, color: new Color({color: Colors.fromString("#fafafa")})}));
+      }
+      return widgets;
+    }
+
+    function determineBorder(): Border {
+      var path = Browser.location.pathname;
+      if(path == url) {
+        return new Border({style: BorderStyle.Solid, width: 5, color: Colors.fromString("#2e3440"), sides: BorderSides.Bottom});
+      }
+      return null;
+    }
+
+    return new HomeButton({
+      size: new Size({height: 40, heightType: "px", width: 120, widthType: "px"}),
+      color: new Color({color: Colors.BLACK, backgroundColor: Colors.fromString("#2e3440")}),//2e3440
+      border: new Border({
+        color: Colors.TRANSPARENT,
+        style: BorderStyle.None,
+        width: 1,
+        cornerRadius: CornerRadius.all(20),
+      }),
+      child: new Row({
+        //equalElementWidth: false,
+        mainAxisAlignment: MainAxisAlignment.Center,
+        children: getButtonContents(text, src)
+      }), 
+      onClick: function (e) {
+        if(url == "https://github.com/ljellevo/mist.io") {
+          Navigate.link({url: url});
+        }
+        Navigate.to({url: url});
+      }
+    });
+  }
+
   public function navbarComponent(): Navbar {
     var navbar = new Navbar({
       position: NavbarPosition.Top,
@@ -127,6 +178,7 @@ class CustomNavbar extends DynamicComponent {
           homepageButton("Snippets", "./assets/code-solid.svg", "/snippets"),
           homepageButton("Templates", "./assets/template.svg", "/templates"),
           homepageButton("Codebase", "./assets/github.svg", "https://github.com/ljellevo/mist.io"),
+          homepageButtonColored("Download", "./assets/download.svg", "/download")
         ],
       }),
       onComplete: function (){}

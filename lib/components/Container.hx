@@ -67,6 +67,9 @@ class Container implements Widget {
             container.style.alignItems = "stretch";
         }
         */
+        if(size != null) {
+          container.id = size.getWidth();
+        }
         
        
         new StyleManager().addStyleToDiv({widget: container, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
