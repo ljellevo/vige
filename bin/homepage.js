@@ -7,6 +7,8 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var _$Date_Date_$Impl_$ = function() { };
+_$Date_Date_$Impl_$.__name__ = "_Date.Date_Impl_";
 var EReg = function(r,opt) {
 	this.r = new RegExp(r,opt.split("u").join(""));
 };
@@ -1433,6 +1435,7 @@ var lib_components_Button = function(arg) {
 	this.padding = arg.padding;
 	this.margin = arg.margin;
 	this.size = arg.size;
+	this.overflow = arg.overflow;
 };
 lib_components_Button.__name__ = "lib.components.Button";
 lib_components_Button.__interfaces__ = [lib_support_Widget];
@@ -1448,7 +1451,7 @@ lib_components_Button.prototype = {
 		button.style.textAlign = "left";
 		button.style.textDecoration = "none";
 		button.style.display = "inline-block";
-		new lib_support_StyleManager().addStyleToButton({ widget : button, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
+		new lib_support_StyleManager().addStyleToButton({ widget : button, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, overflow : this.overflow});
 		return button;
 	}
 	,__class__: lib_components_Button
@@ -2557,6 +2560,7 @@ var lib_components_Center = function(arg) {
 	this.padding = arg.padding;
 	this.margin = arg.margin;
 	this.size = arg.size;
+	this.overflow = arg.overflow;
 };
 lib_components_Center.__name__ = "lib.components.Center";
 lib_components_Center.__interfaces__ = [lib_support_Widget];
@@ -2572,7 +2576,7 @@ lib_components_Center.prototype = {
 			element.id = "element";
 			element.style.display = "flex";
 			element.style.justifyContent = "center";
-			new lib_support_StyleManager().addStyleToDiv({ widget : parent, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : new lib_utils_Size({ width : 100, widthType : "%"})});
+			new lib_support_StyleManager().addStyleToDiv({ widget : parent, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : new lib_utils_Size({ width : 100, widthType : "%"}), overflow : this.overflow});
 			element.appendChild(this.child.render());
 			parent = element;
 			break;
@@ -2580,7 +2584,7 @@ lib_components_Center.prototype = {
 			element.style.position = "relative";
 			element.style.top = "50%";
 			element.style.transform = "translateY(-50%)";
-			new lib_support_StyleManager().addStyleToDiv({ widget : parent, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : new lib_utils_Size({ height : 100, heightType : "%"})});
+			new lib_support_StyleManager().addStyleToDiv({ widget : parent, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : new lib_utils_Size({ height : 100, heightType : "%"}), overflow : this.overflow});
 			element.appendChild(this.child.render());
 			parent.appendChild(element);
 			break;
@@ -2591,7 +2595,7 @@ lib_components_Center.prototype = {
 			element.style.position = "relative";
 			element.style.top = "50%";
 			element.style.transform = "translateY(-50%)";
-			new lib_support_StyleManager().addStyleToDiv({ widget : parent, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : new lib_utils_Size({ height : 100, heightType : "%"})});
+			new lib_support_StyleManager().addStyleToDiv({ widget : parent, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : new lib_utils_Size({ height : 100, heightType : "%"}), overflow : this.overflow});
 			element.appendChild(this.child.render());
 			parent.appendChild(element);
 			break;
@@ -2607,6 +2611,7 @@ var lib_components_Collection = function(arg) {
 	this.padding = arg.padding;
 	this.margin = arg.margin;
 	this.size = arg.size;
+	this.overflow = arg.overflow;
 };
 lib_components_Collection.__name__ = "lib.components.Collection";
 lib_components_Collection.__interfaces__ = [lib_support_Widget];
@@ -2626,7 +2631,7 @@ lib_components_Collection.prototype = {
 	,render: function() {
 		var container = window.document.createElement("div");
 		container.classList.add("collection");
-		new lib_support_StyleManager().addStyleToDiv({ widget : container, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
+		new lib_support_StyleManager().addStyleToDiv({ widget : container, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, overflow : this.overflow});
 		return container;
 	}
 	,__class__: lib_components_Collection
@@ -2646,6 +2651,7 @@ var lib_components_Column = function(arg) {
 	this.padding = arg.padding;
 	this.margin = arg.margin;
 	this.size = arg.size != null ? arg.size : new lib_utils_Size({ width : 100, widthType : "%"});
+	this.overflow = arg.overflow;
 };
 lib_components_Column.__name__ = "lib.components.Column";
 lib_components_Column.__interfaces__ = [lib_support_Widget];
@@ -2657,7 +2663,7 @@ lib_components_Column.prototype = {
 		column.style.display = "grid";
 		column.classList.add("column");
 		column.style.boxSizing = "border-box";
-		new lib_support_StyleManager().addStyleToDiv({ widget : column, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, mainAxisAlignment : this.mainAxisAlignment, crossAxisAlignment : this.crossAxisAlignment, type : lib_support_DivType.Column});
+		new lib_support_StyleManager().addStyleToDiv({ widget : column, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, mainAxisAlignment : this.mainAxisAlignment, crossAxisAlignment : this.crossAxisAlignment, type : lib_support_DivType.Column, overflow : this.overflow});
 		var _g = 0;
 		var _g1 = this.children;
 		while(_g < _g1.length) {
@@ -2702,6 +2708,36 @@ lib_components_Constructors.constructRows = function(arg) {
 	}
 	return rows;
 };
+lib_components_Constructors.constructColumns = function(arg) {
+	if(arg.data == null) {
+		return [new lib_components_Row({ children : [new lib_components_Container({ })]})];
+	}
+	if(arg.elementsInEachColumn == 0) {
+		return [];
+	}
+	var columns = [];
+	var column = [];
+	var _g = 0;
+	var _g1 = arg.data.length;
+	while(_g < _g1) {
+		var i = _g++;
+		if(arg.elementsInEachColumn == 1) {
+			column.push(arg.elementBuilder(i));
+			columns.push(arg.columnBuilder(column));
+			column = [];
+		} else {
+			column.push(arg.elementBuilder(i));
+			if(column.length % arg.elementsInEachColumn == 0) {
+				columns.push(arg.columnBuilder(column));
+				column = [];
+			}
+		}
+	}
+	if(column.length > 0) {
+		columns.push(arg.columnBuilder(column));
+	}
+	return columns;
+};
 var lib_components_Container = function(arg) {
 	this.child = arg.child;
 	this.stretch = arg.stretch;
@@ -2710,6 +2746,7 @@ var lib_components_Container = function(arg) {
 	this.padding = arg.padding;
 	this.margin = arg.margin;
 	this.size = arg.size != null ? arg.size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+	this.overflow = arg.overflow;
 };
 lib_components_Container.__name__ = "lib.components.Container";
 lib_components_Container.__interfaces__ = [lib_support_Widget];
@@ -2723,7 +2760,7 @@ lib_components_Container.prototype = {
 		if(this.child != null) {
 			container.appendChild(this.child.render());
 		}
-		new lib_support_StyleManager().addStyleToDiv({ widget : container, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
+		new lib_support_StyleManager().addStyleToDiv({ widget : container, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, overflow : this.overflow});
 		return container;
 	}
 	,__class__: lib_components_Container
@@ -2763,6 +2800,7 @@ var lib_components_Image = function(arg) {
 	this.padding = arg.padding;
 	this.margin = arg.margin;
 	this.size = arg.size;
+	this.overflow = arg.overflow;
 };
 lib_components_Image.__name__ = "lib.components.Image";
 lib_components_Image.__interfaces__ = [lib_support_Widget];
@@ -2807,7 +2845,7 @@ lib_components_Image.prototype = {
 		if(this.maxHeight != null) {
 			container.style.maxHeight = Std.string(this.maxHeight) + "px";
 		}
-		new lib_support_StyleManager().addStyleToImage({ widget : container, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
+		new lib_support_StyleManager().addStyleToImage({ widget : container, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, overflow : this.overflow});
 		return container;
 	}
 	,__class__: lib_components_Image
@@ -2829,6 +2867,7 @@ var lib_components_Navbar = function(arg) {
 	this.padding = arg.padding;
 	this.margin = arg.margin;
 	this.size = arg.size;
+	this.overflow = arg.overflow;
 };
 lib_components_Navbar.__name__ = "lib.components.Navbar";
 lib_components_Navbar.__interfaces__ = [lib_support_Widget];
@@ -2837,7 +2876,7 @@ lib_components_Navbar.prototype = {
 	}
 	,render: function() {
 		var navbar = window.document.createElement("div");
-		new lib_support_StyleManager().addStyleToDiv({ widget : navbar, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
+		new lib_support_StyleManager().addStyleToDiv({ widget : navbar, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, overflow : this.overflow});
 		navbar.appendChild(this.child.render());
 		navbar.style.overflow = "hidden";
 		if(this.sticky) {
@@ -2871,6 +2910,7 @@ var lib_components_Page = function(arg) {
 	this.padding = arg.padding;
 	this.margin = arg.margin;
 	this.size = arg.size;
+	this.overflow = arg.overflow;
 };
 lib_components_Page.__name__ = "lib.components.Page";
 lib_components_Page.__interfaces__ = [lib_support_Widget];
@@ -2899,10 +2939,53 @@ lib_components_Page.prototype = {
 			element.appendChild(this.navbar.render());
 		}
 		element.appendChild(this.child.render());
-		new lib_support_StyleManager().addStyleToDiv({ widget : element, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
+		new lib_support_StyleManager().addStyleToDiv({ widget : element, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, overflow : this.overflow});
 		return element;
 	}
 	,__class__: lib_components_Page
+};
+var lib_components_Positioned = function(arg) {
+	this.top = arg.top != null ? arg.top : 0.0;
+	this.right = arg.right != null ? arg.right : 0.0;
+	this.bottom = arg.bottom != null ? arg.bottom : 0.0;
+	this.left = arg.left != null ? arg.left : 0.0;
+	this.child = arg.child;
+	this.color = arg.color;
+	this.border = arg.border;
+	this.padding = arg.padding;
+	this.margin = arg.margin;
+	this.size = arg.size;
+	this.overflow = arg.overflow;
+};
+lib_components_Positioned.__name__ = "lib.components.Positioned";
+lib_components_Positioned.__interfaces__ = [lib_support_Widget];
+lib_components_Positioned.prototype = {
+	init: function() {
+	}
+	,render: function() {
+		var parent = window.document.createElement("div");
+		parent.style.position = "relative";
+		new lib_support_StyleManager().addStyleToDiv({ widget : parent, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), overflow : this.overflow});
+		var positioned = window.document.createElement("div");
+		positioned.appendChild(this.child.render());
+		positioned.style.position = "absolute";
+		if(this.top != 0.0) {
+			positioned.style.top = Std.string(this.top) + "px";
+		}
+		if(this.right != 0.0) {
+			positioned.style.right = Std.string(this.right) + "px";
+		}
+		if(this.bottom != 0.0) {
+			positioned.style.bottom = Std.string(this.bottom) + "px";
+		}
+		if(this.left != 0.0) {
+			positioned.style.left = Std.string(this.left) + "px";
+		}
+		new lib_support_StyleManager().addStyleToDiv({ widget : positioned, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size});
+		parent.appendChild(positioned);
+		return parent;
+	}
+	,__class__: lib_components_Positioned
 };
 var lib_components_Request = function(arg) {
 	this.onError = null;
@@ -2999,6 +3082,7 @@ var lib_components_Row = function(arg) {
 	this.padding = arg.padding;
 	this.margin = arg.margin;
 	this.size = arg.size != null ? arg.size : new lib_utils_Size({ width : 100, widthType : "%"});
+	this.overflow = arg.overflow;
 };
 lib_components_Row.__name__ = "lib.components.Row";
 lib_components_Row.__interfaces__ = [lib_support_Widget];
@@ -3014,7 +3098,7 @@ lib_components_Row.prototype = {
 		}
 		row.classList.add("row");
 		row.style.gridAutoFlow = "column";
-		new lib_support_StyleManager().addStyleToDiv({ widget : row, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, mainAxisAlignment : this.mainAxisAlignment, crossAxisAlignment : this.crossAxisAlignment, type : lib_support_DivType.Row});
+		new lib_support_StyleManager().addStyleToDiv({ widget : row, color : this.color, border : this.border, padding : this.padding, margin : this.margin, size : this.size, mainAxisAlignment : this.mainAxisAlignment, crossAxisAlignment : this.crossAxisAlignment, type : lib_support_DivType.Row, overflow : this.overflow});
 		var _g = 0;
 		var _g1 = this.children;
 		while(_g < _g1.length) {
@@ -3123,6 +3207,13 @@ var lib_components_FontStyle = $hxEnums["lib.components.FontStyle"] = { __ename_
 	,Initial: {_hx_index:3,__enum__:"lib.components.FontStyle",toString:$estr}
 	,Inherit: {_hx_index:4,__enum__:"lib.components.FontStyle",toString:$estr}
 };
+var lib_components_TextOverflow = $hxEnums["lib.components.TextOverflow"] = { __ename__ : true, __constructs__ : ["Clip","Ellipsis","String","Initial","Inherit"]
+	,Clip: {_hx_index:0,__enum__:"lib.components.TextOverflow",toString:$estr}
+	,Ellipsis: {_hx_index:1,__enum__:"lib.components.TextOverflow",toString:$estr}
+	,String: {_hx_index:2,__enum__:"lib.components.TextOverflow",toString:$estr}
+	,Initial: {_hx_index:3,__enum__:"lib.components.TextOverflow",toString:$estr}
+	,Inherit: {_hx_index:4,__enum__:"lib.components.TextOverflow",toString:$estr}
+};
 var lib_components_Text = function(text,arg) {
 	this.text = "";
 	this.textSize = -1;
@@ -3136,6 +3227,8 @@ var lib_components_Text = function(text,arg) {
 	this.textFormat = arg.textFormat != null ? arg.textFormat : lib_components_TextFormat.p;
 	this.textAlignment = arg.textAlignment != null ? arg.textAlignment : lib_components_TextAlignment.Left;
 	this.fontStyle = arg.fontStyle != null ? arg.fontStyle : lib_components_FontStyle.Normal;
+	this.textOverflow = arg.textOverflow != null ? arg.textOverflow : lib_components_TextOverflow.Clip;
+	this.noWrap = arg.noWrap != null && arg.noWrap;
 };
 lib_components_Text.__name__ = "lib.components.Text";
 lib_components_Text.__interfaces__ = [lib_support_Widget];
@@ -3246,11 +3339,31 @@ lib_components_Text.prototype = {
 			element.style.fontStyle = "inherit";
 			break;
 		}
+		switch(this.textOverflow._hx_index) {
+		case 0:
+			element.style.textOverflow = "clip";
+			break;
+		case 1:
+			element.style.textOverflow = "ellipsis";
+			break;
+		case 2:
+			element.style.textOverflow = "string";
+			break;
+		case 3:
+			element.style.textOverflow = "initial";
+			break;
+		case 4:
+			element.style.textOverflow = "inherit";
+			break;
+		}
 		if(this.textSize > -1) {
 			element.style.fontSize = Std.string(this.textSize);
 		}
 		if(this.font != null) {
 			element.style.fontFamily = this.font;
+		}
+		if(this.noWrap) {
+			element.style.whiteSpace = "nowrap";
 		}
 		element.style.color = this.color.getColor();
 		element.style.backgroundColor = this.color.getBackgroundColor();
@@ -3629,6 +3742,28 @@ lib_support_StyleManager.prototype = {
 			}
 			arg.widget.style.borderRadius = arg.border.getCornerRadius();
 		}
+		if(arg.overflow != null) {
+			switch(arg.overflow._hx_index) {
+			case 0:
+				arg.widget.style.overflow = "visible";
+				break;
+			case 1:
+				arg.widget.style.overflow = "hidden";
+				break;
+			case 2:
+				arg.widget.style.overflow = "scroll";
+				break;
+			case 3:
+				arg.widget.style.overflow = "auto";
+				break;
+			case 4:
+				arg.widget.style.overflow = "initial";
+				break;
+			case 5:
+				arg.widget.style.overflow = "inherit";
+				break;
+			}
+		}
 		if(arg.mainAxisAlignment != null) {
 			switch(arg.mainAxisAlignment._hx_index) {
 			case 0:
@@ -3745,6 +3880,28 @@ lib_support_StyleManager.prototype = {
 		if(arg.margin != null) {
 			arg.widget.style.margin = arg.margin.getMargin();
 		}
+		if(arg.overflow != null) {
+			switch(arg.overflow._hx_index) {
+			case 0:
+				arg.widget.style.overflow = "visible";
+				break;
+			case 1:
+				arg.widget.style.overflow = "hidden";
+				break;
+			case 2:
+				arg.widget.style.overflow = "scroll";
+				break;
+			case 3:
+				arg.widget.style.overflow = "auto";
+				break;
+			case 4:
+				arg.widget.style.overflow = "initial";
+				break;
+			case 5:
+				arg.widget.style.overflow = "inherit";
+				break;
+			}
+		}
 		if(arg.border != null) {
 			switch(arg.border.getSides()._hx_index) {
 			case 0:
@@ -3787,6 +3944,28 @@ lib_support_StyleManager.prototype = {
 		}
 		if(arg.margin != null) {
 			arg.widget.style.margin = arg.margin.getMargin();
+		}
+		if(arg.overflow != null) {
+			switch(arg.overflow._hx_index) {
+			case 0:
+				arg.widget.style.overflow = "visible";
+				break;
+			case 1:
+				arg.widget.style.overflow = "hidden";
+				break;
+			case 2:
+				arg.widget.style.overflow = "scroll";
+				break;
+			case 3:
+				arg.widget.style.overflow = "auto";
+				break;
+			case 4:
+				arg.widget.style.overflow = "initial";
+				break;
+			case 5:
+				arg.widget.style.overflow = "inherit";
+				break;
+			}
 		}
 		if(arg.border != null) {
 			switch(arg.border.getSides()._hx_index) {
@@ -3835,6 +4014,28 @@ lib_support_StyleManager.prototype = {
 		if(arg.margin != null) {
 			var tmp = arg.margin != null ? arg.margin.getMargin() : lib_utils_Margin.all(0.0).getMargin();
 			arg.widget.style.margin = tmp;
+		}
+		if(arg.overflow != null) {
+			switch(arg.overflow._hx_index) {
+			case 0:
+				arg.widget.style.overflow = "visible";
+				break;
+			case 1:
+				arg.widget.style.overflow = "hidden";
+				break;
+			case 2:
+				arg.widget.style.overflow = "scroll";
+				break;
+			case 3:
+				arg.widget.style.overflow = "auto";
+				break;
+			case 4:
+				arg.widget.style.overflow = "initial";
+				break;
+			case 5:
+				arg.widget.style.overflow = "inherit";
+				break;
+			}
 		}
 		if(arg.border != null) {
 			switch(arg.border.getSides()._hx_index) {
@@ -3903,6 +4104,14 @@ lib_support_StyleManager.prototype = {
 		return arg.widget;
 	}
 	,__class__: lib_support_StyleManager
+};
+var lib_support_Overflow = $hxEnums["lib.support.Overflow"] = { __ename__ : true, __constructs__ : ["Visible","Hidden","Scroll","Auto","Initial","Inherit"]
+	,Visible: {_hx_index:0,__enum__:"lib.support.Overflow",toString:$estr}
+	,Hidden: {_hx_index:1,__enum__:"lib.support.Overflow",toString:$estr}
+	,Scroll: {_hx_index:2,__enum__:"lib.support.Overflow",toString:$estr}
+	,Auto: {_hx_index:3,__enum__:"lib.support.Overflow",toString:$estr}
+	,Initial: {_hx_index:4,__enum__:"lib.support.Overflow",toString:$estr}
+	,Inherit: {_hx_index:5,__enum__:"lib.support.Overflow",toString:$estr}
 };
 var lib_utils_BorderStyle = $hxEnums["lib.utils.BorderStyle"] = { __ename__ : true, __constructs__ : ["Dotted","Dashed","Solid","Double","Groove","Ridge","Inset","Outset","None","Hidden"]
 	,Dotted: {_hx_index:0,__enum__:"lib.utils.BorderStyle",toString:$estr}
@@ -4302,6 +4511,18 @@ pages_DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 			});
 		}}).request();
 	}
+	,news: function(operation) {
+		var _gthis = this;
+		new lib_core_SingleRequest({ url : "/maintenance/database/news/" + operation, method : "GET", onComplete : function(res) {
+			_gthis.setState(_gthis,function() {
+				_gthis.status = res.get_content();
+			});
+		}, onProgress : function() {
+			_gthis.setState(_gthis,function() {
+				_gthis.status = "Loading";
+			});
+		}}).request();
+	}
 	,component: function() {
 		var _gthis = this;
 		this.page = new lib_components_Page({ route : "/database", child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Column({ children : [new lib_components_Row({ children : [new lib_components_Text(this.status)]}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Insert catalogue"), onClick : function(e) {
@@ -4316,6 +4537,10 @@ pages_DatabasePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 			_gthis.quickStartGuides("insert");
 		}}),new lib_components_Button({ child : new lib_components_Text("Delete Quick-Start Guides"), onClick : function(e5) {
 			_gthis.quickStartGuides("delete");
+		}})]}),new lib_components_Row({ children : [new lib_components_Button({ child : new lib_components_Text("Insert News"), onClick : function(e6) {
+			_gthis.news("insert");
+		}}),new lib_components_Button({ child : new lib_components_Text("Delete News"), onClick : function(e7) {
+			_gthis.news("delete");
 		}})]})]})})});
 		return this.page;
 	}
@@ -4551,12 +4776,52 @@ pages_GuidesPage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 	,__class__: pages_GuidesPage
 });
 var pages_HomePage = function() {
+	this.recentNews = null;
 	lib_core_DynamicComponent.call(this);
 };
 pages_HomePage.__name__ = "pages.HomePage";
 pages_HomePage.__super__ = lib_core_DynamicComponent;
 pages_HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
-	component: function() {
+	init: function() {
+		lib_core_DynamicComponent.prototype.init.call(this);
+		this.getNews();
+	}
+	,getNews: function() {
+		var _gthis = this;
+		new lib_core_SingleRequest({ url : "http://localhost:3000/api/news/", method : "GET", onComplete : function(res) {
+			_gthis.setState(_gthis,function() {
+				var tmp = res.get_content();
+				_gthis.recentNews = JSON.parse(tmp);
+			});
+		}, onProgress : function() {
+			_gthis.setState(_gthis,function() {
+				_gthis.recentNews = null;
+			});
+		}}).request();
+	}
+	,getDaysAgo: function(i) {
+		var then = this.recentNews[i].date;
+		var now = new Date().getTime();
+		var seconds = (now - then) / 1000;
+		var minutes = seconds / 60;
+		var hours = minutes / 60;
+		var days = hours / 24;
+		var week = days / 7;
+		var year = week / 52;
+		if(minutes < 60) {
+			return Std.string(Math.floor(minutes) + "m");
+		} else if(minutes < 1440) {
+			return Std.string(Math.floor(hours) + "h");
+		} else if(minutes < 10080) {
+			return Std.string(Math.floor(days) + "d");
+		} else if(minutes < 525948) {
+			return Std.string(Math.floor(week) + "w");
+		} else {
+			return Std.string(Math.floor(year) + "y");
+		}
+	}
+	,component: function() {
+		var _gthis = this;
 		var tmp = new CustomNavbar().navbarComponent();
 		var tmp1 = lib_utils_Margin.fromTRBL(-60.0,0.0,0.0,0.0);
 		var this1 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
@@ -4564,51 +4829,84 @@ pages_HomePage.prototype = $extend(lib_core_DynamicComponent.prototype,{
 		var this11 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
 		var tmp3 = new lib_utils_Color({ backgroundColor : this11});
 		var tmp4 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
-		var this12 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp5 = new lib_components_Container({ color : tmp3, size : tmp4, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [new lib_components_Text("News, releases and stuff being worked at. Also anouncements",{ color : new lib_utils_Color({ color : this12})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Row({ crossAxisAlignment : lib_components_CrossAxisAlignment.SpacedEvenly, children : [new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
+		var tmp5 = new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.TopCenter, crossAxisAlignment : lib_components_CrossAxisAlignment.SpacedEvenly, children : lib_components_Constructors.constructColumns({ data : this.recentNews, elementsInEachColumn : 1, elementBuilder : function(i) {
+			var this12 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+			var tmp6 = new lib_components_Text(_gthis.recentNews[i].title.toLowerCase(),{ textSize : 30, color : new lib_utils_Color({ color : this12})});
+			var this13 = Std.parseInt("0xff" + HxOverrides.substr("#a0a0a0",1,null));
+			var tmp7 = new lib_components_Text(_gthis.recentNews[i].type,{ textSize : 12, color : new lib_utils_Color({ color : this13})});
+			var tmp8 = _gthis.getDaysAgo(i);
+			var this14 = Std.parseInt("0xff" + HxOverrides.substr("#a0a0a0",1,null));
+			var tmp9 = new lib_components_Row({ children : [tmp7,new lib_components_Text(tmp8,{ textSize : 12, textAlignment : lib_components_TextAlignment.Right, color : new lib_utils_Color({ color : this14})})]});
+			var tmp10 = new lib_components_Container({ size : new lib_utils_Size({ height : 10, heightType : "px"})});
+			var this15 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+			return new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.TopLeft, children : [tmp6,tmp9,tmp10,new lib_components_Text(_gthis.recentNews[i].desc,{ color : new lib_utils_Color({ color : this15}), textOverflow : lib_components_TextOverflow.Ellipsis, noWrap : false})]});
+		}, columnBuilder : function(children) {
+			return new lib_components_Column({ overflow : lib_support_Overflow.Hidden, size : new lib_utils_Size({ width : 300, widthType : "px", height : 200, heightType : "px"}), children : children});
+		}})});
+		var tmp11 = new lib_utils_Size({ width : 100, widthType : "%"});
+		var tmp12 = new lib_components_Container({ size : new lib_utils_Size({ width : 150, widthType : "px"})});
+		var tmp13 = lib_utils_Margin.fromTRBL(49.0,0.0,0.0,0.0);
+		var tmp14 = new lib_utils_Size({ height : 5, heightType : "px", width : 40, widthType : "vw"});
+		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp15 = new lib_components_Container({ margin : tmp13, size : tmp14, color : new lib_utils_Color({ backgroundColor : this16})});
+		var tmp16 = lib_utils_Padding.fromTRBL(30,0,0,0);
+		var tmp17 = new lib_utils_Border({ color : 0, style : lib_utils_BorderStyle.None, width : 1, cornerRadius : lib_utils_CornerRadius.all(20)});
+		var this17 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp18 = new lib_utils_Color({ backgroundColor : this17});
+		var tmp19 = new lib_utils_Size({ height : 40, heightType : "px", width : 150, widthType : "px"});
+		var tmp20 = lib_utils_Padding.fromTRBL(0.0,20.0,0.0,20.0);
+		var this18 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp21 = new lib_components_Container({ color : tmp3, size : tmp4, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ crossAxisAlignment : lib_components_CrossAxisAlignment.FlexEnd, children : [tmp5,new lib_components_Row({ equalElementWidth : false, size : tmp11, crossAxisAlignment : lib_components_CrossAxisAlignment.SpacedEvenly, mainAxisAlignment : lib_components_MainAxisAlignment.Stretch, children : [tmp12,tmp15,new lib_components_Container({ padding : tmp16, child : new components_HomeButton({ border : tmp17, color : tmp18, size : tmp19, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, padding : tmp20, child : new lib_components_Text("more news",{ textSize : 18, color : new lib_utils_Color({ color : this18})})}), onClick : function() {
+			lib_core_Navigate.to({ url : "/news"});
+		}})})]})]})})});
+		var this19 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp22 = new lib_utils_Color({ backgroundColor : this19});
+		var tmp23 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp24 = new lib_utils_Size({ height : 100, heightType : "%", width : 50, widthType : "vw"});
+		var tmp25 = new lib_components_Container({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), padding : lib_utils_Padding.fromTRBL(80.0,80.0,80.0,80.0), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Container({ size : new lib_utils_Size({ height : 100, heightType : "%"}), child : new lib_components_Image({ resizeModifier : lib_components_ResizeModifier.Width, src : "./assets/code2.png", minWidth : 400, maxWidth : 600})})})});
+		var this110 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp26 = new lib_utils_Color({ backgroundColor : this110});
+		var tmp27 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
+		var tmp28 = lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0);
+		var tmp29 = new lib_utils_Size({ height : 300, heightType : "px", width : 500, widthType : "px"});
+		var this111 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp30 = new lib_components_Container({ child : new lib_components_Column({ color : tmp22, size : tmp23, children : [new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, cellSize : tmp24, children : [tmp25,new lib_components_Container({ color : tmp26, size : tmp27, padding : tmp28, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Container({ size : tmp29, child : new lib_components_Text("VIGE is a modern and feature rich webframework that does things a bit different. \n\n\n                            Write your website in the new, popular declarative way. This makes your code easy to read, edit and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n\n                            VIGE utilizes the amazing Haxe language to compile your staticly typed code into an efficent single-page JavaScript application. \n\n\n\n                            So what exactly is declarative programming, and why should I bother?",{ color : new lib_utils_Color({ color : this111})})})})})]})]})});
+		var this112 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp31 = new lib_utils_Color({ backgroundColor : this112});
+		var tmp32 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
+		var tmp33 = new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})});
+		var tmp34 = new lib_utils_Size({ width : 70, widthType : "%"});
+		var this113 = Std.parseInt("0xff" + HxOverrides.substr("#adadad",1,null));
+		var tmp35 = new lib_components_Text("\"Declarative programming focuses on what the program should accomplish without specifying how the program should achieve the result.\"",{ textAlignment : lib_components_TextAlignment.Right, fontStyle : lib_components_FontStyle.Italic, color : new lib_utils_Color({ color : this113})});
+		var tmp36 = new lib_components_Container({ size : new lib_utils_Size({ width : 40, widthType : "px"})});
+		var tmp37 = new lib_components_Image({ src : "./assets/Equal.png", width : 80});
+		var tmp38 = new lib_components_Container({ size : new lib_utils_Size({ width : 40, widthType : "px"})});
+		var this114 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp39 = new lib_components_Container({ color : tmp31, size : tmp32, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [tmp33,new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpaceAround, size : tmp34, children : [tmp35,tmp36,tmp37,tmp38,new lib_components_Text("This means for the mere mortals that this framework is designed around the principle that you, as the coder, describes what the website should look like. And we'll handle all of the HTML, CSS and JavaScript.",{ color : new lib_utils_Color({ color : this114})})]})]})})});
+		var this115 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp40 = new lib_utils_Color({ backgroundColor : this115});
+		var tmp41 = new lib_utils_Size({ height : 600, heightType : "px", width : 100, widthType : "%"});
+		var tmp42 = new lib_utils_Size({ width : 70, widthType : "%"});
+		var tmp43 = new lib_components_Image({ src : "./assets/VIGE_loves_HAXE.png", maxWidth : 800});
+		var tmp44 = new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})});
+		var this116 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp45 = new lib_components_Container({ color : tmp40, size : tmp41, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpaceAround, size : tmp42, children : [tmp43,tmp44,new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Text("HAXE is an easy to learn, lightweight, staticly-typed object oriented language that comiles to a variety of languages, with JavaScript being one of them. \n\nVIGE utilizes it's JavaScript API to communicate directly with both the DOM and available browser functions. \n\nEverything is possible in HAXE, and thats why we love it.",{ textAlignment : lib_components_TextAlignment.Center, color : new lib_utils_Color({ color : this116})})})]})})});
+		var this117 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp46 = new lib_utils_Color({ backgroundColor : this117});
+		var tmp47 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
+		var this118 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		var tmp48 = new lib_components_Container({ color : tmp46, size : tmp47, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [new lib_components_Text("Download VIGE",{ color : new lib_utils_Color({ color : this118})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})})]})})});
+		var this119 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp49 = new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this119}), size : new lib_utils_Size({ height : 200, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpaceAround, children : [new lib_components_Image({ src : "./assets/logo-simple.png", width : 100})]})]})});
+		var this120 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
+		var tmp50 = new lib_utils_Color({ backgroundColor : this120});
+		var tmp51 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
+		var this121 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
+		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ margin : tmp1, children : [tmp2,tmp21,tmp30,tmp39,tmp45,tmp48,tmp49,new lib_components_Container({ color : tmp50, size : tmp51, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [new lib_components_Text("News, releases and stuff being worked at. Also anouncements",{ color : new lib_utils_Color({ color : this121})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})}),new lib_components_Row({ crossAxisAlignment : lib_components_CrossAxisAlignment.SpacedEvenly, children : [new lib_components_Button({ child : new lib_components_Text("Sockets"), onClick : function(e) {
 			lib_core_Navigate.to({ url : "/sockets"});
 		}}),new lib_components_Button({ child : new lib_components_Text("Database"), onClick : function(e1) {
 			lib_core_Navigate.to({ url : "/database"});
-		}})]})]})})});
-		var this13 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp6 = new lib_utils_Color({ backgroundColor : this13});
-		var tmp7 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp8 = new lib_utils_Size({ height : 100, heightType : "%", width : 50, widthType : "vw"});
-		var tmp9 = new lib_components_Container({ size : new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"}), padding : lib_utils_Padding.fromTRBL(80.0,80.0,80.0,80.0), child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Container({ size : new lib_utils_Size({ height : 100, heightType : "%"}), child : new lib_components_Image({ resizeModifier : lib_components_ResizeModifier.Width, src : "./assets/code2.png", minWidth : 400, maxWidth : 600})})})});
-		var this14 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp10 = new lib_utils_Color({ backgroundColor : this14});
-		var tmp11 = new lib_utils_Size({ height : 100, heightType : "%", width : 100, widthType : "%"});
-		var tmp12 = lib_utils_Padding.fromTRBL(80.0,0.0,80.0,0.0);
-		var tmp13 = new lib_utils_Size({ height : 300, heightType : "px", width : 500, widthType : "px"});
-		var this15 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp14 = new lib_components_Container({ child : new lib_components_Column({ color : tmp6, size : tmp7, children : [new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, cellSize : tmp8, children : [tmp9,new lib_components_Container({ color : tmp10, size : tmp11, padding : tmp12, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Container({ size : tmp13, child : new lib_components_Text("VIGE is a modern and feature rich webframework that does things a bit different. \n\n\n                            Write your website in the new, popular declarative way. This makes your code easy to read, edit and maintain. Constrct your website by combining widgets in the library, or extend and customize these widgets for a more personal touch. It's your choice!\n\n\n                            VIGE utilizes the amazing Haxe language to compile your staticly typed code into an efficent single-page JavaScript application. \n\n\n\n                            So what exactly is declarative programming, and why should I bother?",{ color : new lib_utils_Color({ color : this15})})})})})]})]})});
-		var this16 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp15 = new lib_utils_Color({ backgroundColor : this16});
-		var tmp16 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
-		var tmp17 = new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})});
-		var tmp18 = new lib_utils_Size({ width : 70, widthType : "%"});
-		var this17 = Std.parseInt("0xff" + HxOverrides.substr("#adadad",1,null));
-		var tmp19 = new lib_components_Text("\"Declarative programming focuses on what the program should accomplish without specifying how the program should achieve the result.\"",{ textAlignment : lib_components_TextAlignment.Right, fontStyle : lib_components_FontStyle.Italic, color : new lib_utils_Color({ color : this17})});
-		var tmp20 = new lib_components_Container({ size : new lib_utils_Size({ width : 40, widthType : "px"})});
-		var tmp21 = new lib_components_Image({ src : "./assets/Equal.png", width : 80});
-		var tmp22 = new lib_components_Container({ size : new lib_utils_Size({ width : 40, widthType : "px"})});
-		var this18 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp23 = new lib_components_Container({ color : tmp15, size : tmp16, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [tmp17,new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpaceAround, size : tmp18, children : [tmp19,tmp20,tmp21,tmp22,new lib_components_Text("This means for the mere mortals that this framework is designed around the principle that you, as the coder, describes what the website should look like. And we'll handle how it's actually laid out behind the scenes.",{ color : new lib_utils_Color({ color : this18})})]})]})})});
-		var this19 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp24 = new lib_utils_Color({ backgroundColor : this19});
-		var tmp25 = new lib_utils_Size({ height : 600, heightType : "px", width : 100, widthType : "%"});
-		var tmp26 = new lib_utils_Size({ width : 70, widthType : "%"});
-		var tmp27 = new lib_components_Image({ src : "./assets/VIGE_loves_HAXE.png", maxWidth : 800});
-		var tmp28 = new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})});
-		var this110 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp29 = new lib_components_Container({ color : tmp24, size : tmp25, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpaceAround, size : tmp26, children : [tmp27,tmp28,new lib_components_Center({ alignment : lib_components_CenterAlignment.Horizontal, child : new lib_components_Text("HAXE is an easy to learn, lightweight, staticly-typed object oriented language that comiles to a variety of languages, with JavaScript being one of them. \n\nVIGE utilizes it's JavaScript API to communicate directly with both the DOM and available browser functions. \n\nEverything is possible in HAXE, and thats why we love it.",{ textAlignment : lib_components_TextAlignment.Center, color : new lib_utils_Color({ color : this110})})})]})})});
-		var this111 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		var tmp30 = new lib_utils_Color({ backgroundColor : this111});
-		var tmp31 = new lib_utils_Size({ height : 400, heightType : "px", width : 100, widthType : "%"});
-		var this112 = Std.parseInt("0xff" + HxOverrides.substr("#2e3440",1,null));
-		var tmp32 = new lib_components_Container({ color : tmp30, size : tmp31, child : new lib_components_Center({ alignment : lib_components_CenterAlignment.Both, child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [new lib_components_Text("Download VIGE",{ color : new lib_utils_Color({ color : this112})}),new lib_components_Container({ size : new lib_utils_Size({ height : 50, heightType : "px"})})]})})});
-		var this113 = Std.parseInt("0xff" + HxOverrides.substr("#fafafa",1,null));
-		this.page = new lib_components_Page({ navbar : tmp, route : "/", child : new lib_components_Column({ margin : tmp1, children : [tmp2,tmp5,tmp14,tmp23,tmp29,tmp32,new lib_components_Container({ color : new lib_utils_Color({ backgroundColor : this113}), size : new lib_utils_Size({ height : 200, heightType : "px", width : 100, widthType : "%"}), child : new lib_components_Column({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, children : [new lib_components_Row({ mainAxisAlignment : lib_components_MainAxisAlignment.Center, crossAxisAlignment : lib_components_CrossAxisAlignment.SpaceAround, children : [new lib_components_Image({ src : "./assets/logo-simple.png", width : 100})]})]})})]})});
+		}})]})]})})})]})});
 		return this.page;
 	}
 	,__class__: pages_HomePage
@@ -4999,6 +5297,8 @@ if( String.fromCodePoint == null ) String.fromCodePoint = function(c) { return c
 String.prototype.__class__ = String;
 String.__name__ = "String";
 Array.__name__ = "Array";
+Date.prototype.__class__ = Date;
+Date.__name__ = "Date";
 var Int = { };
 var Dynamic = { };
 var Float = Number;

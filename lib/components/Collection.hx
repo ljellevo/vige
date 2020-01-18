@@ -39,6 +39,9 @@ class Collection implements Widget {
     public var padding: Padding;
     public var margin: Margin;
     public var size: Size;
+    public var overflow: Overflow;
+
+    
 
 
     public function new(arg: {
@@ -49,6 +52,7 @@ class Collection implements Widget {
         ?padding: Padding,
         ?margin: Margin,
         ?size: Size, 
+        ?overflow: Overflow,
     }) {
         this.count = arg.count;
 
@@ -57,6 +61,7 @@ class Collection implements Widget {
         this.padding = arg.padding;
         this.margin = arg.margin;
         this.size = arg.size;
+        this.overflow = arg.overflow;
     }
 
     public function init(){}
@@ -72,7 +77,7 @@ class Collection implements Widget {
     public function render():js.html.Node {
         var container = Browser.document.createDivElement();
         container.classList.add("collection");
-        new StyleManager().addStyleToDiv({widget: container, color: color, border: border, padding: padding, margin: margin, size: size});
+        new StyleManager().addStyleToDiv({widget: container, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
 
         return container;
     }

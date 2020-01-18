@@ -24,6 +24,7 @@ class Button implements Widget {
     public var padding: Padding;
     public var margin: Margin;
     public var size: Size;
+    public var overflow: Overflow;
 
     public function new(arg: {
         child: Widget, 
@@ -34,6 +35,7 @@ class Button implements Widget {
         ?padding: Padding,
         ?margin: Margin,
         ?size: Size, 
+        ?overflow: Overflow,
     }) {
         this.child = arg.child;
         this.onClick = arg.onClick;
@@ -43,6 +45,7 @@ class Button implements Widget {
         this.padding = arg.padding;
         this.margin = arg.margin;
         this.size = arg.size;
+        this.overflow = arg.overflow;
     }
 
     public function init(){}
@@ -63,7 +66,7 @@ class Button implements Widget {
 
 
 
-        new StyleManager().addStyleToButton({widget: button, color: color, border: border, padding: padding, margin: margin, size: size});
+        new StyleManager().addStyleToButton({widget: button, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
         return button;
         
     }

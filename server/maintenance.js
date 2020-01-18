@@ -1410,6 +1410,45 @@ module.exports = function(app) {
     }
   });
 
+  app.get('/maintenance/database/news/:operation', function(req, res){
+    var operation = req.params.operation;
+    var database = new Database();
+    if(operation == "insert") {
+      database.query(function(client) {
+        const collection = client.db("static").collection("news");
+        collection.insertMany([
+          {
+            "title": "Time to draw", 
+            "desc": "We are currently working on implementing support for drawing with CSS. This with both HTML node shaping and psudo elements", 
+            "type": "update",
+            "date": new Date().getTime()
+          },
+          {
+            "title": "Ugh... Time...", 
+            "desc": "We did it, so you dont have to. A new time module has been created and is ready to be used.", 
+            "type": "news",
+            "date": new Date().getTime() - 100000000
+          },
+          {
+            "title": "Alpha heaven", 
+            "desc": "Finally, VIGE is in alpha!", 
+            "type": "blog",
+            "date": new Date().getTime() - 300000000
+          },
+        ]);
+        res.send("Categories was " + operation + "ed");
+      });
+    } else if(operation == "delete") {
+      database.query(function(client) {
+        const collection = client.db("static").collection("news");
+        collection.deleteMany({})
+        res.send("Categories was " + operation + "d");
+      });
+    }
+  });
+
+  
+
   app.get('/test', function(req, res){
     res.send("Single response");
   });

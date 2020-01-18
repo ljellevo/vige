@@ -32,6 +32,7 @@ class Positioned implements Widget {
     public var padding: Padding;
     public var margin: Margin;
     public var size: Size;
+    public var overflow: Overflow;
 
     public function new(arg: {
         ?top: Float,
@@ -45,6 +46,7 @@ class Positioned implements Widget {
         ?padding: Padding,
         ?margin: Margin,
         ?size: Size, 
+        ?overflow: Overflow,
     }) {
         this.top = arg.top != null ? arg.top : 0.0;
         this.right = arg.right != null ? arg.right : 0.0;
@@ -57,6 +59,7 @@ class Positioned implements Widget {
         this.padding = arg.padding;
         this.margin = arg.margin;
         this.size = arg.size;
+        this.overflow = arg.overflow;
     }
 
     public function init(){}
@@ -65,7 +68,7 @@ class Positioned implements Widget {
         var parent = Browser.document.createDivElement();
         parent.style.position = "relative";
 
-        new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"})});
+        new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}), overflow: overflow});
 
 
 

@@ -49,6 +49,8 @@ class Page implements Widget{
     public var padding: Padding;
     public var margin: Margin;
     public var size: Size;
+    public var overflow: Overflow;
+
 
 
     public function new(arg: {
@@ -62,6 +64,7 @@ class Page implements Widget{
         ?padding: Padding,
         ?margin: Margin,
         ?size: Size, 
+        ?overflow: Overflow,
     }) {
         this.route = arg.route;
         this.title = arg.title;
@@ -73,6 +76,7 @@ class Page implements Widget{
         this.padding = arg.padding;
         this.margin = arg.margin;
         this.size = arg.size;
+        this.overflow = arg.overflow;
     }
 
     public function init(){}
@@ -102,7 +106,7 @@ class Page implements Widget{
         //element.appendChild(navbar.render());
         element.appendChild(child.render());
         
-        new StyleManager().addStyleToDiv({widget: element, color: color, border: border, padding: padding, margin: margin, size: size});
+        new StyleManager().addStyleToDiv({widget: element, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
 
         //Need to style container
 

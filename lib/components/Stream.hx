@@ -52,6 +52,8 @@ class Stream implements Widget{
     public var padding: Padding;
     public var margin: Margin;
     public var size: Size;
+    public var overflow: Overflow;
+
 
     public function new(page: Page, arg: {
         url: String,

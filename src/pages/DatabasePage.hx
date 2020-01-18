@@ -69,6 +69,23 @@ class DatabasePage extends DynamicComponent {
         }
       }).request();
     }
+
+    function news(operation){
+      new SingleRequest({
+        url: "/maintenance/database/news/" + operation,
+        method: "GET",
+        onComplete: function(res: HttpResponse) {
+          setState(this, function(){
+            status = res.content;
+          });
+        },
+        onProgress: function() {
+          setState(this, function(){
+            status = "Loading";
+          });
+        }
+      }).request();
+    }
   
   
     override public function component(): Page {
@@ -127,6 +144,22 @@ class DatabasePage extends DynamicComponent {
                     child: new Text("Delete Quick-Start Guides"),
                     onClick: function(e) {
                       quickStartGuides("delete");
+                    }
+                  })
+                ]
+              }),
+              new Row({
+                children: [
+                  new Button({
+                    child: new Text("Insert News"),
+                    onClick: function(e) {
+                      news("insert");
+                    }
+                  }),
+                  new Button({
+                    child: new Text("Delete News"),
+                    onClick: function(e) {
+                      news("delete");
                     }
                   })
                 ]

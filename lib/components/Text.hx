@@ -40,6 +40,14 @@ enum FontStyle {
   Inherit;
 }
 
+enum TextOverflow {
+  Clip;
+  Ellipsis;
+  String;
+  Initial;
+  Inherit;
+}
+
 
 
 /**
@@ -53,12 +61,17 @@ class Text implements Widget {
     var font: String;
     var textAlignment: TextAlignment;
     var fontStyle: FontStyle;
+    var textOverflow: TextOverflow;
+    var noWrap: Bool;
 
     public var color: Color;
     public var border: Border;
     public var padding: Padding;
     public var margin: Margin;
     public var size: Size;
+    public var overflow: Overflow;
+
+
 
 
     public function new(text: String, ?arg: {
@@ -67,6 +80,8 @@ class Text implements Widget {
         ?font: String,
         ?textAlignment: TextAlignment,
         ?fontStyle: FontStyle,
+        ?textOverflow: TextOverflow,
+        ?noWrap: Bool,
         
         ?color: Color,
         ?border: Border,
@@ -84,6 +99,8 @@ class Text implements Widget {
         this.textFormat = arg.textFormat != null ? arg.textFormat : TextFormat.p;
         this.textAlignment = arg.textAlignment != null ? arg.textAlignment : TextAlignment.Left;
         this.fontStyle = arg.fontStyle != null ? arg.fontStyle : FontStyle.Normal;
+        this.textOverflow = arg.textOverflow != null ? arg.textOverflow : TextOverflow.Clip;
+        this.noWrap = arg.noWrap != null ? arg.noWrap : false;
     }
 
     public function init(){}
@@ -181,6 +198,19 @@ class Text implements Widget {
           case Inherit:
             element.style.fontStyle = "inherit";
         }
+
+        switch (textOverflow) {
+          case Clip:
+            element.style.textOverflow = "clip";
+          case Ellipsis:
+            element.style.textOverflow = "ellipsis";
+          case String:
+            element.style.textOverflow = "string";
+          case Initial:
+            element.style.textOverflow = "initial";
+          case Inherit:
+            element.style.textOverflow = "inherit";
+        }
         //var element = Browser.document.createParagraphElement();
         if(textSize > -1) {
             element.style.fontSize = Std.string(textSize);
@@ -189,6 +219,11 @@ class Text implements Widget {
         if(font != null) {
             element.style.fontFamily = font;
         }
+
+        if(noWrap) {
+          element.style.whiteSpace = "nowrap";
+        }
+        
         
         element.style.color = color.getColor();
         element.style.backgroundColor = color.getBackgroundColor();

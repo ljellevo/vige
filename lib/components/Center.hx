@@ -32,6 +32,8 @@ class Center implements Widget {
     public var padding: Padding;
     public var margin: Margin;
     public var size: Size;
+    public var overflow: Overflow;
+
 
 
     public function new(arg: {
@@ -43,6 +45,8 @@ class Center implements Widget {
         ?padding: Padding,
         ?margin: Margin,
         ?size: Size, 
+        ?overflow: Overflow,
+
         
     }) {
         this.child = arg.child;
@@ -53,6 +57,7 @@ class Center implements Widget {
         this.padding = arg.padding;
         this.margin = arg.margin;
         this.size = arg.size;
+        this.overflow = arg.overflow;
     }
 
     public function init(){}
@@ -68,7 +73,7 @@ class Center implements Widget {
                 element.style.display = "flex";
                 element.style.justifyContent = "center";
                 
-                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({width: 100, widthType: "%"})});
+                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({width: 100, widthType: "%"}), overflow: overflow});
 
                 element.appendChild(child.render());
                 parent = element;
@@ -78,7 +83,7 @@ class Center implements Widget {
                 element.style.position = "relative";
                 element.style.top = "50%";
                 element.style.transform = "translateY(-50%)";
-                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: 100, heightType: "%"})});
+                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: 100, heightType: "%"}), overflow: overflow});
                 element.appendChild(child.render());
                 parent.appendChild(element);
             case Both:
@@ -88,7 +93,7 @@ class Center implements Widget {
                 element.style.position = "relative";
                 element.style.top = "50%";
                 element.style.transform = "translateY(-50%)";
-                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: 100, heightType: "%"})});
+                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: 100, heightType: "%"}), overflow: overflow});
                 element.appendChild(child.render());
                 parent.appendChild(element);
         }

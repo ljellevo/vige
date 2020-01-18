@@ -1,5 +1,7 @@
 package pages;
 
+import lib.core.SingleRequest;
+import lib.components.Constructors;
 import js.Browser;
 import lib.utils.Margin;
 import js.html.ErrorEvent;
@@ -12,6 +14,7 @@ import lib.utils.Padding;
 import lib.utils.Size;
 import lib.utils.Colors;
 import lib.utils.Color;
+import lib.utils.Border;
 
 import lib.components.Request;
 import lib.components.Stream;
@@ -24,14 +27,74 @@ import lib.components.Center;
 import lib.components.Container;
 import lib.components.Image;
 import lib.components.Navbar;
+import lib.components.Positioned;
 
 import Main;
 
 import lib.core.Navigate;
 import lib.core.DynamicComponent;
 
+import components.HomeButton;
+
+
+typedef NewsStruct = {
+  var _id: String;
+  var title: String;
+  var desc: String;
+  var type: String;
+  var date: Int;
+}
+
 class HomePage  extends DynamicComponent {
     public function new() {}
+    var recentNews: Array<NewsStruct> = null;
+
+    override function init() {
+      super.init();
+      getNews();
+    }
+
+    function getNews() {
+      new SingleRequest({
+        url: "http://localhost:3000/api/news/",
+        method: "GET",
+        onComplete: function(res: HttpResponse) {
+          setState(this, function(){
+            recentNews = haxe.Json.parse(res.content);
+          });
+        },
+        onProgress: function() {
+          setState(this, function(){
+            recentNews = null;
+          });
+        }
+      }).request();
+    }
+
+
+    function getDaysAgo(i): String {
+      var then = recentNews[i].date;
+      var now = Date.now().getTime();
+      var seconds = (now-then)/1000;
+      var minutes = seconds / 60;
+      var hours = minutes / 60;
+      var days = hours/24;
+      var week = days/7;
+      var year = week/52;
+      if(minutes < 60) {
+        return Std.string(Math.floor(minutes) + "m");
+      } else if (minutes < 1440) {
+        return Std.string(Math.floor(hours) + "h");
+      } else if (minutes < 10080){
+        return Std.string(Math.floor(days) + "d");
+      } else if (minutes < 525948) {
+        return Std.string(Math.floor(week) + "w");
+      } else {        
+        return Std.string(Math.floor(year) + "y");
+      }
+    }
+
+    
 
   
     override public function component() : Page {
@@ -57,35 +120,89 @@ class HomePage  extends DynamicComponent {
             }),
             
             new Container({
-              color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
+              color: new Color({backgroundColor: Colors.fromString("#fafafa")}),// 98b979
               size: new Size({height: 400, heightType: "px", width: 100, widthType: "%"}),
               child: new Center({
                 alignment: CenterAlignment.Both,
-                
                 child: new Column({
-                  //crossAxisAlignment: CrossAxisAlignment.SpaceBetween,
-                  mainAxisAlignment: MainAxisAlignment.Center,
+                  crossAxisAlignment: CrossAxisAlignment.FlexEnd,
                   children: [
-                    new Text("News, releases and stuff being worked at. Also anouncements", {color: new Color({color: Colors.fromString("#2e3440")})}),
-                    new Container({size: new Size({height: 50, heightType: "px"})}),
                     new Row({
+                      mainAxisAlignment: MainAxisAlignment.TopCenter,
                       crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
-                      
-                      children: [
-                        new Button({
-                          child: new Text("Sockets"),
-                          onClick: function (e) {
-                            Navigate.to({url: "/sockets"});
-                          }
-                        }),
-                        new Button({
-                          child: new Text("Database"),
-                          onClick: function (e) {
-                            Navigate.to({url: "/database"});
-                          }
-                        })
-                      ]
+                      children: Constructors.constructColumns({
+                        data: recentNews,
+                        elementsInEachColumn: 1,
+                        elementBuilder: function(i) {
+                          return new Column({
+                            mainAxisAlignment: MainAxisAlignment.TopLeft,
+                            children: [
+                              new Text(recentNews[i].title.toLowerCase(), {textSize: 30, color: new Color({color: Colors.fromString("#2e3440")})}),
+                              new Row({
+                                children: [
+                                  new Text(recentNews[i].type, {textSize: 12, color: new Color({color: Colors.fromString("#a0a0a0")})}),
+                                  new Text(getDaysAgo(i), {textSize: 12, textAlignment: TextAlignment.Right, color: new Color({color: Colors.fromString("#a0a0a0")})}),
+                                ]
+                              }),
+                              new Container({size: new Size({height: 10, heightType: "px"})}),
+                              new Text(recentNews[i].desc, {color: new Color({color: Colors.fromString("#2e3440")}), textOverflow: TextOverflow.Ellipsis, noWrap: false}),
+                            ]
+                          });
+                        },
+                        columnBuilder: function(children) {
+                          return new Column({
+                            overflow: Overflow.Hidden,
+                            size: new Size({width: 300, widthType: "px", height: 200, heightType: "px"}),
+                            children: children
+                          });
+                        }
+                      })
                     }),
+                    new Row({
+                      equalElementWidth: false,
+                      size: new Size({width: 100, widthType: "%"}),
+                      crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
+                      //crossAxisAlignment: CrossAxisAlignment.FlexStart,
+                      mainAxisAlignment: MainAxisAlignment.Stretch,
+                      children: [
+                        new Container({
+                          size: new Size({width: 150, widthType: "px"}),
+                        }),
+                        new Container({
+                          margin: Margin.fromTRBL(49.0, 0.0, 0.0, 0.0),
+                          size: new Size({height: 5, heightType: "px", width: 40, widthType: "vw"}),
+                          color: new Color({backgroundColor: Colors.fromString("#2e3440")})
+                        }),
+                        
+                        
+                        new Container({
+                          padding: Padding.fromTRBL(30, 0, 0, 0),
+                          child: new HomeButton({
+                            border: new Border({
+                              color: Colors.TRANSPARENT,
+                              style: BorderStyle.None,
+                              width: 1,
+                              cornerRadius: CornerRadius.all(20),
+                            }),
+                            color: new Color({backgroundColor: Colors.fromString("#2e3440")}),
+                            size: new Size({height: 40, heightType: "px", width: 150, widthType: "px"}),
+                            child: new Center({
+                              alignment: CenterAlignment.Both,
+                              padding: Padding.fromTRBL(0.0, 20.0, 0.0, 20.0),
+                              child: new Text("more news", {textSize: 18, color: new Color({color: Colors.fromString("#fafafa")})})
+                            }),
+                            onClick: function() {
+                              Navigate.to({url: "/news"});
+                            }
+                          })
+                        }),
+                        
+                        
+                      ]
+                    })
+
+                    
+                    
                   ]
                 })
               }), 
@@ -287,7 +404,7 @@ class HomePage  extends DynamicComponent {
                           width: 80
                         }),
                         new Container({size: new Size({width: 40, widthType: "px"})}),
-                        new Text("This means for the mere mortals that this framework is designed around the principle that you, as the coder, describes what the website should look like. And we'll handle how it's actually laid out behind the scenes.", {color: new Color({color: Colors.fromString("#2e3440")})}),
+                        new Text("This means for the mere mortals that this framework is designed around the principle that you, as the coder, describes what the website should look like. And we'll handle all of the HTML, CSS and JavaScript.", {color: new Color({color: Colors.fromString("#2e3440")})}),
                       ]
                     }),
                   ]
@@ -395,7 +512,41 @@ class HomePage  extends DynamicComponent {
                   }),
                 ]
               })
-            })
+            }),
+            new Container({
+              color: new Color({backgroundColor: Colors.fromString("#fafafa")}),
+              size: new Size({height: 400, heightType: "px", width: 100, widthType: "%"}),
+              child: new Center({
+                alignment: CenterAlignment.Both,
+                
+                child: new Column({
+                  //crossAxisAlignment: CrossAxisAlignment.SpaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.Center,
+                  children: [
+                    new Text("News, releases and stuff being worked at. Also anouncements", {color: new Color({color: Colors.fromString("#2e3440")})}),
+                    new Container({size: new Size({height: 50, heightType: "px"})}),
+                    new Row({
+                      crossAxisAlignment: CrossAxisAlignment.SpacedEvenly,
+                      
+                      children: [
+                        new Button({
+                          child: new Text("Sockets"),
+                          onClick: function (e) {
+                            Navigate.to({url: "/sockets"});
+                          }
+                        }),
+                        new Button({
+                          child: new Text("Database"),
+                          onClick: function (e) {
+                            Navigate.to({url: "/database"});
+                          }
+                        })
+                      ]
+                    }),
+                  ]
+                })
+              }), 
+            }),
           ]
         })
       });

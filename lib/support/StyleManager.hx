@@ -1,6 +1,7 @@
 package lib.support;
 
 
+import lib.support.Widget.Overflow;
 import lib.utils.Margin;
 import lib.components.Row;
 import lib.utils.Padding;
@@ -29,6 +30,7 @@ class StyleManager {
     ?crossAxisAlignment: CrossAxisAlignment,
     ?type: DivType,
     ?border: Border,
+    ?overflow: Overflow,
   }): js.html.Node {
 
     if(arg.type == null) {
@@ -65,6 +67,23 @@ class StyleManager {
           arg.widget.style.border = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
       }
       arg.widget.style.borderRadius = arg.border.getCornerRadius();
+    }
+
+    if(arg.overflow != null) {
+      switch (arg.overflow) {
+        case Visible:
+          arg.widget.style.overflow = "visible";
+        case Hidden:
+          arg.widget.style.overflow = "hidden";
+        case Scroll:
+          arg.widget.style.overflow = "scroll";
+        case Auto:
+          arg.widget.style.overflow = "auto";
+        case Initial:
+          arg.widget.style.overflow = "initial";
+        case Inherit:
+          arg.widget.style.overflow = "inherit";
+      }
     }
       
       
@@ -152,7 +171,8 @@ class StyleManager {
       ?color: Color,
       ?padding: Padding,
       ?margin: Margin,
-      ?border: Border
+      ?border: Border,
+      ?overflow: Overflow,
   }): js.html.Node {
 
     if(arg.size != null){
@@ -170,6 +190,23 @@ class StyleManager {
     
     if(arg.margin != null){
       arg.widget.style.margin = arg.margin.getMargin();
+    }
+
+    if(arg.overflow != null) {
+      switch (arg.overflow) {
+        case Visible:
+          arg.widget.style.overflow = "visible";
+        case Hidden:
+          arg.widget.style.overflow = "hidden";
+        case Scroll:
+          arg.widget.style.overflow = "scroll";
+        case Auto:
+          arg.widget.style.overflow = "auto";
+        case Initial:
+          arg.widget.style.overflow = "initial";
+        case Inherit:
+          arg.widget.style.overflow = "inherit";
+      }
     }
 
     if(arg.border != null){
@@ -197,7 +234,8 @@ class StyleManager {
         ?color: Color,
         ?padding: Padding,
         ?margin: Margin,
-        ?border: Border
+        ?border: Border,
+        ?overflow: Overflow,
     }): js.html.Node {
 
         /*
@@ -217,6 +255,23 @@ class StyleManager {
         
         if(arg.margin != null){
             arg.widget.style.margin = arg.margin.getMargin();
+        }
+
+        if(arg.overflow != null) {
+          switch (arg.overflow) {
+            case Visible:
+              arg.widget.style.overflow = "visible";
+            case Hidden:
+              arg.widget.style.overflow = "hidden";
+            case Scroll:
+              arg.widget.style.overflow = "scroll";
+            case Auto:
+              arg.widget.style.overflow = "auto";
+            case Initial:
+              arg.widget.style.overflow = "initial";
+            case Inherit:
+              arg.widget.style.overflow = "inherit";
+          }
         }
 
         if(arg.border != null){
@@ -248,7 +303,8 @@ class StyleManager {
       ?margin: Margin,
       ?mainAxisAlignment: MainAxisAlignment,
       ?crossAxisAlignment: CrossAxisAlignment,
-      ?border: Border
+      ?border: Border,
+      ?overflow: Overflow,
   }): js.html.Node {
       if(arg.size != null){
           arg.widget.style.height = arg.size.getHeight();
@@ -265,6 +321,23 @@ class StyleManager {
       
       if(arg.margin != null){
           arg.widget.style.margin = arg.margin != null ? arg.margin.getMargin() : Margin.all(0.0).getMargin();
+      }
+
+      if(arg.overflow != null) {
+        switch (arg.overflow) {
+          case Visible:
+            arg.widget.style.overflow = "visible";
+          case Hidden:
+            arg.widget.style.overflow = "hidden";
+          case Scroll:
+            arg.widget.style.overflow = "scroll";
+          case Auto:
+            arg.widget.style.overflow = "auto";
+          case Initial:
+            arg.widget.style.overflow = "initial";
+          case Inherit:
+            arg.widget.style.overflow = "inherit";
+        }
       }
 
       if(arg.border != null){
