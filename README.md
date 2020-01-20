@@ -1,3 +1,6 @@
+![alt text](https://github.com/ljellevo/vige/blob/master/bin/assets/logo-simple.png =530x "Logo Title Text 1")
+
+
 # VIGE
 Yet another web framework
 
