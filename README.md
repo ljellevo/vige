@@ -27,6 +27,7 @@ Features:
 - Caching of fetched data between pages (missing)
 - Hot reload (missing)
 - Protected routes (missing)
+- Selectors and setting ID on elements
 
 Other related project:
 - Website
