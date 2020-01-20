@@ -1,4 +1,7 @@
-![alt text](https://github.com/ljellevo/vige/blob/master/bin/assets/logo-simple.png "Logo")
+<p align="center">
+  <img src="https://github.com/ljellevo/vige/blob/master/bin/assets/logo-simple.png" alt="alt text" width="265" height="auto">
+</p>
+
 
 
 # VIGE
