@@ -1,10 +1,7 @@
 <p align="center">
-  <img src="https://github.com/ljellevo/vige/blob/master/bin/assets/logo-simple.png" alt="alt text" width="265" height="auto">
+  <img src="https://github.com/ljellevo/vige/blob/master/bin/assets/logo-verbose-vige.png" alt="alt text" height="265" width="auto">
 </p>
 
-
-
-# VIGE
 Yet another web framework
 
 
