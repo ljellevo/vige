@@ -19,7 +19,7 @@ Features:
 - Smart DOM updating (missing)
 - Caching of fetched data between pages (missing)
 - Hot reload (missing)
-
+- Protected routes (missing)
 
 Other related project:
 - Website

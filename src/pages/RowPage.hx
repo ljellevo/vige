@@ -18,16 +18,13 @@ import lib.components.Stream;
 import lib.components.Button;
 import lib.components.Page;
 import lib.components.Text;
-import lib.components.Column;
 import lib.components.Row;
 import lib.components.Center;
 import lib.components.Container;
 import lib.components.Image;
-import lib.components.Navbar;
 
 import Main;
 
-import lib.core.Navigate;
 import lib.core.DynamicComponent;
 
 
