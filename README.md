@@ -6,6 +6,13 @@ VIGE is a declarative web framework to create small to medium feature rich websi
 
 With its organized structure and widget based approach. VIGE lets you create a website that is easy to expand and maintain. No more CSS nightmare and undefined JavaScript variables.
 
+### Requrements
+Node.js  
+Haxe  
+Haxelib  
+
+## Info
+
 
 It supports all browsers.
 
