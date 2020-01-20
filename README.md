@@ -2,9 +2,6 @@
   <img src="https://github.com/ljellevo/vige/blob/master/bin/assets/logo-verbose-vige.png" alt="alt text" height="265" width="auto">
 </p>
 
-Yet another web framework
-
-
 VIGE is a declarative web framework to create small to medium feature rich websites. 
 
 With its organized structure and widget based approach. VIGE lets you create a website that is easy to expand and maintain. No more CSS nightmare and undefined JavaScript variables.
