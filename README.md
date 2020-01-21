@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/ljellevo/vige/blob/master/bin/assets/logo-verbose-vige.png" alt="alt text" height="265" width="auto">
+  <img src="https://github.com/ljellevo/vige/blob/master/assets/logo-verbose-vige.png" alt="alt text" height="265" width="auto">
 </p>
 
 VIGE is a declarative web framework to create small to medium feature rich websites. 
@@ -7,7 +7,6 @@ VIGE is a declarative web framework to create small to medium feature rich websi
 With its organized structure and widget based approach. VIGE lets you create a website that is easy to expand and maintain. No more CSS nightmare and undefined JavaScript variables.
 
 ### Requrements
-Node.js  
 Haxe  
 Haxelib  
 
@@ -38,23 +37,15 @@ Other related project:
 
 
 ## Installguide
-Install Haxe from www.haxe.org.
 
-Install and configure haxelib.
-
-Clone code and run haxelib install in project folder to download dependencies.
-
-Run npm install to get node packages.
-
-Open project in VSCode and install haxe extention.
-
-Run npm start to fire up webserver.
+Navigate to folder for this project and run:
+```
+haxelib dev VIGE .
+```
 
 Compile project by clicking ctrl + shift + B and select build.hxml.
 
-Navigate to localhost:3000.
 
-Webserver will not be able to fetch data from db without credentials.
 
 
 
