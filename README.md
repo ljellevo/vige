@@ -28,6 +28,7 @@ Features:
 - Hot reload (missing)
 - Protected routes (missing)
 - Selectors and setting ID on elements
+- Layout-assist (adds constrasting colors to layout widgets for guidence) (Missing)
 
 Other related project:
 - Website
