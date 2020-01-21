@@ -1,0 +1,14 @@
+{
+  "name": "VIGE",
+  "url": "https://github.com/ljellevo/vige",
+  "license": "MIT",
+  "tags": ["web"],
+  "description": "A declarative web framework",
+  "version": "1.0.0",
+  "classPath": "com/vige/",
+  "releasenote": "Initial release",
+  "contributors": ["ljellevo"],
+  "dependencies": {
+    "akifox-asynchttp": "0.4.7"
+  }
+}
