@@ -3,7 +3,7 @@ package com.vige.components;
 import com.vige.core.*;
 import com.vige.support.*;
 import com.vige.utils.*;
-
+import com.vige.support.Enums;
 /*
 import lib.support.Widget;
 import lib.components.Row;

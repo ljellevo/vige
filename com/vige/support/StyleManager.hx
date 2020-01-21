@@ -5,6 +5,7 @@ import com.vige.components.Row.*;
 import com.vige.core.*;
 import com.vige.support.*;
 import com.vige.utils.*;
+import com.vige.support.Enums;
 
 /*
 import lib.support.Widget.Overflow;
@@ -16,11 +17,8 @@ import lib.utils.Size;
 import lib.utils.Color;
 */
 
-enum DivType {
-  Row;
-  Column;
-  Other;
-}
+
+
 
 class StyleManager {
 

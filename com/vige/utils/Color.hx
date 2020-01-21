@@ -1,5 +1,7 @@
 package com.vige.utils;
 
+import com.vige.utils.*;
+
 /**
     Is documented
 **/

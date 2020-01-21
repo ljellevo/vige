@@ -1,0 +1,45 @@
+-cp com/vige
+com.vige.components.Button
+com.vige.components.Center
+com.vige.components.Collection
+com.vige.components.Column
+com.vige.components.Constructors
+com.vige.components.Container
+com.vige.components.Embeded
+com.vige.components.HtmlSnippet
+com.vige.components.IFrame
+com.vige.components.Image
+com.vige.components.Navbar
+com.vige.components.Page
+com.vige.components.Positioned
+com.vige.components.Request
+com.vige.components.Row
+com.vige.components.Script
+com.vige.components.Stream
+com.vige.components.Text
+
+com.vige.core.AssetManagement
+com.vige.core.Body
+com.vige.core.DynamicComponent
+com.vige.core.GlobalState
+com.vige.core.Navigate
+com.vige.core.SingleRequest
+com.vige.core.StaticComponent
+
+com.vige.support.Enums
+com.vige.support.Jsonp
+com.vige.support.StreamConnection
+com.vige.support.StyleManager
+com.vige.support.Widget
+
+
+com.vige.utils.Border
+com.vige.utils.Color
+com.vige.utils.Colors
+com.vige.utils.Margin
+com.vige.utils.Padding
+com.vige.utils.Size
+
+-js bin/lib.js
+
+-lib akifox-asynchttp

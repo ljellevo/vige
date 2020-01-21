@@ -1,7 +1,13 @@
 package com.vige.core;
 
-/*
 import js.Browser;
+import com.vige.components.*;
+import com.vige.core.*;
+import com.vige.support.*;
+import com.vige.utils.*;
+
+/*
+
 */
 
 /**

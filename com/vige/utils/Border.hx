@@ -4,26 +4,10 @@ package com.vige.utils;
     Is documented
 **/
 
-enum BorderStyle {
-    Dotted;
-    Dashed;
-    Solid;
-    Double;
-    Groove;
-    Ridge;
-    Inset;
-    Outset;
-    None;
-    Hidden;
-}
+import com.vige.support.Enums;
+import com.vige.utils.*;
 
-enum BorderSides {
-    Top;
-    Right;
-    Bottom;
-    Left;
-    All;
-}
+
 
 class CornerRadius {
     var top: Float;

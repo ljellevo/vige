@@ -4,6 +4,7 @@ import com.vige.components.*;
 import com.vige.core.*;
 import com.vige.support.*;
 import com.vige.utils.*;
+import com.vige.support.Enums;
 
 /*
 import lib.utils.Padding;
@@ -13,14 +14,7 @@ import lib.utils.Border;
 import lib.utils.Color;
 */
 
-enum Overflow {
-  Visible;
-  Hidden;
-  Scroll;
-  Auto;
-  Initial;
-  Inherit;
-}
+
 
 interface Widget {
     var color: Color;

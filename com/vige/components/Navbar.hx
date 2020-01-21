@@ -1,9 +1,10 @@
 package com.vige.components;
 
-import com.vige.core.*;
+import js.html.Node;
 import com.vige.support.*;
 import com.vige.utils.*;
-
+import com.vige.support.Enums;
+import js.Browser;
 /*
 import lib.support.StyleManager;
 import js.Browser;
@@ -43,10 +44,7 @@ new Navbar({
 }),
 */
 
-enum NavbarPosition {
-    Top;
-    Bottom;
-}
+
 
 /* not done 
 

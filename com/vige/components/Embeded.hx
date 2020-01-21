@@ -3,7 +3,8 @@ package com.vige.components;
 import com.vige.core.*;
 import com.vige.support.*;
 import com.vige.utils.*;
-
+import com.vige.support.Enums;
+import js.Browser;
 /*
 import lib.support.StyleManager;
 import js.Browser;
@@ -40,6 +41,7 @@ class Embeded implements Widget {
   public var padding: Padding;
   public var margin: Margin;
   public var size: Size;
+  public var overflow: Overflow;
 
 
   public function new(arg: {

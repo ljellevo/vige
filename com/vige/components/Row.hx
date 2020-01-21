@@ -3,6 +3,11 @@ package com.vige.components;
 import com.vige.core.*;
 import com.vige.support.*;
 import com.vige.utils.*;
+import com.vige.support.*;
+import js.html.Node;
+import js.Browser;
+
+import com.vige.support.Enums;
 
 /*
 import lib.support.StyleManager;
@@ -16,30 +21,11 @@ import lib.utils.Padding;
 import lib.utils.Margin;
 import lib.utils.Size;
 */
-enum MainAxisAlignment {
-    TopLeft;
-    TopCenter;
-    TopRight;
-    Left;
-    Center;
-    Right;
-    LowerLeft;
-    LowerCenter;
-    LowerRight;
-    Stretch;
-}
 
-enum CrossAxisAlignment {
-  Stretch;
-  Center;
-  FlexStart;
-  FlexEnd;
-  Initial;
-  Inherit;
-  SpacedEvenly;
-  SpaceBetween;
-  SpaceAround;
-}
+
+
+
+
 
 
 /**

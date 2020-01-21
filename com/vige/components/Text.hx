@@ -3,11 +3,14 @@ package com.vige.components;
 import com.vige.core.*;
 import com.vige.support.*;
 import com.vige.utils.*;
+import js.html.Node;
+import com.vige.support.Enums;
+import js.Browser;
 
 /*
 import lib.support.Widget;
 import js.Browser;
-import js.html.Node;
+
 
 import lib.utils.Color;
 import lib.utils.Border;
@@ -16,42 +19,7 @@ import lib.utils.Margin;
 import lib.utils.Size;
 */
 
-enum TextFormat {
-  h1;
-  h2;
-  h3;
-  h4;
-  h5;
-  h6;
-  p;
-  a;
-  pre;
-}
 
-enum TextAlignment {
-  Left;
-  Right;
-  Center;
-  Justify;
-  Inherit;
-}
-
-
-enum FontStyle {
-  Normal;
-  Italic;
-  Oblique;
-  Initial;
-  Inherit;
-}
-
-enum TextOverflow {
-  Clip;
-  Ellipsis;
-  String;
-  Initial;
-  Inherit;
-}
 
 
 

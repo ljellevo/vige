@@ -3,7 +3,8 @@ package com.vige.components;
 import com.vige.core.*;
 import com.vige.support.*;
 import com.vige.utils.*;
-
+import com.vige.support.Enums;
+import js.Browser;
 /*
 import lib.components.Center.CenterAlignment;
 import js.Browser;
@@ -37,11 +38,6 @@ new Image({
 **/
 
 
-enum ResizeModifier {
-    Height;
-    Width;
-    None;
-}
 
 
 class Image implements Widget {

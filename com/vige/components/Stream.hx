@@ -1,12 +1,16 @@
 package com.vige.components;
 
+import com.vige.components.*;
 import com.vige.core.*;
 import com.vige.support.*;
 import com.vige.utils.*;
+import js.html.Node;
+import com.vige.support.Enums;
+import js.Browser;
 
 /*
 import lib.support.StreamConnection;
-import js.html.Node;
+
 import lib.core.GlobalState;
 import lib.support.Widget;
 import js.Browser;

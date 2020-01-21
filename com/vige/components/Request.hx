@@ -1,8 +1,12 @@
 package com.vige.components;
 
+import com.akifox.asynchttp.HttpResponse;
+import com.akifox.asynchttp.HttpRequest;
 import com.vige.core.*;
 import com.vige.support.*;
 import com.vige.utils.*;
+import com.vige.support.Enums;
+import js.Browser;
 
 /*
 import lib.core.GlobalState;

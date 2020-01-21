@@ -1,9 +1,10 @@
 package com.vige.components;
 
-import com.vige.core.*;
+import js.html.Node;
 import com.vige.support.*;
 import com.vige.utils.*;
-
+import com.vige.support.Enums;
+import js.Browser;
 /*
 import lib.core.GlobalState;
 import lib.support.StyleManager;
