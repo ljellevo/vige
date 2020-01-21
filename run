@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ $1 = "-d" ]]; then
+  haxelib dev VIGE
+else
+  haxelib dev VIGE .
+fi
+
