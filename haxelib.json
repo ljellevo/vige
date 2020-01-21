@@ -5,7 +5,6 @@
   "tags": ["web"],
   "description": "A declarative web framework",
   "version": "1.0.0",
-  "classPath": "com/vige/",
   "releasenote": "Initial release",
   "contributors": ["ljellevo"],
   "dependencies": {
