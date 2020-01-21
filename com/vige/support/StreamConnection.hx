@@ -1,7 +1,15 @@
-package lib.support;
+package com.vige.support;
 
+import js.html.WebSocket;
+import com.vige.components.*;
+import com.vige.core.*;
+import com.vige.support.*;
+import com.vige.utils.*;
+
+/*
 import lib.components.Page;
 import js.html.WebSocket;
+*/
 
 class StreamConnection{
     var route: String;

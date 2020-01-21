@@ -1,4 +1,4 @@
-package lib.utils;
+package com.vige.utils;
 
 /**
     Is documented

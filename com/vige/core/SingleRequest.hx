@@ -1,12 +1,18 @@
-package lib.core;
+package com.vige.core;
 
+import com.vige.components.*;
+import com.vige.core.*;
+import com.vige.support.*;
+import com.vige.utils.*;
+import com.akifox.asynchttp.HttpResponse;
+import com.akifox.asynchttp.HttpRequest;
 /**
     Is documented
 **/
+/*
 
-import com.akifox.asynchttp.HttpResponse;
-import com.akifox.asynchttp.HttpRequest;
 import js.Browser;
+*/
 
 /**
   new SingleRequest({

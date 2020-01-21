@@ -1,8 +1,15 @@
-package lib.core;
+package com.vige.core;
 
+import js.Browser;
+import com.vige.components.*;
+import com.vige.core.*;
+import com.vige.support.*;
+import com.vige.utils.*;
+
+/*
 import lib.support.Widget;
 import js.Browser;
-
+*/
 class Body {
 
     public function new() { }

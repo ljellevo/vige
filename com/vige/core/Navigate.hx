@@ -1,6 +1,8 @@
-package lib.core;
+package com.vige.core;
 
+/*
 import js.Browser;
+*/
 
 /**
   Need to implement 404

@@ -1,5 +1,10 @@
-package lib.components;
+package com.vige.components;
 
+import com.vige.core.*;
+import com.vige.support.*;
+import com.vige.utils.*;
+
+/*
 import lib.core.GlobalState;
 import com.akifox.asynchttp.*;
 import lib.support.Widget;
@@ -11,7 +16,7 @@ import lib.utils.Padding;
 import lib.utils.Margin;
 import lib.utils.Size;
 import lib.support.Jsonp;
-
+*/
 /**
     new Request({
         url: "http://localhost:3000/test",

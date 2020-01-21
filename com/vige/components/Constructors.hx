@@ -1,8 +1,14 @@
-package lib.components;
+package com.vige.components;
 
+import com.vige.core.*;
+import com.vige.support.*;
+import com.vige.utils.*;
+
+/*
 import lib.support.Widget;
 import lib.components.Row;
 import lib.components.Container;
+*/
 
 /**
     Is documented

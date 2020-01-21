@@ -1,6 +1,4 @@
-package lib.utils;
-
-import lib.utils.Colors;
+package com.vige.utils;
 
 /**
     Is documented

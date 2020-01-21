@@ -1,7 +1,17 @@
-package lib.support;
+package com.vige.support;
+
+import com.vige.components.*;
+import com.vige.core.*;
+import com.vige.support.*;
+import com.vige.utils.*;
 import js.html.Console;
 import js.Browser.window;
 import js.Browser.document;
+/*
+import js.html.Console;
+import js.Browser.window;
+import js.Browser.document;
+*/
 
 /**
   JSONP (or JSON with Padding) is a technique used by web developers to 

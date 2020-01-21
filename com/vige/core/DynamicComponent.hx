@@ -1,8 +1,13 @@
-package lib.core;
+package com.vige.core;
 
+import com.vige.components.*;
+import com.vige.core.*;
+import com.vige.support.*;
+import com.vige.utils.*;
+/*
 import lib.components.Page;
 import lib.components.Text;
-
+*/
 class DynamicComponent {
     var page: Page = null;
 

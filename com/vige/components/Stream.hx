@@ -1,5 +1,10 @@
-package lib.components;
+package com.vige.components;
 
+import com.vige.core.*;
+import com.vige.support.*;
+import com.vige.utils.*;
+
+/*
 import lib.support.StreamConnection;
 import js.html.Node;
 import lib.core.GlobalState;
@@ -11,7 +16,7 @@ import lib.utils.Border;
 import lib.utils.Padding;
 import lib.utils.Margin;
 import lib.utils.Size;
-
+*/
 
 /**
 new Stream(page, {

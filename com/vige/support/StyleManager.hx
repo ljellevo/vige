@@ -1,6 +1,12 @@
-package lib.support;
+package com.vige.support;
 
+import com.vige.components.*;
+import com.vige.components.Row.*;
+import com.vige.core.*;
+import com.vige.support.*;
+import com.vige.utils.*;
 
+/*
 import lib.support.Widget.Overflow;
 import lib.utils.Margin;
 import lib.components.Row;
@@ -8,7 +14,7 @@ import lib.utils.Padding;
 import lib.utils.Border;
 import lib.utils.Size;
 import lib.utils.Color;
-
+*/
 
 enum DivType {
   Row;

@@ -1,9 +1,14 @@
-package lib.core;
+package com.vige.core;
 
+import com.vige.components.*;
+import com.vige.core.*;
+import com.vige.support.*;
+import com.vige.utils.*;
+/*
 import lib.support.Widget;
 import com.akifox.asynchttp.HttpRequest;
 import lib.support.StreamConnection;
-
+*/
 class GlobalState {
     var streams: Array<StreamConnection> = [];
     var connections: Array<HttpRequest> = [];
