@@ -76,7 +76,8 @@ class Row implements Widget {
         this.children = arg.children;
         this.equalElementWidth = arg.equalElementWidth != null ? arg.equalElementWidth : true;
         this.cellColor = arg.cellColor != null ? arg.cellColor : new Color({});
-        this.cellSize = arg.cellSize != null ? arg.cellSize : new Size({width: 100, widthType: "%"});
+        //this.cellSize = arg.cellSize != null ? arg.cellSize : new Size({width: 100, widthType: "%"});
+        this.cellSize = arg.cellSize;
         this.cellPadding = arg.cellPadding;
         this.cellMargin = arg.cellMargin;
         this.mainAxisAlignment = arg.mainAxisAlignment != null ? arg.mainAxisAlignment : MainAxisAlignment.Stretch; 
@@ -110,7 +111,7 @@ class Row implements Widget {
         for(child in children) {
             
             var rowCell = Browser.document.createDivElement();
-            rowCell.classList.add("row-cell");
+            rowCell.classList.add("row-cells");
             rowCell.style.boxSizing = "border-box";
             
             rowCell.appendChild(child.render());
