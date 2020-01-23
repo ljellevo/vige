@@ -199,8 +199,10 @@ class Text implements Widget {
         
         
         element.style.color = color.getColor();
+        //element.style.color = new Color({color: Colors.BLUE}).getColor();
         element.style.backgroundColor = color.getBackgroundColor();
         element.innerText = text;
+
         return element;
     }
 }

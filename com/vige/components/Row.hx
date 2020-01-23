@@ -111,7 +111,7 @@ class Row implements Widget {
         for(child in children) {
             
             var rowCell = Browser.document.createDivElement();
-            rowCell.classList.add("row-cells");
+            rowCell.classList.add("row-cell");
             rowCell.style.boxSizing = "border-box";
             
             rowCell.appendChild(child.render());
