@@ -71,7 +71,7 @@ enum TextFormat {
   pre;
 }
 
-enum TextAlignment {
+enum TextAlign {
   Left;
   Right;
   Center;
@@ -88,12 +88,44 @@ enum FontStyle {
   Inherit;
 }
 
+enum FontWeight {
+  Normal;
+  Bold;
+  Bolder;
+  Lighter;
+  W100;
+  W200;
+  W300;
+  W400;
+  W500;
+  W600;
+  W700;
+  W800;
+  W900;
+}
+
 enum TextOverflow {
   Clip;
   Ellipsis;
   String;
   Initial;
   Inherit;
+}
+
+enum WhiteSpace {
+  Normal;
+  Nowrap;
+  Pre;
+  PreLine;
+  PreWrap;
+  BreakSpace;
+}
+
+enum WordBreak {
+  Normal;
+  BreakAll;
+  KeepAll;
+  BreakWord;
 }
 
 enum BorderStyle {
