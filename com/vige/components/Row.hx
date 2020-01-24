@@ -96,6 +96,7 @@ class Row implements Widget {
 
     public function render(): Node {
         var row = Browser.document.createDivElement();
+        
         if(equalElementWidth) {
             row.style.display = "grid";
         } else {
@@ -118,13 +119,21 @@ class Row implements Widget {
             new StyleManager().addStyleToDiv({widget: rowCell, color: cellColor, padding: cellPadding, margin: cellMargin, size: cellSize});
             row.appendChild(rowCell);
             
-            /*
-            var cell = child.render();
-            row.appendChild(cell);
-            */
+
             
         }
-        
+        /*
+        row.style.display = "flex";
+        row.style.flexDirection = "row";
+        row.style.flexBasis = "auto";
+        new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Row, overflow: overflow});
+        for(child in children) {
+            row.appendChild(child.render());
+        }
+        */
+
+
         return row;
+        
     }
 }
