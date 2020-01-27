@@ -46,6 +46,10 @@ haxelib dev VIGE .
 Compile project by clicking ctrl + shift + B and select build.hxml.
 
 
+## Troubleshooting
+Complier cache might not catch edits to the lib. Disable caching in VSCode
+
+
 
 
 
