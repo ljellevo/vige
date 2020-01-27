@@ -232,6 +232,69 @@ class StyleManager {
       return arg.widget;
   }
 
+  public function addStyleToAnchor(arg: {
+    widget: js.html.AnchorElement, 
+    ?size: Size, 
+    ?color: Color,
+    ?padding: Padding,
+    ?margin: Margin,
+    ?border: Border,
+    ?overflow: Overflow,
+}): js.html.Node {
+
+  if(arg.size != null){
+    arg.widget.style.height = arg.size.getHeight();
+    arg.widget.style.width = arg.size.getWidth();
+  }
+  if(arg.color != null){
+    arg.widget.style.backgroundColor = arg.color.getBackgroundColor();
+    arg.widget.style.color = arg.color.getColor();
+  }
+  
+  if(arg.padding != null){
+    arg.widget.style.padding = arg.padding.getPadding();
+  }
+  
+  if(arg.margin != null){
+    arg.widget.style.margin = arg.margin.getMargin();
+  }
+
+  if(arg.overflow != null) {
+    switch (arg.overflow) {
+      case Visible:
+        arg.widget.style.overflow = "visible";
+      case Hidden:
+        arg.widget.style.overflow = "hidden";
+      case Scroll:
+        arg.widget.style.overflow = "scroll";
+      case Auto:
+        arg.widget.style.overflow = "auto";
+      case Initial:
+        arg.widget.style.overflow = "initial";
+      case Inherit:
+        arg.widget.style.overflow = "inherit";
+    }
+  }
+
+  if(arg.border != null){
+    switch (arg.border.getSides()){
+      case Top:
+        arg.widget.style.borderTop = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+      case Right:
+        arg.widget.style.borderRight = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+      case Bottom:
+        arg.widget.style.borderBottom = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+      case Left:
+        arg.widget.style.borderLeft = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+      case All:
+        arg.widget.style.border = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+        
+      }
+    arg.widget.style.borderRadius = arg.border.getCornerRadius();
+  }
+    return arg.widget;
+}
+
     public function addStyleToImage(arg: {
         widget: js.html.ImageElement, 
         ?size: Size, 

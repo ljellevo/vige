@@ -22,7 +22,7 @@ import lib.utils.Size;
 
 class Button implements Widget {
     var child: Widget = null;
-    
+    var isLink: Bool;
     var onClick: haxe.Constraints.Function = null;
 
     public var color: Color;
@@ -34,6 +34,7 @@ class Button implements Widget {
 
     public function new(arg: {
         child: Widget, 
+        ?isLink: Bool,
         onClick: haxe.Constraints.Function,
 
         ?color: Color,
@@ -44,6 +45,7 @@ class Button implements Widget {
         ?overflow: Overflow,
     }) {
         this.child = arg.child;
+        this.isLink = arg.isLink != null ? arg.isLink : false;
         this.onClick = arg.onClick;
 
         this.color = arg.color;
@@ -56,7 +58,28 @@ class Button implements Widget {
 
     public function init(){}
 
-    public function render():js.html.ButtonElement {
+    public function render():js.html.Node {
+      if(isLink) {
+        var button = Browser.document.createAnchorElement();
+        button.appendChild(child.render());
+        button.onclick = onClick;
+        button.style.cursor = "pointer";
+        button.style.border = "none";
+        //button.target = "_blank";
+        //button.href = "/news";
+
+        //castButton.style.padding = "8px 22px";
+        button.style.textAlign = "left";
+        button.style.textDecoration = "none";
+        button.style.display = "inline-block";
+        //castButton.style.fontSize = "16px";
+        //castButton.style.borderRadius = "12px";
+
+
+
+        new StyleManager().addStyleToAnchor({widget: button, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
+        return button;
+      } else {
         var button = Browser.document.createButtonElement();
         button.appendChild(child.render());
         button.onclick = onClick;
@@ -74,6 +97,8 @@ class Button implements Widget {
 
         new StyleManager().addStyleToButton({widget: button, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
         return button;
+      }
+        
         
     }
 }
