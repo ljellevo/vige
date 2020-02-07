@@ -62,7 +62,7 @@ class Column implements Widget {
         this.children = arg.children;
         this.equalElementWidth = arg.equalElementWidth != null ? arg.equalElementWidth : true;
         this.cellColor = arg.cellColor != null ? arg.cellColor : new Color({});
-        this.cellSize = arg.cellSize != null ? arg.cellSize : new Size({width: 100, widthType: "%"});
+        this.cellSize = arg.cellSize != null ? arg.cellSize : new Size({width: "100%"});
         this.cellPadding = arg.cellPadding;
         this.cellMargin = arg.cellMargin;
         this.mainAxisAlignment = arg.mainAxisAlignment != null ? arg.mainAxisAlignment : MainAxisAlignment.Stretch; 
@@ -72,7 +72,7 @@ class Column implements Widget {
         this.border = arg.border;
         this.padding = arg.padding;
         this.margin = arg.margin;
-        this.size = arg.size != null ? arg.size : new Size({width: 100, widthType: "%"});
+        this.size = arg.size != null ? arg.size : new Size({width: "100%"});
         this.overflow = arg.overflow;
     }
 

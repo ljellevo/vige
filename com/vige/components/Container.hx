@@ -54,7 +54,7 @@ class Container implements Widget {
         this.border = arg.border;
         this.padding = arg.padding;
         this.margin = arg.margin;
-        this.size = arg.size != null ? arg.size : new Size({height: 100, heightType: "%", width: 100, widthType: "%"});
+        this.size = arg.size != null ? arg.size : new Size({height: "100%", width: "100%"});
         this.overflow = arg.overflow;
     }
 

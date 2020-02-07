@@ -75,7 +75,7 @@ class Center implements Widget {
                 element.style.display = "flex";
                 element.style.justifyContent = "center";
                 
-                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({width: 100, widthType: "%"}), overflow: overflow});
+                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({width: "100%"}), overflow: overflow});
 
                 element.appendChild(child.render());
                 parent = element;
@@ -85,7 +85,7 @@ class Center implements Widget {
                 element.style.position = "relative";
                 element.style.top = "50%";
                 element.style.transform = "translateY(-50%)";
-                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: 100, heightType: "%"}), overflow: overflow});
+                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: "100%"}), overflow: overflow});
                 element.appendChild(child.render());
                 parent.appendChild(element);
             case Both:
@@ -95,7 +95,7 @@ class Center implements Widget {
                 element.style.position = "relative";
                 element.style.top = "50%";
                 element.style.transform = "translateY(-50%)";
-                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: 100, heightType: "%"}), overflow: overflow});
+                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: "100%"}), overflow: overflow});
                 element.appendChild(child.render());
                 parent.appendChild(element);
         }

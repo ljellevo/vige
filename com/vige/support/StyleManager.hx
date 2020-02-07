@@ -41,8 +41,12 @@ class StyleManager {
       arg.type = DivType.Other;
     }
     if(arg.size != null){
+      arg.widget.style.minHeight = arg.size.getMinHeight();
+      arg.widget.style.minWidth = arg.size.getMinWidth();
       arg.widget.style.height = arg.size.getHeight();
       arg.widget.style.width = arg.size.getWidth();
+      arg.widget.style.maxHeight = arg.size.getMaxHeight();
+      arg.widget.style.maxWidth = arg.size.getMaxWidth();
     }
     if(arg.color != null){
       arg.widget.style.backgroundColor = arg.color.getBackgroundColor();
@@ -170,18 +174,22 @@ class StyleManager {
 
 
   public function addStyleToButton(arg: {
-      widget: js.html.ButtonElement, 
-      ?size: Size, 
-      ?color: Color,
-      ?padding: Padding,
-      ?margin: Margin,
-      ?border: Border,
-      ?overflow: Overflow,
+    widget: js.html.ButtonElement, 
+    ?size: Size, 
+    ?color: Color,
+    ?padding: Padding,
+    ?margin: Margin,
+    ?border: Border,
+    ?overflow: Overflow,
   }): js.html.Node {
 
     if(arg.size != null){
+      arg.widget.style.minHeight = arg.size.getMinHeight();
+      arg.widget.style.minWidth = arg.size.getMinWidth();
       arg.widget.style.height = arg.size.getHeight();
       arg.widget.style.width = arg.size.getWidth();
+      arg.widget.style.maxHeight = arg.size.getMaxHeight();
+      arg.widget.style.maxWidth = arg.size.getMaxWidth();
     }
     if(arg.color != null){
       arg.widget.style.backgroundColor = arg.color.getBackgroundColor();
@@ -240,142 +248,154 @@ class StyleManager {
     ?margin: Margin,
     ?border: Border,
     ?overflow: Overflow,
-}): js.html.Node {
+  }): js.html.Node {
 
-  if(arg.size != null){
-    arg.widget.style.height = arg.size.getHeight();
-    arg.widget.style.width = arg.size.getWidth();
-  }
-  if(arg.color != null){
-    arg.widget.style.backgroundColor = arg.color.getBackgroundColor();
-    arg.widget.style.color = arg.color.getColor();
-  }
-  
-  if(arg.padding != null){
-    arg.widget.style.padding = arg.padding.getPadding();
-  }
-  
-  if(arg.margin != null){
-    arg.widget.style.margin = arg.margin.getMargin();
-  }
-
-  if(arg.overflow != null) {
-    switch (arg.overflow) {
-      case Visible:
-        arg.widget.style.overflow = "visible";
-      case Hidden:
-        arg.widget.style.overflow = "hidden";
-      case Scroll:
-        arg.widget.style.overflow = "scroll";
-      case Auto:
-        arg.widget.style.overflow = "auto";
-      case Initial:
-        arg.widget.style.overflow = "initial";
-      case Inherit:
-        arg.widget.style.overflow = "inherit";
+    if(arg.size != null){
+      arg.widget.style.minHeight = arg.size.getMinHeight();
+      arg.widget.style.minWidth = arg.size.getMinWidth();
+      arg.widget.style.height = arg.size.getHeight();
+      arg.widget.style.width = arg.size.getWidth();
+      arg.widget.style.maxHeight = arg.size.getMaxHeight();
+      arg.widget.style.maxWidth = arg.size.getMaxWidth();
     }
-  }
+    if(arg.color != null){
+      arg.widget.style.backgroundColor = arg.color.getBackgroundColor();
+      arg.widget.style.color = arg.color.getColor();
+    }
+    
+    if(arg.padding != null){
+      arg.widget.style.padding = arg.padding.getPadding();
+    }
+    
+    if(arg.margin != null){
+      arg.widget.style.margin = arg.margin.getMargin();
+    }
 
-  if(arg.border != null){
-    switch (arg.border.getSides()){
-      case Top:
-        arg.widget.style.borderTop = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
-      case Right:
-        arg.widget.style.borderRight = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
-      case Bottom:
-        arg.widget.style.borderBottom = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
-      case Left:
-        arg.widget.style.borderLeft = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
-      case All:
-        arg.widget.style.border = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
-        
+    if(arg.overflow != null) {
+      switch (arg.overflow) {
+        case Visible:
+          arg.widget.style.overflow = "visible";
+        case Hidden:
+          arg.widget.style.overflow = "hidden";
+        case Scroll:
+          arg.widget.style.overflow = "scroll";
+        case Auto:
+          arg.widget.style.overflow = "auto";
+        case Initial:
+          arg.widget.style.overflow = "initial";
+        case Inherit:
+          arg.widget.style.overflow = "inherit";
       }
-    arg.widget.style.borderRadius = arg.border.getCornerRadius();
-  }
-    return arg.widget;
-}
-
-    public function addStyleToImage(arg: {
-        widget: js.html.ImageElement, 
-        ?size: Size, 
-        ?color: Color,
-        ?padding: Padding,
-        ?margin: Margin,
-        ?border: Border,
-        ?overflow: Overflow,
-    }): js.html.Node {
-
-        /*
-        if(arg.size != null){
-            arg.widget.style.height = arg.size.getHeight();
-            arg.widget.style.width = arg.size.getWidth();
-        }
-        */
-        if(arg.color != null){
-            arg.widget.style.backgroundColor = arg.color.getBackgroundColor();
-            arg.widget.style.color = arg.color.getColor();
-        }
-        
-        if(arg.padding != null){
-            arg.widget.style.padding = arg.padding.getPadding();
-        }
-        
-        if(arg.margin != null){
-            arg.widget.style.margin = arg.margin.getMargin();
-        }
-
-        if(arg.overflow != null) {
-          switch (arg.overflow) {
-            case Visible:
-              arg.widget.style.overflow = "visible";
-            case Hidden:
-              arg.widget.style.overflow = "hidden";
-            case Scroll:
-              arg.widget.style.overflow = "scroll";
-            case Auto:
-              arg.widget.style.overflow = "auto";
-            case Initial:
-              arg.widget.style.overflow = "initial";
-            case Inherit:
-              arg.widget.style.overflow = "inherit";
-          }
-        }
-
-        if(arg.border != null){
-            switch (arg.border.getSides()){
-                case Top:
-                    arg.widget.style.borderTop = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
-                case Right:
-                    arg.widget.style.borderRight = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
-                case Bottom:
-                    arg.widget.style.borderBottom = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
-                case Left:
-                    arg.widget.style.borderLeft = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
-                case All:
-                    arg.widget.style.border = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
-                
-            }
-            arg.widget.style.borderRadius = arg.border.getCornerRadius();
-
-        }
-        
-        return arg.widget;
     }
 
-    public function addStyleToEmbeded(arg: {
-      ?size: Size, 
-      widget: js.html.EmbedElement, 
-      ?color: Color,
-      ?padding: Padding,
-      ?margin: Margin,
-      ?mainAxisAlignment: MainAxisAlignment,
-      ?crossAxisAlignment: CrossAxisAlignment,
-      ?border: Border,
-      ?overflow: Overflow,
+    if(arg.border != null){
+      switch (arg.border.getSides()){
+        case Top:
+          arg.widget.style.borderTop = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+        case Right:
+          arg.widget.style.borderRight = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+        case Bottom:
+          arg.widget.style.borderBottom = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+        case Left:
+          arg.widget.style.borderLeft = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+        case All:
+          arg.widget.style.border = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+          
+        }
+      arg.widget.style.borderRadius = arg.border.getCornerRadius();
+    }
+      return arg.widget;
+  }
+
+  public function addStyleToImage(arg: {
+    widget: js.html.ImageElement, 
+    ?size: Size, 
+    ?color: Color,
+    ?padding: Padding,
+    ?margin: Margin,
+    ?border: Border,
+    ?overflow: Overflow,
+  }): js.html.Node {
+
+      
+      if(arg.size != null){
+        arg.widget.style.minHeight = arg.size.getMinHeight();
+        arg.widget.style.minWidth = arg.size.getMinWidth();
+        arg.widget.style.height = arg.size.getHeight();
+        arg.widget.style.width = arg.size.getWidth();
+        arg.widget.style.maxHeight = arg.size.getMaxHeight();
+        arg.widget.style.maxWidth = arg.size.getMaxWidth();
+      }
+      
+      if(arg.color != null){
+          arg.widget.style.backgroundColor = arg.color.getBackgroundColor();
+          arg.widget.style.color = arg.color.getColor();
+      }
+      
+      if(arg.padding != null){
+          arg.widget.style.padding = arg.padding.getPadding();
+      }
+      
+      if(arg.margin != null){
+          arg.widget.style.margin = arg.margin.getMargin();
+      }
+
+      if(arg.overflow != null) {
+        switch (arg.overflow) {
+          case Visible:
+            arg.widget.style.overflow = "visible";
+          case Hidden:
+            arg.widget.style.overflow = "hidden";
+          case Scroll:
+            arg.widget.style.overflow = "scroll";
+          case Auto:
+            arg.widget.style.overflow = "auto";
+          case Initial:
+            arg.widget.style.overflow = "initial";
+          case Inherit:
+            arg.widget.style.overflow = "inherit";
+        }
+      }
+
+      if(arg.border != null){
+          switch (arg.border.getSides()){
+              case Top:
+                  arg.widget.style.borderTop = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+              case Right:
+                  arg.widget.style.borderRight = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+              case Bottom:
+                  arg.widget.style.borderBottom = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+              case Left:
+                  arg.widget.style.borderLeft = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+              case All:
+                  arg.widget.style.border = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+              
+          }
+          arg.widget.style.borderRadius = arg.border.getCornerRadius();
+
+      }
+      
+      return arg.widget;
+  }
+
+  public function addStyleToEmbeded(arg: {
+    ?size: Size, 
+    widget: js.html.EmbedElement, 
+    ?color: Color,
+    ?padding: Padding,
+    ?margin: Margin,
+    ?mainAxisAlignment: MainAxisAlignment,
+    ?crossAxisAlignment: CrossAxisAlignment,
+    ?border: Border,
+    ?overflow: Overflow,
   }): js.html.Node {
       if(arg.size != null){
-          arg.widget.style.height = arg.size.getHeight();
-          arg.widget.style.width = arg.size.getWidth();
+        arg.widget.style.minHeight = arg.size.getMinHeight();
+        arg.widget.style.minWidth = arg.size.getMinWidth();
+        arg.widget.style.height = arg.size.getHeight();
+        arg.widget.style.width = arg.size.getWidth();
+        arg.widget.style.maxHeight = arg.size.getMaxHeight();
+        arg.widget.style.maxWidth = arg.size.getMaxWidth();
       }
       if(arg.color != null){
           arg.widget.style.backgroundColor = arg.color.getBackgroundColor();
@@ -452,5 +472,101 @@ class StyleManager {
           }
       }
       return arg.widget;
+  }
+
+  public function addStyleToInput(arg: {
+    ?size: Size, 
+    widget: js.html.InputElement, 
+    ?color: Color,
+    ?padding: Padding,
+    ?margin: Margin,
+    ?mainAxisAlignment: MainAxisAlignment,
+    ?crossAxisAlignment: CrossAxisAlignment,
+    ?border: Border,
+    ?overflow: Overflow,
+  }): js.html.Node {
+    if(arg.size != null){
+      arg.widget.style.minHeight = arg.size.getMinHeight();
+      arg.widget.style.minWidth = arg.size.getMinWidth();
+      arg.widget.style.height = arg.size.getHeight();
+      arg.widget.style.width = arg.size.getWidth();
+      arg.widget.style.maxHeight = arg.size.getMaxHeight();
+      arg.widget.style.maxWidth = arg.size.getMaxWidth();
+    }
+    if(arg.color != null){
+        arg.widget.style.backgroundColor = arg.color.getBackgroundColor();
+        arg.widget.style.color = arg.color.getColor();
+    }
+    
+    if(arg.padding != null){
+        arg.widget.style.padding = arg.padding.getPadding();
+    }
+    
+    if(arg.margin != null){
+        arg.widget.style.margin = arg.margin != null ? arg.margin.getMargin() : Margin.all(0.0).getMargin();
+    }
+
+    if(arg.overflow != null) {
+      switch (arg.overflow) {
+        case Visible:
+          arg.widget.style.overflow = "visible";
+        case Hidden:
+          arg.widget.style.overflow = "hidden";
+        case Scroll:
+          arg.widget.style.overflow = "scroll";
+        case Auto:
+          arg.widget.style.overflow = "auto";
+        case Initial:
+          arg.widget.style.overflow = "initial";
+        case Inherit:
+          arg.widget.style.overflow = "inherit";
+      }
+    }
+
+    if(arg.border != null){
+        switch (arg.border.getSides()){
+            case Top:
+                arg.widget.style.borderTop = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+            case Right:
+                arg.widget.style.borderRight = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+            case Bottom:
+                arg.widget.style.borderBottom = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+            case Left:
+                arg.widget.style.borderLeft = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+            case All:
+                arg.widget.style.border = arg.border.getWidth() + " " + arg.border.getStyle() + " " + arg.border.getColor();
+            
+        }
+        arg.widget.style.borderRadius = arg.border.getCornerRadius();
+
+    }
+    
+    
+    
+    if(arg.mainAxisAlignment != null) {
+        switch (arg.mainAxisAlignment){
+            case TopLeft:
+                arg.widget.style.placeItems = "start start";
+            case TopCenter:
+                arg.widget.style.placeItems = "start center";
+            case TopRight:
+                arg.widget.style.placeItems = "start end";
+            case Left:
+                arg.widget.style.placeItems = "center start";
+            case Center:
+                arg.widget.style.placeItems = "center center";
+            case Right:
+                arg.widget.style.placeItems = "center end";
+            case LowerLeft:
+                arg.widget.style.placeItems = "end start";
+            case LowerCenter:
+                arg.widget.style.placeItems = "end center";
+            case LowerRight:
+                arg.widget.style.placeItems = "end end";
+            case Stretch:
+                arg.widget.style.placeItems = "stretch";
+        }
+    }
+    return arg.widget;
   }
 }

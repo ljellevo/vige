@@ -75,7 +75,7 @@ class Positioned implements Widget {
         var parent = Browser.document.createDivElement();
         parent.style.position = "relative";
 
-        new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: 100, heightType: "%", width: 100, widthType: "%"}), overflow: overflow});
+        new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: "100%", width: "100%"}), overflow: overflow});
 
 
 
