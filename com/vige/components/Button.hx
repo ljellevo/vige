@@ -31,6 +31,7 @@ class Button implements Widget {
     public var margin: Margin;
     public var size: Size;
     public var overflow: Overflow;
+    public var shadow: Array<Shadow>;
 
     public function new(arg: {
         child: Widget, 
@@ -43,6 +44,7 @@ class Button implements Widget {
         ?margin: Margin,
         ?size: Size, 
         ?overflow: Overflow,
+        ?shadow: Array<Shadow>
     }) {
         this.child = arg.child;
         this.isLink = arg.isLink != null ? arg.isLink : false;
@@ -54,6 +56,7 @@ class Button implements Widget {
         this.margin = arg.margin;
         this.size = arg.size;
         this.overflow = arg.overflow;
+        this.shadow = arg.shadow;
     }
 
     public function init(){}
@@ -77,7 +80,7 @@ class Button implements Widget {
 
 
 
-        new StyleManager().addStyleToAnchor({widget: button, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
+        new StyleManager().addStyleToAnchor({widget: button, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow, shadow: shadow});
         return button;
       } else {
         var button = Browser.document.createButtonElement();
@@ -95,7 +98,7 @@ class Button implements Widget {
 
 
 
-        new StyleManager().addStyleToButton({widget: button, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
+        new StyleManager().addStyleToButton({widget: button, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow, shadow: shadow});
         return button;
       }
         

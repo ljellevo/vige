@@ -35,6 +35,7 @@ class Center implements Widget {
     public var margin: Margin;
     public var size: Size;
     public var overflow: Overflow;
+    public var shadow: Array<Shadow>;
 
 
 
@@ -48,6 +49,7 @@ class Center implements Widget {
         ?margin: Margin,
         ?size: Size, 
         ?overflow: Overflow,
+        ?shadow: Array<Shadow>
 
         
     }) {
@@ -60,6 +62,7 @@ class Center implements Widget {
         this.margin = arg.margin;
         this.size = arg.size;
         this.overflow = arg.overflow;
+        this.shadow = arg.shadow;
     }
 
     public function init(){}
@@ -75,7 +78,7 @@ class Center implements Widget {
                 element.style.display = "flex";
                 element.style.justifyContent = "center";
                 
-                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({width: "100%"}), overflow: overflow});
+                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({width: "100%"}), overflow: overflow, shadow: shadow});
 
                 element.appendChild(child.render());
                 parent = element;
@@ -85,7 +88,7 @@ class Center implements Widget {
                 element.style.position = "relative";
                 element.style.top = "50%";
                 element.style.transform = "translateY(-50%)";
-                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: "100%"}), overflow: overflow});
+                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: "100%"}), overflow: overflow, shadow: shadow});
                 element.appendChild(child.render());
                 parent.appendChild(element);
             case Both:
@@ -95,7 +98,7 @@ class Center implements Widget {
                 element.style.position = "relative";
                 element.style.top = "50%";
                 element.style.transform = "translateY(-50%)";
-                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: "100%"}), overflow: overflow});
+                new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: "100%"}), overflow: overflow, shadow: shadow});
                 element.appendChild(child.render());
                 parent.appendChild(element);
         }

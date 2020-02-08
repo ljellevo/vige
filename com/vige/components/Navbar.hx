@@ -72,6 +72,7 @@ class Navbar implements Widget {
     public var margin: Margin;
     public var size: Size;
     public var overflow: Overflow;
+    public var shadow: Array<Shadow>;
 
 
     public function new(arg: {
@@ -88,6 +89,7 @@ class Navbar implements Widget {
         ?margin: Margin,
         ?size: Size, 
         ?overflow: Overflow,
+        ?shadow: Array<Shadow>
         
     }) {
         this.child = arg.child;
@@ -103,6 +105,7 @@ class Navbar implements Widget {
         this.margin = arg.margin;
         this.size = arg.size;
         this.overflow = arg.overflow;
+        this.shadow = arg.shadow;
     }
 
     public function init(){}
@@ -111,7 +114,7 @@ class Navbar implements Widget {
     public function render(): Node {
         var navbar = Browser.document.createDivElement();        
 
-        new StyleManager().addStyleToDiv({widget: navbar, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
+        new StyleManager().addStyleToDiv({widget: navbar, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow, shadow: shadow});
         navbar.appendChild(child.render());
         navbar.style.overflow = "hidden";
         if(sticky){

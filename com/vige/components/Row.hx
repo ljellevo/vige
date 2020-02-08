@@ -52,6 +52,7 @@ class Row implements Widget {
     public var margin: Margin;
     public var size: Size;
     public var overflow: Overflow;
+    public var shadow: Array<Shadow>;
 
 
 
@@ -71,6 +72,7 @@ class Row implements Widget {
         ?margin: Margin,
         ?size: Size, 
         ?overflow: Overflow,
+        ?shadow: Array<Shadow>
         
     }) {
         this.children = arg.children;
@@ -89,6 +91,7 @@ class Row implements Widget {
         this.margin = arg.margin;
         this.size = arg.size != null ? arg.size : new Size({width: "100%"});
         this.overflow = arg.overflow;
+        this.shadow = arg.shadow;
     }
 
     public function init(){}
@@ -107,7 +110,7 @@ class Row implements Widget {
         //row.style.gridTemplateRows = "auto 1fr";
         row.classList.add("row");
         row.style.gridAutoFlow = "column";
-        new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Row, overflow: overflow});
+        new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Row, overflow: overflow, shadow: shadow});
 
         for(child in children) {
             
@@ -116,7 +119,7 @@ class Row implements Widget {
             rowCell.style.boxSizing = "border-box";
             
             rowCell.appendChild(child.render());
-            new StyleManager().addStyleToDiv({widget: rowCell, color: cellColor, padding: cellPadding, margin: cellMargin, size: cellSize});
+            new StyleManager().addStyleToDiv({widget: rowCell, color: cellColor, padding: cellPadding, margin: cellMargin, size: cellSize, shadow: shadow});
             row.appendChild(rowCell);
             
 

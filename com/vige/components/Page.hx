@@ -56,6 +56,7 @@ class Page implements Widget{
     public var margin: Margin;
     public var size: Size;
     public var overflow: Overflow;
+    public var shadow: Array<Shadow>;
 
 
 
@@ -71,6 +72,7 @@ class Page implements Widget{
         ?margin: Margin,
         ?size: Size, 
         ?overflow: Overflow,
+        ?shadow: Array<Shadow>
     }) {
         this.route = arg.route;
         this.title = arg.title;
@@ -83,6 +85,7 @@ class Page implements Widget{
         this.margin = arg.margin;
         this.size = arg.size;
         this.overflow = arg.overflow;
+        this.shadow = arg.shadow;
     }
 
     public function init(){}
@@ -112,7 +115,7 @@ class Page implements Widget{
         //element.appendChild(navbar.render());
         element.appendChild(child.render());
         
-        new StyleManager().addStyleToDiv({widget: element, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
+        new StyleManager().addStyleToDiv({widget: element, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow, shadow: shadow});
 
         //Need to style container
 

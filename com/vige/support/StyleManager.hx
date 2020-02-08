@@ -35,6 +35,7 @@ class StyleManager {
     ?type: DivType,
     ?border: Border,
     ?overflow: Overflow,
+    ?shadow: Array<Shadow>
   }): js.html.Node {
 
     if(arg.type == null) {
@@ -168,6 +169,20 @@ class StyleManager {
         }
       }
     }
+
+    if(arg.shadow != null && arg.shadow.length > 0) {
+      trace("Shadow was found");
+      
+      var joinedString = "";
+      for(i in 0...arg.shadow.length) {
+        if(i != 0) {
+          joinedString += ", ";
+        }
+        joinedString += arg.shadow[i].getShadow();
+      }
+      trace("Box-shadow: " + joinedString);
+      arg.widget.style.boxShadow = joinedString;
+    }
     
     return arg.widget;
   }
@@ -181,6 +196,7 @@ class StyleManager {
     ?margin: Margin,
     ?border: Border,
     ?overflow: Overflow,
+    ?shadow: Array<Shadow>
   }): js.html.Node {
 
     if(arg.size != null){
@@ -236,6 +252,10 @@ class StyleManager {
           
         }
       arg.widget.style.borderRadius = arg.border.getCornerRadius();
+    }
+
+    if(arg.shadow != null && arg.shadow.length > 0) {
+      arg.widget.style.boxShadow = arg.shadow.join(", ");
     }
       return arg.widget;
   }
@@ -248,6 +268,7 @@ class StyleManager {
     ?margin: Margin,
     ?border: Border,
     ?overflow: Overflow,
+    ?shadow: Array<Shadow>
   }): js.html.Node {
 
     if(arg.size != null){
@@ -304,6 +325,10 @@ class StyleManager {
         }
       arg.widget.style.borderRadius = arg.border.getCornerRadius();
     }
+
+    if(arg.shadow != null && arg.shadow.length > 0) {
+      arg.widget.style.boxShadow = arg.shadow.join(", ");
+    }
       return arg.widget;
   }
 
@@ -315,6 +340,7 @@ class StyleManager {
     ?margin: Margin,
     ?border: Border,
     ?overflow: Overflow,
+    ?shadow: Array<Shadow>
   }): js.html.Node {
 
       
@@ -374,6 +400,11 @@ class StyleManager {
           arg.widget.style.borderRadius = arg.border.getCornerRadius();
 
       }
+
+
+      if(arg.shadow != null && arg.shadow.length > 0) {
+        arg.widget.style.boxShadow = arg.shadow.join(", ");
+      }
       
       return arg.widget;
   }
@@ -388,6 +419,7 @@ class StyleManager {
     ?crossAxisAlignment: CrossAxisAlignment,
     ?border: Border,
     ?overflow: Overflow,
+    ?shadow: Array<Shadow>
   }): js.html.Node {
       if(arg.size != null){
         arg.widget.style.minHeight = arg.size.getMinHeight();
@@ -471,6 +503,12 @@ class StyleManager {
                   arg.widget.style.placeItems = "stretch";
           }
       }
+
+      if(arg.shadow != null && arg.shadow.length > 0) {
+        arg.widget.style.boxShadow = arg.shadow.join(", ");
+      }
+
+
       return arg.widget;
   }
 
@@ -484,6 +522,7 @@ class StyleManager {
     ?crossAxisAlignment: CrossAxisAlignment,
     ?border: Border,
     ?overflow: Overflow,
+    ?shadow: Array<Shadow>
   }): js.html.Node {
     if(arg.size != null){
       arg.widget.style.minHeight = arg.size.getMinHeight();
@@ -567,6 +606,12 @@ class StyleManager {
                 arg.widget.style.placeItems = "stretch";
         }
     }
+
+    if(arg.shadow != null && arg.shadow.length > 0) {
+      arg.widget.style.boxShadow = arg.shadow.join(", ");
+    }
+
+    
     return arg.widget;
   }
 }

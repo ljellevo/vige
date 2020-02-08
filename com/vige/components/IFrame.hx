@@ -39,6 +39,7 @@ class IFrame implements Widget {
   public var margin: Margin;
   public var size: Size;
   public var overflow: Overflow;
+  public var shadow: Array<Shadow>;
 
 
   public function new(arg: {

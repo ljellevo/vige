@@ -58,6 +58,7 @@ class Image implements Widget {
     public var margin: Margin;
     public var size: Size;
     public var overflow: Overflow;
+    public var shadow: Array<Shadow>;
 
 
     public function new(arg: {
@@ -77,6 +78,7 @@ class Image implements Widget {
         ?margin: Margin,
         ?size: Size, 
         ?overflow: Overflow,
+        ?shadow: Array<Shadow>
     }) {
         this.src = arg.src;
         this.alt = arg.alt;
@@ -94,6 +96,7 @@ class Image implements Widget {
         this.margin = arg.margin;
         this.size = arg.size;
         this.overflow = arg.overflow;
+        this.shadow = arg.shadow;
     }
 
     public function init(){}
@@ -144,7 +147,7 @@ class Image implements Widget {
             container.style.maxHeight = Std.string(maxHeight) + "px";
         }
         
-        new StyleManager().addStyleToImage({widget: container, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
+        new StyleManager().addStyleToImage({widget: container, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow, shadow: shadow});
 
         return container;
     }

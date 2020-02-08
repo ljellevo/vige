@@ -35,6 +35,7 @@ class Container implements Widget {
     public var margin: Margin;
     public var size: Size;
     public var overflow: Overflow;
+    public var shadow: Array<Shadow>;
 
     public function new(arg: {
         ?child: Widget,
@@ -46,6 +47,7 @@ class Container implements Widget {
         ?margin: Margin,
         ?size: Size, 
         ?overflow: Overflow,
+        ?shadow: Array<Shadow>
     }) {
         this.child = arg.child;
         this.stretch = arg.stretch;
@@ -56,6 +58,7 @@ class Container implements Widget {
         this.margin = arg.margin;
         this.size = arg.size != null ? arg.size : new Size({height: "100%", width: "100%"});
         this.overflow = arg.overflow;
+        this.shadow = arg.shadow;
     }
 
     public function init(){}
@@ -78,7 +81,7 @@ class Container implements Widget {
         }
         
        
-        new StyleManager().addStyleToDiv({widget: container, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});
+        new StyleManager().addStyleToDiv({widget: container, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow, shadow: shadow});
         //container.style.margin = "auto";
         
         return container;

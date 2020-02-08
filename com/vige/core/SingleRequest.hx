@@ -34,6 +34,8 @@ import js.Browser;
 class SingleRequest {
     var url: String = "";
     var method: String;
+    var content: Dynamic;
+    var contentType: String;
     var onComplete: haxe.Constraints.Function = null;
     var onProgress: haxe.Constraints.Function = null;
     var onError: haxe.Constraints.Function = null;
@@ -42,12 +44,16 @@ class SingleRequest {
     arg: {
         url: String,
         ?method: String,
+        ?content: Dynamic,
+        ?contentType: String,
         onComplete: haxe.Constraints.Function,
         onProgress: haxe.Constraints.Function,
         ?onError: haxe.Constraints.Function
     }){
         this.url = arg.url;
         this.method = arg.method != null ? arg.method : "GET";
+        this.content = arg.content;
+        this.contentType = arg.contentType;
         this.onComplete = arg.onComplete;
         this.onProgress = arg.onProgress;
         this.onError = arg.onError;
@@ -59,6 +65,8 @@ class SingleRequest {
         var request = new HttpRequest({
             url : url,
             method: method,
+            content: content,
+            contentType: contentType,
             callback : function(response:HttpResponse):HttpResponse {
                 if(response.isOK) {
                     return onComplete(response);

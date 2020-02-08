@@ -40,6 +40,7 @@ class Column implements Widget {
     public var margin: Margin;
     public var size: Size;
     public var overflow: Overflow;
+    public var shadow: Array<Shadow>;
 
 
     public function new(arg: {
@@ -58,6 +59,7 @@ class Column implements Widget {
         ?margin: Margin,
         ?size: Size, 
         ?overflow: Overflow,
+        ?shadow: Array<Shadow>
     }) {
         this.children = arg.children;
         this.equalElementWidth = arg.equalElementWidth != null ? arg.equalElementWidth : true;
@@ -74,6 +76,7 @@ class Column implements Widget {
         this.margin = arg.margin;
         this.size = arg.size != null ? arg.size : new Size({width: "100%"});
         this.overflow = arg.overflow;
+        this.shadow = arg.shadow;
     }
 
     public function init(){}
@@ -84,7 +87,7 @@ class Column implements Widget {
         column.style.display = "grid";
         column.classList.add("column");
         column.style.boxSizing = "border-box";
-        new StyleManager().addStyleToDiv({widget: column, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Column, overflow: overflow});
+        new StyleManager().addStyleToDiv({widget: column, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Column, overflow: overflow, shadow: shadow});
 
 
         for(child in children) {

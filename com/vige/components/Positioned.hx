@@ -40,6 +40,7 @@ class Positioned implements Widget {
     public var margin: Margin;
     public var size: Size;
     public var overflow: Overflow;
+    public var shadow: Array<Shadow>;
 
     public function new(arg: {
         ?top: Float,
@@ -54,6 +55,7 @@ class Positioned implements Widget {
         ?margin: Margin,
         ?size: Size, 
         ?overflow: Overflow,
+        ?shadow: Array<Shadow>
     }) {
         this.top = arg.top != null ? arg.top : 0.0;
         this.right = arg.right != null ? arg.right : 0.0;
@@ -67,6 +69,7 @@ class Positioned implements Widget {
         this.margin = arg.margin;
         this.size = arg.size;
         this.overflow = arg.overflow;
+        this.shadow = arg.shadow;
     }
 
     public function init(){}
@@ -75,7 +78,7 @@ class Positioned implements Widget {
         var parent = Browser.document.createDivElement();
         parent.style.position = "relative";
 
-        new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: "100%", width: "100%"}), overflow: overflow});
+        new StyleManager().addStyleToDiv({widget: parent, color: color, border: border, padding: padding, margin: margin, size: new Size({height: "100%", width: "100%"}), overflow: overflow, shadow: shadow});
 
 
 
@@ -98,7 +101,7 @@ class Positioned implements Widget {
             positioned.style.left = Std.string(left) + "px";
         }
 
-        new StyleManager().addStyleToDiv({widget: positioned, color: color, border: border, padding: padding, margin: margin, size: size});
+        new StyleManager().addStyleToDiv({widget: positioned, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow, shadow: shadow});
 
         
         

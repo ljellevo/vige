@@ -26,8 +26,19 @@ Not done
     Is documented
 **/
 
+class InputController {
+  var element: js.html.InputElement;
+
+  public function new(){}
+
+  public function getValue() {
+    return element.value;
+  }
+}
+
 class Input implements Widget {
   var type: InputType;
+  var controller: InputController;
   var value: String = "";
   var placeholder: String = "";
   var autofocus: Bool = false;
@@ -42,9 +53,11 @@ class Input implements Widget {
   public var margin: Margin;
   public var size: Size;
   public var overflow: Overflow;
+  public var shadow: Array<Shadow>;
 
   public function new(arg: {
     type: InputType,
+    controller: InputController,
     ?value: String,
     ?placeholder: String,
     ?autofocus: Bool,
@@ -58,8 +71,10 @@ class Input implements Widget {
     ?margin: Margin,
     ?size: Size, 
     ?overflow: Overflow,
+    ?shadow: Array<Shadow>
   }) {
     this.type = arg.type;
+    this.controller = arg.controller;
     this.value = arg.value != null ? arg.value : "";
     this.placeholder = arg.placeholder != null ? arg.placeholder : "";
     this.autofocus = arg.autofocus != null ? arg.autofocus : false;

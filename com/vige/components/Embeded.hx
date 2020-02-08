@@ -42,6 +42,7 @@ class Embeded implements Widget {
   public var margin: Margin;
   public var size: Size;
   public var overflow: Overflow;
+  public var shadow: Array<Shadow>;
 
 
   public function new(arg: {
@@ -57,6 +58,8 @@ class Embeded implements Widget {
     ?padding: Padding,
     ?margin: Margin,
     ?size: Size, 
+    ?overflow: Overflow,
+    ?shadow: Array<Shadow>
   }) {
     this.src = arg.src;
     this.name = arg.name != null ? arg.name : "";
@@ -70,6 +73,8 @@ class Embeded implements Widget {
     this.padding = arg.padding;
     this.margin = arg.margin;
     this.size = arg.size;
+    this.overflow = arg.overflow;
+    this.shadow = arg.shadow;
   }
 
   public function init(){}
@@ -94,7 +99,7 @@ class Embeded implements Widget {
     
 
     
-    new StyleManager().addStyleToEmbeded({widget: embeded, color: color, border: border, padding: padding, margin: margin, size: size});
+    new StyleManager().addStyleToEmbeded({widget: embeded, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow, shadow: shadow});
 
     return embeded;
   }

@@ -23,6 +23,7 @@ interface Widget {
     var margin: Margin;
     var size: Size;
     var overflow: Overflow;
+    var shadow: Array<Shadow>;
     function init(): Void;
     public function render():js.html.Node;
 }
