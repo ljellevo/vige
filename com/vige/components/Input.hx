@@ -54,6 +54,7 @@ class Input implements Widget {
   var pattern: String = "(.*?)";
   var readOnly: Bool = false;
   var required: Bool = false;
+  var onchange: haxe.Constraints.Function;
   
 
   public var color: Color;
@@ -73,6 +74,7 @@ class Input implements Widget {
     ?pattern: String,
     ?readOnly: Bool,
     ?required: Bool,
+    ?onchange: haxe.Constraints.Function,
     
     ?color: Color,
     ?border: Border,
@@ -90,6 +92,7 @@ class Input implements Widget {
     this.pattern = arg.pattern != null ? arg.pattern : "(.*?)";
     this.readOnly = arg.readOnly != null ? arg.readOnly : false;
     this.required = arg.required != null ? arg.required : false;
+    this.onchange = arg.onchange;
     
 
     this.color = arg.color;
@@ -172,6 +175,11 @@ class Input implements Widget {
     input.pattern = pattern;
     input.readOnly = readOnly;
     input.required = required;
+    if(onchange != null) {
+      //input.onchange = onchange;
+      input.onkeydown = onchange;
+    }
+    
 
     //
 
