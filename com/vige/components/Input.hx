@@ -35,8 +35,13 @@ class InputController {
     element = newElement;
   }
 
-  public function getValue() {
-    return element.value;
+  public function getValue(): String {
+    if(element != null) {
+      return element.value;
+    } else {
+      return "";
+    }
+     
   }
 }
 
