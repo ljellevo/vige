@@ -31,6 +31,10 @@ class InputController {
 
   public function new(){}
 
+  public function setValue(newElement: js.html.InputElement) {
+    element = newElement;
+  }
+
   public function getValue() {
     return element.value;
   }
@@ -169,6 +173,7 @@ class Input implements Widget {
     new StyleManager().addStyleToInput({widget: input, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});        
 
 
+    controller.setValue(input);
     return input;
   }
 }
