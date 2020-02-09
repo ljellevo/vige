@@ -31,7 +31,12 @@ class InputController {
 
   public function new(){}
 
-  public function setValue(newElement: js.html.InputElement) {
+
+  public function getElement(): js.html.InputElement {
+    return element;
+  }
+
+  public function setElement(newElement: js.html.InputElement) {
     element = newElement;
   }
 
@@ -40,8 +45,7 @@ class InputController {
       return element.value;
     } else {
       return "";
-    }
-     
+    } 
   }
 }
 
@@ -177,7 +181,7 @@ class Input implements Widget {
     input.required = required;
     if(onchange != null) {
       //input.onchange = onchange;
-      input.onkeydown = onchange;
+      input.onkeyup = onchange;
     }
     
 
@@ -186,7 +190,7 @@ class Input implements Widget {
     new StyleManager().addStyleToInput({widget: input, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow});        
 
 
-    controller.setValue(input);
+    controller.setElement(input);
     return input;
   }
 }
