@@ -45,6 +45,7 @@ class Row implements Widget {
     var mainAxisAlignment: MainAxisAlignment;
     var crossAxisAlignment: CrossAxisAlignment;
     var equalElementWidth: Bool;
+    var flex: Bool;
 
     public var color: Color;
     public var border: Border;
@@ -65,6 +66,7 @@ class Row implements Widget {
         ?cellMargin: Margin,
         ?mainAxisAlignment: MainAxisAlignment,
         ?crossAxisAlignment: CrossAxisAlignment,
+        ?flex: Bool,
 
         ?color: Color,
         ?border: Border,
@@ -84,6 +86,7 @@ class Row implements Widget {
         this.cellMargin = arg.cellMargin;
         this.mainAxisAlignment = arg.mainAxisAlignment != null ? arg.mainAxisAlignment : MainAxisAlignment.Stretch; 
         this.crossAxisAlignment = arg.crossAxisAlignment != null ? arg.crossAxisAlignment : CrossAxisAlignment.Stretch;
+        this.flex = arg.flex != null ? arg.flex : false;
 
         this.color = arg.color;
         this.border = arg.border;
@@ -100,6 +103,24 @@ class Row implements Widget {
     public function render(): Node {
         var row = Browser.document.createDivElement();
         
+        if(flex) {
+            new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Row, overflow: overflow, shadow: shadow});
+            row.style.display = "flex";
+            row.style.width = "100%";
+            row.style.height = "100%";
+            for(child in children) {
+            
+                row.appendChild(child.render());
+                
+    
+                
+            }
+            return row;
+        }
+
+
+
+
         if(equalElementWidth) {
             row.style.display = "grid";
         } else {
@@ -108,6 +129,7 @@ class Row implements Widget {
         
         //row.style.gridTemplateColumns =  Std.string(children.length) + " auto auto";
         //row.style.gridTemplateRows = "auto 1fr";
+        //row.style.gridTemplateRows = "1fr min-content";
         row.classList.add("row");
         row.style.gridAutoFlow = "column";
         new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Row, overflow: overflow, shadow: shadow});
