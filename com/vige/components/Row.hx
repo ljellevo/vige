@@ -107,7 +107,7 @@ class Row implements Widget {
             new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Row, overflow: overflow, shadow: shadow});
             row.style.display = "flex";
             row.style.width = "100%";
-            row.style.height = "100%";
+            //row.style.height = "100%";
             for(child in children) {
             
                 row.appendChild(child.render());
