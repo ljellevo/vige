@@ -19,7 +19,7 @@ class DynamicComponent {
         }
         
         callback();
-        var newComponent = component.component().render();
+        //var newComponent = component.component().render();
         Navigate.updateComponent(component.component().render());
         
         // Need to compare both components and identify the changes

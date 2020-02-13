@@ -53,12 +53,15 @@ class Input implements Widget {
   var type: InputType;
   var controller: InputController;
   var value: String = "";
+  var checked: Bool;
   var placeholder: String = "";
   var autofocus: Bool = false;
   var pattern: String = "(.*?)";
   var readOnly: Bool = false;
   var required: Bool = false;
-  var onchange: haxe.Constraints.Function;
+  var onChange: haxe.Constraints.Function;
+  var onClick: haxe.Constraints.Function;
+
   
 
   public var color: Color;
@@ -73,12 +76,15 @@ class Input implements Widget {
     type: InputType,
     controller: InputController,
     ?value: String,
+    ?checked: Bool,
     ?placeholder: String,
     ?autofocus: Bool,
     ?pattern: String,
     ?readOnly: Bool,
     ?required: Bool,
-    ?onchange: haxe.Constraints.Function,
+    ?onChange: haxe.Constraints.Function,
+    ?onClick: haxe.Constraints.Function,
+
     
     ?color: Color,
     ?border: Border,
@@ -91,12 +97,14 @@ class Input implements Widget {
     this.type = arg.type;
     this.controller = arg.controller;
     this.value = arg.value != null ? arg.value : "";
+    this.checked = arg.checked;
     this.placeholder = arg.placeholder != null ? arg.placeholder : "";
     this.autofocus = arg.autofocus != null ? arg.autofocus : false;
     this.pattern = arg.pattern != null ? arg.pattern : "(.*?)";
     this.readOnly = arg.readOnly != null ? arg.readOnly : false;
     this.required = arg.required != null ? arg.required : false;
-    this.onchange = arg.onchange;
+    this.onChange = arg.onChange;
+    this.onClick = arg.onClick;
     
 
     this.color = arg.color;
@@ -179,9 +187,17 @@ class Input implements Widget {
     input.pattern = pattern;
     input.readOnly = readOnly;
     input.required = required;
-    if(onchange != null) {
+    if(onChange != null) {
       //input.onchange = onchange;
-      input.onkeyup = onchange;
+      input.onkeyup = onChange;
+    }
+
+    if(onClick != null) {
+      input.onclick = onClick;
+    }
+
+    if(checked != null) {
+      input.checked = checked;
     }
     
 

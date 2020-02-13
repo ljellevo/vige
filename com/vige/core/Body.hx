@@ -33,6 +33,10 @@ class Body {
         //style.fontSize = "48";
     }
 
+    public function globalBackgroundColor(color: Color) {
+      Browser.document.body.style.backgroundColor = color.getBackgroundColor();
+    }
+
     public function setHeader(stylesheetUrl: String) {
         //font-family: 'Quicksand', sans-serif;
         var element = '<link href="' + stylesheetUrl + '", rel="stylesheet">';
