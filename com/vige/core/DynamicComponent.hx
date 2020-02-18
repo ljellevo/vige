@@ -29,6 +29,10 @@ class DynamicComponent {
     @:require
     public function init(): Void{}
 
+    @:require
+    public function unload(): Void{}
+
+
 
     @:require
     public function component(): Page{

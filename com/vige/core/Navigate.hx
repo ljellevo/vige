@@ -21,7 +21,7 @@ class Navigate {
   
   public function new() { }
 
-  public static function to(arg: {url: String, ?param: Array<{param: String, data: String}>, ?main: Bool, ?hardRefresh: Bool}) {
+  public static function to(currentPage: DynamicComponent, arg: {url: String, ?param: Array<{param: String, data: String}>, ?main: Bool, ?hardRefresh: Bool}) {
     var url = arg.url;
     if (arg.main == null) arg.main = false;
     if (arg.hardRefresh == null) arg.hardRefresh = false;
@@ -43,7 +43,11 @@ class Navigate {
         Browser.window.location.reload();
       }
     }
-      
+    
+    if(currentPage != null){
+      currentPage.unload();
+    }
+    
     setComponent(true, correctPage); 
   }
 
