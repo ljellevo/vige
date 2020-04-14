@@ -153,7 +153,7 @@ enum InputType {
   Button;
   Checkbox;
   Color;
-  Date;
+  DateTime;
   DatetimeLocal;
   Email;
   File;
