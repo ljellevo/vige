@@ -171,8 +171,6 @@ class StyleManager {
     }
 
     if(arg.shadow != null && arg.shadow.length > 0) {
-      trace("Shadow was found");
-      
       var joinedString = "";
       for(i in 0...arg.shadow.length) {
         if(i != 0) {
@@ -180,7 +178,6 @@ class StyleManager {
         }
         joinedString += arg.shadow[i].getShadow();
       }
-      trace("Box-shadow test: " + joinedString);
       arg.widget.style.boxShadow = joinedString;
     }
     

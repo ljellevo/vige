@@ -29,10 +29,7 @@ class Shadow {
   }
 
   public function getShadow(): String {
-    trace("BC: " + color.getBackgroundColor());
     if(color != null) {
-      trace("BC: " + color.getBackgroundColor());
-
       return horizontal + " " + vertical + " " + blur + " " + spread  + "" + color.getBackgroundColor();
     } else {
       return "";
