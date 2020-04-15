@@ -30,6 +30,6 @@ class Color {
         if (backgroundColor == null) {
             return "";
         }
-        return "rgba(" + backgroundColor.ri + ", " +  backgroundColor.gi + ", " + backgroundColor.bi + ", " + backgroundColor.ai + ")";
+        return "rgba(" + backgroundColor.ri + ", " +  backgroundColor.gi + ", " + backgroundColor.bi + ", " + (backgroundColor.ai / 255) + ")";
     }
 }

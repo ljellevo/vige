@@ -24,7 +24,7 @@ class Shadow {
     this.horizontal = arg.horizontal != null ? arg.horizontal : "";
     this.vertical = arg.vertical != null ? arg.vertical : "";
     this.blur = arg.blur != null ? arg.blur : "";
-    this.spread = arg.spread != null ? arg.spread + " " : "";
+    this.spread = arg.spread != null ? arg.spread + " " : "0px ";
     this.color = arg.color;
   }
 

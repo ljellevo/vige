@@ -55,7 +55,7 @@ abstract Colors(Int) from Int to Int {
    */
   public static inline function fromRGBAf(r : Float, g : Float, b : Float, a : Float) : Colors {
     //return fromRGBAi(Std.int(r * 255), Std.int(g * 255), Std.int(b * 255), Std.int(a * 255));
-    return fromRGBAi(Std.int(r * 255), Std.int(g * 255), Std.int(b * 255), Std.int(a));
+    return fromRGBAi(Std.int(r * 255), Std.int(g * 255), Std.int(b * 255), Std.int(a * 255));
 
   }
   
