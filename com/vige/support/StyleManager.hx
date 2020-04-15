@@ -180,7 +180,7 @@ class StyleManager {
         }
         joinedString += arg.shadow[i].getShadow();
       }
-      trace("Box-shadow: " + joinedString);
+      trace("Box-shadow test: " + joinedString);
       arg.widget.style.boxShadow = joinedString;
     }
     
