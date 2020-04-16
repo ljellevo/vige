@@ -110,7 +110,6 @@ class Row implements Widget {
             new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Row, overflow: overflow, shadow: shadow});
             row.style.display = "flex";
             row.style.width = "100%";
-            //row.style.height = "100%";
             for(child in children) {
                 row.appendChild(child.render());
             }
@@ -123,18 +122,13 @@ class Row implements Widget {
         } else {
             row.style.display = "inline-grid";
         }
-        
-        //row.style.gridTemplateColumns =  Std.string(children.length) + " auto auto";
-        //row.style.gridTemplateRows = "auto 1fr";
-        //row.style.gridTemplateRows = "1fr min-content";
-        row.classList.add("row");
+
         row.style.gridAutoFlow = "column";
         new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Row, overflow: overflow, shadow: shadow});
 
         for(child in children) {
             
             var rowCell = Browser.document.createDivElement();
-            rowCell.classList.add("row-cell");
             rowCell.style.boxSizing = "border-box";
             
             rowCell.appendChild(child.render());
@@ -144,17 +138,6 @@ class Row implements Widget {
 
             
         }
-        /*
-        row.style.display = "flex";
-        row.style.flexDirection = "row";
-        row.style.flexBasis = "auto";
-        new StyleManager().addStyleToDiv({widget: row, color: color, border: border, padding: padding, margin: margin, size: size, mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, type: DivType.Row, overflow: overflow});
-        for(child in children) {
-            row.appendChild(child.render());
-        }
-        */
-
-
         return row;
         
     }
