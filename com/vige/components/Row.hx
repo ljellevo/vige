@@ -46,6 +46,7 @@ class Row implements Widget {
     var crossAxisAlignment: CrossAxisAlignment;
     var equalElementWidth: Bool;
     var flex: Bool;
+    var turnicate: Bool;
 
     public var color: Color;
     public var border: Border;
@@ -67,6 +68,7 @@ class Row implements Widget {
         ?mainAxisAlignment: MainAxisAlignment,
         ?crossAxisAlignment: CrossAxisAlignment,
         ?flex: Bool,
+        ?turnicate: Bool,
 
         ?color: Color,
         ?border: Border,
@@ -87,6 +89,7 @@ class Row implements Widget {
         this.mainAxisAlignment = arg.mainAxisAlignment != null ? arg.mainAxisAlignment : MainAxisAlignment.Stretch; 
         this.crossAxisAlignment = arg.crossAxisAlignment != null ? arg.crossAxisAlignment : CrossAxisAlignment.Stretch;
         this.flex = arg.flex != null ? arg.flex : false;
+        this.turnicate = arg.turnicate != null? arg.turnicate : true;
 
         this.color = arg.color;
         this.border = arg.border;
@@ -109,16 +112,10 @@ class Row implements Widget {
             row.style.width = "100%";
             //row.style.height = "100%";
             for(child in children) {
-            
                 row.appendChild(child.render());
-                
-    
-                
             }
             return row;
         }
-
-
 
 
         if(equalElementWidth) {

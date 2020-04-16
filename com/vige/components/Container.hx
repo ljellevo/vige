@@ -65,25 +65,11 @@ class Container implements Widget {
     
     public function render():js.html.Node {
         var container = Browser.document.createDivElement();
-        container.classList.add("container");
         container.style.boxSizing = "border-box";
         if(child != null) {
              container.appendChild(child.render());
         }
-
-        /*
-        if(stretch) {
-            container.style.alignItems = "stretch";
-        }
-        */
-        if(size != null) {
-          container.id = size.getWidth();
-        }
-        
-       
-        new StyleManager().addStyleToDiv({widget: container, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow, shadow: shadow});
-        //container.style.margin = "auto";
-        
+        new StyleManager().addStyleToDiv({widget: container, color: color, border: border, padding: padding, margin: margin, size: size, overflow: overflow, shadow: shadow});        
         return container;
     }
 }
