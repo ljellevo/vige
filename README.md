@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/ljellevo/vige/blob/master/assets/logo-verbose-vige.png" alt="alt text" height="265" width="auto">
+  <img src="https://github.com/ljellevo/vige/blob/master/assets/logo-verbose-vige.png" alt="alt text" height="400" width="auto">
 </p>
 
 VIGE is a declarative web framework to create small to medium feature rich websites. 
