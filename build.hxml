@@ -1,3 +1,5 @@
+
+
 -cp com/vige
 com.vige.components.Button
 com.vige.components.Center
@@ -40,6 +42,21 @@ com.vige.utils.Margin
 com.vige.utils.Padding
 com.vige.utils.Size
 
+
+
+
+
+
 -js bin/lib.js
+-lib akifox-asynchttp
+-lib utest
+
+--next
+--main Main
+-js bin/TestAll.js
+--cmd node bin/TestAll.js
+
 
 -lib akifox-asynchttp
+-lib utest
+
