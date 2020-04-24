@@ -16,16 +16,12 @@ Haxelib
 It supports all browsers.
 
 Features:
-- Core (work in progress)
-- Widget Library (work in progress)
 - Animation Library (missing)
 - Drawing Library (missing)
-- Testing Library (missing)
-- Multi-Screen size support (missing)
+- Testing Library (Work in progress)
 - Smart DOM updating (missing)
 - Caching of fetched data between pages (missing)
 - Hot reload (missing)
-- Protected routes (missing)
 - Selectors and setting ID on elements
 - Layout-assist (adds constrasting colors to layout widgets for guidence) (Missing)
 
