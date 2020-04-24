@@ -5,6 +5,7 @@ import com.vige.support.*;
 import com.vige.utils.*;
 import com.vige.support.Enums;
 import js.Browser;
+import js.html.Window;
 /*
 import lib.components.Center.CenterAlignment;
 import js.Browser;
@@ -27,7 +28,6 @@ Not done
 
 class Container implements Widget {
     var child: Widget;
-    var stretch: Bool;
 
     public var color: Color;
     public var border: Border;
@@ -39,7 +39,6 @@ class Container implements Widget {
 
     public function new(arg: {
         ?child: Widget,
-        ?stretch: Bool,
 
         ?color: Color,
         ?border: Border,
@@ -50,7 +49,6 @@ class Container implements Widget {
         ?shadow: Array<Shadow>
     }) {
         this.child = arg.child;
-        this.stretch = arg.stretch;
 
         this.color = arg.color;
         this.border = arg.border;

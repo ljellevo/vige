@@ -55,7 +55,7 @@ com.vige.utils.Size
 --main Main
 -js bin/TestAll.js
 --cmd node bin/TestAll.js
-
+-lib hxnodejs
 
 -lib akifox-asynchttp
 -lib utest
