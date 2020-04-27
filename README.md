@@ -39,6 +39,12 @@ Navigate to folder for this project and run:
 haxelib dev VIGE .
 ```
 
+munit  
+hamcrest   
+hxnodejs   
+akifox-asynchttp   
+haxelib git vige git@github.com:ljellevo/vige.git  
+
 Compile project by clicking ctrl + shift + B and select build.hxml.
 
 

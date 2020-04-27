@@ -1,0 +1,6 @@
+version=2.3.4
+src=tests
+bin=bin
+report=reports
+hxml=test.hxml
+classPaths=com/vige/components,com/vige/core,com/vige/support,com/vige/utils

@@ -1,0 +1,3 @@
+mcover.macro.FilteredClassCache.init[108] tempId = /Users/ludvigellevold/dev/Privat/vige/com/vige/components,/Users/ludvigellevold/dev/Privat/vige/com/vige/core,/Users/ludvigellevold/dev/Privat/vige/com/vige/support,/Users/ludvigellevold/dev/Privat/vige/com/vige/utils,,,8931ec5136e9e75a332703dc07c1aa5b
+mcover.macro.FilteredClassCache.init[109] id = /Users/ludvigellevold/dev/Privat/vige/com/vige/components,/Users/ludvigellevold/dev/Privat/vige/com/vige/core,/Users/ludvigellevold/dev/Privat/vige/com/vige/support,/Users/ludvigellevold/dev/Privat/vige/com/vige/utils,,,8931ec5136e9e75a332703dc07c1aa5b
+mcover.MCover.include[181] Excluding: []

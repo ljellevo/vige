@@ -1,4 +1,11 @@
--cp com/vige
+## JavaScript NodeJS
+
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+-lib hxnodejs
+-lib akifox-asynchttp
 com.vige.components.Button
 com.vige.components.Center
 com.vige.components.Collection
@@ -39,11 +46,6 @@ com.vige.utils.Colors
 com.vige.utils.Margin
 com.vige.utils.Padding
 com.vige.utils.Size
--js bin/lib.js
--lib akifox-asynchttp
--lib munit
--lib hamcrest
--lib hxnodejs
 
-
-
+-cp tests
+-js bin/js_test.js

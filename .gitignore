@@ -1,3 +1,6 @@
 bin/lib.js
 bin/node_modules/
 bin/package-lock.json
+reports/
+bin/.temp/
+pastebin/
