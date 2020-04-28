@@ -47,5 +47,5 @@ com.vige.utils.Margin
 com.vige.utils.Padding
 com.vige.utils.Size
 
--cp tests
+-cp tests/
 -js bin/js_test.js

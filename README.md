@@ -30,7 +30,8 @@ Other related project:
 - CLI
 - VSCode Extention
 
-
+/usr/local/lib/haxe/lib/akifox-asynchttp/0,4,7/com/akifox/asynchttp/AsyncHttp.hx:721: haxe.http.HttpNodeJs has no field async   
+//r.async = request.async;  
 
 ## Installguide
 
