@@ -1,13 +1,13 @@
-
 import com.externs.JSDom.JSDomSetup;
-import com.vige.components.Container;
+import com.vige.components.Action;
 import com.vige.components.Text;
 import massive.munit.util.Timer;
 import massive.munit.Assert;
 import massive.munit.async.AsyncFactory;
+import js.html.DivElement;
 
-class ContainerTest {
-  var container: Container;
+class ActionTest {
+  var element: Action;
 
 	public function new(){
 	}
@@ -16,50 +16,51 @@ class ContainerTest {
 	public function beforeClass() {
 
 	}
-	
+
 	@Before
 	public function setup() {
     JSDomSetup.init();
-    container = new Container({
-      child: new Text("tekst"),
+    element = new Action({
+      child: new Text("Tekst"),
+      onClick: function() {
+        trace("Click");
+      }
     });
-  }
-
+	}
+  #if js
   @Test
 	public function testExample() {
     Assert.isTrue(true);
-    var node = container.render();
+    JSDomSetup.init();
+    var node = Std.downcast(element.render(), DivElement);
     Assert.isNotNull(node);
     Assert.isTrue(node.hasChildNodes());
     Assert.areEqual(node.firstChild.nodeName.toLowerCase(), "p");
     Assert.isFalse(node.firstChild.hasChildNodes());
     Assert.areEqual(node.childNodes.length, 1);
   }
-  
-  #if js
+
+ 
 	@Test
 	public function testSinglePlatform() {
 	  Assert.isTrue(true);
 	}
 	#end
-	
+  
 	@After
 	public function tearDown() {
-    container = null;
+    element = null;
   }
   
   @AfterClass
 	public function afterClass() { 
 
 	}
-	
-
 
   /*
   @AsyncTest
 	public function testAsyncExample(asyncFactory:AsyncFactory):Void {
     Assert.isTrue(true);
-
 	}
 
 	private function onTestAsyncExampleComplete():Void {

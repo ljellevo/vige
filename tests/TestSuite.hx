@@ -1,6 +1,7 @@
 import massive.munit.TestSuite;
 
 import ContainerTest;
+import ActionTest;
 
 /**
  * Auto generated Test Suite for MassiveUnit.
@@ -13,5 +14,6 @@ class TestSuite extends massive.munit.TestSuite
 		super();
 
 		add(ContainerTest);
+		add(ActionTest);
 	}
 }

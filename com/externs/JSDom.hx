@@ -15,6 +15,6 @@ class JSDomSetup {
 
 		Lib.global.document = dom.window.document;
 		Lib.global.window = dom.window;
-		Lib.global.navigator = {userAgent: 'node.js'};
+    Lib.global.navigator = {userAgent: 'node.js'};
 	}
 }

@@ -7,37 +7,65 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var ActionTest = function() {
+};
+ActionTest.__name__ = "ActionTest";
+ActionTest.prototype = {
+	beforeClass: function() {
+	}
+	,setup: function() {
+		com_externs_JSDomSetup.init();
+		this.element = new com_vige_components_Action({ child : new com_vige_components_Text("Tekst"), onClick : function() {
+			haxe_Log.trace("Click",{ fileName : "tests/ActionTest.hx", lineNumber : 26, className : "ActionTest", methodName : "setup"});
+		}});
+	}
+	,testExample: function() {
+		massive_munit_Assert.isTrue(true,null,{ fileName : "tests/ActionTest.hx", lineNumber : 33, className : "ActionTest", methodName : "testExample"});
+		com_externs_JSDomSetup.init();
+		var value = this.element.render();
+		var node = ((value) instanceof HTMLDivElement) ? value : null;
+		massive_munit_Assert.isNotNull(node,null,{ fileName : "tests/ActionTest.hx", lineNumber : 36, className : "ActionTest", methodName : "testExample"});
+		massive_munit_Assert.isTrue(node.hasChildNodes(),null,{ fileName : "tests/ActionTest.hx", lineNumber : 37, className : "ActionTest", methodName : "testExample"});
+		massive_munit_Assert.areEqual(node.firstChild.nodeName.toLowerCase(),"p",null,{ fileName : "tests/ActionTest.hx", lineNumber : 38, className : "ActionTest", methodName : "testExample"});
+		massive_munit_Assert.isFalse(node.firstChild.hasChildNodes(),null,{ fileName : "tests/ActionTest.hx", lineNumber : 39, className : "ActionTest", methodName : "testExample"});
+		massive_munit_Assert.areEqual(node.childNodes.length,1,null,{ fileName : "tests/ActionTest.hx", lineNumber : 40, className : "ActionTest", methodName : "testExample"});
+	}
+	,testSinglePlatform: function() {
+		massive_munit_Assert.isTrue(true,null,{ fileName : "tests/ActionTest.hx", lineNumber : 46, className : "ActionTest", methodName : "testSinglePlatform"});
+	}
+	,tearDown: function() {
+		this.element = null;
+	}
+	,afterClass: function() {
+	}
+	,__class__: ActionTest
+};
 var ContainerTest = function() {
 };
 ContainerTest.__name__ = "ContainerTest";
 ContainerTest.prototype = {
 	beforeClass: function() {
 	}
-	,afterClass: function() {
-	}
 	,setup: function() {
 		com_externs_JSDomSetup.init();
 		this.container = new com_vige_components_Container({ child : new com_vige_components_Text("tekst")});
 	}
-	,tearDown: function() {
-	}
 	,testExample: function() {
-		massive_munit_Assert.isTrue(true,null,{ fileName : "tests/ContainerTest.hx", lineNumber : 42, className : "ContainerTest", methodName : "testExample"});
+		massive_munit_Assert.isTrue(true,null,{ fileName : "tests/ContainerTest.hx", lineNumber : 30, className : "ContainerTest", methodName : "testExample"});
 		var node = this.container.render();
-		massive_munit_Assert.isNotNull(node,null,{ fileName : "tests/ContainerTest.hx", lineNumber : 44, className : "ContainerTest", methodName : "testExample"});
-		massive_munit_Assert.isTrue(node.hasChildNodes(),null,{ fileName : "tests/ContainerTest.hx", lineNumber : 45, className : "ContainerTest", methodName : "testExample"});
-		massive_munit_Assert.areEqual(node.firstChild.nodeName.toLowerCase(),"p",null,{ fileName : "tests/ContainerTest.hx", lineNumber : 46, className : "ContainerTest", methodName : "testExample"});
-		massive_munit_Assert.isFalse(node.firstChild.hasChildNodes(),null,{ fileName : "tests/ContainerTest.hx", lineNumber : 47, className : "ContainerTest", methodName : "testExample"});
-		massive_munit_Assert.areEqual(node.childNodes.length,1,null,{ fileName : "tests/ContainerTest.hx", lineNumber : 48, className : "ContainerTest", methodName : "testExample"});
-	}
-	,testAsyncExample: function(asyncFactory) {
-		massive_munit_Assert.isTrue(true,null,{ fileName : "tests/ContainerTest.hx", lineNumber : 64, className : "ContainerTest", methodName : "testAsyncExample"});
-	}
-	,onTestAsyncExampleComplete: function() {
-		massive_munit_Assert.isTrue(true,null,{ fileName : "tests/ContainerTest.hx", lineNumber : 69, className : "ContainerTest", methodName : "onTestAsyncExampleComplete"});
+		massive_munit_Assert.isNotNull(node,null,{ fileName : "tests/ContainerTest.hx", lineNumber : 32, className : "ContainerTest", methodName : "testExample"});
+		massive_munit_Assert.isTrue(node.hasChildNodes(),null,{ fileName : "tests/ContainerTest.hx", lineNumber : 33, className : "ContainerTest", methodName : "testExample"});
+		massive_munit_Assert.areEqual(node.firstChild.nodeName.toLowerCase(),"p",null,{ fileName : "tests/ContainerTest.hx", lineNumber : 34, className : "ContainerTest", methodName : "testExample"});
+		massive_munit_Assert.isFalse(node.firstChild.hasChildNodes(),null,{ fileName : "tests/ContainerTest.hx", lineNumber : 35, className : "ContainerTest", methodName : "testExample"});
+		massive_munit_Assert.areEqual(node.childNodes.length,1,null,{ fileName : "tests/ContainerTest.hx", lineNumber : 36, className : "ContainerTest", methodName : "testExample"});
 	}
 	,testSinglePlatform: function() {
-		massive_munit_Assert.isTrue(true,null,{ fileName : "tests/ContainerTest.hx", lineNumber : 75, className : "ContainerTest", methodName : "testSinglePlatform"});
+		massive_munit_Assert.isTrue(true,null,{ fileName : "tests/ContainerTest.hx", lineNumber : 42, className : "ContainerTest", methodName : "testSinglePlatform"});
+	}
+	,tearDown: function() {
+		this.container = null;
+	}
+	,afterClass: function() {
 	}
 	,__class__: ContainerTest
 };
@@ -398,6 +426,7 @@ massive_munit_TestSuite.prototype = {
 var TestSuite = function() {
 	massive_munit_TestSuite.call(this);
 	this.add(ContainerTest);
+	this.add(ActionTest);
 };
 TestSuite.__name__ = "TestSuite";
 TestSuite.__super__ = massive_munit_TestSuite;
@@ -1643,6 +1672,33 @@ com_vige_support_Widget.__name__ = "com.vige.support.Widget";
 com_vige_support_Widget.__isInterface__ = true;
 com_vige_support_Widget.prototype = {
 	__class__: com_vige_support_Widget
+};
+var com_vige_components_Action = function(arg) {
+	this.child = arg.child;
+	this.onClick = arg.onClick;
+	this.color = arg.color;
+	this.border = arg.border;
+	this.padding = arg.padding;
+	this.margin = arg.margin;
+	this.size = arg.size != null ? arg.size : new com_vige_utils_Size({ height : "100%", width : "100%"});
+	this.overflow = arg.overflow;
+	this.shadow = arg.shadow;
+};
+com_vige_components_Action.__name__ = "com.vige.components.Action";
+com_vige_components_Action.__interfaces__ = [com_vige_support_Widget];
+com_vige_components_Action.prototype = {
+	init: function() {
+	}
+	,render: function() {
+		var anchor = window.document.createElement("div");
+		if(this.child != null) {
+			anchor.appendChild(this.child.render());
+		}
+		anchor.onclick = this.onClick;
+		anchor.style.cursor = "pointer";
+		return anchor;
+	}
+	,__class__: com_vige_components_Action
 };
 var com_vige_components_Button = function(arg) {
 	this.onClick = null;
@@ -7291,7 +7347,8 @@ js_Boot.__toStr = ({ }).toString;
 if(ArrayBuffer.prototype.slice == null) {
 	ArrayBuffer.prototype.slice = js_lib__$ArrayBuffer_ArrayBufferCompat.sliceImpl;
 }
-ContainerTest.__meta__ = { fields : { beforeClass : { BeforeClass : null}, afterClass : { AfterClass : null}, setup : { Before : null}, tearDown : { After : null}, testExample : { Test : null}, testAsyncExample : { AsyncTest : null}, testSinglePlatform : { Test : null}}};
+ActionTest.__meta__ = { fields : { beforeClass : { BeforeClass : null}, setup : { Before : null}, testExample : { Test : null}, testSinglePlatform : { Test : null}, tearDown : { After : null}, afterClass : { AfterClass : null}}};
+ContainerTest.__meta__ = { fields : { beforeClass : { BeforeClass : null}, setup : { Before : null}, testExample : { Test : null}, testSinglePlatform : { Test : null}, tearDown : { After : null}, afterClass : { AfterClass : null}}};
 Xml.Element = 0;
 Xml.PCData = 1;
 Xml.CData = 2;

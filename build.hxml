@@ -1,5 +1,6 @@
 -cp com/vige
 com.vige.components.Button
+com.vige.components.Canvas
 com.vige.components.Center
 com.vige.components.Collection
 com.vige.components.Column
@@ -17,6 +18,7 @@ com.vige.components.Row
 com.vige.components.Script
 com.vige.components.Stream
 com.vige.components.Text
+com.vige.components.Stack
 
 com.vige.core.AssetManagement
 com.vige.core.Body
