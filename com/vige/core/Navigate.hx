@@ -22,9 +22,7 @@ class Navigate {
   public function new() { }
 
   public static function to(currentPage: DynamicComponent, arg: {url: String, ?param: Array<{param: String, data: String}>, ?main: Bool, ?hardRefresh: Bool}) {
-    trace("---------------- TO CALLED --------------");
     var url = arg.url;
-    trace("Url: " + url);
     if (arg.main == null) arg.main = false;
     if (arg.hardRefresh == null) arg.hardRefresh = false;
     if (arg.param != null && arg.param.length > 0) {
@@ -42,7 +40,6 @@ class Navigate {
     
     if (!arg.main) {
       if(Browser.location.hash != "") {
-        trace("Constructed URL: " + Browser.location.pathname + Browser.location.hash);
         if(url.indexOf("#") != -1) {
           Browser.window.history.pushState(null, "Index", Browser.location.pathname + url);
         } else {
