@@ -8,7 +8,5 @@
   },
   "author": "Ludvig Ellevold",
   "license": "ISC",
-  "dependencies": {
-    "jsdom": "^16.2.2"
-  }
+  "dependencies": {}
 }

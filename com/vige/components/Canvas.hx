@@ -57,6 +57,7 @@ class Canvas implements Widget {
 
     public function init(){}
     
+    //https://www.tutorialspoint.com/webgl/webgl_modes_of_drawing.htm
     public function draw(a: haxe.Constraints.Function): Widget{
       //js.html.webgl.RenderingContext
       canvas = Browser.document.createCanvasElement();

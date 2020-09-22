@@ -22,7 +22,9 @@ class Navigate {
   public function new() { }
 
   public static function to(currentPage: DynamicComponent, arg: {url: String, ?param: Array<{param: String, data: String}>, ?main: Bool, ?hardRefresh: Bool}) {
+    trace("---------------- TO CALLED --------------");
     var url = arg.url;
+    trace("Url: " + url);
     if (arg.main == null) arg.main = false;
     if (arg.hardRefresh == null) arg.hardRefresh = false;
     if (arg.param != null && arg.param.length > 0) {
@@ -37,8 +39,20 @@ class Navigate {
     GlobalState.instance.closeAllStreams();
     var correctPage = matchRoute(url, routes);
       
+    
     if (!arg.main) {
-      Browser.window.history.pushState(null, "Index", url);
+      if(Browser.location.hash != "") {
+        trace("Constructed URL: " + Browser.location.pathname + Browser.location.hash);
+        if(url.indexOf("#") != -1) {
+          Browser.window.history.pushState(null, "Index", Browser.location.pathname + url);
+        } else {
+          Browser.window.history.pushState(null, "Index", Browser.location.pathname + "#" + url);
+        }
+        
+      } else {
+        Browser.window.history.pushState(null, "Index", url);
+      }
+      
       if(arg.hardRefresh){
         Browser.window.location.reload();
       }
@@ -47,13 +61,16 @@ class Navigate {
     if(currentPage != null){
       currentPage.unload();
     }
-    
     setComponent(true, correctPage); 
   }
 
   public static function getParameters() : Array<String>{
     var params = [];
+
     var url = Browser.location.pathname;
+    if(Browser.location.hash != "") {
+      url = Browser.location.hash;
+    }
     var correctPage = matchRoute(url, routes);
     var currentRoute = correctPage.component().getRoute();
     var routeParts = currentRoute.split("/");
@@ -129,7 +146,10 @@ class Navigate {
   public static function navigationEvent() {  
     GlobalState.instance.closeAllStreams();
     var url = Browser.location.pathname;
-    var correctPage = matchRoute(Browser.location.pathname, routes);
+    if(Browser.location.hash != "") {
+      url = Browser.location.hash;
+    }
+    var correctPage = matchRoute(url, routes);
     setComponent(false, correctPage);
   }
 
