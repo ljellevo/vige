@@ -33,6 +33,7 @@ class Positioned implements Widget {
     var bottom: Float;
     var left: Float;
     var child: Widget;
+    var fixed: Bool;
 
     public var color: Color;
     public var border: Border;
@@ -47,6 +48,7 @@ class Positioned implements Widget {
         ?right: Float,
         ?bottom: Float,
         ?left: Float,
+        ?fixed: Bool,
         child: Widget,
 
         ?color: Color,
@@ -61,6 +63,7 @@ class Positioned implements Widget {
         this.right = arg.right != null ? arg.right : 0.0;
         this.bottom = arg.bottom != null ? arg.bottom : 0.0;
         this.left = arg.left != null ? arg.left : 0.0;
+        this.fixed = arg.fixed != null ? arg.fixed : false;
         this.child = arg.child;
 
         this.color = arg.color;
@@ -84,7 +87,12 @@ class Positioned implements Widget {
 
         var positioned = Browser.document.createDivElement();
         positioned.appendChild(child.render());
-        positioned.style.position = "absolute";
+        if(fixed) {
+          positioned.style.position = "fixed";
+        } else {
+          positioned.style.position = "absolute";
+        }
+        
         if(top != 0.0) {
             positioned.style.top = Std.string(top) + "px";
         }
