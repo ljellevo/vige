@@ -29,6 +29,7 @@ class Anchor implements Widget {
     var child: Widget;
     var link: String;
     var openInTab: Bool;
+    var textDecoration: Bool;
 
     public var color: Color;
     public var border: Border;
@@ -42,6 +43,7 @@ class Anchor implements Widget {
         child: Widget,
         link: String,
         ?openInTab: Bool,
+        ?textDecoration: Bool,
 
         ?color: Color,
         ?border: Border,
@@ -54,6 +56,7 @@ class Anchor implements Widget {
         this.child = arg.child;
         this.link = arg.link;
         this.openInTab = arg.openInTab != null ? arg.openInTab : false;
+        this.textDecoration = arg.textDecoration != null ? arg.textDecoration : true;
 
         this.color = arg.color;
         this.border = arg.border;
@@ -76,6 +79,11 @@ class Anchor implements Widget {
 
         if(openInTab) {
           anchor.target = "_blank";
+        }
+        
+        if(!textDecoration) {
+          anchor.style.textDecoration = "none";
+          
         }
 
         return anchor;
