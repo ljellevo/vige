@@ -134,9 +134,6 @@ class Row implements Widget {
             rowCell.appendChild(child.render());
             new StyleManager().addStyleToDiv({widget: rowCell, color: cellColor, padding: cellPadding, margin: cellMargin, size: cellSize, shadow: []});
             row.appendChild(rowCell);
-            
-
-            
         }
         return row;
         

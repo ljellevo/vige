@@ -34,6 +34,7 @@ class Stack implements Widget {
     public var padding: Padding;
     public var margin: Margin;
     public var size: Size;
+    public var expanded: Bool;
     public var overflow: Overflow;
     public var shadow: Array<Shadow>;
 
@@ -45,6 +46,7 @@ class Stack implements Widget {
         ?padding: Padding,
         ?margin: Margin,
         ?size: Size, 
+        ?expanded: Bool,
         ?overflow: Overflow,
         ?shadow: Array<Shadow>
     }) {
@@ -55,6 +57,7 @@ class Stack implements Widget {
         this.padding = arg.padding;
         this.margin = arg.margin;
         this.size = arg.size != null ? arg.size : new Size({height: "100%", width: "100%"});
+        this.expanded = arg.expanded != null ? arg.expanded : false;
         this.overflow = arg.overflow;
         this.shadow = arg.shadow;
     }
@@ -70,6 +73,10 @@ class Stack implements Widget {
           var stackedContainer = Browser.document.createDivElement();
           stackedContainer.style.zIndex = i-- + "";
           stackedContainer.style.position = "absolute";
+          if(expanded) {
+            stackedContainer.style.height = "100%";
+            stackedContainer.style.width = "100%";
+          }
           //stackedContainer.style.top = "0px";
           stackedContainer.appendChild(child.render());
           container.appendChild(stackedContainer);

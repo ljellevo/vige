@@ -42,6 +42,9 @@ class InputController {
 
   public function getValue(): String {
     if(element != null) {
+      if(element.checked == true) {
+        return "checked";
+      }
       return element.value;
     } else {
       return "";
@@ -141,7 +144,7 @@ class Input implements Widget {
         input.type = "checkbox";
       case Color:
         input.type = "color";
-      case Date:
+      case DateTime:
         input.type = "date";
       case DatetimeLocal:
         input.type = "datetime-local";

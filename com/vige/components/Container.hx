@@ -61,7 +61,7 @@ class Container implements Widget {
 
     public function init(){}
     
-    public function render():js.html.Node {
+    public function render():js.html.DivElement {
         var container = Browser.document.createDivElement();
         container.style.boxSizing = "border-box";
         if(child != null) {
